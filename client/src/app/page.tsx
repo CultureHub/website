@@ -11,7 +11,11 @@ const PROJECTS_QUERY = `*[
 const options = { next: { revalidate: 30 } };
 
 export default async function IndexPage() {
-  const projects = await client.fetch<SanityDocument[]>(PROJECTS_QUERY, {}, options);
+  const projects = await client.fetch<SanityDocument[]>(
+    PROJECTS_QUERY,
+    {},
+    options,
+  );
   console.log(projects);
 
   return (

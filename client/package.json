@@ -7,14 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@sanity/image-url": "^2.0.2",
     "next": "16.0.10",
     "next-sanity": "^12.0.1",
-    "react": "19.2.1",
-    "react-dom": "19.2.1"
+    "prettier": "^3.7.4",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

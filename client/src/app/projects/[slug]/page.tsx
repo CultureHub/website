@@ -19,7 +19,11 @@ export default async function PostPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const project = await client.fetch<SanityDocument>(PROJECT_QUERY, await params, options);
+  const project = await client.fetch<SanityDocument>(
+    PROJECT_QUERY,
+    await params,
+    options,
+  );
   const projectImageUrl = project.image
     ? urlFor(project.image)?.width(550).height(310).url()
     : null;
@@ -41,7 +45,9 @@ export default async function PostPage({
       <h1 className="text-4xl font-bold mb-8">{project.title}</h1>
       <div className="prose">
         <p>Published: {new Date(project.publishedAt).toLocaleDateString()}</p>
-        {Array.isArray(project.description) && <PortableText value={project.description} />}
+        {Array.isArray(project.description) && (
+          <PortableText value={project.description} />
+        )}
       </div>
     </main>
   );
