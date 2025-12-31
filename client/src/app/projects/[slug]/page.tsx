@@ -1,16 +1,9 @@
 import { PortableText, type SanityDocument } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
-import type { SanityImageSource } from "@sanity/image-url";
 import { client } from "@/sanity/client";
 import Link from "next/link";
+import { urlFor } from "@/sanity/url";
 
 const PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0]`;
-
-const { projectId, dataset } = client.config();
-const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? imageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
 
 const options = { next: { revalidate: 30 } };
 
@@ -30,8 +23,8 @@ export default async function PostPage({
 
   return (
     <main className="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
-      <Link href="/" className="hover:underline">
-        ← Back to projects
+      <Link href="/projects" className="hover:underline">
+        ← Back to Projects
       </Link>
       {projectImageUrl && (
         <img

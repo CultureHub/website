@@ -3,34 +3,28 @@ import { type SanityDocument } from "next-sanity";
 
 import { client } from "@/sanity/client";
 
-const PROJECTS_QUERY = `*[
-  _type == "project"
+const ARTIST_QUERY = `*[
+  _type == "artist"
   && defined(slug.current)
 ]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
 
 const options = { next: { revalidate: 30 } };
 
-export default async function IndexPage() {
-  const projects = await client.fetch<SanityDocument[]>(
-    PROJECTS_QUERY,
+export default async function ProjectsIndexPage() {
+  const artists = await client.fetch<SanityDocument[]>(
+    ARTIST_QUERY,
     {},
     options,
   );
-  console.log(projects);
 
   return (
     <main className="container mx-auto min-h-screen max-w-3xl p-8">
-      <h1 className="text-4xl font-bold mb-8">Projects</h1>
-      <ul className="flex flex-col gap-y-4">
-        {projects.map((project) => (
-          <li className="hover:underline" key={project._id}>
-            <Link href={`/projects/${project.slug.current}`}>
-              <h2 className="text-xl font-semibold">{project.title}</h2>
-              <p>{new Date(project.publishedAt).toLocaleDateString()}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <Link href="/artists">
+        <h1 className="text-4xl font-bold mb-8">Artist</h1>
+      </Link>
+      <Link href="/projects">
+        <h1 className="text-4xl font-bold mb-8">Projects</h1>
+      </Link>
     </main>
   );
 }
