@@ -1,12 +1,31 @@
 ## Getting Started
 
-First, run the development server:
+First, install dependencies:
+
+```bash
+pnpm install
+```
+
+Then run the dev server
 
 ```bash
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Scripts
+
+```bash
+pnpm build      # Run a production build
+pnpm lint       # Lint the code
+pnpm typecheck  # Run the typescript compiler
+pnpm format     # Run prettier to format
+```
+
+## Deploy on Vercel
+
+Changes to the `main` branch will automatically get deployed on Vercel.
 
 ## Learn More
 
@@ -16,9 +35,3 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
