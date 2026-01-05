@@ -42,26 +42,23 @@ export default async function PostPage({
       )}
       <h1 className="text-4xl font-bold mb-8">{artist.name}</h1>
       <div className="prose">
-        {Array.isArray(artist.bio) && (
-          <PortableText value={artist.bio} />
-        )}
+        {Array.isArray(artist.bio) && <PortableText value={artist.bio} />}
       </div>
 
       {artist.projects?.length > 0 ? (
-          <div>
-            <h2 className="text-3xl font-bold mb-8">Projects</h2>
-            <ul className="flex flex-col gap-y-4">
-              {artist.projects.map((project: SanityDocument) => (
-                <li className="hover:underline" key={project._id}>
-                  <Link href={`/projects/${project.slug.current}`}>
-                    <h2 className="text-xl font-semibold">{project.title}</h2>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : null
-      }
+        <div>
+          <h2 className="text-3xl font-bold mb-8">Projects</h2>
+          <ul className="flex flex-col gap-y-4">
+            {artist.projects.map((project: SanityDocument) => (
+              <li className="hover:underline" key={project._id}>
+                <Link href={`/projects/${project.slug.current}`}>
+                  <h2 className="text-xl font-semibold">{project.title}</h2>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </main>
   );
 }

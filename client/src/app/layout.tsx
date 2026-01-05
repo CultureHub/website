@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "CULTUREHUB",
-  description: "A global art & technology community founded by SeoulArts & La MaMa.",
+  description:
+    "A global art & technology community founded by SeoulArts & La MaMa.",
 };
 
 export default function RootLayout({
