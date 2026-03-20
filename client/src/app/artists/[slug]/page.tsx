@@ -1,27 +1,19 @@
-import { PortableText, type SanityDocument } from "next-sanity";
-import { client } from "@/sanity/client";
+import { PortableText } from "next-sanity";
 import Link from "next/link";
 import { urlFor } from "@/sanity/url";
+import { getArtistsBySlug } from '@/sanity/queries';
+import { notFound } from 'next/navigation';
 
-const ARTIST_QUERY = `*[_type == "artist" && slug.current == $slug]{
-  ...,
-  projects[]->{
-    title,
-    slug, }
-}[0]`;
-
-const options = { next: { revalidate: 30 } };
-
-export default async function PostPage({
+export default async function ArtistPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const artist = await client.fetch<SanityDocument>(
-    ARTIST_QUERY,
-    await params,
-    options,
-  );
+  const { slug } = await params
+  const artist = await getArtistsBySlug(slug);
+  if (!artist) {
+    notFound();
+  };
   const artistImageUrl = artist.image
     ? urlFor(artist.image)?.width(550).height(310).url()
     : null;
@@ -45,13 +37,13 @@ export default async function PostPage({
         {Array.isArray(artist.bio) && <PortableText value={artist.bio} />}
       </div>
 
-      {artist.projects?.length > 0 ? (
+      {artist.projects?.length ?? 0 > 0 ? (
         <div>
           <h2 className="text-3xl font-bold mb-8">Projects</h2>
           <ul className="flex flex-col gap-y-4">
-            {artist.projects.map((project: SanityDocument) => (
+            {artist.projects?.map((project) => (
               <li className="hover:underline" key={project._id}>
-                <Link href={`/projects/${project.slug.current}`}>
+                <Link href={`/projects/${project.slug?.current}`}>
                   <h2 className="text-xl font-semibold">{project.title}</h2>
                 </Link>
               </li>
