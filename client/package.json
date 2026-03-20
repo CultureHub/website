@@ -7,15 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
-    "format": "prettier --write ."
+    "typecheck": "pnpm -C ../sanity typegen && tsc --noEmit",
+    "format": "prettier --write src/ './*.{ts, mjs, json}'",
+    "prepare": "husky"
   },
   "dependencies": {
     "@sanity/client": "^7.20.0",
     "@sanity/image-url": "^2.0.2",
     "next": "16.0.10",
     "next-sanity": "^12.0.1",
-    "prettier": "^3.7.4",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -27,7 +27,22 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.7.4",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,scss}": [
+      "prettier --write"
+    ],
+    "*": [
+      "pnpm typecheck"
+    ]
   }
 }
