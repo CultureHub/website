@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'pnpm'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 8
+
+    - name: Install client dependencies
+      run: |
+        cd client
+        pnpm install --frozen-lockfile
+
+    - name: Install Sanity dependencies
+      run: |
+        cd sanity
+        pnpm install --frozen-lockfile
+
+    - name: Run lint
+      run: |
+        cd client
+        pnpm run lint
+
+    - name: Run typecheck
+      run: |
+        cd client
+        pnpm run typecheck
+
+    - name: Check formatting with Prettier
+      run: |
+        cd client
+        pnpm exec prettier --check src/ './*.{ts,mjs,json}' --ignore-unknown
+
+    - name: Run tests
+      run: |
+        cd client
+        pnpm run test
+
+    - name: Build project
+      run: |
+        cd client
+        pnpm run build
+
