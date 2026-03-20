@@ -1,19 +1,19 @@
 import { PortableText } from "next-sanity";
 import Link from "next/link";
 import { urlFor } from "@/sanity/url";
-import { getArtistsBySlug } from '@/sanity/queries';
-import { notFound } from 'next/navigation';
+import { getArtistsBySlug } from "@/sanity/queries";
+import { notFound } from "next/navigation";
 
 export default async function ArtistPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params
+  const { slug } = await params;
   const artist = await getArtistsBySlug(slug);
   if (!artist) {
     notFound();
-  };
+  }
   const artistImageUrl = artist.image
     ? urlFor(artist.image)?.width(550).height(310).url()
     : null;
@@ -37,7 +37,7 @@ export default async function ArtistPage({
         {Array.isArray(artist.bio) && <PortableText value={artist.bio} />}
       </div>
 
-      {artist.projects?.length ?? 0 > 0 ? (
+      {(artist.projects?.length ?? 0 > 0) ? (
         <div>
           <h2 className="text-3xl font-bold mb-8">Projects</h2>
           <ul className="flex flex-col gap-y-4">

@@ -3,15 +3,18 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
-import { Artist } from '@/sanity/types'
-import * as Queries from '@/sanity/queries';
+import { Artist } from "@/sanity/types";
+import * as Queries from "@/sanity/queries";
 
 type ArtistsListProps = {
   initialArtists: Artist[];
   mediumOptions: string[];
-}
+};
 
-export default function ArtistsList({ initialArtists, mediumOptions }: ArtistsListProps) {
+export default function ArtistsList({
+  initialArtists,
+  mediumOptions,
+}: ArtistsListProps) {
   const [mediumFilter, setMediumFilter] = useState<string[]>([]);
   const [artists, setArtists] = useState<Artist[] | null>(initialArtists);
 
@@ -27,7 +30,7 @@ export default function ArtistsList({ initialArtists, mediumOptions }: ArtistsLi
     const values = Array.from(event.target.selectedOptions).map(
       (option) => option.value,
     );
-    setMediumFilter(values)
+    setMediumFilter(values);
   };
 
   return (
@@ -60,5 +63,5 @@ export default function ArtistsList({ initialArtists, mediumOptions }: ArtistsLi
         )}
       </ul>
     </div>
-  )
+  );
 }
