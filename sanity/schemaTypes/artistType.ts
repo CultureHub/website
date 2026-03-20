@@ -36,6 +36,7 @@ export const artistType = defineType({
     defineField({
       name: 'medium',
       type: 'array',
+      validation: (rule) => rule.required(),
       of: [{
         type: 'string',
         options: {

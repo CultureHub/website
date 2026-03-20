@@ -1,22 +1,21 @@
-import { PortableText, type SanityDocument } from "next-sanity";
-import { client } from "@/sanity/client";
 import Link from "next/link";
+import { notFound } from 'next/navigation';
+import { PortableText, type SanityDocument } from "next-sanity";
+
+import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/url";
+import { getProjectBySlug } from '@/sanity/queries';
 
-const PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0]`;
-
-const options = { next: { revalidate: 30 } };
-
-export default async function PostPage({
+export default async function ProjectPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const project = await client.fetch<SanityDocument>(
-    PROJECT_QUERY,
-    await params,
-    options,
-  );
+  const { slug } = await params
+  const project = await getProjectBySlug(slug);
+  if (!project) {
+    notFound();
+  }
   const projectImageUrl = project.image
     ? urlFor(project.image)?.width(550).height(310).url()
     : null;
@@ -37,7 +36,7 @@ export default async function PostPage({
       )}
       <h1 className="text-4xl font-bold mb-8">{project.title}</h1>
       <div className="prose">
-        <p>Published: {new Date(project.publishedAt).toLocaleDateString()}</p>
+        {project.date && <p>Published: {new Date(project.date).toLocaleDateString()}</p>}
         {Array.isArray(project.description) && (
           <PortableText value={project.description} />
         )}
