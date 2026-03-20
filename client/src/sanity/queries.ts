@@ -1,10 +1,11 @@
 import { client } from "@/sanity/client";
-import { defineQuery } from 'next-sanity'
+import { defineQuery } from "next-sanity";
 
 const options = { next: { revalidate: 30 } };
 
 export function getArtistsBySlug(slug: string) {
-  const getArtistsBySlugQuery = defineQuery(`*[_type == "artist" && slug.current == $slug]{
+  const getArtistsBySlugQuery =
+    defineQuery(`*[_type == "artist" && slug.current == $slug]{
     ...,
     projects[]->{
       ...
@@ -15,13 +16,15 @@ export function getArtistsBySlug(slug: string) {
 }
 
 export function getProjectBySlug(slug: string) {
-  const getProjectBySlugQuery = defineQuery(`*[_type == "project" && slug.current == $slug][0]`);
+  const getProjectBySlugQuery = defineQuery(
+    `*[_type == "project" && slug.current == $slug][0]`,
+  );
 
   return client.fetch(getProjectBySlugQuery, { slug }, options);
 }
 
 export function getProjects() {
-const getProjectsQuery = defineQuery(`*[
+  const getProjectsQuery = defineQuery(`*[
     _type == "project" &&
     defined(slug.current)
   ][0...12]{
@@ -34,7 +37,9 @@ const getProjectsQuery = defineQuery(`*[
 }
 
 export function getArtistMediumOptions() {
-  const getArtistMediumOptionsQuery = defineQuery(`array::unique(*[_type == "artist"].medium[])`);
+  const getArtistMediumOptionsQuery = defineQuery(
+    `array::unique(*[_type == "artist"].medium[])`,
+  );
 
   return client.fetch(getArtistMediumOptionsQuery, {}, options);
 }
@@ -55,5 +60,5 @@ export function getArtistsByMediums(mediums: string[]) {
     && defined(slug.current)
   ][0...12]`);
 
-  return client.fetch(getArtistsByMediumsQuery, {mediums}, options);
+  return client.fetch(getArtistsByMediumsQuery, { mediums }, options);
 }

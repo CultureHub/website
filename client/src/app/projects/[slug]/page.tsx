@@ -1,17 +1,17 @@
 import Link from "next/link";
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 import { PortableText, type SanityDocument } from "next-sanity";
 
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/url";
-import { getProjectBySlug } from '@/sanity/queries';
+import { getProjectBySlug } from "@/sanity/queries";
 
 export default async function ProjectPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params
+  const { slug } = await params;
   const project = await getProjectBySlug(slug);
   if (!project) {
     notFound();
@@ -36,7 +36,9 @@ export default async function ProjectPage({
       )}
       <h1 className="text-4xl font-bold mb-8">{project.title}</h1>
       <div className="prose">
-        {project.date && <p>Published: {new Date(project.date).toLocaleDateString()}</p>}
+        {project.date && (
+          <p>Published: {new Date(project.date).toLocaleDateString()}</p>
+        )}
         {Array.isArray(project.description) && (
           <PortableText value={project.description} />
         )}

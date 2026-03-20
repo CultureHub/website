@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "pnpm -C ../sanity typegen && tsc --noEmit",
+    "typecheck": "pnpm -C ../sanity typegen && echo $(pwd) && tsc --noEmit",
     "format": "prettier --write src/ './*.{ts, mjs, json}'",
-    "prepare": "husky"
+    "prepare": "cd .. && husky client/.husky"
   },
   "dependencies": {
     "@sanity/client": "^7.20.0",
@@ -40,9 +40,6 @@
     ],
     "*.{json,md,css,scss}": [
       "prettier --write"
-    ],
-    "*": [
-      "pnpm typecheck"
     ]
   }
 }

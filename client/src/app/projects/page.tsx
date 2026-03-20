@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { getProjects } from '@/sanity/queries';
-
+import { getProjects } from "@/sanity/queries";
 
 export default async function ProjectsIndexPage() {
   const projects = await getProjects();
