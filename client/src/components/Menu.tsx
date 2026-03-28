@@ -10,19 +10,19 @@ import chMenuArrow from "../../public/ch_menu_arrow.svg";
 
 function VerticalLine() {
   return (
-    <div className="w-0 h-[calc(100%_-_1px)] absolute left-[50%] outline outline-1 outline-offset-[-0.50px] outline-ch-midnite z-[-1]"></div>
+    <div className="hidden md:block w-0 h-[calc(100%_-_1px)] absolute left-[50%] outline outline-1 outline-offset-[-0.50px] outline-ch-midnite z-[-1]"></div>
   );
 }
 
 function LeftTopBorderMask() {
   return (
-    <div className="w-[calc(50%_-_1px)] h-0 absolute left-0 top-[-2px] border border-t-[1px] border-[var(--background)]"></div>
+    <div className="hidden md:block w-[calc(50%_-_1px)] h-0 absolute left-0 top-[-2px] border border-t-[1px] border-[var(--background)]"></div>
   );
 }
 
 function RightTopBorderMask() {
   return (
-    <div className="w-[calc(50%_-_1px)] h-0 absolute left-[calc(50%_+_1px)] top-[-2px] border border-t-[1px] border-[var(--background)]"></div>
+    <div className="hidden md:block w-[calc(50%_-_1px)] h-0 absolute left-[calc(50%_+_1px)] top-[-2px] border border-t-[1px] border-[var(--background)]"></div>
   );
 }
 
@@ -49,7 +49,7 @@ export default function Menu() {
       </div>
       {isOpen && (
         <div className="flex justify-center">
-          <div className="inline-flex flex-row items-start justify-center border-t-2 gap-1">
+          <div className="flex flex-col md:inline-flex md:flex-row items-start justify-center md:border-t-2 gap-1">
             <div className="inline-flex flex-col gap-[10px] relative">
               <LeftTopBorderMask />
               <VerticalLine />
