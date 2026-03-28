@@ -54,9 +54,11 @@ export default function Menu() {
               <LeftTopBorderMask />
               <VerticalLine />
               <Button variant="square-inverted" className="mt-5">
-                Art & Technology
+                Art <span className="font-milling text-xs">&</span> Technology
               </Button>
-              <Button variant="pill">Project Index</Button>
+              <Button variant="pill" href="/projects">
+                Project Index
+              </Button>
               <Button variant="pill">
                 Experiments in
                 <br />
@@ -70,7 +72,9 @@ export default function Menu() {
               <Button variant="square-inverted" className="mt-5">
                 Community
               </Button>
-              <Button variant="half">Artist</Button>
+              <Button variant="half" href="/artists">
+                Artist
+              </Button>
               <Button variant="half">Opportunities</Button>
               <Button variant="half">Support</Button>
             </div>
@@ -79,7 +83,7 @@ export default function Menu() {
               <Button variant="square-inverted" className="mt-5">
                 Events
               </Button>
-              <Button variant="square-dotted">Upcoming</Button>
+              <Button variant="square-dashed">Upcoming</Button>
             </div>
             <div className="flex flex-col gap-[10px] relative">
               <VerticalLine />

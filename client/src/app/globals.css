@@ -5,6 +5,11 @@
   --foreground: #020721;
 }
 
+@theme {
+  --font-brook: var(--font-brook);
+  --font-milling: var(--font-milling);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
