@@ -5,9 +5,6 @@ import Image from "next/image";
 
 import Button from "@/components/Button";
 
-import chMenuLogo from "../../public/ch_menu_logo.svg";
-import chMenuArrow from "../../public/ch_menu_arrow.svg";
-
 function VerticalLine() {
   return (
     <div className="hidden md:block w-0 h-[calc(100%_-_1px)] absolute left-[50%] outline outline-1 outline-offset-[-0.50px] outline-ch-midnite z-[-1]"></div>
@@ -38,10 +35,17 @@ export default function Menu() {
       <div className="flex justify-center">
         <button onClick={onToggleMenu}>
           <div className="flex justify-center p-4 gap-4">
-            <Image src={chMenuLogo} alt="CultureHub logo" />
             <Image
+              width="195"
+              height="29"
+              src="/ch_menu_logo.svg"
+              alt="CultureHub logo"
+            />
+            <Image
+              width="16"
+              height="9"
               className={isOpen ? "rotate-180" : ""}
-              src={chMenuArrow}
+              src="/ch_menu_arrow.svg"
               alt="arrow"
             />
           </div>
