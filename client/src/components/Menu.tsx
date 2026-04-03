@@ -66,7 +66,7 @@ export default function Menu() {
               <Button variant="pill">
                 Experiments in
                 <br />
-                Digital Story Telling
+                Digital Storytelling
               </Button>
               <Button variant="pill">Residency</Button>
               <Button variant="pill">Re-Fest</Button>
@@ -77,7 +77,7 @@ export default function Menu() {
                 Community
               </Button>
               <Button variant="half" href="/artists">
-                Artist
+                Artists
               </Button>
               <Button variant="half">Opportunities</Button>
               <Button variant="half">Support</Button>

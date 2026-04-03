@@ -3,28 +3,28 @@ import localFont from "next/font/local";
 export const MillingFont = localFont({
   src: [
     {
-      path: "/../../public/fonts/milling/MillingTrial-Triplex1,5mm.otf",
-      weight: "701",
+      path: "/../../public/fonts/milling/205TF-Milling-Triplex1,5mm.woff2",
+      weight: "700",
       style: "normal",
     },
     {
-      path: "/../../public/fonts/milling/MillingTrial-Duplex1mm.otf",
+      path: "/../../public/fonts/milling/205TF-Milling-Duplex1mm.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "/../../public/fonts/milling/MillingTrial-Duplex1mmItalic.otf",
+      path: "/../../public/fonts/milling/205TF-Milling-Duplex1mmItalic.woff2",
       weight: "400",
       style: "italic",
     },
     {
-      path: "/../../public/fonts/milling/MillingTrial-Simplex1mm.otf",
-      weight: "103",
+      path: "/../../public/fonts/milling/205TF-Milling-Simplex1mm.woff2",
+      weight: "100",
       style: "normal",
     },
     {
-      path: "/../../public/fonts/milling/MillingTrial-Simplex1mmItalic.otf",
-      weight: "103",
+      path: "/../../public/fonts/milling/205TF-Milling-Simplex1mmItalic.woff2",
+      weight: "100",
       style: "italic",
     },
   ],
@@ -35,12 +35,12 @@ export const MillingFont = localFont({
 export const BrookFont = localFont({
   src: [
     {
-      path: "/../../public/fonts/brook/brooktrial-regular.otf",
+      path: "/../../public/fonts/brook/brook-regular-web.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "/../../public/fonts/brook/brooktrial-italic.otf",
+      path: "/../../public/fonts/brook/brook-italic-web.woff2",
       weight: "400",
       style: "italic",
     },
