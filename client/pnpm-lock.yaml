@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@sanity/asset-utils':
+        specifier: ^2.3.0
+        version: 2.3.0
       '@sanity/client':
         specifier: ^7.20.0
         version: 7.20.0(debug@4.4.3)

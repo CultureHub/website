@@ -104,7 +104,8 @@ export type Project = {
   title: string;
   slug: Slug;
   date: string;
-  image?: {
+  endDate?: string;
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -127,6 +128,12 @@ export type Project = {
     }>;
     level?: number;
     _type: "block";
+    _key: string;
+  }>;
+  locations?: Array<string>;
+  pressLinks?: Array<{
+    label?: string;
+    url?: string;
     _key: string;
   }>;
 };
@@ -294,7 +301,8 @@ export type GetArtistsBySlugQueryResult = {
     title: string;
     slug: Slug;
     date: string;
-    image?: {
+    endDate?: string;
+    heroImage: {
       asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
@@ -319,6 +327,12 @@ export type GetArtistsBySlugQueryResult = {
       _type: "block";
       _key: string;
     }>;
+    locations?: Array<string>;
+    pressLinks?: Array<{
+      label?: string;
+      url?: string;
+      _key: string;
+    }>;
   }> | null;
 } | null;
 
@@ -334,7 +348,8 @@ export type GetProjectBySlugQueryResult = {
   title: string;
   slug: Slug;
   date: string;
-  image?: {
+  endDate?: string;
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -357,6 +372,12 @@ export type GetProjectBySlugQueryResult = {
     }>;
     level?: number;
     _type: "block";
+    _key: string;
+  }>;
+  locations?: Array<string>;
+  pressLinks?: Array<{
+    label?: string;
+    url?: string;
     _key: string;
   }>;
 } | null;

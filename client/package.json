@@ -14,6 +14,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@sanity/asset-utils": "^2.3.0",
     "@sanity/client": "^7.20.0",
     "@sanity/image-url": "^2.0.2",
     "next": "16.0.10",
