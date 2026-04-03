@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { MillingFont, BrookFont } from "@/atoms/text";
 import Menu from "@/components/Menu";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
       >
         <Menu />
         {children}
+        <Footer />
       </body>
     </html>
   );
