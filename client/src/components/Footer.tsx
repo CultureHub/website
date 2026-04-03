@@ -97,10 +97,10 @@ export default function Footer() {
                 placeholder="Your Email"
                 className="flex-1 px-2 rounded-lg border border-ch-lite placeholder-ch-lite"
               />
-              <button className="w-14 bg-ch-lite rounded-lg">
+              <button className="w-14 h-8 flex justify-center align-center w-14 bg-ch-lite rounded-lg">
                 <Image
-                  width="59"
-                  height="33"
+                  width="11"
+                  height="20"
                   src="/submit_icon.svg"
                   alt="Submit icon"
                 />
