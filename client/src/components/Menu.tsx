@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import Button from "@/components/Button";
+import MenuButton from "@/components/MenuButton";
 
 function VerticalLine() {
   return (
@@ -52,59 +52,59 @@ export default function Menu() {
         </button>
       </div>
       {isOpen && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <div className="flex flex-col md:inline-flex md:flex-row items-start justify-center md:border-t-2 gap-1">
             <div className="inline-flex flex-col gap-[10px] relative">
               <LeftTopBorderMask />
               <VerticalLine />
-              <Button variant="square-inverted" className="mt-5">
+              <MenuButton variant="square-inverted" className="mt-5">
                 Art <span className="font-milling text-xs">&</span> Technology
-              </Button>
-              <Button variant="pill" href="/projects">
+              </MenuButton>
+              <MenuButton variant="pill" href="/projects">
                 Project Index
-              </Button>
-              <Button variant="pill">
+              </MenuButton>
+              <MenuButton variant="pill">
                 Experiments in
                 <br />
                 Digital Storytelling
-              </Button>
-              <Button variant="pill">Residency</Button>
-              <Button variant="pill">Re-Fest</Button>
+              </MenuButton>
+              <MenuButton variant="pill">Residency</MenuButton>
+              <MenuButton variant="pill">Re-Fest</MenuButton>
             </div>
             <div className="flex flex-col gap-[10px] relative">
               <VerticalLine />
-              <Button variant="square-inverted" className="mt-5">
+              <MenuButton variant="square-inverted" className="mt-5">
                 Community
-              </Button>
-              <Button variant="half" href="/artists">
+              </MenuButton>
+              <MenuButton variant="half" href="/artists">
                 Artists
-              </Button>
-              <Button variant="half">Opportunities</Button>
-              <Button variant="half">Support</Button>
+              </MenuButton>
+              <MenuButton variant="half">Opportunities</MenuButton>
+              <MenuButton variant="half">Support</MenuButton>
             </div>
             <div className="flex flex-col gap-[10px] relative">
               <VerticalLine />
-              <Button variant="square-inverted" className="mt-5">
+              <MenuButton variant="square-inverted" className="mt-5">
                 Events
-              </Button>
-              <Button variant="square-dashed">Upcoming</Button>
+              </MenuButton>
+              <MenuButton variant="square-dashed">Upcoming</MenuButton>
             </div>
             <div className="flex flex-col gap-[10px] relative">
               <VerticalLine />
-              <Button variant="square-inverted" className="mt-5">
+              <MenuButton variant="square-inverted" className="mt-5">
                 Editorial
-              </Button>
-              <Button variant="square">Read</Button>
-              <Button variant="square">Watch</Button>
+              </MenuButton>
+              <MenuButton variant="square">Read</MenuButton>
+              <MenuButton variant="square">Watch</MenuButton>
             </div>
             <div className="flex flex-col gap-[10px] relative">
               <RightTopBorderMask />
               <VerticalLine />
-              <Button variant="square-inverted" className="mt-5">
+              <MenuButton variant="square-inverted" className="mt-5">
                 Education
-              </Button>
-              <Button variant="rounded">CoLab</Button>
-              <Button variant="rounded">Opportunities</Button>
+              </MenuButton>
+              <MenuButton variant="rounded">CoLab</MenuButton>
+              <MenuButton variant="rounded">Opportunities</MenuButton>
             </div>
           </div>
         </div>

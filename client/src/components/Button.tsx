@@ -8,12 +8,12 @@ type ButtonVariant =
   | "square-dashed"
   | "square-inverted";
 
-type ButtonProps = {
+export type ButtonProps = PropsWithChildren<{
   variant: ButtonVariant;
   className?: string;
   href?: string;
   onClick?: () => void;
-};
+}>;
 
 export default function Button({
   variant,
@@ -21,7 +21,7 @@ export default function Button({
   className = "",
   href,
   onClick,
-}: PropsWithChildren<ButtonProps>) {
+}: ButtonProps) {
   let containerClasses = "outline outline-1 outline-offset-[-1px] ";
   let textClasses =
     "text-ch-midnite text-base font-normal font-milling leading-4";
@@ -59,7 +59,7 @@ export default function Button({
 
   const content = (
     <div
-      className={`${containerClasses} ${stateContainerClasses} ${className} p-[10px] inline-flex flex-col justify-center items-center min-w-[180px] h-10`}
+      className={`${containerClasses} ${stateContainerClasses} ${className} inline-flex flex-col justify-center items-center`}
     >
       <div className={`${textClasses} ${stateTextClasses} justify-start`}>
         {children}

@@ -2,23 +2,27 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PortableText, type SanityDocument } from "next-sanity";
+import { getImageDimensions } from "@sanity/asset-utils";
+import { getProjectBySlug } from "@/sanity/queries";
 
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/url";
-import { getImageDimensions } from "@sanity/asset-utils";
-import { getProjectBySlug } from "@/sanity/queries";
 import Button from "@/components/Button";
+import ProjectContentRow from "@/components/ProjectContentRow";
 
-function Breadcrumbs() {
-  // TODO finish this, need to refactor static padding classes to menu buttons
-  // so we can reuse buttons here
+type ProjectBreadcrumbsProps = {
+  program: string;
+};
+function ProjectBreadcrumbs({ program }: ProjectBreadcrumbsProps) {
   return (
     <div className="flex flex-row items-center gap-3">
-      <Button variant="pill" href="/projects">
+      <Button variant="pill" className="px-[10px] py-[5px]" href="/projects">
         Projects
       </Button>
-      <span className="font-medium">&gt;</span>
-      <Button variant="pill">Experiments in Digital Storytelling</Button>
+      <span className="font-normal">&gt;</span>
+      <Button variant="pill" className="px-[10px] py-[5px]">
+        {program}
+      </Button>
     </div>
   );
 }
@@ -55,7 +59,7 @@ export default async function ProjectPage({
       <div className="flex flex-col gap-9 my-9 mx-8">
         <div className="flex flex-row justify-between gap-9">
           <div className="flex flex-col items-start gap-6">
-            <Breadcrumbs />
+            <ProjectBreadcrumbs program={project.program} />
             <h1 className="text-4xl font-bold">{project.title}</h1>
             {project.date && <p>{formatter.formatRange(startDate, endDate)}</p>}
             {Array.isArray(project.pressLinks) && (
@@ -89,7 +93,7 @@ export default async function ProjectPage({
             )}
           </div>
         </div>
-        <div className="">
+        <div>
           {heroImageUrl && (
             <Image
               src={heroImageUrl}
@@ -100,6 +104,10 @@ export default async function ProjectPage({
             />
           )}
         </div>
+        {project.content &&
+          project.content.map((content, i) => (
+            <ProjectContentRow key={i} content={content} />
+          ))}
       </div>
     </main>
   );
