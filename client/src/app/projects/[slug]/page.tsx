@@ -11,7 +11,7 @@ import { urlFor } from "@/sanity/url";
 import Button from "@/components/Button";
 import ProjectContentRow from "@/components/ProjectContentRow";
 import SanityImage from "@/components/SanityImage";
-import RelatedSlider from "@/components/RelatedSlider";
+import RelatedCarousel from "@/components/RelatedCarousel";
 
 type ProjectBreadcrumbsProps = {
   program: string;
@@ -54,7 +54,7 @@ export default async function ProjectPage({
   return (
     <main className="border-t-1 border-ch-midnite min-h-screen">
       <div className="flex flex-col gap-9 my-9 mx-8">
-        <div className="flex flex-row justify-between gap-9">
+        <div className="flex flex-col md:flex-row justify-between gap-9">
           <div className="flex flex-col items-start gap-6">
             <ProjectBreadcrumbs program={project.program} />
             <h1 className="text-4xl font-bold">{project.title}</h1>
@@ -73,7 +73,7 @@ export default async function ProjectPage({
               </div>
             )}
           </div>
-          <div className="flex flex-col gap-18 max-w-[485px]">
+          <div className="flex flex-col gap-6 md:gap-18 max-w-[485px]">
             {project.locations && (
               <div className="flex flex-row justify-end items-center gap-2">
                 <Image
@@ -100,7 +100,7 @@ export default async function ProjectPage({
 
         {project.credits && (
           <div className="flex flex-col gap-[52px]">
-            <div className="w-full px-16 py-6 border-t border-black">
+            <div className="w-full md:px-16 py-6 border-t border-black">
               <h3 className="text-3xl font-bold uppercase">Credits</h3>
             </div>
 
@@ -169,10 +169,10 @@ export default async function ProjectPage({
 
         {project.related && (
           <div className="flex flex-col gap-[21px]">
-            <div className="w-full px-16 py-6 border-t border-black">
+            <div className="w-full md:px-16 py-6 border-t border-black">
               <h3 className="text-3xl font-bold uppercase">Related</h3>
             </div>
-            <RelatedSlider related={project.related} />
+            <RelatedCarousel related={project.related} />
           </div>
         )}
       </div>
