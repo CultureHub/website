@@ -1,5 +1,7 @@
 import {defineField, defineType} from 'sanity'
 
+import { imageField } from '@/util/image';
+
 export const artistType = defineType({
   name: 'artist',
   title: 'Artist',
@@ -16,10 +18,10 @@ export const artistType = defineType({
       options: {source: 'name'},
       validation: (rule) => rule.required(),
     }),
-    defineField({
+    defineField(imageField({
+      title: 'Image',
       name: 'image',
-      type: 'image',
-    }),
+    })),
     defineField({
       name: 'bio',
       type: 'array',

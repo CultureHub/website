@@ -16,10 +16,10 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/vision": "^5.18.0",
+    "@sanity/vision": "^5.21.0",
     "react": "^19.1",
     "react-dom": "^19.1",
-    "sanity": "^5.18.0",
+    "sanity": "^5.21.0",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
@@ -27,7 +27,8 @@
     "@types/react": "^19.1",
     "eslint": "^9.28",
     "prettier": "^3.5",
-    "typescript": "^5.8"
+    "typescript": "^5.8",
+    "vite-tsconfig-paths": "^6.1.1"
   },
   "prettier": {
     "semi": false,

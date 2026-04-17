@@ -14,6 +14,12 @@
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
+type ArrayOf<T> = Array<
+  T & {
+    _key: string;
+  }
+>;
+
 // Source: schema.json
 export type SanityImageAssetReference = {
   _ref: string;
@@ -37,11 +43,12 @@ export type Artist = {
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   bio?: Array<{
@@ -95,6 +102,13 @@ export type Slug = {
   source?: string;
 };
 
+export type ArtistReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "artist";
+};
+
 export type Project = {
   _id: string;
   _type: "project";
@@ -104,11 +118,13 @@ export type Project = {
   title: string;
   slug: Slug;
   date: string;
-  image?: {
+  endDate?: string;
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   description?: Array<{
@@ -129,6 +145,212 @@ export type Project = {
     _type: "block";
     _key: string;
   }>;
+  locations: Array<string>;
+  program: "Re-Fest" | "Residency" | "Experiments in Digital Storytelling";
+  pressLinks?: Array<{
+    label: string;
+    url: string;
+    _key: string;
+  }>;
+  content?: Array<
+    | {
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        _type: "singleImage";
+        _key: string;
+      }
+    | {
+        image1: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        image2: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        _type: "twoImages";
+        _key: string;
+      }
+    | {
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        text?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "normal"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "blockquote";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        _type: "imageAndText";
+        _key: string;
+      }
+    | {
+        text?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "normal"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "blockquote";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        _type: "textAndImage";
+        _key: string;
+      }
+  >;
+  credits?: {
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    locations?: Array<{
+      name?: string;
+      description?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "normal"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      organizations?: Array<{
+        name?: string;
+        description?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "normal"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "blockquote";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        teams?: Array<{
+          role?: string;
+          people?: string;
+          _type: "team";
+          _key: string;
+        }>;
+        _type: "organization";
+        _key: string;
+      }>;
+      _type: "location";
+      _key: string;
+    }>;
+  };
+  related?: ArrayOf<ArtistReference | ProjectReference>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -235,6 +457,7 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | ArtistReference
   | Project
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -256,11 +479,12 @@ export type GetArtistsBySlugQueryResult = {
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   bio?: Array<{
@@ -294,11 +518,13 @@ export type GetArtistsBySlugQueryResult = {
     title: string;
     slug: Slug;
     date: string;
-    image?: {
+    endDate?: string;
+    heroImage: {
       asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
+      alt: string;
       _type: "image";
     };
     description?: Array<{
@@ -319,12 +545,226 @@ export type GetArtistsBySlugQueryResult = {
       _type: "block";
       _key: string;
     }>;
+    locations: Array<string>;
+    program: "Experiments in Digital Storytelling" | "Re-Fest" | "Residency";
+    pressLinks?: Array<{
+      label: string;
+      url: string;
+      _key: string;
+    }>;
+    content?: Array<
+      | {
+          image: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt: string;
+            _type: "image";
+          };
+          text?: Array<{
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: "span";
+              _key: string;
+            }>;
+            style?:
+              | "blockquote"
+              | "h1"
+              | "h2"
+              | "h3"
+              | "h4"
+              | "h5"
+              | "h6"
+              | "normal";
+            listItem?: "bullet" | "number";
+            markDefs?: Array<{
+              href?: string;
+              _type: "link";
+              _key: string;
+            }>;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }>;
+          _type: "imageAndText";
+          _key: string;
+        }
+      | {
+          image: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt: string;
+            _type: "image";
+          };
+          _type: "singleImage";
+          _key: string;
+        }
+      | {
+          text?: Array<{
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: "span";
+              _key: string;
+            }>;
+            style?:
+              | "blockquote"
+              | "h1"
+              | "h2"
+              | "h3"
+              | "h4"
+              | "h5"
+              | "h6"
+              | "normal";
+            listItem?: "bullet" | "number";
+            markDefs?: Array<{
+              href?: string;
+              _type: "link";
+              _key: string;
+            }>;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }>;
+          image: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt: string;
+            _type: "image";
+          };
+          _type: "textAndImage";
+          _key: string;
+        }
+      | {
+          image1: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt: string;
+            _type: "image";
+          };
+          image2: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt: string;
+            _type: "image";
+          };
+          _type: "twoImages";
+          _key: string;
+        }
+    >;
+    credits?: {
+      description?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      locations?: Array<{
+        name?: string;
+        description?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        organizations?: Array<{
+          name?: string;
+          description?: Array<{
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: "span";
+              _key: string;
+            }>;
+            style?:
+              | "blockquote"
+              | "h1"
+              | "h2"
+              | "h3"
+              | "h4"
+              | "h5"
+              | "h6"
+              | "normal";
+            listItem?: "bullet" | "number";
+            markDefs?: Array<{
+              href?: string;
+              _type: "link";
+              _key: string;
+            }>;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }>;
+          teams?: Array<{
+            role?: string;
+            people?: string;
+            _type: "team";
+            _key: string;
+          }>;
+          _type: "organization";
+          _key: string;
+        }>;
+        _type: "location";
+        _key: string;
+      }>;
+    };
+    related?: ArrayOf<ArtistReference | ProjectReference>;
   }> | null;
 } | null;
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getProjectBySlugQuery
-// Query: *[_type == "project" && slug.current == $slug][0]
+// Query: *[_type == "project" && slug.current == $slug][0]{      ...,      related[]->{        _id,        _type,        "image": select(          _type == "project" => heroImage,          _type == "artist" => image,        ),        "title": select(          _type == "project" => title,          _type == "artist" => name,        ),      },    }
 export type GetProjectBySlugQueryResult = {
   _id: string;
   _type: "project";
@@ -334,11 +774,13 @@ export type GetProjectBySlugQueryResult = {
   title: string;
   slug: Slug;
   date: string;
-  image?: {
+  endDate?: string;
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   description?: Array<{
@@ -359,6 +801,239 @@ export type GetProjectBySlugQueryResult = {
     _type: "block";
     _key: string;
   }>;
+  locations: Array<string>;
+  program: "Experiments in Digital Storytelling" | "Re-Fest" | "Residency";
+  pressLinks?: Array<{
+    label: string;
+    url: string;
+    _key: string;
+  }>;
+  content?: Array<
+    | {
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        text?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        _type: "imageAndText";
+        _key: string;
+      }
+    | {
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        _type: "singleImage";
+        _key: string;
+      }
+    | {
+        text?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        _type: "textAndImage";
+        _key: string;
+      }
+    | {
+        image1: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        image2: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        _type: "twoImages";
+        _key: string;
+      }
+  >;
+  credits?: {
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    locations?: Array<{
+      name?: string;
+      description?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      organizations?: Array<{
+        name?: string;
+        description?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        teams?: Array<{
+          role?: string;
+          people?: string;
+          _type: "team";
+          _key: string;
+        }>;
+        _type: "organization";
+        _key: string;
+      }>;
+      _type: "location";
+      _key: string;
+    }>;
+  };
+  related: Array<
+    | {
+        _id: string;
+        _type: "artist";
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        title: string;
+      }
+    | {
+        _id: string;
+        _type: "project";
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        title: string;
+      }
+  > | null;
 } | null;
 
 // Source: ../client/src/sanity/queries.ts
@@ -388,11 +1063,12 @@ export type GetArtistsQueryResult = Array<{
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   bio?: Array<{
@@ -435,11 +1111,12 @@ export type GetArtistsByMediumsQueryResult = Array<{
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   bio?: Array<{
@@ -476,7 +1153,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
-    '*[_type == "project" && slug.current == $slug][0]': GetProjectBySlugQueryResult;
+    '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      related[]->{\n        _id,\n        _type,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[\n    _type == "project" &&\n    defined(slug.current)\n  ][0...12]{\n    _id,\n    title,\n    slug\n  }': GetProjectsQueryResult;
     'array::unique(*[_type == "artist"].medium[])': GetArtistMediumOptionsQueryResult;
     '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;
