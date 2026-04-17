@@ -17,7 +17,21 @@ export function getArtistsBySlug(slug: string) {
 
 export function getProjectBySlug(slug: string) {
   const getProjectBySlugQuery = defineQuery(
-    `*[_type == "project" && slug.current == $slug][0]`,
+    `*[_type == "project" && slug.current == $slug][0]{
+      ...,
+      related[]->{
+        _id,
+        _type,
+        "image": select(
+          _type == "project" => heroImage,
+          _type == "artist" => image,
+        ),
+        "title": select(
+          _type == "project" => title,
+          _type == "artist" => name,
+        ),
+      },
+    }`,
   );
 
   return client.fetch(getProjectBySlugQuery, { slug }, options);

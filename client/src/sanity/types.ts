@@ -14,6 +14,12 @@
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
+type ArrayOf<T> = Array<
+  T & {
+    _key: string;
+  }
+>;
+
 // Source: schema.json
 export type SanityImageAssetReference = {
   _ref: string;
@@ -37,11 +43,12 @@ export type Artist = {
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   bio?: Array<{
@@ -93,6 +100,13 @@ export type Slug = {
   _type: "slug";
   current: string;
   source?: string;
+};
+
+export type ArtistReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "artist";
 };
 
 export type Project = {
@@ -268,7 +282,7 @@ export type Project = {
       _key: string;
     }>;
     locations?: Array<{
-      Name?: string;
+      name?: string;
       description?: Array<{
         children?: Array<{
           marks?: Array<string>;
@@ -296,7 +310,7 @@ export type Project = {
         _key: string;
       }>;
       organizations?: Array<{
-        Name?: string;
+        name?: string;
         description?: Array<{
           children?: Array<{
             marks?: Array<string>;
@@ -336,6 +350,7 @@ export type Project = {
       _key: string;
     }>;
   };
+  related?: ArrayOf<ArtistReference | ProjectReference>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -442,6 +457,7 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | ArtistReference
   | Project
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -463,11 +479,12 @@ export type GetArtistsBySlugQueryResult = {
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   bio?: Array<{
@@ -673,7 +690,7 @@ export type GetArtistsBySlugQueryResult = {
         _key: string;
       }>;
       locations?: Array<{
-        Name?: string;
+        name?: string;
         description?: Array<{
           children?: Array<{
             marks?: Array<string>;
@@ -701,7 +718,7 @@ export type GetArtistsBySlugQueryResult = {
           _key: string;
         }>;
         organizations?: Array<{
-          Name?: string;
+          name?: string;
           description?: Array<{
             children?: Array<{
               marks?: Array<string>;
@@ -741,12 +758,13 @@ export type GetArtistsBySlugQueryResult = {
         _key: string;
       }>;
     };
+    related?: ArrayOf<ArtistReference | ProjectReference>;
   }> | null;
 } | null;
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getProjectBySlugQuery
-// Query: *[_type == "project" && slug.current == $slug][0]
+// Query: *[_type == "project" && slug.current == $slug][0]{      ...,      related[]->{        _id,        _type,        "image": select(          _type == "project" => heroImage,          _type == "artist" => image,        ),        "title": select(          _type == "project" => title,          _type == "artist" => name,        ),      },    }
 export type GetProjectBySlugQueryResult = {
   _id: string;
   _type: "project";
@@ -920,7 +938,7 @@ export type GetProjectBySlugQueryResult = {
       _key: string;
     }>;
     locations?: Array<{
-      Name?: string;
+      name?: string;
       description?: Array<{
         children?: Array<{
           marks?: Array<string>;
@@ -948,7 +966,7 @@ export type GetProjectBySlugQueryResult = {
         _key: string;
       }>;
       organizations?: Array<{
-        Name?: string;
+        name?: string;
         description?: Array<{
           children?: Array<{
             marks?: Array<string>;
@@ -988,6 +1006,34 @@ export type GetProjectBySlugQueryResult = {
       _key: string;
     }>;
   };
+  related: Array<
+    | {
+        _id: string;
+        _type: "artist";
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        title: string;
+      }
+    | {
+        _id: string;
+        _type: "project";
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        title: string;
+      }
+  > | null;
 } | null;
 
 // Source: ../client/src/sanity/queries.ts
@@ -1017,11 +1063,12 @@ export type GetArtistsQueryResult = Array<{
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   bio?: Array<{
@@ -1064,11 +1111,12 @@ export type GetArtistsByMediumsQueryResult = Array<{
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt: string;
     _type: "image";
   };
   bio?: Array<{
@@ -1105,7 +1153,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
-    '*[_type == "project" && slug.current == $slug][0]': GetProjectBySlugQueryResult;
+    '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      related[]->{\n        _id,\n        _type,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[\n    _type == "project" &&\n    defined(slug.current)\n  ][0...12]{\n    _id,\n    title,\n    slug\n  }': GetProjectsQueryResult;
     'array::unique(*[_type == "artist"].medium[])': GetArtistMediumOptionsQueryResult;
     '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;

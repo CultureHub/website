@@ -1,21 +1,6 @@
 import {defineField, defineType, Rule} from 'sanity'
 
-function imageField(props: { title: string, name: string }) {
-  return {
-    type: 'image',
-    validation: (rule: Rule) => rule.required(),
-    fields: [
-      {
-        name: 'alt',
-        type: 'string',
-        title: 'Alt text',
-        description: 'Important for SEO and accessibility.',
-        validation: (rule: Rule) => rule.error('You must provide alt text for the image.').required(),
-      }
-    ],
-    ...props,
-  }
-}
+import { imageField } from "@/util/image"
 
 export const projectType = defineType({
   name: 'project',
@@ -205,7 +190,7 @@ export const projectType = defineType({
               fields: [
                 {
                   title: 'Name',
-                  name: 'Name', // TODO: lowercase
+                  name: 'name',
                   type: 'string',
                 },
                 {
@@ -226,7 +211,7 @@ export const projectType = defineType({
                       fields: [
                         {
                           title: 'Name',
-                          name: 'Name', // TODO: lowercase
+                          name: 'name',
                           type: 'string',
                         },
                         {
@@ -265,6 +250,20 @@ export const projectType = defineType({
                 },
               ],
             }
+          ],
+        },
+      ],
+    }),
+    defineField({
+      title: 'Related',
+      name: "related",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [
+            { type: "artist" },
+            { type: "project" },
           ],
         },
       ],

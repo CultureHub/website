@@ -145,6 +145,13 @@
               },
               "optional": true
             },
+            "alt": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": false
+            },
             "_type": {
               "type": "objectAttribute",
               "value": {
@@ -154,7 +161,7 @@
             }
           }
         },
-        "optional": true
+        "optional": false
       },
       "bio": {
         "type": "objectAttribute",
@@ -521,6 +528,36 @@
           "optional": true
         }
       }
+    }
+  },
+  {
+    "type": "type",
+    "name": "artist.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "artist"
     }
   },
   {
@@ -1811,7 +1848,7 @@
                 "of": {
                   "type": "object",
                   "attributes": {
-                    "Name": {
+                    "name": {
                       "type": "objectAttribute",
                       "value": {
                         "type": "string"
@@ -2004,7 +2041,7 @@
                         "of": {
                           "type": "object",
                           "attributes": {
-                            "Name": {
+                            "name": {
                               "type": "objectAttribute",
                               "value": {
                                 "type": "string"
@@ -2280,6 +2317,26 @@
               },
               "optional": true
             }
+          }
+        },
+        "optional": true
+      },
+      "related": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "union",
+            "of": [
+              {
+                "type": "inline",
+                "name": "artist.reference"
+              },
+              {
+                "type": "inline",
+                "name": "project.reference"
+              }
+            ]
           }
         },
         "optional": true

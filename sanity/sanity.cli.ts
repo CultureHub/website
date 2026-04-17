@@ -1,5 +1,7 @@
 import {defineCliConfig} from 'sanity/cli'
 
+import tsconfigPaths from 'vite-tsconfig-paths'
+
 export default defineCliConfig({
   api: {
     projectId: '2r5hg86f',
@@ -17,5 +19,9 @@ export default defineCliConfig({
     path: '../client/src/**/*.{ts,tsx,js,jsx}',
     schema: 'schema.json',
     generates: '../client/src/sanity/types.ts'
-  }
+  },
+  vite: (config) => ({
+    ...config,
+    plugins: [...(config.plugins || []), tsconfigPaths()],
+  }),
 })

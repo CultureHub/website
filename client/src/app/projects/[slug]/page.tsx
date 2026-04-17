@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -9,6 +10,8 @@ import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/url";
 import Button from "@/components/Button";
 import ProjectContentRow from "@/components/ProjectContentRow";
+import SanityImage from "@/components/SanityImage";
+import RelatedSlider from "@/components/RelatedSlider";
 
 type ProjectBreadcrumbsProps = {
   program: string;
@@ -37,12 +40,6 @@ export default async function ProjectPage({
   if (!project) {
     notFound();
   }
-  const heroImageUrl = project.heroImage
-    ? urlFor(project.heroImage)?.url()
-    : null;
-  const heroImageDimensions = heroImageUrl
-    ? getImageDimensions(heroImageUrl)
-    : null;
 
   const startDate = new Date(project.date);
   const endDate = new Date(project.endDate ? project.endDate : project.date);
@@ -62,7 +59,7 @@ export default async function ProjectPage({
             <ProjectBreadcrumbs program={project.program} />
             <h1 className="text-4xl font-bold">{project.title}</h1>
             {project.date && <p>{formatter.formatRange(startDate, endDate)}</p>}
-            {Array.isArray(project.pressLinks) && (
+            {project.pressLinks && (
               <div className="">
                 <span className="text-base font-bold">Press: </span>
                 {project.pressLinks.map(({ url, label }, index) => (
@@ -77,7 +74,7 @@ export default async function ProjectPage({
             )}
           </div>
           <div className="flex flex-col gap-18 max-w-[485px]">
-            {Array.isArray(project.locations) && (
+            {project.locations && (
               <div className="flex flex-row justify-end items-center gap-2">
                 <Image
                   width="8"
@@ -88,39 +85,38 @@ export default async function ProjectPage({
                 <span>{project.locations.join(", ")}</span>
               </div>
             )}
-            {Array.isArray(project.description) && (
+            {project.description && (
               <PortableText value={project.description} />
             )}
           </div>
         </div>
-        <div>
-          {heroImageUrl && (
-            <Image
-              src={heroImageUrl}
-              alt={project.title}
-              width={heroImageDimensions?.width}
-              height={heroImageDimensions?.height}
-              className="rounded-[20px]"
-            />
-          )}
-        </div>
+
+        <SanityImage image={project.heroImage} />
+
         {project.content &&
           project.content.map((content, i) => (
             <ProjectContentRow key={i} content={content} />
           ))}
+
         {project.credits && (
           <div className="flex flex-col gap-[52px]">
             <div className="w-full px-16 py-6 border-t border-black">
               <h3 className="text-3xl font-bold uppercase">Credits</h3>
             </div>
-            <div className="text-2xl font-normal font-brook px-16">
-              {/* TODO use portable text with descripiton here */}
-              <p>The Books of Jacob is presented by La MaMa in partnership with CultureHub and The Polish Cultural Institute NY. The Books of Jacob was developed in La MaMa and CultureHub's Experiments in Digital Storytelling Program, which is generously funded by the NEA and Radio Drama Network. This performance has been made possible through generous support from Trust for Mutual Understanding.</p>
-              { project.credits.description && <PortableText value={project.credits.description} /> }
-            </div>
-            <div className="columns-2 px-16 gap-x-16">
-              { project.credits.locations && project.credits.locations.map((location) => (
-                  <div key={location.name} className="flex flex-col gap-6">
+
+            {project.credits.description && (
+              <div className="text-2xl font-normal font-brook md:px-16">
+                <PortableText value={project.credits.description} />
+              </div>
+            )}
+
+            {project.credits.locations && (
+              <div className="columns-1 md:columns-2 md:px-16 md:gap-x-16">
+                {project.credits.locations.map((location) => (
+                  <div
+                    key={location._key}
+                    className="flex flex-col gap-6 break-inside-avoid mb-11"
+                  >
                     <div className="flex flex-row py-2.5 justify-start items-center border-t border-b text-2xl font-normal font-brook uppercase gap-3">
                       <Image
                         width="8"
@@ -128,26 +124,55 @@ export default async function ProjectPage({
                         src="/pin.svg"
                         alt="Location pin"
                       />
-                      {// TODO: <p>{location.name}</p>
-                      }
-                      <p>New York, USA</p>
+                      <p>{location.name}</p>
                     </div>
-                    { location.description && <div className="text-2xl font-normal font-brook leading-6">
+                    {location.description && (
+                      <div className="text-2xl font-normal font-brook leading-6">
                         <PortableText value={location.description} />
                       </div>
-                    }
-                    { location.organizations && location.organizations.map((organization) => (
-                        <div className="flex gap-6">
-                          <div className="text-2xl font-normal font-brook uppercase">
-                            <p>{organization.Name}</p>
+                    )}
+                    {location.organizations &&
+                      location.organizations.map((organization) => (
+                        <div
+                          key={organization._key}
+                          className="flex flex-col gap-4.5"
+                        >
+                          <h4 className="text-2xl font-normal font-brook uppercase">
+                            {organization.name}
+                          </h4>
+                          {organization.description && (
+                            <div className="text-2xl font-normal font-brook leading-6">
+                              <PortableText value={organization.description} />
+                            </div>
+                          )}
+                          <div className="font-milling text-2xl">
+                            {organization.teams &&
+                              organization.teams.map((team) => (
+                                <div key={team.role}>
+                                  <span className="font-bold">
+                                    {team.role}:{" "}
+                                  </span>
+                                  <span className="font-thin">
+                                    {team.people}
+                                  </span>
+                                </div>
+                              ))}
                           </div>
                         </div>
-                      ))
-                    }
+                      ))}
                   </div>
-                ))
-              }
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {project.related && (
+          <div className="flex flex-col gap-[21px]">
+            <div className="w-full px-16 py-6 border-t border-black">
+              <h3 className="text-3xl font-bold uppercase">Related</h3>
             </div>
+            <RelatedSlider related={project.related} />
           </div>
         )}
       </div>
