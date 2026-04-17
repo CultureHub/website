@@ -108,6 +108,48 @@ export default async function ProjectPage({
           project.content.map((content, i) => (
             <ProjectContentRow key={i} content={content} />
           ))}
+        {project.credits && (
+          <div className="flex flex-col gap-[52px]">
+            <div className="w-full px-16 py-6 border-t border-black">
+              <h3 className="text-3xl font-bold uppercase">Credits</h3>
+            </div>
+            <div className="text-2xl font-normal font-brook px-16">
+              {/* TODO use portable text with descripiton here */}
+              <p>The Books of Jacob is presented by La MaMa in partnership with CultureHub and The Polish Cultural Institute NY. The Books of Jacob was developed in La MaMa and CultureHub's Experiments in Digital Storytelling Program, which is generously funded by the NEA and Radio Drama Network. This performance has been made possible through generous support from Trust for Mutual Understanding.</p>
+              { project.credits.description && <PortableText value={project.credits.description} /> }
+            </div>
+            <div className="columns-2 px-16 gap-x-16">
+              { project.credits.locations && project.credits.locations.map((location) => (
+                  <div key={location.name} className="flex flex-col gap-6">
+                    <div className="flex flex-row py-2.5 justify-start items-center border-t border-b text-2xl font-normal font-brook uppercase gap-3">
+                      <Image
+                        width="8"
+                        height="14"
+                        src="/pin.svg"
+                        alt="Location pin"
+                      />
+                      {// TODO: <p>{location.name}</p>
+                      }
+                      <p>New York, USA</p>
+                    </div>
+                    { location.description && <div className="text-2xl font-normal font-brook leading-6">
+                        <PortableText value={location.description} />
+                      </div>
+                    }
+                    { location.organizations && location.organizations.map((organization) => (
+                        <div className="flex gap-6">
+                          <div className="text-2xl font-normal font-brook uppercase">
+                            <p>{organization.Name}</p>
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

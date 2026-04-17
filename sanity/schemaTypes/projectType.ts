@@ -205,7 +205,7 @@ export const projectType = defineType({
               fields: [
                 {
                   title: 'Name',
-                  name: 'Name',
+                  name: 'Name', // TODO: lowercase
                   type: 'string',
                 },
                 {
@@ -226,8 +226,14 @@ export const projectType = defineType({
                       fields: [
                         {
                           title: 'Name',
-                          name: 'Name',
+                          name: 'Name', // TODO: lowercase
                           type: 'string',
+                        },
+                        {
+                          title: 'Description',
+                          name: 'description',
+                          type: 'array',
+                          of: [{type: 'block'}],
                         },
                         {
                           title: 'Teams',
