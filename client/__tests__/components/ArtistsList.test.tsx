@@ -44,6 +44,7 @@ describe("ArtistsList", () => {
       slug: { current: "artist-1", _type: "slug" as const },
       name: "Artist One",
       medium: ["AI" as const],
+      image: { _type: "image" as const, alt: "test" },
     },
     {
       _id: "2",
@@ -54,6 +55,7 @@ describe("ArtistsList", () => {
       slug: { current: "artist-2", _type: "slug" as const },
       name: "Artist Two",
       medium: ["Education" as const],
+      image: { _type: "image" as const, alt: "test" },
     },
   ];
 
