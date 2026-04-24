@@ -53,6 +53,7 @@ export default function Footer() {
               >
                 <div className="flex flex-row gap-7">
                   <Image
+                    loading="eager"
                     width="25"
                     height="25"
                     src="/ig_logo.svg"
@@ -68,6 +69,7 @@ export default function Footer() {
               >
                 <div className="flex flex-row gap-7">
                   <Image
+                    loading="eager"
                     width="25"
                     height="25"
                     src="/youtube_logo.svg"
@@ -79,6 +81,7 @@ export default function Footer() {
               <a href="/donate">
                 <div className="flex flex-row gap-7">
                   <Image
+                    loading="eager"
                     width="25"
                     height="25"
                     src="/donate_icon.svg"
@@ -99,8 +102,9 @@ export default function Footer() {
               />
               <button className="w-14 h-8 flex justify-center align-center w-14 bg-ch-lite rounded-lg">
                 <Image
+                  loading="eager"
                   width="11"
-                  height="20"
+                  height="32"
                   src="/submit_icon.svg"
                   alt="Submit icon"
                 />
@@ -111,6 +115,7 @@ export default function Footer() {
       </div>
       <div className="flex flex-col md:flex-row gap-12 mt-[27px]">
         <Image
+          loading="eager"
           width="466"
           height="68"
           src="/ch_logo_large_lite.svg"
