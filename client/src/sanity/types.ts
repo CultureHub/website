@@ -49,6 +49,7 @@ export type Artist = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt: string;
+    credits?: string;
     _type: "image";
   };
   bio?: Array<{
@@ -69,10 +70,31 @@ export type Artist = {
     _type: "block";
     _key: string;
   }>;
-  years?: Array<number>;
-  medium: Array<
-    "AI" | "Education" | "Installation" | "Livestream" | "Performance" | "VR"
-  >;
+  projectStatement?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  links?: Array<{
+    label: string;
+    url: string;
+    _key: string;
+  }>;
+  program: "Re-Fest" | "Residency" | "Experiments in Digital Storytelling";
+  location?: string;
   projects?: Array<
     {
       _key: string;
@@ -125,6 +147,7 @@ export type Project = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt: string;
+    credits?: string;
     _type: "image";
   };
   description?: Array<{
@@ -160,6 +183,7 @@ export type Project = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         _type: "singleImage";
@@ -172,6 +196,7 @@ export type Project = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         image2: {
@@ -180,6 +205,7 @@ export type Project = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         _type: "twoImages";
@@ -192,6 +218,7 @@ export type Project = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         text?: Array<{
@@ -256,6 +283,7 @@ export type Project = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         _type: "textAndImage";
@@ -485,6 +513,7 @@ export type GetArtistsBySlugQueryResult = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt: string;
+    credits?: string;
     _type: "image";
   };
   bio?: Array<{
@@ -505,10 +534,31 @@ export type GetArtistsBySlugQueryResult = {
     _type: "block";
     _key: string;
   }>;
-  years?: Array<number>;
-  medium: Array<
-    "AI" | "Education" | "Installation" | "Livestream" | "Performance" | "VR"
-  >;
+  projectStatement?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  links?: Array<{
+    label: string;
+    url: string;
+    _key: string;
+  }>;
+  program: "Experiments in Digital Storytelling" | "Re-Fest" | "Residency";
+  location?: string;
   projects: Array<{
     _id: string;
     _type: "project";
@@ -525,6 +575,7 @@ export type GetArtistsBySlugQueryResult = {
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       alt: string;
+      credits?: string;
       _type: "image";
     };
     description?: Array<{
@@ -560,6 +611,7 @@ export type GetArtistsBySlugQueryResult = {
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
             alt: string;
+            credits?: string;
             _type: "image";
           };
           text?: Array<{
@@ -598,6 +650,7 @@ export type GetArtistsBySlugQueryResult = {
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
             alt: string;
+            credits?: string;
             _type: "image";
           };
           _type: "singleImage";
@@ -636,6 +689,7 @@ export type GetArtistsBySlugQueryResult = {
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
             alt: string;
+            credits?: string;
             _type: "image";
           };
           _type: "textAndImage";
@@ -648,6 +702,7 @@ export type GetArtistsBySlugQueryResult = {
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
             alt: string;
+            credits?: string;
             _type: "image";
           };
           image2: {
@@ -656,6 +711,7 @@ export type GetArtistsBySlugQueryResult = {
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
             alt: string;
+            credits?: string;
             _type: "image";
           };
           _type: "twoImages";
@@ -781,6 +837,7 @@ export type GetProjectBySlugQueryResult = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt: string;
+    credits?: string;
     _type: "image";
   };
   description?: Array<{
@@ -816,6 +873,7 @@ export type GetProjectBySlugQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         text?: Array<{
@@ -854,6 +912,7 @@ export type GetProjectBySlugQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         _type: "singleImage";
@@ -892,6 +951,7 @@ export type GetProjectBySlugQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         _type: "textAndImage";
@@ -904,6 +964,7 @@ export type GetProjectBySlugQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         image2: {
@@ -912,6 +973,7 @@ export type GetProjectBySlugQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         _type: "twoImages";
@@ -1016,6 +1078,7 @@ export type GetProjectBySlugQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         title: string;
@@ -1029,6 +1092,7 @@ export type GetProjectBySlugQueryResult = {
           hotspot?: SanityImageHotspot;
           crop?: SanityImageCrop;
           alt: string;
+          credits?: string;
           _type: "image";
         };
         title: string;
@@ -1048,9 +1112,7 @@ export type GetProjectsQueryResult = Array<{
 // Source: ../client/src/sanity/queries.ts
 // Variable: getArtistMediumOptionsQuery
 // Query: array::unique(*[_type == "artist"].medium[])
-export type GetArtistMediumOptionsQueryResult = Array<
-  "AI" | "Education" | "Installation" | "Livestream" | "Performance" | "VR"
->;
+export type GetArtistMediumOptionsQueryResult = Array<null>;
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getArtistsQuery
@@ -1069,6 +1131,7 @@ export type GetArtistsQueryResult = Array<{
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt: string;
+    credits?: string;
     _type: "image";
   };
   bio?: Array<{
@@ -1089,10 +1152,31 @@ export type GetArtistsQueryResult = Array<{
     _type: "block";
     _key: string;
   }>;
-  years?: Array<number>;
-  medium: Array<
-    "AI" | "Education" | "Installation" | "Livestream" | "Performance" | "VR"
-  >;
+  projectStatement?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  links?: Array<{
+    label: string;
+    url: string;
+    _key: string;
+  }>;
+  program: "Experiments in Digital Storytelling" | "Re-Fest" | "Residency";
+  location?: string;
   projects?: Array<
     {
       _key: string;
@@ -1103,50 +1187,7 @@ export type GetArtistsQueryResult = Array<{
 // Source: ../client/src/sanity/queries.ts
 // Variable: getArtistsByMediumsQuery
 // Query: *[    _type == "artist"    && count(medium[@ in $mediums]) > 0    && defined(slug.current)  ][0...12]
-export type GetArtistsByMediumsQueryResult = Array<{
-  _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  slug: Slug;
-  image: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    _type: "image";
-  };
-  bio?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  years?: Array<number>;
-  medium: Array<
-    "AI" | "Education" | "Installation" | "Livestream" | "Performance" | "VR"
-  >;
-  projects?: Array<
-    {
-      _key: string;
-    } & ProjectReference
-  >;
-}>;
+export type GetArtistsByMediumsQueryResult = Array<never>;
 
 // Query TypeMap
 import "@sanity/client";

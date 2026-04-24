@@ -1,6 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
 import { imageField } from '@/util/image';
+import { linksField } from "@/util/link"
+import { programField } from "@/util/program"
 
 export const artistType = defineType({
   name: 'artist',
@@ -8,11 +10,13 @@ export const artistType = defineType({
   type: 'document',
   fields: [
     defineField({
+      title: 'Name',
       name: 'name',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
     defineField({
+      title: "Slug",
       name: 'slug',
       type: 'slug',
       options: {source: 'name'},
@@ -23,35 +27,29 @@ export const artistType = defineType({
       name: 'image',
     })),
     defineField({
+      title: "Bio",
       name: 'bio',
       type: 'array',
       of: [{type: 'block'}],
     }),
     defineField({
-      name: 'years',
+      title: "Project Statement",
+      name: 'projectStatement',
       type: 'array',
-      of: [{
-        type: 'number',
-        validation: (Rule) => Rule.required().min(1900).max(2100).integer()
-      }],
+      of: [{type: 'block'}],
     }),
+    defineField(linksField({
+      title: "Links",
+      name: 'links',
+    })),
+    defineField(programField({
+      title: 'Program',
+      name: 'program',
+    })),
     defineField({
-      name: 'medium',
-      type: 'array',
-      validation: (rule) => rule.required(),
-      of: [{
-        type: 'string',
-        options: {
-          list: [
-            { title: 'AI', value: 'AI' },
-            { title: 'Education', value: 'Education' },
-            { title: 'Installation', value: 'Installation' },
-            { title: 'Livestream', value: 'Livestream' },
-            { title: 'Performance', value: 'Performance' },
-            { title: 'VR', value: 'VR' },
-          ],
-        },
-      }],
+      title: "Location",
+      name: 'location',
+      type: 'string',
     }),
     defineField({
       name: 'projects',
@@ -61,5 +59,6 @@ export const artistType = defineType({
         to: [{ type: 'project' }],
       }],
     }),
+    // TODO add other media type references
   ],
 })

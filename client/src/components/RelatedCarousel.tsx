@@ -10,11 +10,11 @@ import { GetProjectBySlugQueryResult } from "@/sanity/types";
 type ProjectRelated = NonNullable<
   NonNullable<GetProjectBySlugQueryResult>["related"]
 >;
-type RelatedSliderProps = {
+type RelatedCarouselProps = {
   related: ProjectRelated;
 };
 
-export default function RelatedSlider({ related }: RelatedSliderProps) {
+export default function RelatedCarousel({ related }: RelatedCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);

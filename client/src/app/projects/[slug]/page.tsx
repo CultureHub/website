@@ -8,27 +8,11 @@ import { getProjectBySlug } from "@/sanity/queries";
 
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/url";
-import Button from "@/components/Button";
 import ProjectContentRow from "@/components/ProjectContentRow";
 import SanityImage from "@/components/SanityImage";
 import RelatedCarousel from "@/components/RelatedCarousel";
-
-type ProjectBreadcrumbsProps = {
-  program: string;
-};
-function ProjectBreadcrumbs({ program }: ProjectBreadcrumbsProps) {
-  return (
-    <div className="flex flex-row items-center gap-3">
-      <Button variant="pill" className="px-[10px] py-[5px]" href="/projects">
-        Projects
-      </Button>
-      <span className="font-normal">&gt;</span>
-      <Button variant="pill" className="px-[10px] py-[5px]">
-        {program}
-      </Button>
-    </div>
-  );
-}
+import Breadcrumbs from "@/components/Breadcrumbs";
+import LocationPin from "@/components/LocationPin";
 
 export default async function ProjectPage({
   params,
@@ -56,7 +40,12 @@ export default async function ProjectPage({
       <div className="flex flex-col gap-9 my-9 mx-8">
         <div className="flex flex-col md:flex-row justify-between gap-9">
           <div className="flex flex-col items-start gap-6">
-            <ProjectBreadcrumbs program={project.program} />
+            <Breadcrumbs
+              buttons={[
+                { text: "Project", href: "/projects" },
+                { text: project.program },
+              ]}
+            />
             <h1 className="text-4xl font-bold">{project.title}</h1>
             {project.date && <p>{formatter.formatRange(startDate, endDate)}</p>}
             {project.pressLinks && (
@@ -74,24 +63,14 @@ export default async function ProjectPage({
             )}
           </div>
           <div className="flex flex-col gap-6 md:gap-18 max-w-[485px]">
-            {project.locations && (
-              <div className="flex flex-row justify-end items-center gap-2">
-                <Image
-                  width="8"
-                  height="14"
-                  src="/pin.svg"
-                  alt="Location pin"
-                />
-                <span>{project.locations.join(", ")}</span>
-              </div>
-            )}
+            {project.locations && <LocationPin locations={project.locations} />}
             {project.description && (
               <PortableText value={project.description} />
             )}
           </div>
         </div>
 
-        <SanityImage image={project.heroImage} />
+        <SanityImage image={project.heroImage} className="rounded-[20px]" />
 
         {project.content &&
           project.content.map((content, i) => (
