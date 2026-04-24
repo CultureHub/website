@@ -47,9 +47,11 @@ export const artistType = defineType({
       name: 'program',
     })),
     defineField({
-      title: "Location",
-      name: 'location',
-      type: 'string',
+      title: "Locations",
+      name: 'locations',
+      type: 'array',
+      validation: (rule) => rule.required(),
+      of: [{type: "string"}],
     }),
     defineField({
       name: 'projects',

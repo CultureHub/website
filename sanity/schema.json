@@ -586,12 +586,15 @@
         },
         "optional": false
       },
-      "location": {
+      "locations": {
         "type": "objectAttribute",
         "value": {
-          "type": "string"
+          "type": "array",
+          "of": {
+            "type": "string"
+          }
         },
-        "optional": true
+        "optional": false
       },
       "projects": {
         "type": "objectAttribute",

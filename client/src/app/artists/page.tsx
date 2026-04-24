@@ -2,7 +2,7 @@ import ArtistsList from "@/components/ArtistsList";
 import * as Queries from "@/sanity/queries";
 
 export default async function ArtistsIndexPage() {
-  const mediumOptions = await Queries.getArtistMediumOptions();
+  const locationOptions = await Queries.getArtistLocationOptions();
   const initialArtists = await Queries.getArtists();
 
   return (
@@ -10,7 +10,7 @@ export default async function ArtistsIndexPage() {
       <h1 className="text-4xl font-bold mb-8">Artists</h1>
       <ArtistsList
         initialArtists={initialArtists}
-        mediumOptions={mediumOptions}
+        locationOptions={locationOptions}
       />
     </main>
   );

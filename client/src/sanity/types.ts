@@ -94,7 +94,7 @@ export type Artist = {
     _key: string;
   }>;
   program: "Re-Fest" | "Residency" | "Experiments in Digital Storytelling";
-  location?: string;
+  locations: Array<string>;
   projects?: Array<
     {
       _key: string;
@@ -558,7 +558,7 @@ export type GetArtistsBySlugQueryResult = {
     _key: string;
   }>;
   program: "Experiments in Digital Storytelling" | "Re-Fest" | "Residency";
-  location?: string;
+  locations: Array<string>;
   projects: Array<{
     _id: string;
     _type: "project";
@@ -1110,9 +1110,9 @@ export type GetProjectsQueryResult = Array<{
 }>;
 
 // Source: ../client/src/sanity/queries.ts
-// Variable: getArtistMediumOptionsQuery
-// Query: array::unique(*[_type == "artist"].medium[])
-export type GetArtistMediumOptionsQueryResult = Array<null>;
+// Variable: getArtistLocationOptionsQuery
+// Query: array::unique(*[_type == "artist"].locations[])
+export type GetArtistLocationOptionsQueryResult = Array<string>;
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getArtistsQuery
@@ -1176,7 +1176,7 @@ export type GetArtistsQueryResult = Array<{
     _key: string;
   }>;
   program: "Experiments in Digital Storytelling" | "Re-Fest" | "Residency";
-  location?: string;
+  locations: Array<string>;
   projects?: Array<
     {
       _key: string;
@@ -1185,9 +1185,74 @@ export type GetArtistsQueryResult = Array<{
 }>;
 
 // Source: ../client/src/sanity/queries.ts
-// Variable: getArtistsByMediumsQuery
-// Query: *[    _type == "artist"    && count(medium[@ in $mediums]) > 0    && defined(slug.current)  ][0...12]
-export type GetArtistsByMediumsQueryResult = Array<never>;
+// Variable: getArtistsByLocationsQuery
+// Query: *[    _type == "artist"    && count(locations[@ in $locations]) > 0    && defined(slug.current)  ][0...12]
+export type GetArtistsByLocationsQueryResult = Array<{
+  _id: string;
+  _type: "artist";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: Slug;
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  bio?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  projectStatement?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  links?: Array<{
+    label: string;
+    url: string;
+    _key: string;
+  }>;
+  program: "Experiments in Digital Storytelling" | "Re-Fest" | "Residency";
+  locations: Array<string>;
+  projects?: Array<
+    {
+      _key: string;
+    } & ProjectReference
+  >;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -1196,8 +1261,8 @@ declare module "@sanity/client" {
     '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
     '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      related[]->{\n        _id,\n        _type,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[\n    _type == "project" &&\n    defined(slug.current)\n  ][0...12]{\n    _id,\n    title,\n    slug\n  }': GetProjectsQueryResult;
-    'array::unique(*[_type == "artist"].medium[])': GetArtistMediumOptionsQueryResult;
+    'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;
     '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;
-    '*[\n    _type == "artist"\n    && count(medium[@ in $mediums]) > 0\n    && defined(slug.current)\n  ][0...12]': GetArtistsByMediumsQueryResult;
+    '*[\n    _type == "artist"\n    && count(locations[@ in $locations]) > 0\n    && defined(slug.current)\n  ][0...12]': GetArtistsByLocationsQueryResult;
   }
 }

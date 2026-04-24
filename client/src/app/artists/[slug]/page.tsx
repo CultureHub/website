@@ -32,9 +32,9 @@ export default async function ArtistPage({
                   { text: artist.program },
                 ]}
               />
-              {artist.location && <LocationPin locations={[artist.location]} />}
+              {artist.locations && <LocationPin locations={artist.locations} />}
             </div>
-            <h1 className="text-4xl font-bold md:my-6">{artist.name}</h1>
+            <h1 className="text-4xl RaRfont-bold md:my-6">{artist.name}</h1>
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-9 md:gap-14">
