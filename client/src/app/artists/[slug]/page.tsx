@@ -21,7 +21,7 @@ export default async function ArtistPage({
   }
 
   return (
-    <main className="min-h-screen">
+    <main className="border-t-1 border-ch-midnite min-h-screen">
       <div className="flex flex-col gap-8 m-0 md:m-8">
         <div className="flex flex-col mx-6 mt-6 md:m-0 md:flex-row justify-between gap-9">
           <div className="flex flex-col items-start gap-6 w-full md:border-b">
@@ -34,7 +34,7 @@ export default async function ArtistPage({
               />
               {artist.locations && <LocationPin locations={artist.locations} />}
             </div>
-            <h1 className="text-4xl RaRfont-bold md:my-6">{artist.name}</h1>
+            <h1 className="text-4xl font-bold md:my-6">{artist.name}</h1>
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-9 md:gap-14">
