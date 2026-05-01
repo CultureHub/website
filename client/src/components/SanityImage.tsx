@@ -8,6 +8,8 @@ type ImageComponentProps = {
   className?: string;
   width?: number | `${number}`;
   height?: number | `${number}`;
+  fill?: boolean;
+  objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
 };
 
 export default function SanityImage({
@@ -15,6 +17,8 @@ export default function SanityImage({
   className = "",
   width,
   height,
+  fill,
+  objectFit,
 }: ImageComponentProps) {
   const imageUrl = urlFor(image)?.url();
   const imageDimensions = imageUrl ? getImageDimensions(imageUrl) : null;
@@ -28,9 +32,11 @@ export default function SanityImage({
     <Image
       src={imageUrl}
       alt={typeof image === "object" && "alt" in image ? image.alt || "" : ""}
-      width={imageWidth}
-      height={imageHeight}
+      width={fill ? undefined : imageWidth}
+      height={fill ? undefined : imageHeight}
+      fill={fill}
       className={className}
+      style={objectFit ? { objectFit } : undefined}
     />
   );
 }

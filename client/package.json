@@ -17,6 +17,7 @@
     "@sanity/asset-utils": "^2.3.0",
     "@sanity/client": "^7.20.0",
     "@sanity/image-url": "^2.0.2",
+    "classnames": "^2.5.1",
     "next": "16.0.10",
     "next-sanity": "^12.0.1",
     "react": "19.2.3",

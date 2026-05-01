@@ -18,6 +18,8 @@
   --color-ch-bb: #ccf1ff;
   --color-ch-blue: #6dcffd;
   --color-ch-teal: #94deeb;
+  --color-eds-green: #b5fd8b;
+  --color-re-fest-highlighter: #edfd8b;
   --font-sans: var(--font-milling);
   --font-mono: var(--font-brook);
 }
