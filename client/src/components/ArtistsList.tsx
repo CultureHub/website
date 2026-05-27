@@ -8,43 +8,43 @@ import * as Queries from "@/sanity/queries";
 
 type ArtistsListProps = {
   initialArtists: Artist[];
-  mediumOptions: string[];
+  locationOptions: string[];
 };
 
 export default function ArtistsList({
   initialArtists,
-  mediumOptions,
+  locationOptions,
 }: ArtistsListProps) {
-  const [mediumFilter, setMediumFilter] = useState<string[]>([]);
+  const [locationFilter, setLocationFilter] = useState<string[]>([]);
   const [artists, setArtists] = useState<Artist[] | null>(initialArtists);
 
   useEffect(() => {
-    if (mediumFilter.length > 0) {
-      Queries.getArtistsByMediums(mediumFilter).then(setArtists);
+    if (locationFilter.length > 0) {
+      Queries.getArtistsByLocations(locationFilter).then(setArtists);
     } else {
       Queries.getArtists().then(setArtists);
     }
-  }, [mediumFilter]);
+  }, [locationFilter]);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const values = Array.from(event.target.selectedOptions).map(
       (option) => option.value,
     );
-    setMediumFilter(values);
+    setLocationFilter(values);
   };
 
   return (
     <div>
-      {mediumOptions && (
+      {locationOptions && (
         <select
           multiple={true}
-          value={mediumFilter}
+          value={locationFilter}
           onChange={handleChange}
-          id="mediumSelect"
+          id="locationSelect"
         >
-          {mediumOptions.map((medium: string) => (
-            <option key={medium} value={medium}>
-              {medium}
+          {locationOptions.map((location: string) => (
+            <option key={location} value={location}>
+              {location}
             </option>
           ))}
         </select>

@@ -36,14 +36,16 @@ export default function Menu() {
         <button onClick={onToggleMenu}>
           <div className="flex justify-center p-4 gap-4">
             <Image
+              loading="eager"
               width="195"
               height="29"
               src="/ch_menu_logo.svg"
               alt="CultureHub logo"
             />
             <Image
+              loading="eager"
               width="16"
-              height="9"
+              height="29"
               className={isOpen ? "rotate-180" : ""}
               src="/ch_menu_arrow.svg"
               alt="arrow"

@@ -11,14 +11,14 @@ import ArtistsList from "@/components/ArtistsList";
 
 // Mock the queries module
 jest.mock("@/sanity/queries", () => ({
-  getArtistsByMediums: jest.fn(),
+  getArtistsByLocations: jest.fn(),
   getArtists: jest.fn(),
 }));
 
 import * as Queries from "@/sanity/queries";
 
 const mockGetArtists = Queries.getArtists as jest.Mock;
-const mockGetArtistsByMediums = Queries.getArtistsByMediums as jest.Mock;
+const mockGetArtistsByLocations = Queries.getArtistsByLocations as jest.Mock;
 
 // Mock next/link
 jest.mock("next/link", () => {
@@ -43,7 +43,8 @@ describe("ArtistsList", () => {
       _rev: "rev1",
       slug: { current: "artist-1", _type: "slug" as const },
       name: "Artist One",
-      medium: ["AI" as const],
+      program: "Residency" as const,
+      locations: ["New York"],
       image: { _type: "image" as const, alt: "test" },
     },
     {
@@ -54,17 +55,18 @@ describe("ArtistsList", () => {
       _rev: "rev2",
       slug: { current: "artist-2", _type: "slug" as const },
       name: "Artist Two",
-      medium: ["Education" as const],
+      program: "Re-Fest" as const,
+      locations: ["LA"],
       image: { _type: "image" as const, alt: "test" },
     },
   ];
 
-  const mockMediumOptions = ["AI", "Education", "Installation"];
+  const mockLocationOptions = ["New York", "LA", "Nowhere"];
 
   beforeEach(() => {
     jest.clearAllMocks();
     mockGetArtists.mockResolvedValue(mockArtists);
-    mockGetArtistsByMediums.mockResolvedValue(mockArtists);
+    mockGetArtistsByLocations.mockResolvedValue(mockArtists);
   });
 
   it("renders initial artists when provided", async () => {
@@ -72,7 +74,7 @@ describe("ArtistsList", () => {
       render(
         <ArtistsList
           initialArtists={mockArtists}
-          mediumOptions={mockMediumOptions}
+          locationOptions={mockLocationOptions}
         />,
       );
     });
@@ -82,12 +84,12 @@ describe("ArtistsList", () => {
     expect(screen.getByText("Artist Two")).toBeInTheDocument();
   });
 
-  it("renders medium filter select with options", async () => {
+  it("renders filter select with options", async () => {
     await act(async () => {
       render(
         <ArtistsList
           initialArtists={mockArtists}
-          mediumOptions={mockMediumOptions}
+          locationOptions={mockLocationOptions}
         />,
       );
     });
@@ -97,9 +99,8 @@ describe("ArtistsList", () => {
     expect(select).toBeInTheDocument();
     expect(select).toHaveAttribute("multiple", "");
 
-    // Should render all medium options
-    mockMediumOptions.forEach((medium) => {
-      expect(screen.getByText(medium)).toBeInTheDocument();
+    mockLocationOptions.forEach((location) => {
+      expect(screen.getByText(location)).toBeInTheDocument();
     });
   });
 
@@ -108,7 +109,10 @@ describe("ArtistsList", () => {
 
     await act(async () => {
       render(
-        <ArtistsList initialArtists={[]} mediumOptions={mockMediumOptions} />,
+        <ArtistsList
+          initialArtists={[]}
+          locationOptions={mockLocationOptions}
+        />,
       );
     });
 
@@ -122,15 +126,15 @@ describe("ArtistsList", () => {
     });
   });
 
-  it("filters artists when medium is selected", async () => {
-    const filteredArtists = [mockArtists[0]]; // Only AI artists
-    mockGetArtistsByMediums.mockResolvedValue(filteredArtists);
+  it("filters artists when location is selected", async () => {
+    const filteredArtists = [mockArtists[0]];
+    mockGetArtistsByLocations.mockResolvedValue(filteredArtists);
 
     await act(async () => {
       render(
         <ArtistsList
           initialArtists={mockArtists}
-          mediumOptions={mockMediumOptions}
+          locationOptions={mockLocationOptions}
         />,
       );
     });
@@ -138,15 +142,12 @@ describe("ArtistsList", () => {
     // Get the select element
     const select = screen.getByRole("listbox");
 
-    // Simulate selecting a medium by changing the value
-    // For a multiple select, we need to simulate the change event properly
     await act(async () => {
-      fireEvent.change(select, { target: { value: "AI" } });
+      fireEvent.change(select, { target: { value: "New York" } });
     });
 
-    // Should call getArtistsByMediums with selected medium
     await waitFor(() => {
-      expect(mockGetArtistsByMediums).toHaveBeenCalledWith(["AI"]);
+      expect(mockGetArtistsByLocations).toHaveBeenCalledWith(["New York"]);
     });
   });
 
@@ -155,7 +156,10 @@ describe("ArtistsList", () => {
 
     await act(async () => {
       render(
-        <ArtistsList initialArtists={[]} mediumOptions={mockMediumOptions} />,
+        <ArtistsList
+          initialArtists={[]}
+          locationOptions={mockLocationOptions}
+        />,
       );
     });
 
@@ -171,7 +175,7 @@ describe("ArtistsList", () => {
       render(
         <ArtistsList
           initialArtists={mockArtists}
-          mediumOptions={mockMediumOptions}
+          locationOptions={mockLocationOptions}
         />,
       );
     });

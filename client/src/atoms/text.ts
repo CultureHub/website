@@ -30,6 +30,7 @@ export const MillingFont = localFont({
   ],
   display: "swap",
   variable: "--font-milling",
+  preload: false,
 });
 
 export const BrookFont = localFont({
@@ -47,4 +48,5 @@ export const BrookFont = localFont({
   ],
   display: "swap",
   variable: "--font-brook",
+  preload: false,
 });

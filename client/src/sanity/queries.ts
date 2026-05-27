@@ -50,12 +50,12 @@ export function getProjects() {
   return client.fetch(getProjectsQuery, {}, options);
 }
 
-export function getArtistMediumOptions() {
-  const getArtistMediumOptionsQuery = defineQuery(
-    `array::unique(*[_type == "artist"].medium[])`,
+export function getArtistLocationOptions() {
+  const getArtistLocationOptionsQuery = defineQuery(
+    `array::unique(*[_type == "artist"].locations[])`,
   );
 
-  return client.fetch(getArtistMediumOptionsQuery, {}, options);
+  return client.fetch(getArtistLocationOptionsQuery, {}, options);
 }
 
 export function getArtists() {
@@ -67,12 +67,12 @@ export function getArtists() {
   return client.fetch(getArtistsQuery, {}, options);
 }
 
-export function getArtistsByMediums(mediums: string[]) {
-  const getArtistsByMediumsQuery = defineQuery(`*[
+export function getArtistsByLocations(locations: string[]) {
+  const getArtistsByLocationsQuery = defineQuery(`*[
     _type == "artist"
-    && count(medium[@ in $mediums]) > 0
+    && count(locations[@ in $locations]) > 0
     && defined(slug.current)
   ][0...12]`);
 
-  return client.fetch(getArtistsByMediumsQuery, { mediums }, options);
+  return client.fetch(getArtistsByLocationsQuery, { locations }, options);
 }

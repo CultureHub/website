@@ -1,6 +1,8 @@
 import {defineField, defineType, Rule} from 'sanity'
 
 import { imageField } from "@/util/image"
+import { linksField } from "@/util/link"
+import { programField } from "@/util/program"
 
 export const projectType = defineType({
   name: 'project',
@@ -50,44 +52,14 @@ export const projectType = defineType({
       of: [{type: 'string'}],
       validation: (rule) => rule.required(),
     }),
-    defineField({
+    defineField(programField({
       title: 'Program',
       name: 'program',
-      type: 'string',
-      validation: (rule) => rule.required(),
-      options: {
-        list: [
-          { title: 'Re-Fest', value: 'Re-Fest' },
-          { title: 'Residency', value: 'Residency' },
-          { title: 'Experiments in Digital Storytelling', value: 'Experiments in Digital Storytelling' },
-        ],
-      },
-    }),
-    defineField({
+    })),
+    defineField(linksField({
       title: 'Press Links',
       name: 'pressLinks',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          title: 'Link',
-          fields: [
-            {
-              name: 'label',
-              type: 'string',
-              title: 'Label',
-              validation: (rule) => rule.required(),
-            },
-            {
-              name: 'url',
-              type: 'url',
-              title: 'URL',
-              validation: (rule) => rule.required(),
-            }
-          ],
-        }
-      ],
-    }),
+    })),
     defineField({
       title: 'Content',
       name: "content",

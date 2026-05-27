@@ -12,6 +12,7 @@ export type ButtonProps = PropsWithChildren<{
   variant: ButtonVariant;
   className?: string;
   href?: string;
+  openNewTab?: boolean;
   onClick?: () => void;
 }>;
 
@@ -20,6 +21,7 @@ export default function Button({
   children,
   className = "",
   href,
+  openNewTab,
   onClick,
 }: ButtonProps) {
   let containerClasses = "outline outline-1 outline-offset-[-1px] ";
@@ -68,7 +70,16 @@ export default function Button({
   );
 
   if (href) {
-    return <Link href={href}>{content}</Link>;
+    return (
+      <Link
+        href={href}
+        {...(openNewTab
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
+      >
+        {content}
+      </Link>
+    );
   }
 
   return (
