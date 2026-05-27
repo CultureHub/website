@@ -1178,6 +1178,7 @@ export type GetProgramsQueryResult = Array<{
 }>;
 
 // Source: ../client/src/sanity/queries.ts
+
 // Variable: getArtistLocationOptionsQuery
 // Query: array::unique(*[_type == "artist"].locations[])
 export type GetArtistLocationOptionsQueryResult = Array<string>;
