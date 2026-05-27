@@ -94,18 +94,18 @@ export default async function ArtistPage({
 
         {artist.projects ? (
           <div className="mx-6 md:m-0">
-            <h2 className="py-1 text-18/6 tracking-tight uppercase font-brook border-t-1 border-b-1">
+            <h2 className="py-1 text-18/6 tracking-tight uppercase font-brook border-t-1 border-b-1 border-ch-midnite">
               Projects
             </h2>
             <ul>
-              {artist.projects?.map((project, index) => (
+              {artist.projects?.map((project) => (
                 <li key={project._id}>
                   <Link
                     href={`/projects/${project.slug?.current}`}
-                    className={`flex flex-row h-[89px] group hover:bg-ch-bb active:bg-ch-teal justify-between items-center ${index > 0 ? "border-t-1" : ""}`}
+                    className={`flex flex-row min-h-[89px] group hover:bg-ch-bb active:bg-ch-teal justify-between items-center border-b-1 border-ch-midnite`}
                   >
                     <SanityImage
-                      className="h-full w-auto py-1"
+                      className="h-auto max-w-[134px] py-1"
                       image={project.heroImage}
                     />
                     <div className="flex flex-row gap-3">

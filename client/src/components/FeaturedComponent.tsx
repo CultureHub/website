@@ -1,90 +1,78 @@
 "use client";
 
+import { PortableText } from "next-sanity";
 import { useState } from "react";
 import Link from "next/link";
-import cx from "classnames";
+import Image from "next/image";
 import SanityImage from "@/components/SanityImage";
 import { Program } from "@/sanity/types";
 
-function ReFestIcon({
-  className,
-  color,
+function CarouselContent({
+  program,
+  accentColor,
 }: {
-  className?: string;
-  color: string;
+  program: Program;
+  accentColor: string | undefined;
 }) {
-  return (
-    <svg
-      width="34"
-      height="23"
-      viewBox="0 0 34 23"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-    >
-      <path
-        d="M0.678159 6.43162C0.626059 6.3503 0.600009 6.25442 0.604211 6.15768L0.701688 3.60917V1.28494C0.701688 0.930527 1.09244 0.722503 1.37899 0.924535C2.67057 1.8371 5.12263 3.29071 6.92849 2.56904C7.25874 2.43721 8.65451 1.79858 10.1503 0.909126C10.4772 0.714798 10.7352 0.549577 11.1562 0.390348C11.7074 0.181467 12.7561 -0.198627 13.9679 0.181467C14.6309 0.389492 15.1309 0.758458 15.4813 1.09917C15.7586 1.36883 15.8275 1.78232 15.6805 2.14186C15.6712 2.16327 15.6628 2.18638 15.6553 2.20949C15.4721 2.74539 15.73 3.21623 15.7737 3.29242C16.0502 3.77781 16.6208 4.04919 17.1746 3.97984C17.7031 3.91393 18.188 3.54154 18.3392 3.05187C18.4695 2.62982 18.3258 2.20521 18.2703 2.04256L18.2619 2.01773C18.1603 1.71982 18.2132 1.39024 18.4014 1.14112C18.7544 0.672851 19.3485 0.0847316 20.1535 0.00768541C20.619 -0.0368301 20.9779 0.117262 21.4821 0.334704C22.7367 0.874027 23.0501 1.50923 23.9913 2.07338C24.324 2.27284 25.3408 2.88236 26.5559 2.79504C27.682 2.71457 28.7954 2.04855 30.8937 0.794412C30.9433 0.76445 31.1382 0.590668 31.45 0.533311C32.8911 0.266218 33.5676 0.553857 33.7214 0.730207C34.092 1.15482 34.0163 1.60939 33.9256 4.46866C33.897 5.3778 33.9088 5.59524 33.8642 5.76817C33.8558 5.79556 33.8424 5.83751 33.8239 5.88716C33.3684 7.10877 31.4559 7.70374 31.0113 7.8313C30.2752 8.04189 29.5954 8.03932 29.0509 7.9657C28.5542 7.89892 28.0996 7.64039 27.7845 7.24403C27.4257 6.79288 26.8282 6.21418 25.9366 5.90172C25.5702 5.77331 24.556 5.41804 23.4812 5.88888C23.2156 6.0053 22.2047 6.4496 21.9753 7.48716C21.7896 8.32696 22.2342 9.01866 22.3215 9.15478C23.0728 10.325 24.5913 10.3678 24.8526 10.3755C26.2072 10.4141 27.2265 9.62134 27.7736 9.06403C28.1433 8.68736 28.6366 8.46479 29.1593 8.45109C29.6819 8.43739 30.287 8.4879 30.9601 8.69164C31.1634 8.75328 31.3533 8.82348 31.5307 8.89881C32.2735 9.21385 32.7474 9.96462 32.7432 10.7847C32.7416 11.1323 32.7399 11.479 32.7382 11.8266C32.734 12.5731 32.3348 13.263 31.687 13.6123C31.3676 13.7844 30.9844 13.9411 30.5391 14.0386C29.7903 14.2022 29.1315 14.1405 28.6425 14.0309C28.2425 13.9419 27.8786 13.7288 27.603 13.4206C27.1316 12.8932 26.1635 12.0363 24.766 11.9507C24.6635 11.9447 22.1913 11.8266 21.5115 13.4711C21.2165 14.185 21.3249 15.0711 21.7585 15.7225C22.3106 16.5521 23.2072 16.7353 23.5535 16.8063C24.9744 17.0965 26.2669 16.3184 27.0593 15.666C27.5601 15.2543 28.2273 15.1173 28.845 15.3013C29.6794 15.5496 30.2794 15.4717 30.7088 15.3108C31.3895 15.0557 31.8113 14.5292 32.6491 14.5198C32.6542 14.5198 32.6592 14.5198 32.6651 14.5198C33.339 14.518 33.8802 15.0899 33.8777 15.7773C33.8735 16.7104 33.8684 17.6436 33.8626 18.5767C33.8508 20.5422 33.8407 21.7595 33.8407 21.7775C33.8407 21.8665 33.8407 21.9513 33.8407 22.03C33.839 22.5445 33.4289 22.9606 32.9239 22.9606H28.6408C28.4374 22.9606 28.2391 22.8921 28.0794 22.7646C27.65 22.4221 26.724 21.828 25.4467 21.8571C24.2593 21.8837 23.4056 22.435 22.9913 22.7671C22.8308 22.8955 22.6333 22.9657 22.4291 22.9666L19.5939 22.9786C18.9846 22.9811 18.5603 22.387 18.7233 21.7886C18.9107 21.1012 18.7645 20.4318 18.3729 20.0585C17.9275 19.6348 17.1443 19.5731 16.6393 19.8907C16.109 20.2246 15.8183 21.0173 15.9821 21.8956C16.0897 22.4726 15.6502 23.0043 15.0737 23C13.7897 22.9906 12.5049 22.9811 11.2209 22.9709C10.5595 22.9657 10.1226 22.2715 10.3906 21.6559C11.0831 20.0662 10.7595 18.3806 9.78307 17.5716C8.90493 16.844 7.47218 16.8037 6.54782 17.4407C5.45792 18.1914 4.98314 19.9472 5.61506 21.6868C5.83775 22.3006 5.3907 22.9512 4.74869 22.946C3.46888 22.9358 2.1899 22.9255 0.910088 22.9144C0.406734 22.9101 0.000857965 22.4932 1.7641e-05 21.9804V20.1304C-0.00166301 19.8565 0.116823 19.598 0.321021 19.419C0.898324 18.9131 1.94033 17.7942 2.25461 16.0316C2.5588 14.3203 2.01427 12.9103 1.54369 12.0697C1.27227 11.5843 1.47479 10.9679 1.97982 10.7513C2.80334 10.3978 3.83274 10.1341 4.96213 10.2899C6.9058 10.5579 7.39907 11.8274 9.32425 11.8163C10.6301 11.8086 12.3192 11.2128 12.8923 9.88672C12.9024 9.86275 12.9192 9.82508 12.9385 9.77457C12.9385 9.77457 13.1864 9.12139 13.0116 8.30556C12.8452 7.5291 11.5679 5.97962 9.93097 5.92654C8.0436 5.86491 7.70663 7.85955 4.99995 8.27645C3.54619 8.50074 2.61427 8.08384 2.42267 7.99395C1.50252 7.56335 0.957147 6.86137 0.683201 6.43162H0.678159ZM16.1267 11.2008C15.5384 12.9823 14.1402 13.0208 14.1015 14.6302C14.0838 15.3801 14.3595 16.5349 15.1864 17.0135C15.4519 17.1676 15.6973 17.2061 15.8737 17.2344C16.6082 17.3508 17.5023 17.135 18.0325 16.4998C18.1115 16.4048 18.2502 16.2199 18.3544 15.9502C18.9502 14.4025 17.2502 13.0619 17.3611 10.9773C17.4468 9.37735 18.5527 9.02123 18.3544 7.28084C18.3166 6.94869 18.2157 6.06951 17.646 5.81097C17.2586 5.63548 16.7149 5.77502 16.3805 6.06865C15.3334 6.98807 16.8914 8.88683 16.1275 11.1999L16.1267 11.2008Z"
-        fill={color}
-      />
-    </svg>
-  );
-}
+  const [rotationOffset, setRotationOffset] = useState(0);
 
-function EDSIcon({ className, color }: { className?: string; color: string }) {
-  return (
-    <svg
-      width="22"
-      height="24"
-      viewBox="0 0 22 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-    >
-      <path
-        d="M6.19572 1.04725C6.20123 1.3151 6.498 1.44043 6.77211 1.71975C6.80643 1.75456 6.84244 1.79409 6.8793 1.83893C7.13794 2.15327 7.2752 2.54502 7.2788 2.9468C7.29215 4.47427 7.30528 6.00174 7.31863 7.52921C7.32731 8.53059 7.02736 9.5117 6.45733 10.348C5.63671 11.5517 4.94699 12.5509 4.42145 13.3079C3.76838 14.2487 3.16466 15.2218 2.49041 16.1487C1.30565 17.7773 0.866744 18.1852 0.643476 19.1516C0.54434 19.5806 0.243331 20.8824 1.00719 21.9651C1.58845 22.7889 2.49444 23.0724 3.10599 23.2636C3.94949 23.5276 4.59663 23.5149 5.81358 23.4801C7.86155 23.4215 9.34456 23.3646 9.93429 23.3447C12.0602 23.2734 14.0616 23.2984 14.1885 23.3003C15.413 23.3169 16.6359 23.1991 17.8605 23.1807C18.511 23.1709 19.2234 23.1668 19.8972 22.7164C20.4914 22.3194 20.7588 21.7736 20.8481 21.5862C21.2421 20.762 21.1161 19.9955 21.0528 19.6418C20.9909 19.2962 20.8687 18.9016 20.2605 17.8799C19.6416 16.8402 19.0855 16.102 18.936 15.9029C17.8558 14.4635 18.1674 14.7275 16.7624 12.7939C16.2932 12.1483 15.7196 11.3773 15.0445 10.5082C14.341 9.60242 13.9718 8.49496 13.9982 7.36272C14.0306 5.97061 14.0633 4.5783 14.0957 3.18619C14.1052 2.78052 14.2348 2.38468 14.4763 2.05273C14.4829 2.04372 14.4892 2.03512 14.4956 2.02651C14.6502 1.82009 14.8684 1.64173 15.0553 1.26903C15.1374 1.1052 15.1567 1.02022 15.14 0.933799C15.115 0.80581 15.0178 0.710177 14.9112 0.641985C14.7657 0.548809 14.5935 0.502528 14.4189 0.502528L6.82761 0.5013C6.78609 0.50089 6.52745 0.503143 6.34464 0.703624C6.31753 0.733522 6.19212 0.870726 6.19572 1.04745V1.04725Z"
-        stroke={color}
-        strokeMiterlimit="10"
-      />
-      <path
-        d="M5.09358 12.3943C4.33862 13.5672 3.65886 14.5682 3.0954 15.3756C2.83993 15.7417 2.75965 15.8713 2.49041 16.2415C1.30565 17.8719 0.866744 18.2803 0.643476 19.2477C0.54434 19.6772 0.243331 20.9805 1.00719 22.0643C1.58845 22.8891 2.49444 23.1728 3.10599 23.3643C3.94949 23.6285 4.59663 23.6158 5.81358 23.581C7.86155 23.5223 9.34456 23.4653 9.93429 23.4455C12.0602 23.3741 14.0616 23.3991 14.1885 23.401C15.413 23.4176 16.6359 23.2997 17.8605 23.2812C18.511 23.2714 19.2234 23.2673 19.8972 22.8165C20.4914 22.419 20.7587 21.8726 20.8481 21.6851C21.2421 20.8599 21.1161 20.0926 21.0528 19.7385C20.9909 19.3925 20.8687 18.9974 20.2605 17.9746C19.6416 16.9338 19.0855 16.1948 18.936 15.9955C18.6159 15.5685 18.418 15.2911 18.2615 15.0619C18.0147 14.7005 17.8626 14.4653 17.7078 14.2261C17.451 13.8292 17.0676 13.2589 16.5351 12.5403C16.1337 12.3294 15.5134 12.0786 14.7636 12.1024C13.7582 12.1344 13.5261 12.6278 12.5718 12.8046C11.0534 13.0854 10.7617 11.9991 9.19056 12.1828C7.91472 12.332 7.51669 13.1174 6.35904 12.9466C5.78478 12.862 5.35222 12.5905 5.09337 12.3939L5.09358 12.3943Z"
-        fill={color}
-      />
-    </svg>
-  );
-}
+  const originalImages = [program.heroImage, ...program.thumbnails];
+  const images = [
+    ...originalImages.slice(rotationOffset),
+    ...originalImages.slice(0, rotationOffset),
+  ];
+  const activeImage = images[0];
 
-function ResidencyIcon({
-  className,
-  color,
-}: {
-  className?: string;
-  color: string;
-}) {
+  const handleThumbClick = (index: number) => {
+    const advance = index === 0 ? 1 : index;
+    setRotationOffset((prev) => (prev + advance) % originalImages.length);
+  };
+
   return (
-    <svg
-      width="16"
-      height="23"
-      viewBox="0 0 16 23"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        width="11.0916"
-        height="13.6845"
-        transform="matrix(-1.03434 0 0 1.03434 13.6616 8.79066)"
-        fill={color}
-      />
-      <path
-        d="M7.99973 0L3.99972 5.36379L-0.000299874 10.7276H7.99973H15.9998L11.9997 5.36379L7.99973 0Z"
-        fill={color}
-      />
-      <rect
-        width="2.7369"
-        height="7.05831"
-        transform="matrix(-1.03434 0 0 1.03434 13.6616 1.4899)"
-        fill={color}
-      />
-    </svg>
+    <div className="flex">
+      <div
+        className="grow basis-0 h-[670px] flex flex-col bg-ch-midnite"
+        style={{ borderRight: `1px solid var(--color-ch-midnite)` }}
+      >
+        <div className="flex-1 relative overflow-hidden">
+          <SanityImage image={activeImage} fill objectFit="cover" />
+        </div>
+        <div className="px-4 py-[10px] flex gap-4">
+          {images.slice(1).map((img, i) => (
+            <button
+              key={img._type === "thumbnail" ? img._key : "hero"}
+              onClick={() => handleThumbClick(i + 1)}
+              className="relative flex-1 h-[124px] overflow-hidden cursor-pointer focus:outline-none border-2"
+              style={{ borderColor: accentColor }}
+              aria-label={`View image ${i + 2}`}
+            >
+              <SanityImage image={img} fill objectFit="cover" />
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="grow basis-0 flex flex-col px-8 py-12">
+        <h2 className="font-milling font-bold text-[40px] leading-tight tracking-[-0.02em] mb-6 text-ch-midnite">
+          {program.displayTitle ? (
+            <PortableText value={program.displayTitle} />
+          ) : (
+            program.title
+          )}
+        </h2>
+        <p className="font-milling font-normal text-[28px] leading-snug mb-6 text-ch-midnite">
+          {program.description}
+        </p>
+        <Link
+          href={`/projects?program=${encodeURIComponent(program.slug.current)}`}
+          className="font-milling font-bold text-[24px] underline underline-offset-2 text-ch-midnite"
+        >
+          Explore→
+        </Link>
+        <p className="font-brook italic text-[14px] mt-auto text-ch-midnite">
+          {activeImage.credits}
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -100,9 +88,7 @@ function TabBar({
   return (
     <div className="flex items-end gap-4">
       {programs.map((program) => {
-        const isActive = program.slug.current === activeProgram;
         const accentColor = program.accentColor;
-        const iconColor = isActive ? "#0A0018" : accentColor;
 
         return (
           <button
@@ -113,23 +99,36 @@ function TabBar({
               font-milling text-[20px] font-normal leading-none
               rounded-t-[20px]
               border border-b-0
-              transition-colors duration-200
               cursor-pointer px-4 py-5
+              text-ch-midnite border-ch-midnite
             `}
             style={{
-              backgroundColor: isActive ? accentColor : "black",
-              color: isActive ? "#0A0018" : accentColor,
-              borderColor: accentColor,
+              backgroundColor: accentColor,
             }}
           >
             {program.slug.current === "re-fest" && (
-              <ReFestIcon color={iconColor} />
+              <Image
+                src="/refest_icon.svg"
+                width={30}
+                height={20}
+                alt="Re-Fest Icon"
+              />
             )}
             {program.slug.current === "experiments-in-digital-storytelling" && (
-              <EDSIcon color={iconColor} />
+              <Image
+                src="/eds_icon.svg"
+                width={21}
+                height={23}
+                alt="Experiments in Digital Storytelling Icon"
+              />
             )}
             {program.slug.current === "residency" && (
-              <ResidencyIcon color={iconColor} />
+              <Image
+                src="/residency_icon.svg"
+                width={24}
+                height={22}
+                alt="Residency Icon"
+              />
             )}
             <span>{program.title}</span>
           </button>
@@ -143,6 +142,7 @@ export default function FeaturedClient({ programs }: { programs: Program[] }) {
   const [activeProgram, setActiveProgram] = useState<string>(
     programs[0].slug.current,
   );
+
   const program = programs.find((p) => p.slug.current === activeProgram);
   if (!program) return null;
   const accentColor = program.accentColor;
@@ -156,63 +156,14 @@ export default function FeaturedClient({ programs }: { programs: Program[] }) {
       />
 
       <div
-        className="w-full bg-ch-midnite border rounded-b-[5px]"
-        style={{ borderColor: accentColor }}
+        className="w-full border border-ch-midnite rounded-b-[5px]"
+        style={{ backgroundColor: accentColor }}
       >
-        <div className="flex">
-          <div
-            className="grow basis-0 h-[670px] relative overflow-hidden"
-            style={{ borderRight: `1px solid ${accentColor}` }}
-          >
-            <SanityImage
-              image={program.heroImage}
-              fill
-              className="object-cover"
-            />
-          </div>
-          <div className="grow basis-0 flex flex-col px-8 py-[35px]">
-            <h2
-              className="font-milling font-bold text-[40px] leading-tight tracking-[-0.02em] mb-6"
-              style={{ color: accentColor }}
-            >
-              {program.title}
-            </h2>
-
-            <p
-              className="font-milling font-normal text-[28px] leading-snug mb-6"
-              style={{ color: accentColor }}
-            >
-              {program.description}
-            </p>
-
-            <Link
-              href={`/projects?program=${encodeURIComponent(program.slug.current)}`}
-              className="font-milling font-bold text-[24px] underline underline-offset-2"
-              style={{ color: accentColor }}
-            >
-              Explore→
-            </Link>
-
-            <div className="flex mt-auto gap-4">
-              {program.thumbnails.map((thumb) => (
-                <div
-                  key={thumb._key}
-                  className="relative flex-1 h-[124px] overflow-hidden"
-                  style={{ border: `1px solid ${accentColor}` }}
-                >
-                  <SanityImage image={thumb} fill className="object-cover" />
-                </div>
-              ))}
-            </div>
-
-            <p
-              className="font-brook italic text-[14px] mt-2"
-              style={{ color: accentColor }}
-            >
-              {program.heroImage.credits}
-            </p>
-          </div>
-        </div>
+        <CarouselContent
+          key={activeProgram}
+          program={program}
+          accentColor={accentColor}
+        />
       </div>
     </section>
   );

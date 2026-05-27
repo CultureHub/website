@@ -73,6 +73,7 @@ export default function Button({
     return (
       <Link
         href={href}
+        onClick={onClick}
         {...(openNewTab
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}

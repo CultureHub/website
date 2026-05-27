@@ -14,6 +14,12 @@ export const programType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      title: 'Display Title',
+      name: 'displayTitle',
+      type: 'array',
+      of: [{type: 'block'}],
+    }),
+    defineField({
       title: 'Slug',
       name: 'slug',
       type: 'slug',

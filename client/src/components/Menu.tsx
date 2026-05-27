@@ -30,6 +30,8 @@ export default function Menu() {
     setIsOpen((prev) => !prev);
   };
 
+  const close = () => setIsOpen(false);
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-[var(--background)] border-b-1 border-ch-midnite">
       <div className="flex justify-center">
@@ -59,54 +61,92 @@ export default function Menu() {
             <div className="inline-flex flex-col gap-[10px] relative">
               <LeftTopBorderMask />
               <VerticalLine />
-              <MenuButton variant="square-inverted" className="mt-5">
+              <MenuButton
+                variant="square-inverted"
+                className="mt-5"
+                onClick={close}
+              >
                 Art <span className="font-milling text-xs">&</span> Technology
               </MenuButton>
-              <MenuButton variant="pill" href="/projects">
+              <MenuButton variant="pill" href="/projects" onClick={close}>
                 Project Index
               </MenuButton>
-              <MenuButton variant="pill">
+              <MenuButton variant="pill" onClick={close}>
                 Experiments in
                 <br />
                 Digital Storytelling
               </MenuButton>
-              <MenuButton variant="pill">Residency</MenuButton>
-              <MenuButton variant="pill">Re-Fest</MenuButton>
+              <MenuButton variant="pill" onClick={close}>
+                Residency
+              </MenuButton>
+              <MenuButton variant="pill" onClick={close}>
+                Re-Fest
+              </MenuButton>
             </div>
             <div className="flex flex-col gap-[10px] relative">
               <VerticalLine />
-              <MenuButton variant="square-inverted" className="mt-5">
+              <MenuButton
+                variant="square-inverted"
+                className="mt-5"
+                onClick={close}
+              >
                 Community
               </MenuButton>
-              <MenuButton variant="half" href="/artists">
+              <MenuButton variant="half" href="/artists" onClick={close}>
                 Artists
               </MenuButton>
-              <MenuButton variant="half">Opportunities</MenuButton>
-              <MenuButton variant="half">Support</MenuButton>
+              <MenuButton variant="half" onClick={close}>
+                Opportunities
+              </MenuButton>
+              <MenuButton variant="half" onClick={close}>
+                Support
+              </MenuButton>
             </div>
             <div className="flex flex-col gap-[10px] relative">
               <VerticalLine />
-              <MenuButton variant="square-inverted" className="mt-5">
+              <MenuButton
+                variant="square-inverted"
+                className="mt-5"
+                onClick={close}
+              >
                 Events
               </MenuButton>
-              <MenuButton variant="square-dashed">Upcoming</MenuButton>
+              <MenuButton variant="square-dashed" onClick={close}>
+                Upcoming
+              </MenuButton>
             </div>
             <div className="flex flex-col gap-[10px] relative">
               <VerticalLine />
-              <MenuButton variant="square-inverted" className="mt-5">
+              <MenuButton
+                variant="square-inverted"
+                className="mt-5"
+                onClick={close}
+              >
                 Editorial
               </MenuButton>
-              <MenuButton variant="square">Read</MenuButton>
-              <MenuButton variant="square">Watch</MenuButton>
+              <MenuButton variant="square" onClick={close}>
+                Read
+              </MenuButton>
+              <MenuButton variant="square" onClick={close}>
+                Watch
+              </MenuButton>
             </div>
             <div className="flex flex-col gap-[10px] relative">
               <RightTopBorderMask />
               <VerticalLine />
-              <MenuButton variant="square-inverted" className="mt-5">
+              <MenuButton
+                variant="square-inverted"
+                className="mt-5"
+                onClick={close}
+              >
                 Education
               </MenuButton>
-              <MenuButton variant="rounded">CoLab</MenuButton>
-              <MenuButton variant="rounded">Opportunities</MenuButton>
+              <MenuButton variant="rounded" onClick={close}>
+                CoLab
+              </MenuButton>
+              <MenuButton variant="rounded" onClick={close}>
+                Opportunities
+              </MenuButton>
             </div>
           </div>
         </div>
