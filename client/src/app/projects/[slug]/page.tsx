@@ -37,8 +37,8 @@ export default async function ProjectPage({
 
   return (
     <main className="border-t-1 border-ch-midnite min-h-screen">
-      <div className="flex flex-col gap-9 my-9 mx-8">
-        <div className="flex flex-col md:flex-row justify-between gap-9">
+      <div className="flex flex-col gap-9 my-9 md:mx-8">
+        <div className="flex flex-col md:flex-row justify-between gap-9 mx-6 md:mx-0">
           <div className="flex flex-col items-start gap-6">
             <Breadcrumbs
               buttons={[
@@ -62,7 +62,7 @@ export default async function ProjectPage({
               </div>
             )}
           </div>
-          <div className="flex flex-col gap-6 md:gap-18 max-w-[485px]">
+          <div className="flex flex-col gap-6 md:gap-18 md:max-w-[485px]">
             {project.locations && <LocationPin locations={project.locations} />}
             {project.description && (
               <PortableText value={project.description} />
@@ -70,90 +70,97 @@ export default async function ProjectPage({
           </div>
         </div>
 
-        <SanityImage image={project.heroImage} className="rounded-[20px]" />
+        <div className="flex flex-col gap-9 md:mx-8">
+          <SanityImage
+            image={project.heroImage}
+            className="md:rounded-[20px]"
+          />
 
-        {project.content &&
-          project.content.map((content, i) => (
-            <ProjectContentRow key={i} content={content} />
-          ))}
+          {project.content &&
+            project.content.map((content, i) => (
+              <ProjectContentRow key={i} content={content} />
+            ))}
 
-        {project.credits && (
-          <div className="flex flex-col gap-[52px]">
-            <div className="w-full md:px-16 py-6 border-t border-black">
-              <h3 className="text-3xl font-bold uppercase">Credits</h3>
-            </div>
-
-            {project.credits.description && (
-              <div className="text-2xl font-normal font-brook md:px-16">
-                <PortableText value={project.credits.description} />
+          {project.credits && (
+            <div className="flex flex-col gap-[52px] mx-6 md:mx-0">
+              <div className="w-full py-6 border-t border-black">
+                <h3 className="text-3xl font-bold uppercase">Credits</h3>
               </div>
-            )}
 
-            {project.credits.locations && (
-              <div className="columns-1 md:columns-2 md:px-16 md:gap-x-16">
-                {project.credits.locations.map((location) => (
-                  <div
-                    key={location._key}
-                    className="flex flex-col gap-6 break-inside-avoid mb-11"
-                  >
-                    <div className="flex flex-row py-2.5 justify-start items-center border-t border-b text-2xl font-normal font-brook uppercase gap-3">
-                      <Image
-                        width="8"
-                        height="14"
-                        src="/pin.svg"
-                        alt="Location pin"
-                      />
-                      <p>{location.name}</p>
-                    </div>
-                    {location.description && (
-                      <div className="text-2xl font-normal font-brook leading-6">
-                        <PortableText value={location.description} />
+              {project.credits.description && (
+                <div className="text-2xl font-normal font-brook">
+                  <PortableText value={project.credits.description} />
+                </div>
+              )}
+
+              {project.credits.locations && (
+                <div className="columns-1 md:columns-2 md:gap-x-16">
+                  {project.credits.locations.map((location) => (
+                    <div
+                      key={location._key}
+                      className="flex flex-col gap-6 break-inside-avoid mb-11"
+                    >
+                      <div className="flex flex-row py-2.5 justify-start items-center border-t border-b text-2xl font-normal font-brook uppercase gap-3">
+                        <Image
+                          width="8"
+                          height="14"
+                          src="/pin.svg"
+                          alt="Location pin"
+                        />
+                        <p>{location.name}</p>
                       </div>
-                    )}
-                    {location.organizations &&
-                      location.organizations.map((organization) => (
-                        <div
-                          key={organization._key}
-                          className="flex flex-col gap-4.5"
-                        >
-                          <h4 className="text-2xl font-normal font-brook uppercase">
-                            {organization.name}
-                          </h4>
-                          {organization.description && (
-                            <div className="text-2xl font-normal font-brook leading-6">
-                              <PortableText value={organization.description} />
-                            </div>
-                          )}
-                          <div className="font-milling text-2xl">
-                            {organization.teams &&
-                              organization.teams.map((team) => (
-                                <div key={team.role}>
-                                  <span className="font-bold">
-                                    {team.role}:{" "}
-                                  </span>
-                                  <span className="font-thin">
-                                    {team.people}
-                                  </span>
-                                </div>
-                              ))}
-                          </div>
+                      {location.description && (
+                        <div className="text-2xl font-normal font-brook leading-6">
+                          <PortableText value={location.description} />
                         </div>
-                      ))}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {project.related && (
-          <div className="flex flex-col gap-[21px]">
-            <div className="w-full md:px-16 py-6 border-t border-black">
-              <h3 className="text-3xl font-bold uppercase">Related</h3>
+                      )}
+                      {location.organizations &&
+                        location.organizations.map((organization) => (
+                          <div
+                            key={organization._key}
+                            className="flex flex-col gap-4.5"
+                          >
+                            <h4 className="text-2xl font-normal font-brook uppercase">
+                              {organization.name}
+                            </h4>
+                            {organization.description && (
+                              <div className="text-2xl font-normal font-brook leading-6">
+                                <PortableText
+                                  value={organization.description}
+                                />
+                              </div>
+                            )}
+                            <div className="font-milling text-2xl">
+                              {organization.teams &&
+                                organization.teams.map((team) => (
+                                  <div key={team.role}>
+                                    <span className="font-bold">
+                                      {team.role}:{" "}
+                                    </span>
+                                    <span className="font-thin">
+                                      {team.people}
+                                    </span>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-            <RelatedCarousel related={project.related} />
-          </div>
-        )}
+          )}
+
+          {project.related && (
+            <div className="flex flex-col gap-[21px] mx-6 md:mx-0">
+              <div className="w-full py-6 border-t border-black">
+                <h3 className="text-3xl font-bold uppercase">Related</h3>
+              </div>
+              <RelatedCarousel related={project.related} />
+            </div>
+          )}
+        </div>
       </div>
     </main>
   );

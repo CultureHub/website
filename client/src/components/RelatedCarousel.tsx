@@ -68,10 +68,10 @@ export default function RelatedCarousel({ related }: RelatedCarouselProps) {
   };
 
   return (
-    <div className="flex flex-row gap-10 md:px-8 items-center">
+    <div className="flex flex-row gap-10 items-center">
       <button
         onClick={handlePrevious}
-        className="absolute left-8 z-10 hidden md:block"
+        className="absolute left-10 z-10 hidden md:block"
         aria-label="Previous related items"
       >
         <Image width="15" height="26" src="/left_arrow.svg" alt="Left arrow" />
@@ -98,14 +98,14 @@ export default function RelatedCarousel({ related }: RelatedCarouselProps) {
             <div className="text-2xl font-normal font-milling">
               {item.title}
             </div>
-            <SanityImage image={item.image} />
+            <SanityImage className="rounded-[20px]" image={item.image} />
           </div>
         ))}
       </div>
 
       <button
         onClick={handleNext}
-        className="absolute right-8 z-10 hidden md:block"
+        className="absolute right-10 z-10 hidden md:block"
         aria-label="Next related items"
       >
         <Image
