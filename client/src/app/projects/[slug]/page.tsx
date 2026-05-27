@@ -36,7 +36,7 @@ export default async function ProjectPage({
   });
 
   return (
-    <main className="border-t-1 border-ch-midnite min-h-screen">
+    <main className="min-h-screen">
       <div className="flex flex-col gap-9 my-9 md:mx-8">
         <div className="flex flex-col md:flex-row justify-between gap-9 mx-6 md:mx-0">
           <div className="flex flex-col items-start gap-6">

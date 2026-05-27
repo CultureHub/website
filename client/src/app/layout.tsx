@@ -21,7 +21,7 @@ export default function RootLayout({
         className={`${MillingFont.className} ${MillingFont.variable} ${BrookFont.variable} antialiased`}
       >
         <Menu />
-        {children}
+        <div className="pt-[61px]">{children}</div>
         <Footer />
       </body>
     </html>

@@ -7,19 +7,19 @@ import MenuButton from "@/components/MenuButton";
 
 function VerticalLine() {
   return (
-    <div className="hidden md:block w-0 h-[calc(100%_-_1px)] absolute left-[50%] outline outline-1 outline-offset-[-0.50px] outline-ch-midnite z-[-1]"></div>
+    <div className="hidden md:block w-0 h-[calc(100%_-_1px)] absolute left-[50%] border-r-1 border-ch-midnite -z-10"></div>
   );
 }
 
 function LeftTopBorderMask() {
   return (
-    <div className="hidden md:block w-[calc(50%_-_1px)] h-0 absolute left-0 top-[-2px] border border-t-[1px] border-[var(--background)]"></div>
+    <div className="hidden md:block w-1/2 h-0 absolute left-0 top-[-2px] border border-t-[1px] border-[var(--background)]"></div>
   );
 }
 
 function RightTopBorderMask() {
   return (
-    <div className="hidden md:block w-[calc(50%_-_1px)] h-0 absolute left-[calc(50%_+_1px)] top-[-2px] border border-t-[1px] border-[var(--background)]"></div>
+    <div className="hidden md:block w-1/2 h-0 absolute left-[calc(50%_+_1px)] top-[-2px] border border-t-[1px] border-[var(--background)]"></div>
   );
 }
 
@@ -31,7 +31,7 @@ export default function Menu() {
   };
 
   return (
-    <div>
+    <div className="fixed top-0 left-0 right-0 z-50 bg-[var(--background)] border-b-1 border-ch-midnite">
       <div className="flex justify-center">
         <button onClick={onToggleMenu}>
           <div className="flex justify-center p-4 gap-4">
@@ -54,8 +54,8 @@ export default function Menu() {
         </button>
       </div>
       {isOpen && (
-        <div className="flex justify-center mb-4">
-          <div className="flex flex-col md:inline-flex md:flex-row items-start justify-center md:border-t-2 gap-1">
+        <div className="flex justify-center pb-4">
+          <div className="flex flex-col md:inline-flex md:flex-row items-start justify-center md:border-t-1 gap-1">
             <div className="inline-flex flex-col gap-[10px] relative">
               <LeftTopBorderMask />
               <VerticalLine />
