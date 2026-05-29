@@ -29,20 +29,35 @@ function CarouselContent({
   };
 
   return (
-    <div className="flex">
-      <div
-        className="grow basis-0 h-[670px] flex flex-col bg-ch-midnite"
-        style={{ borderRight: `1px solid var(--color-ch-midnite)` }}
-      >
-        <div className="flex-1 relative overflow-hidden">
+    <>
+      <div className="flex flex-col md:hidden">
+        <div className="px-8 py-6" style={{ backgroundColor: accentColor }}>
+          <h2 className="font-milling font-bold text-[36px] leading-[42px] tracking-[-0.02em] text-ch-midnite">
+            {program.displayTitle ? (
+              <PortableText value={program.displayTitle} />
+            ) : (
+              program.title
+            )}
+          </h2>
+        </div>
+
+        <div className="w-full h-[525px] relative overflow-hidden bg-ch-midnite">
           <SanityImage image={activeImage} fill objectFit="cover" />
         </div>
-        <div className="px-4 py-[10px] flex gap-4">
+
+        <p
+          className="font-brook italic text-[14px] bg-ch-midnite px-6 py-8"
+          style={{ color: accentColor }}
+        >
+          {activeImage.credits}
+        </p>
+
+        <div className="bg-ch-midnite px-4 pb-4 overflow-x-auto flex gap-3 scrollbar-none">
           {images.slice(1).map((img, i) => (
             <button
               key={img._type === "thumbnail" ? img._key : "hero"}
               onClick={() => handleThumbClick(i + 1)}
-              className="relative flex-1 h-[124px] overflow-hidden cursor-pointer focus:outline-none border-2"
+              className="relative flex-shrink-0 w-[190px] h-[114px] overflow-hidden cursor-pointer focus:outline-none border-2"
               style={{ borderColor: accentColor }}
               aria-label={`View image ${i + 2}`}
             >
@@ -50,29 +65,68 @@ function CarouselContent({
             </button>
           ))}
         </div>
-      </div>
-      <div className="grow basis-0 flex flex-col px-8 py-12">
-        <h2 className="font-milling font-bold text-[40px] leading-tight tracking-[-0.02em] mb-6 text-ch-midnite">
-          {program.displayTitle ? (
-            <PortableText value={program.displayTitle} />
-          ) : (
-            program.title
-          )}
-        </h2>
-        <p className="font-milling font-normal text-[28px] leading-snug mb-6 text-ch-midnite">
-          {program.description}
-        </p>
-        <Link
-          href={`/projects?program=${encodeURIComponent(program.slug.current)}`}
-          className="font-milling font-bold text-[24px] underline underline-offset-2 text-ch-midnite"
+
+        <div
+          className="px-6 py-6 flex flex-col gap-6"
+          style={{ backgroundColor: accentColor }}
         >
-          Explore→
-        </Link>
-        <p className="font-brook italic text-[14px] mt-auto text-ch-midnite">
-          {activeImage.credits}
-        </p>
+          <p className="font-milling font-thin text-[24px] leading-snug text-ch-midnite">
+            {program.description}
+          </p>
+          <Link
+            href={`/projects?program=${encodeURIComponent(program.slug.current)}`}
+            className="font-milling font-bold text-[24px] underline underline-offset-2 text-ch-midnite"
+          >
+            Explore→
+          </Link>
+        </div>
       </div>
-    </div>
+
+      <div className="hidden md:flex">
+        <div
+          className="grow basis-0 min-w-0 h-[670px] flex flex-col bg-ch-midnite"
+          style={{ borderRight: `1px solid var(--color-ch-midnite)` }}
+        >
+          <div className="flex-1 relative overflow-hidden">
+            <SanityImage image={activeImage} fill objectFit="cover" />
+          </div>
+          <div className="px-4 py-[10px] overflow-x-auto flex gap-4 scrollbar-none">
+            {images.slice(1).map((img, i) => (
+              <button
+                key={img._type === "thumbnail" ? img._key : "hero"}
+                onClick={() => handleThumbClick(i + 1)}
+                className="relative flex-shrink-0 w-[190px] h-[124px] overflow-hidden cursor-pointer focus:outline-none border-2"
+                style={{ borderColor: accentColor }}
+                aria-label={`View image ${i + 2}`}
+              >
+                <SanityImage image={img} fill objectFit="cover" />
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="grow basis-0 min-w-0 flex flex-col px-8 py-12">
+          <h2 className="font-milling font-bold text-[40px] leading-tight tracking-[-0.02em] mb-6 text-ch-midnite">
+            {program.displayTitle ? (
+              <PortableText value={program.displayTitle} />
+            ) : (
+              program.title
+            )}
+          </h2>
+          <p className="font-milling font-normal text-[28px] leading-snug mb-6 text-ch-midnite">
+            {program.description}
+          </p>
+          <Link
+            href={`/projects?program=${encodeURIComponent(program.slug.current)}`}
+            className="font-milling font-bold text-[24px] underline underline-offset-2 text-ch-midnite"
+          >
+            Explore→
+          </Link>
+          <p className="font-brook italic text-[14px] mt-auto text-ch-midnite">
+            {activeImage.credits}
+          </p>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -86,7 +140,7 @@ function TabBar({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="flex items-end gap-4">
+    <div className="flex items-end justify-center md:justify-start gap-4">
       {programs.map((program) => {
         const accentColor = program.accentColor;
 
@@ -99,8 +153,11 @@ function TabBar({
               font-milling text-[20px] font-normal leading-none
               rounded-t-[20px]
               border border-b-0
-              cursor-pointer px-4 py-5
+              cursor-pointer
+              w-[122px] h-[50px] md:w-auto md:h-auto flex-shrink-0
+              px-4 py-5
               text-ch-midnite border-ch-midnite
+              ${program.slug.current === activeProgram ? "-mb-px relative z-10 md:mb-0 md:static md:z-auto" : ""}
             `}
             style={{
               backgroundColor: accentColor,
@@ -130,7 +187,7 @@ function TabBar({
                 alt="Residency Icon"
               />
             )}
-            <span>{program.title}</span>
+            <span className="hidden md:inline">{program.title}</span>
           </button>
         );
       })}
@@ -148,7 +205,7 @@ export default function FeaturedClient({ programs }: { programs: Program[] }) {
   const accentColor = program.accentColor;
 
   return (
-    <section className="w-full mx-auto">
+    <section className="w-full md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] md:mx-auto">
       <TabBar
         activeProgram={activeProgram}
         onSelect={setActiveProgram}
@@ -156,7 +213,7 @@ export default function FeaturedClient({ programs }: { programs: Program[] }) {
       />
 
       <div
-        className="w-full border border-ch-midnite rounded-b-[5px]"
+        className="w-full border-y border-solid border-ch-midnite md:border md:border-ch-midnite md:rounded-b-[5px]"
         style={{ backgroundColor: accentColor }}
       >
         <CarouselContent

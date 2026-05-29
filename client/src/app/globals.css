@@ -29,4 +29,10 @@ body {
   color: var(--foreground);
 }
 
-@tailwind utilities;
+@utility scrollbar-none {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
