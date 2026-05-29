@@ -43,7 +43,7 @@ export default async function ProjectPage({
             <Breadcrumbs
               buttons={[
                 { text: "Project", href: "/projects" },
-                { text: project.program },
+                { text: project.program.shortLabel },
               ]}
             />
             <h1 className="text-4xl font-bold">{project.title}</h1>

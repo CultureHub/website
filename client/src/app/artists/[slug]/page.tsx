@@ -29,7 +29,7 @@ export default async function ArtistPage({
               <Breadcrumbs
                 buttons={[
                   { text: "Artist", href: "/artists", variant: "half" },
-                  { text: artist.program },
+                  { text: artist.program.shortLabel },
                 ]}
               />
               {artist.locations && <LocationPin locations={artist.locations} />}

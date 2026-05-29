@@ -7,6 +7,7 @@ export function getArtistsBySlug(slug: string) {
   const getArtistsBySlugQuery =
     defineQuery(`*[_type == "artist" && slug.current == $slug]{
     ...,
+    "program": program->{ _id, title, slug, shortLabel },
     projects[]->{
       ...
     }
@@ -19,6 +20,7 @@ export function getProjectBySlug(slug: string) {
   const getProjectBySlugQuery = defineQuery(
     `*[_type == "project" && slug.current == $slug][0]{
       ...,
+      "program": program->{ _id, title, slug, shortLabel },
       related[]->{
         _id,
         _type,
