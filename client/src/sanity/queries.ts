@@ -39,19 +39,6 @@ export function getProjectBySlug(slug: string) {
   return client.fetch(getProjectBySlugQuery, { slug }, options);
 }
 
-export function getProjects() {
-  const getProjectsQuery = defineQuery(`*[
-    _type == "project" &&
-    defined(slug.current)
-  ][0...12]{
-    _id,
-    title,
-    slug
-  }`);
-
-  return client.fetch(getProjectsQuery, {}, options);
-}
-
 export function getPrograms() {
   const getProgramsQuery = defineQuery(`*[_type == "program"]{
     ...
@@ -85,4 +72,115 @@ export function getArtistsByLocations(locations: string[]) {
   ][0...12]`);
 
   return client.fetch(getArtistsByLocationsQuery, { locations }, options);
+}
+
+export type ProjectFilters = {
+  program?: string;
+  place?: string;
+  year?: string;
+};
+
+const YEAR_OVERLAP_CONDITION = `(
+  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)
+  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)
+)`;
+
+const PROJECT_LIST_FRAGMENT = `{
+  _id,
+  title,
+  slug,
+  date,
+  endDate,
+  locations,
+  "program": program->{ _id, title, slug, shortLabel, accentColor },
+  heroImage {
+    asset,
+    hotspot,
+    crop,
+    alt
+  },
+  "artists": *[_type == "artist" && references(^._id)]{ _id, name }
+}`;
+
+export function getProjectFilterOptions() {
+  const getProjectFilterOptionsQuery = defineQuery(`{
+    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor },
+    "places": array::unique(*[_type == "project" && defined(slug.current)].locations[]) | order(@ asc),
+    "dates": array::unique(*[_type == "project" && defined(slug.current)].date) | order(@ desc)
+  }`);
+
+  return client.fetch(getProjectFilterOptionsQuery, {}, options);
+}
+
+export function getProjects(
+  filters: ProjectFilters = {},
+  limit: number = 20,
+  offset: number = 0,
+) {
+  const getProjectsQuery = defineQuery(`{
+    "projects": *[_type == "project" && defined(slug.current)
+      && ($program == "" || program->slug.current == $program)
+      && ($place == "" || $place in locations)
+      && ($year == "" || ${YEAR_OVERLAP_CONDITION})
+    ] | order(date desc) [$offset...$end]
+    ${PROJECT_LIST_FRAGMENT},
+    "total": count(*[_type == "project" && defined(slug.current)
+      && ($program == "" || program->slug.current == $program)
+      && ($place == "" || $place in locations)
+      && ($year == "" || ${YEAR_OVERLAP_CONDITION})
+    ])
+  }`);
+
+  const params = buildProjectQueryParams(filters, limit, offset);
+  return client.fetch(getProjectsQuery, params, options);
+}
+
+export function getProjectFacets(filters: ProjectFilters = {}) {
+  const getProjectFacetsQuery = defineQuery(`{
+    "programSlugs": array::unique(*[_type == "project" && defined(slug.current)
+      && ($place == "" || $place in locations)
+      && ($year == "" || ${YEAR_OVERLAP_CONDITION})
+    ].program->slug.current)[@ != null],
+    "places": array::unique(*[_type == "project" && defined(slug.current)
+      && ($program == "" || program->slug.current == $program)
+      && ($year == "" || ${YEAR_OVERLAP_CONDITION})
+    ].locations[]) | order(@ asc),
+    "dates": array::unique(*[_type == "project" && defined(slug.current)
+      && ($program == "" || program->slug.current == $program)
+      && ($place == "" || $place in locations)
+    ].date) | order(@ desc)
+  }`);
+
+  const params = buildProjectQueryParams(filters);
+  return client.fetch(getProjectFacetsQuery, params, options);
+}
+
+export function extractYears(dates: string[]): string[] {
+  return Array.from(new Set(dates.map((d) => d.slice(0, 4)))).sort((a, b) =>
+    b.localeCompare(a),
+  );
+}
+
+function buildProjectQueryParams(
+  filters: ProjectFilters,
+  limit?: number,
+  offset?: number,
+) {
+  const program = filters.program ?? "";
+  const place = filters.place ?? "";
+  const year = filters.year ?? "";
+  const yearStart = year ? `${year}-01-01` : "";
+  const yearEnd = year ? `${Number(year) + 1}-01-01` : "";
+  const params: Record<string, unknown> = {
+    program,
+    place,
+    year,
+    yearStart,
+    yearEnd,
+  };
+  if (limit !== undefined && offset !== undefined) {
+    params.offset = offset;
+    params.end = offset + limit;
+  }
+  return params;
 }

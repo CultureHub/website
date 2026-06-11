@@ -1,23 +1,29 @@
-import Link from "next/link";
-import { getProjects } from "@/sanity/queries";
+import {
+  getProjects,
+  getProjectFilterOptions,
+  extractYears,
+} from "@/sanity/queries";
 import Featured from "@/components/Featured";
+import ProjectsList from "@/components/ProjectsList";
+
+export const PROJECTS_PAGE_SIZE = 20;
 
 export default async function ProjectsIndexPage() {
-  const projects = await getProjects();
+  const initialData = await getProjects({}, PROJECTS_PAGE_SIZE, 0);
+  const filterOptions = await getProjectFilterOptions();
+  const allYears = extractYears(filterOptions.dates);
+
   return (
-    <main className="min-h-screen flex flex-col gap-10 py-8">
+    <main className="min-h-screen">
       <Featured />
-      <div className="container mx-auto px-4 md:px-8 flex flex-col gap-10">
-        <h1 className="text-4xl font-bold">Projects</h1>
-        <ul className="flex flex-col gap-y-4">
-          {projects.map((project) => (
-            <li className="hover:underline" key={project._id}>
-              <Link href={`/projects/${project.slug.current}`}>
-                <h2 className="text-xl font-semibold">{project.title}</h2>
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <div className="flex flex-col gap-10 py-8">
+        <ProjectsList
+          initialData={initialData}
+          allPrograms={filterOptions.programs}
+          allPlaces={filterOptions.places}
+          allYears={allYears}
+          pageSize={PROJECTS_PAGE_SIZE}
+        />
       </div>
     </main>
   );
