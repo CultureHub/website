@@ -103,7 +103,7 @@ const PROJECT_LIST_FRAGMENT = `{
   date,
   endDate,
   locations,
-  "program": program->{ _id, title, slug, shortLabel, accentColor },
+  "program": program->{ _id, title, slug, shortLabel, accentColor, displayTitle },
   heroImage {
     asset,
     hotspot,
@@ -115,7 +115,7 @@ const PROJECT_LIST_FRAGMENT = `{
 
 export function getProjectFilterOptions() {
   const getProjectFilterOptionsQuery = defineQuery(`{
-    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor },
+    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor, displayTitle },
     "places": array::unique(*[_type == "project" && defined(slug.current)].locations[]) | order(@ asc),
     "dates": array::unique(*[_type == "project" && defined(slug.current)].date) | order(@ desc)
   }`);

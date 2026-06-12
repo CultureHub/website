@@ -1406,7 +1406,7 @@ export type GetArtistsByLocationsQueryResult = Array<{
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getProjectFilterOptionsQuery
-// Query: {    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor },    "places": array::unique(*[_type == "project" && defined(slug.current)].locations[]) | order(@ asc),    "dates": array::unique(*[_type == "project" && defined(slug.current)].date) | order(@ desc)  }
+// Query: {    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor, displayTitle },    "places": array::unique(*[_type == "project" && defined(slug.current)].locations[]) | order(@ asc),    "dates": array::unique(*[_type == "project" && defined(slug.current)].date) | order(@ desc)  }
 export type GetProjectFilterOptionsQueryResult = {
   programs: Array<{
     _id: string;
@@ -1414,6 +1414,24 @@ export type GetProjectFilterOptionsQueryResult = {
     slug: Slug;
     shortLabel: string;
     accentColor: string;
+    displayTitle: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
   }>;
   places: Array<string>;
   dates: Array<string>;
@@ -1421,7 +1439,7 @@ export type GetProjectFilterOptionsQueryResult = {
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getProjectsQuery
-// Query: {    "projects": *[_type == "project" && defined(slug.current)      && ($program == "" || program->slug.current == $program)      && ($place == "" || $place in locations)      && ($year == "" || (  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)))    ] | order(date desc) [$offset...$end]    {  _id,  title,  slug,  date,  endDate,  locations,  "program": program->{ _id, title, slug, shortLabel, accentColor },  heroImage {    asset,    hotspot,    crop,    alt  },  "artists": *[_type == "artist" && references(^._id)]{ _id, name }},    "total": count(*[_type == "project" && defined(slug.current)      && ($program == "" || program->slug.current == $program)      && ($place == "" || $place in locations)      && ($year == "" || (  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)))    ])  }
+// Query: {    "projects": *[_type == "project" && defined(slug.current)      && ($program == "" || program->slug.current == $program)      && ($place == "" || $place in locations)      && ($year == "" || (  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)))    ] | order(date desc) [$offset...$end]    {  _id,  title,  slug,  date,  endDate,  locations,  "program": program->{ _id, title, slug, shortLabel, accentColor, displayTitle },  heroImage {    asset,    hotspot,    crop,    alt  },  "artists": *[_type == "artist" && references(^._id)]{ _id, name }},    "total": count(*[_type == "project" && defined(slug.current)      && ($program == "" || program->slug.current == $program)      && ($place == "" || $place in locations)      && ($year == "" || (  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)))    ])  }
 export type GetProjectsQueryResult = {
   projects: Array<{
     _id: string;
@@ -1436,6 +1454,32 @@ export type GetProjectsQueryResult = {
       slug: Slug;
       shortLabel: string;
       accentColor: string;
+      displayTitle: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }> | null;
     };
     heroImage: {
       asset: SanityImageAssetReference | null;
@@ -1471,8 +1515,8 @@ declare module "@sanity/client" {
     'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;
     '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;
     '*[\n    _type == "artist"\n    && count(locations[@ in $locations]) > 0\n    && defined(slug.current)\n  ][0...12]': GetArtistsByLocationsQueryResult;
-    '{\n    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor },\n    "places": array::unique(*[_type == "project" && defined(slug.current)].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)].date) | order(@ desc)\n  }': GetProjectFilterOptionsQueryResult;
-    '{\n    "projects": *[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ] | order(date desc) [$offset...$end]\n    {\n  _id,\n  title,\n  slug,\n  date,\n  endDate,\n  locations,\n  "program": program->{ _id, title, slug, shortLabel, accentColor },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  },\n  "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n},\n    "total": count(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ])\n  }': GetProjectsQueryResult;
+    '{\n    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor, displayTitle },\n    "places": array::unique(*[_type == "project" && defined(slug.current)].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)].date) | order(@ desc)\n  }': GetProjectFilterOptionsQueryResult;
+    '{\n    "projects": *[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ] | order(date desc) [$offset...$end]\n    {\n  _id,\n  title,\n  slug,\n  date,\n  endDate,\n  locations,\n  "program": program->{ _id, title, slug, shortLabel, accentColor, displayTitle },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  },\n  "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n},\n    "total": count(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ])\n  }': GetProjectsQueryResult;
     '{\n    "programSlugs": array::unique(*[_type == "project" && defined(slug.current)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].program->slug.current)[@ != null],\n    "places": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n    ].date) | order(@ desc)\n  }': GetProjectFacetsQueryResult;
   }
 }

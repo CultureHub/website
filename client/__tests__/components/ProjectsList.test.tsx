@@ -14,6 +14,10 @@ jest.mock("@/sanity/queries", () => ({
   getProjectFacets: jest.fn(),
 }));
 
+jest.mock("next-sanity", () => ({
+  PortableText: () => null,
+}));
+
 jest.mock("@/components/SanityImage", () => {
   return function MockSanityImage() {
     return null;
@@ -75,6 +79,7 @@ const mockPrograms = [
     slug: mockSlug("eds"),
     shortLabel: "EDS",
     accentColor: "#b5fd8b",
+    displayTitle: null,
   },
   {
     _id: "prog2",
@@ -82,6 +87,7 @@ const mockPrograms = [
     slug: mockSlug("residency"),
     shortLabel: "Residency",
     accentColor: "#6dcffd",
+    displayTitle: null,
   },
 ];
 
@@ -102,6 +108,7 @@ const mockProjectRow = (overrides: Partial<ProjectRow> = {}): ProjectRow =>
       slug: mockSlug("eds"),
       shortLabel: "EDS",
       accentColor: "#b5fd8b",
+      displayTitle: null,
     },
     artists: [{ _id: "art1", name: "Artist One" }],
     heroImage: mockHeroImage,
@@ -124,6 +131,7 @@ const mockInitialData = {
         slug: mockSlug("residency"),
         shortLabel: "Residency",
         accentColor: "#6dcffd",
+        displayTitle: null,
       },
       artists: [
         { _id: "art2", name: "Artist Two" },
@@ -158,8 +166,8 @@ describe("ProjectsList", () => {
       renderList();
     });
 
-    expect(screen.getByText("Test Project")).toBeInTheDocument();
-    expect(screen.getByText("Second Project")).toBeInTheDocument();
+    expect(screen.getAllByText("Test Project")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("Second Project")[0]).toBeInTheDocument();
   });
 
   it("renders filter category buttons and showing counter", async () => {
@@ -167,12 +175,18 @@ describe("ProjectsList", () => {
       renderList();
     });
 
-    expect(screen.getByText("Showing: All (50)")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Program" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Place" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Year" })).toBeInTheDocument();
-    expect(screen.getByText("Work Index")).toBeInTheDocument();
-    expect(screen.getByText("Filter by")).toBeInTheDocument();
+    expect(screen.getAllByText("Showing: All (50)")[0]).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("button", { name: "Program" })[0],
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("button", { name: "Place" })[0],
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("button", { name: "Year" })[0],
+    ).toBeInTheDocument();
+    expect(screen.getAllByText("Work Index")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("Filter by")[0]).toBeInTheDocument();
   });
 
   it("renders column headers", async () => {
@@ -180,7 +194,8 @@ describe("ProjectsList", () => {
       renderList();
     });
 
-    const headers = screen.getAllByRole("columnheader");
+    const table = screen.getByRole("table");
+    const headers = Array.from(table.querySelectorAll("th"));
     const headerTexts = headers.map((h) => h.textContent);
     expect(headerTexts).toEqual(
       expect.arrayContaining(["Date", "Program", "Place", "Project", "People"]),
@@ -192,23 +207,23 @@ describe("ProjectsList", () => {
       renderList();
     });
 
-    const programButton = screen.getByRole("button", { name: "Program" });
+    const programButton = screen.getAllByRole("button", { name: "Program" })[0];
     await act(async () => {
       fireEvent.click(programButton);
     });
 
-    expect(screen.getByRole("button", { name: "EDS" })).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Residency" }),
+      screen.getAllByRole("button", { name: "EDS" })[0],
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("button", { name: "Residency" })[0],
     ).toBeInTheDocument();
 
     await act(async () => {
       fireEvent.click(programButton);
     });
 
-    expect(
-      screen.queryByRole("button", { name: "EDS" }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryAllByRole("button", { name: "EDS" }).length).toBe(0);
   });
 
   it("switches filter panel when a different category is clicked", async () => {
@@ -217,23 +232,23 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
-    expect(screen.getByRole("button", { name: "EDS" })).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("button", { name: "EDS" })[0],
+    ).toBeInTheDocument();
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Place" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Place" })[0]);
     });
 
+    expect(screen.queryAllByRole("button", { name: "EDS" }).length).toBe(0);
     expect(
-      screen.queryByRole("button", { name: "EDS" }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "New York" }),
+      screen.getAllByRole("button", { name: "New York" })[0],
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Los Angeles" }),
+      screen.getAllByRole("button", { name: "Los Angeles" })[0],
     ).toBeInTheDocument();
   });
 
@@ -253,11 +268,11 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "EDS" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "EDS" })[0]);
     });
 
     await waitFor(() => {
@@ -285,15 +300,15 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "EDS" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "EDS" })[0]);
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Showing: EDS (1)")).toBeInTheDocument();
+      expect(screen.getAllByText("Showing: EDS (1)")[0]).toBeInTheDocument();
     });
   });
 
@@ -316,18 +331,18 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "EDS" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "EDS" })[0]);
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Showing: EDS (1)")).toBeInTheDocument();
+      expect(screen.getAllByText("Showing: EDS (1)")[0]).toBeInTheDocument();
     });
 
-    const xButton = screen.getByText("x");
+    const xButton = screen.getAllByText("x")[0];
     await act(async () => {
       fireEvent.click(xButton);
     });
@@ -354,11 +369,11 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "EDS" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "EDS" })[0]);
     });
 
     await waitFor(() => {
@@ -366,10 +381,10 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Place" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Place" })[0]);
     });
 
-    const laOption = screen.getByRole("button", { name: "Los Angeles" });
+    const laOption = screen.getAllByRole("button", { name: "Los Angeles" })[0];
     expect(laOption.className).toContain("cursor-not-allowed");
   });
 
@@ -390,11 +405,11 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Place" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Place" })[0]);
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "New York" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "New York" })[0]);
     });
 
     await waitFor(() => {
@@ -402,13 +417,15 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
-    const edsOption = screen.getByRole("button", { name: "EDS" });
+    const edsOption = screen.getAllByRole("button", { name: "EDS" })[0];
     expect(edsOption.className).not.toContain("cursor-not-allowed");
 
-    const residencyOption = screen.getByRole("button", { name: "Residency" });
+    const residencyOption = screen.getAllByRole("button", {
+      name: "Residency",
+    })[0];
     expect(residencyOption.className).toContain("cursor-not-allowed");
   });
 
@@ -429,11 +446,11 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Year" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Year" })[0]);
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "2025" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "2025" })[0]);
     });
 
     await waitFor(() => {
@@ -462,11 +479,11 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "EDS" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "EDS" })[0]);
     });
 
     await waitFor(() => {
@@ -474,13 +491,13 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Year" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Year" })[0]);
     });
 
-    const year2025 = screen.getByRole("button", { name: "2025" });
+    const year2025 = screen.getAllByRole("button", { name: "2025" })[0];
     expect(year2025.className).not.toContain("cursor-not-allowed");
 
-    const year2024 = screen.getByRole("button", { name: "2024" });
+    const year2024 = screen.getAllByRole("button", { name: "2024" })[0];
     expect(year2024.className).toContain("cursor-not-allowed");
   });
 
@@ -503,11 +520,11 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "EDS" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "EDS" })[0]);
     });
 
     await waitFor(() => {
@@ -515,33 +532,33 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Place" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Place" })[0]);
     });
 
-    const laOption = screen.getByRole("button", { name: "Los Angeles" });
+    const laOption = screen.getAllByRole("button", { name: "Los Angeles" })[0];
     expect(laOption.className).toContain("cursor-not-allowed");
 
     await act(async () => {
-      fireEvent.click(screen.getByText("x"));
+      fireEvent.click(screen.getAllByText("x")[0]);
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Showing: All (50)")).toBeInTheDocument();
+      expect(screen.getAllByText("Showing: All (50)")[0]).toBeInTheDocument();
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Place" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Place" })[0]);
     });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Place" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Place" })[0]);
     });
 
-    const laOptionAfterClear = screen.getByRole("button", {
+    const laOptionAfterClear = screen.getAllByRole("button", {
       name: "Los Angeles",
-    });
+    })[0];
     expect(laOptionAfterClear.className).not.toContain("cursor-not-allowed");
     expect(
-      screen.getByRole("button", { name: "New York" }).className,
+      screen.getAllByRole("button", { name: "New York" })[0].className,
     ).not.toContain("cursor-not-allowed");
   });
 
@@ -551,10 +568,12 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
-    expect(screen.getByRole("button", { name: "EDS" })).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("button", { name: "EDS" })[0],
+    ).toBeInTheDocument();
 
     await act(async () => {
       fireEvent.mouseDown(document.body);
@@ -586,7 +605,7 @@ describe("ProjectsList", () => {
       renderList();
     });
 
-    expect(screen.getByText("06.27.25")).toBeInTheDocument();
+    expect(screen.getAllByText("06.27.25")[0]).toBeInTheDocument();
   });
 
   it("formats date ranges correctly", async () => {
@@ -594,7 +613,7 @@ describe("ProjectsList", () => {
       renderList();
     });
 
-    const dateText = screen.getByText(/12\.01\.24/i);
+    const dateText = screen.getAllByText(/12\.01\.24/i)[0];
     expect(dateText).toBeInTheDocument();
   });
 
@@ -603,8 +622,10 @@ describe("ProjectsList", () => {
       renderList();
     });
 
-    expect(screen.getByText("Artist One")).toBeInTheDocument();
-    expect(screen.getByText("Artist Two, Artist Three")).toBeInTheDocument();
+    expect(screen.getAllByText("Artist One")[0]).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Artist Two, Artist Three")[0],
+    ).toBeInTheDocument();
   });
 
   it("creates correct project links", async () => {
@@ -612,11 +633,15 @@ describe("ProjectsList", () => {
       renderList();
     });
 
-    const firstRow = screen.getByText("Test Project").closest("tr")!;
+    const firstRow = screen
+      .getAllByText("Test Project")
+      .find((el) => el.closest("tr"))!;
     fireEvent.click(firstRow);
     expect(mockRouterPush).toHaveBeenCalledWith("/projects/test-project");
 
-    const secondRow = screen.getByText("Second Project").closest("tr")!;
+    const secondRow = screen
+      .getAllByText("Second Project")
+      .find((el) => el.closest("tr"))!;
     fireEvent.click(secondRow);
     expect(mockRouterPush).toHaveBeenCalledWith("/projects/second-project");
   });
@@ -655,15 +680,15 @@ describe("ProjectsList", () => {
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Program" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "Program" })[0]);
     });
 
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "EDS" }));
+      fireEvent.click(screen.getAllByRole("button", { name: "EDS" })[0]);
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Showing: EDS (1)")).toBeInTheDocument();
+      expect(screen.getAllByText("Showing: EDS (1)")[0]).toBeInTheDocument();
     });
   });
 });
