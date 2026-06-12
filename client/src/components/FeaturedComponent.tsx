@@ -74,7 +74,7 @@ function CarouselContent({
             {program.description}
           </p>
           <Link
-            href={`/projects?program=${encodeURIComponent(program.slug.current)}`}
+            href={`/art-and-technology?program=${encodeURIComponent(program.slug.current)}`}
             className="font-milling font-bold text-[24px] underline underline-offset-2 text-ch-midnite"
           >
             Explore→
@@ -116,7 +116,7 @@ function CarouselContent({
             {program.description}
           </p>
           <Link
-            href={`/projects?program=${encodeURIComponent(program.slug.current)}`}
+            href={`/art-and-technology?program=${encodeURIComponent(program.slug.current)}`}
             className="font-milling font-bold text-[24px] underline underline-offset-2 text-ch-midnite"
           >
             Explore→

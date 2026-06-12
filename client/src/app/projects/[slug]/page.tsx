@@ -42,8 +42,15 @@ export default async function ProjectPage({
           <div className="flex flex-col items-start gap-6">
             <Breadcrumbs
               buttons={[
-                { text: "Project", href: "/projects" },
-                { text: project.program.shortLabel },
+                { label: "Projects", href: "/art-and-technology" },
+                {
+                  label: project.program.shortLabel,
+                  children: project.program.displayTitle ? (
+                    <PortableText value={project.program.displayTitle} />
+                  ) : (
+                    project.program.shortLabel
+                  ),
+                },
               ]}
             />
             <h1 className="text-4xl font-bold">{project.title}</h1>

@@ -68,7 +68,11 @@ export default function Menu() {
               >
                 Art <span className="font-milling text-xs">&</span> Technology
               </MenuButton>
-              <MenuButton variant="pill" href="/projects" onClick={close}>
+              <MenuButton
+                variant="pill"
+                href="/art-and-technology"
+                onClick={close}
+              >
                 Project Index
               </MenuButton>
               <MenuButton variant="pill" onClick={close}>

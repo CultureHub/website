@@ -20,7 +20,7 @@ export function getProjectBySlug(slug: string) {
   const getProjectBySlugQuery = defineQuery(
     `*[_type == "project" && slug.current == $slug][0]{
       ...,
-      "program": program->{ _id, title, slug, shortLabel },
+      "program": program->{ _id, title, slug, shortLabel, displayTitle },
       related[]->{
         _id,
         _type,
@@ -37,6 +37,17 @@ export function getProjectBySlug(slug: string) {
   );
 
   return client.fetch(getProjectBySlugQuery, { slug }, options);
+}
+
+export function getArtAndTechnologyPage() {
+  const getArtAndTechnologyPageQuery = defineQuery(
+    `*[_type == "artAndTechnologyPage"][0]{
+      heading,
+      introText
+    }`,
+  );
+
+  return client.fetch(getArtAndTechnologyPageQuery, {}, options);
 }
 
 export function getPrograms() {
