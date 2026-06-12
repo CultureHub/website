@@ -78,10 +78,7 @@ export default async function ProjectPage({
         </div>
 
         <div className="flex flex-col gap-9 md:mx-8">
-          <SanityImage
-            image={project.heroImage}
-            className="rounded-[20px]"
-          />
+          <SanityImage image={project.heroImage} className="rounded-[20px]" />
 
           {project.content &&
             project.content.map((content, i) => (
