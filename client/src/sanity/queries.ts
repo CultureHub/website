@@ -50,6 +50,14 @@ export function getProjects() {
   return client.fetch(getProjectsQuery, {}, options);
 }
 
+export function getPrograms() {
+  const getProgramsQuery = defineQuery(`*[_type == "program"]{
+    ...
+  }`);
+
+  return client.fetch(getProgramsQuery, {}, options);
+}
+
 export function getArtistLocationOptions() {
   const getArtistLocationOptionsQuery = defineQuery(
     `array::unique(*[_type == "artist"].locations[])`,

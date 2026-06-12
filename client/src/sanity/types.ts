@@ -28,6 +28,78 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
+export type Program = {
+  _id: string;
+  _type: "program";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  displayTitle?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  slug: Slug;
+  shortLabel: string;
+  description: string;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  accentColor: string;
+  thumbnails: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "thumbnail";
+    _key: string;
+  }>;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
 export type ProjectReference = {
   _ref: string;
   _type: "reference";
@@ -100,28 +172,6 @@ export type Artist = {
       _key: string;
     } & ProjectReference
   >;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
 };
 
 export type ArtistReference = {
@@ -480,11 +530,12 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes =
   | SanityImageAssetReference
-  | ProjectReference
-  | Artist
+  | Program
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | ProjectReference
+  | Artist
   | ArtistReference
   | Project
   | SanityImagePaletteSwatch
@@ -1110,6 +1161,59 @@ export type GetProjectsQueryResult = Array<{
 }>;
 
 // Source: ../client/src/sanity/queries.ts
+// Variable: getProgramsQuery
+// Query: *[_type == "program"]{    ...  }
+export type GetProgramsQueryResult = Array<{
+  _id: string;
+  _type: "program";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  displayTitle?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  slug: Slug;
+  shortLabel: string;
+  description: string;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  accentColor: string;
+  thumbnails: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "thumbnail";
+    _key: string;
+  }>;
+}>;
+
+// Source: ../client/src/sanity/queries.ts
 // Variable: getArtistLocationOptionsQuery
 // Query: array::unique(*[_type == "artist"].locations[])
 export type GetArtistLocationOptionsQueryResult = Array<string>;
@@ -1261,6 +1365,7 @@ declare module "@sanity/client" {
     '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
     '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      related[]->{\n        _id,\n        _type,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[\n    _type == "project" &&\n    defined(slug.current)\n  ][0...12]{\n    _id,\n    title,\n    slug\n  }': GetProjectsQueryResult;
+    '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
     'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;
     '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;
     '*[\n    _type == "artist"\n    && count(locations[@ in $locations]) > 0\n    && defined(slug.current)\n  ][0...12]': GetArtistsByLocationsQueryResult;
