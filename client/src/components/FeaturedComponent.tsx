@@ -205,7 +205,7 @@ export default function FeaturedClient({ programs }: { programs: Program[] }) {
   const accentColor = program.accentColor;
 
   return (
-    <section className="w-full md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] md:mx-auto">
+    <section className="w-full md:px-8">
       <TabBar
         activeProgram={activeProgram}
         onSelect={setActiveProgram}
@@ -213,7 +213,7 @@ export default function FeaturedClient({ programs }: { programs: Program[] }) {
       />
 
       <div
-        className="w-full border-y border-solid border-ch-midnite md:border md:border-ch-midnite md:rounded-b-[5px]"
+        className="w-full border-y border-solid border-ch-midnite md:border md:border-ch-midnite"
         style={{ backgroundColor: accentColor }}
       >
         <CarouselContent

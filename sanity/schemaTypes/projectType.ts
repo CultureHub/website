@@ -23,6 +23,12 @@ export const projectType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      title: 'People',
+      name: 'people',
+      type: 'string',
+      description: 'Optional display value for the People column. Falls back to associated artists if empty.',
+    }),
+    defineField({
       title: 'Date',
       name: 'date',
       type: 'date',

@@ -19,5 +19,13 @@ export const artAndTechnologyPageType = defineType({
       initialValue:
         'Artists at CultureHub explore the convergence of art and technology. Through residencies, an annual festival, and our digital storytelling lab, we present work that crosses genres, cultures, and media.',
     }),
+    defineField({
+      name: 'featuredPrograms',
+      title: 'Featured Programs',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'program'}]}],
+      description:
+        'Programs displayed in the carousel. Leave empty to show all.',
+    }),
   ],
 })

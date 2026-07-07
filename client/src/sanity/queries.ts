@@ -43,7 +43,10 @@ export function getArtAndTechnologyPage() {
   const getArtAndTechnologyPageQuery = defineQuery(
     `*[_type == "artAndTechnologyPage"][0]{
       heading,
-      introText
+      introText,
+      featuredPrograms[]->{
+        ...
+      }
     }`,
   );
 
@@ -103,6 +106,7 @@ const PROJECT_LIST_FRAGMENT = `{
   date,
   endDate,
   locations,
+  people,
   "program": program->{ _id, title, slug, shortLabel, accentColor, displayTitle },
   heroImage {
     asset,

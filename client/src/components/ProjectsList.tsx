@@ -312,7 +312,7 @@ export default function ProjectsList({
     <div>
       <div ref={filterBarRef}>
         {/* Desktop filter bar */}
-        <div className="hidden md:flex flex-row justify-between px-3">
+        <div className="hidden md:flex flex-row justify-between px-3 md:px-8">
           <div className="flex flex-col gap-4 w-[210px]">
             <span className="font-sans font-thin text-xl text-ch-midnite">
               Work Index
@@ -613,7 +613,9 @@ export default function ProjectsList({
                     className="font-sans font-thin text-base tracking-[-0.02em]"
                     style={{ color: "var(--row-text)" }}
                   >
-                    {project.artists?.map((a) => a.name).join(", ") || ""}
+                    {project.people ||
+                      project.artists?.map((a) => a.name).join(", ") ||
+                      ""}
                   </span>
                 </div>
               </div>
@@ -623,15 +625,15 @@ export default function ProjectsList({
       </div>
 
       {/* Desktop table */}
-      <div className="hidden md:block w-full overflow-x-auto px-3">
+      <div className="hidden md:block w-full overflow-x-auto px-3 md:px-8">
         <table className="w-full border-collapse">
           <colgroup>
             <col className="w-[210px]" />
             <col className="w-[112px]" />
-            <col className="w-[198px]" />
-            <col className="w-[109px]" />
+            <col className="min-w-[160px]" />
+            <col className="min-w-[100px]" />
             <col />
-            <col className="w-[290px]" />
+            <col className="min-w-[140px]" />
           </colgroup>
           <thead>
             <tr className="border-b border-ch-midnite bg-ch-lite">
@@ -729,7 +731,7 @@ export default function ProjectsList({
                   </td>
                   <td className="px-4 align-top py-1">
                     <span
-                      className="font-mono text-xs uppercase"
+                      className="font-mono text-xs uppercase whitespace-nowrap"
                       style={{ color: "var(--row-text)" }}
                     >
                       {project.locations?.[0] || ""}
@@ -748,7 +750,9 @@ export default function ProjectsList({
                       className="font-sans font-thin text-base tracking-[-0.02em]"
                       style={{ color: "var(--row-text)" }}
                     >
-                      {project.artists?.map((a) => a.name).join(", ") || ""}
+                      {project.people ||
+                        project.artists?.map((a) => a.name).join(", ") ||
+                        ""}
                     </span>
                   </td>
                 </tr>

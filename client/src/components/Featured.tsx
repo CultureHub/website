@@ -1,8 +1,6 @@
-import { getPrograms } from "@/sanity/queries";
 import FeaturedComponent from "@/components/FeaturedComponent";
+import type { Program } from "@/sanity/types";
 
-export default async function Featured() {
-  const programs = await getPrograms();
-
+export default function Featured({ programs }: { programs: Program[] }) {
   return <FeaturedComponent programs={programs} />;
 }
