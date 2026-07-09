@@ -38,18 +38,14 @@ export default async function ProjectPage({
   return (
     <main className="min-h-screen">
       <div className="flex flex-col gap-9 my-9 md:mx-8">
-        <div className="flex flex-col md:flex-row justify-between gap-9 mx-6 md:mx-0">
+        <div className="flex flex-col md:flex-row justify-between gap-9 mx-6 md:mx-8">
           <div className="flex flex-col items-start gap-6">
             <Breadcrumbs
               buttons={[
                 { label: "Projects", href: "/art-and-technology" },
                 {
                   label: project.program.shortLabel,
-                  children: project.program.displayTitle ? (
-                    <PortableText value={project.program.displayTitle} />
-                  ) : (
-                    project.program.shortLabel
-                  ),
+                  children: project.program.title,
                 },
               ]}
             />

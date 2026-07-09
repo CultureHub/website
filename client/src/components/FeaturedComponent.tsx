@@ -141,8 +141,9 @@ function TabBar({
 }) {
   return (
     <div className="flex items-end justify-center md:justify-start gap-4">
-      {programs.map((program) => {
+      {programs.map((program, index) => {
         const accentColor = program.accentColor;
+        const isLast = index === programs.length - 1;
 
         return (
           <button
@@ -157,7 +158,8 @@ function TabBar({
               w-[122px] h-[50px] md:w-auto md:h-auto flex-shrink-0
               px-4 py-5
               text-ch-midnite border-ch-midnite
-              ${program.slug.current === activeProgram ? "-mb-px relative z-10 md:mb-0 md:static md:z-auto" : ""}
+              ${program.slug.current === activeProgram ? "-mb-px relative z-10" : ""}
+              ${isLast && program.slug.current === activeProgram ? "md:-mb-px md:relative md:z-10 md:pb-[21px]" : "md:mb-0 md:static md:z-auto"}
             `}
             style={{
               backgroundColor: accentColor,
