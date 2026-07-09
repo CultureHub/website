@@ -38,12 +38,15 @@ export default async function ProjectPage({
   return (
     <main className="min-h-screen">
       <div className="flex flex-col gap-9 my-9 md:mx-8">
-        <div className="flex flex-col md:flex-row justify-between gap-9 mx-6 md:mx-0">
+        <div className="flex flex-col md:flex-row justify-between gap-9 mx-6 md:mx-8">
           <div className="flex flex-col items-start gap-6">
             <Breadcrumbs
               buttons={[
-                { text: "Project", href: "/projects" },
-                { text: project.program },
+                { label: "Projects", href: "/art-and-technology" },
+                {
+                  label: project.program.shortLabel,
+                  children: project.program.title,
+                },
               ]}
             />
             <h1 className="text-4xl font-bold">{project.title}</h1>
@@ -71,10 +74,7 @@ export default async function ProjectPage({
         </div>
 
         <div className="flex flex-col gap-9 md:mx-8">
-          <SanityImage
-            image={project.heroImage}
-            className="md:rounded-[20px]"
-          />
+          <SanityImage image={project.heroImage} className="rounded-[20px]" />
 
           {project.content &&
             project.content.map((content, i) => (

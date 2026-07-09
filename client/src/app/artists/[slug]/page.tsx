@@ -28,8 +28,8 @@ export default async function ArtistPage({
             <div className="flex flex-row justify-between w-full ml-2">
               <Breadcrumbs
                 buttons={[
-                  { text: "Artist", href: "/artists", variant: "half" },
-                  { text: artist.program },
+                  { label: "Artist", href: "/artists", variant: "half" },
+                  { label: artist.program.shortLabel },
                 ]}
               />
               {artist.locations && <LocationPin locations={artist.locations} />}

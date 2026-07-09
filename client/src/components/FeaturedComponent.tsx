@@ -74,7 +74,7 @@ function CarouselContent({
             {program.description}
           </p>
           <Link
-            href={`/projects?program=${encodeURIComponent(program.slug.current)}`}
+            href={`/art-and-technology?program=${encodeURIComponent(program.slug.current)}`}
             className="font-milling font-bold text-[24px] underline underline-offset-2 text-ch-midnite"
           >
             Explore→
@@ -116,7 +116,7 @@ function CarouselContent({
             {program.description}
           </p>
           <Link
-            href={`/projects?program=${encodeURIComponent(program.slug.current)}`}
+            href={`/art-and-technology?program=${encodeURIComponent(program.slug.current)}`}
             className="font-milling font-bold text-[24px] underline underline-offset-2 text-ch-midnite"
           >
             Explore→
@@ -141,8 +141,9 @@ function TabBar({
 }) {
   return (
     <div className="flex items-end justify-center md:justify-start gap-4">
-      {programs.map((program) => {
+      {programs.map((program, index) => {
         const accentColor = program.accentColor;
+        const isLast = index === programs.length - 1;
 
         return (
           <button
@@ -157,7 +158,8 @@ function TabBar({
               w-[122px] h-[50px] md:w-auto md:h-auto flex-shrink-0
               px-4 py-5
               text-ch-midnite border-ch-midnite
-              ${program.slug.current === activeProgram ? "-mb-px relative z-10 md:mb-0 md:static md:z-auto" : ""}
+              ${program.slug.current === activeProgram ? "-mb-px relative z-10" : ""}
+              ${isLast && program.slug.current === activeProgram ? "md:-mb-px md:relative md:z-10 md:pb-[21px]" : "md:mb-0 md:static md:z-auto"}
             `}
             style={{
               backgroundColor: accentColor,
@@ -205,7 +207,7 @@ export default function FeaturedClient({ programs }: { programs: Program[] }) {
   const accentColor = program.accentColor;
 
   return (
-    <section className="w-full md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] md:mx-auto">
+    <section className="w-full md:px-8">
       <TabBar
         activeProgram={activeProgram}
         onSelect={setActiveProgram}
@@ -213,7 +215,7 @@ export default function FeaturedClient({ programs }: { programs: Program[] }) {
       />
 
       <div
-        className="w-full border-y border-solid border-ch-midnite md:border md:border-ch-midnite md:rounded-b-[5px]"
+        className="w-full border-y border-solid border-ch-midnite md:border md:border-ch-midnite"
         style={{ backgroundColor: accentColor }}
       >
         <CarouselContent

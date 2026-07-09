@@ -22,8 +22,8 @@ export default async function ProjectsIndexPage() {
       <Link href="/artists">
         <h1 className="text-4xl font-bold mb-8">Artist</h1>
       </Link>
-      <Link href="/projects">
-        <h1 className="text-4xl font-bold mb-8">Projects</h1>
+      <Link href="/art-and-technology">
+        <h1 className="text-4xl font-bold mb-8">Art & Technology</h1>
       </Link>
     </main>
   );
