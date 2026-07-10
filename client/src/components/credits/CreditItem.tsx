@@ -1,10 +1,10 @@
-type CreditItemData = {
-  _key: string;
-  role?: string | null;
-  people?: string | null;
-};
-
-export default function CreditItem({ role, people }: CreditItemData) {
+export default function CreditItem({
+  role,
+  people,
+}: {
+  role: string;
+  people: string;
+}) {
   return (
     <div>
       <span className="font-brook uppercase">{role}</span>

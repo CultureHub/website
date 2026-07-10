@@ -1,25 +1,11 @@
-import { PortableText, type PortableTextBlock } from "next-sanity";
+import { PortableText } from "next-sanity";
 import CreditLocation from "./CreditLocation";
 import CreditGroup from "./CreditGroup";
 
-type CreditSectionData = {
-  description?: PortableTextBlock[] | null;
-  locations?: Array<{
-    _key: string;
-    name?: string | null;
-    description?: PortableTextBlock[] | null;
-    groups?: Array<{
-      _key: string;
-      name?: string | null;
-      description?: PortableTextBlock[] | null;
-      items?: Array<{
-        _key: string;
-        role?: string | null;
-        people?: string | null;
-      }> | null;
-    }> | null;
-  }> | null;
-};
+interface CreditSectionData {
+  description?: unknown;
+  locations?: unknown[];
+}
 
 export default function CreditSection({
   credits,
@@ -45,14 +31,16 @@ export default function CreditSection({
 
       {description && (
         <div className="font-brook italic text-2xl leading-[1.083] tracking-[-0.02em]">
-          <PortableText value={description} />
+          <PortableText
+            value={description as Parameters<typeof PortableText>[0]["value"]}
+          />
         </div>
       )}
 
       {isMultiLocation ? (
         <div className="columns-1 md:columns-2 md:gap-x-16">
-          {locations.map((location) => (
-            <CreditLocation key={location._key} location={location} />
+          {locations.map((location: Record<string, unknown>) => (
+            <CreditLocation key={location._key as string} location={location} />
           ))}
         </div>
       ) : (
@@ -62,10 +50,15 @@ export default function CreditSection({
             gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
           }}
         >
-          {locations[0].groups &&
-            locations[0].groups.map((group) => (
-              <CreditGroup key={group._key} group={group} />
-            ))}
+          {(locations[0] as Record<string, unknown>).groups &&
+            ((locations[0] as Record<string, unknown>).groups as unknown[]).map(
+              (group) => (
+                <CreditGroup
+                  key={(group as Record<string, unknown>)._key as string}
+                  group={group as Record<string, unknown>}
+                />
+              ),
+            )}
         </div>
       )}
     </div>
