@@ -360,7 +360,7 @@ export type Project = {
         _type: "block";
         _key: string;
       }>;
-      organizations?: Array<{
+      groups?: Array<{
         name?: string;
         description?: Array<{
           children?: Array<{
@@ -388,16 +388,16 @@ export type Project = {
           _type: "block";
           _key: string;
         }>;
-        teams?: Array<{
+        items?: Array<{
           role?: string;
           people?: string;
-          _type: "team";
+          _type: "creditItem";
           _key: string;
         }>;
-        _type: "organization";
+        _type: "creditGroup";
         _key: string;
       }>;
-      _type: "location";
+      _type: "creditLocation";
       _key: string;
     }>;
   };
@@ -855,7 +855,7 @@ export type GetArtistsBySlugQueryResult = {
           _type: "block";
           _key: string;
         }>;
-        organizations?: Array<{
+        groups?: Array<{
           name?: string;
           description?: Array<{
             children?: Array<{
@@ -883,16 +883,16 @@ export type GetArtistsBySlugQueryResult = {
             _type: "block";
             _key: string;
           }>;
-          teams?: Array<{
+          items?: Array<{
             role?: string;
             people?: string;
-            _type: "team";
+            _type: "creditItem";
             _key: string;
           }>;
-          _type: "organization";
+          _type: "creditGroup";
           _key: string;
         }>;
-        _type: "location";
+        _type: "creditLocation";
         _key: string;
       }>;
     };
@@ -1133,7 +1133,7 @@ export type GetProjectBySlugQueryResult = {
         _type: "block";
         _key: string;
       }>;
-      organizations?: Array<{
+      groups?: Array<{
         name?: string;
         description?: Array<{
           children?: Array<{
@@ -1161,16 +1161,16 @@ export type GetProjectBySlugQueryResult = {
           _type: "block";
           _key: string;
         }>;
-        teams?: Array<{
+        items?: Array<{
           role?: string;
           people?: string;
-          _type: "team";
+          _type: "creditItem";
           _key: string;
         }>;
-        _type: "organization";
+        _type: "creditGroup";
         _key: string;
       }>;
-      _type: "location";
+      _type: "creditLocation";
       _key: string;
     }>;
   };
