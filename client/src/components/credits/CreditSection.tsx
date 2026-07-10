@@ -23,14 +23,14 @@ export default function CreditSection({
 
   return (
     <div className="flex flex-col gap-[52px]">
-      <div className="w-full py-6 border-t border-ch-midnite">
-        <h3 className="font-milling text-[28px] font-bold uppercase text-ch-midnite">
+      <div className="w-full py-6 border-t border-b border-ch-midnite">
+        <h3 className="font-milling text-[28px] font-bold text-ch-midnite">
           Credits
         </h3>
       </div>
 
       {description && (
-        <div className="font-brook italic text-2xl leading-[1.083] tracking-[-0.02em]">
+        <div className="font-brook italic text-2xl leading-[1.083] tracking-[-0.02em] max-w-[800px]">
           <PortableText value={description} />
         </div>
       )}
@@ -51,7 +51,7 @@ export default function CreditSection({
           if (!groups) return null;
           return (
             <div
-              className="grid gap-[52px]"
+              className="grid gap-[50px]"
               style={{
                 gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
               }}
