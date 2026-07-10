@@ -1,41 +1,35 @@
 import { PortableText } from "next-sanity";
+import type { Project } from "@/sanity/types";
 import CreditItem from "./CreditItem";
 
-export default function CreditGroup({
-  group,
-}: {
-  group: Record<string, unknown>;
-}) {
-  const description = group.description as Parameters<
-    typeof PortableText
-  >[0]["value"];
-  const items = group.items as unknown[] | undefined;
+type CreditData = NonNullable<Project["credits"]>;
+type CreditLocationData = NonNullable<CreditData["locations"]>[number];
+type CreditGroupData = NonNullable<CreditLocationData["groups"]>[number];
+type CreditItemData = NonNullable<CreditGroupData["items"]>[number];
 
+export default function CreditGroup({ group }: { group: CreditGroupData }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row py-2.5 justify-center items-center border-t border-b border-ch-midnite gap-2.5">
         <div className="w-[11px] h-[11px] rounded-full bg-ch-midnite shrink-0" />
         <h4 className="font-milling text-xl font-bold uppercase">
-          {group.name as string}
+          {group.name}
         </h4>
       </div>
-      {Boolean(description) && (
+      {group.description && (
         <div className="font-brook italic text-xl leading-[1.083] tracking-[-0.02em]">
-          <PortableText value={description} />
+          <PortableText value={group.description} />
         </div>
       )}
-      {items && items.length > 0 && (
+      {group.items && group.items.length > 0 && (
         <div className="font-milling text-xl flex flex-col gap-3">
-          {items.map((item) => {
-            const i = item as Record<string, unknown>;
-            return (
-              <CreditItem
-                key={i._key as string}
-                role={(i.role as string) || ""}
-                people={(i.people as string) || ""}
-              />
-            );
-          })}
+          {group.items.map((item) => (
+            <CreditItem
+              key={item._key}
+              role={item.role ?? ""}
+              people={item.people ?? ""}
+            />
+          ))}
         </div>
       )}
     </div>

@@ -1,17 +1,17 @@
 import { PortableText } from "next-sanity";
+import type { Project } from "@/sanity/types";
 import CreditLocation from "./CreditLocation";
 import CreditGroup from "./CreditGroup";
 
-interface CreditSectionData {
-  description?: unknown;
-  locations?: unknown[];
-}
+type CreditData = NonNullable<Project["credits"]>;
+type CreditLocationData = NonNullable<CreditData["locations"]>[number];
+type CreditGroupData = NonNullable<CreditLocationData["groups"]>[number];
 
 export default function CreditSection({
   credits,
   columns = 2,
 }: {
-  credits: CreditSectionData | null | undefined;
+  credits: CreditData | null | undefined;
   columns?: number;
 }) {
   if (!credits) return null;
@@ -20,28 +20,6 @@ export default function CreditSection({
   if (!locations || locations.length === 0) return null;
 
   const isMultiLocation = locations.length > 1;
-  const descValue = description as Parameters<typeof PortableText>[0]["value"];
-
-  const renderFlatGroups = () => {
-    const firstLoc = locations[0] as Record<string, unknown>;
-    const groups = firstLoc.groups as unknown[] | undefined;
-    if (!groups) return null;
-    return (
-      <div
-        className="grid gap-[52px]"
-        style={{
-          gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-        }}
-      >
-        {groups.map((group) => (
-          <CreditGroup
-            key={(group as Record<string, unknown>)._key as string}
-            group={group as Record<string, unknown>}
-          />
-        ))}
-      </div>
-    );
-  };
 
   return (
     <div className="flex flex-col gap-[52px]">
@@ -51,9 +29,9 @@ export default function CreditSection({
         </h3>
       </div>
 
-      {Boolean(descValue) && (
+      {description && (
         <div className="font-brook italic text-2xl leading-[1.083] tracking-[-0.02em]">
-          <PortableText value={descValue} />
+          <PortableText value={description} />
         </div>
       )}
 
@@ -61,13 +39,32 @@ export default function CreditSection({
         <div className="columns-1 md:columns-2 md:gap-x-16">
           {locations.map((location) => (
             <CreditLocation
-              key={(location as Record<string, unknown>)._key as string}
-              location={location as Record<string, unknown>}
+              key={location._key}
+              location={location as CreditLocationData}
             />
           ))}
         </div>
       ) : (
-        renderFlatGroups()
+        (() => {
+          const firstLoc = locations[0] as CreditLocationData;
+          const groups = firstLoc.groups;
+          if (!groups) return null;
+          return (
+            <div
+              className="grid gap-[52px]"
+              style={{
+                gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+              }}
+            >
+              {groups.map((group) => (
+                <CreditGroup
+                  key={group._key}
+                  group={group as CreditGroupData}
+                />
+              ))}
+            </div>
+          );
+        })()
       )}
     </div>
   );
