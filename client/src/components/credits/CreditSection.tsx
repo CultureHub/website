@@ -20,6 +20,28 @@ export default function CreditSection({
   if (!locations || locations.length === 0) return null;
 
   const isMultiLocation = locations.length > 1;
+  const descValue = description as Parameters<typeof PortableText>[0]["value"];
+
+  const renderFlatGroups = () => {
+    const firstLoc = locations[0] as Record<string, unknown>;
+    const groups = firstLoc.groups as unknown[] | undefined;
+    if (!groups) return null;
+    return (
+      <div
+        className="grid gap-[52px]"
+        style={{
+          gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+        }}
+      >
+        {groups.map((group) => (
+          <CreditGroup
+            key={(group as Record<string, unknown>)._key as string}
+            group={group as Record<string, unknown>}
+          />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="flex flex-col gap-[52px]">
@@ -29,37 +51,23 @@ export default function CreditSection({
         </h3>
       </div>
 
-      {description && (
+      {Boolean(descValue) && (
         <div className="font-brook italic text-2xl leading-[1.083] tracking-[-0.02em]">
-          <PortableText
-            value={description as Parameters<typeof PortableText>[0]["value"]}
-          />
+          <PortableText value={descValue} />
         </div>
       )}
 
       {isMultiLocation ? (
         <div className="columns-1 md:columns-2 md:gap-x-16">
-          {locations.map((location: Record<string, unknown>) => (
-            <CreditLocation key={location._key as string} location={location} />
+          {locations.map((location) => (
+            <CreditLocation
+              key={(location as Record<string, unknown>)._key as string}
+              location={location as Record<string, unknown>}
+            />
           ))}
         </div>
       ) : (
-        <div
-          className="grid gap-[52px]"
-          style={{
-            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-          }}
-        >
-          {(locations[0] as Record<string, unknown>).groups &&
-            ((locations[0] as Record<string, unknown>).groups as unknown[]).map(
-              (group) => (
-                <CreditGroup
-                  key={(group as Record<string, unknown>)._key as string}
-                  group={group as Record<string, unknown>}
-                />
-              ),
-            )}
-        </div>
+        renderFlatGroups()
       )}
     </div>
   );

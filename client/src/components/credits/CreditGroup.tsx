@@ -6,6 +6,11 @@ export default function CreditGroup({
 }: {
   group: Record<string, unknown>;
 }) {
+  const description = group.description as Parameters<
+    typeof PortableText
+  >[0]["value"];
+  const items = group.items as unknown[] | undefined;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row py-2.5 justify-center items-center border-t border-b border-ch-midnite gap-2.5">
@@ -14,18 +19,14 @@ export default function CreditGroup({
           {group.name as string}
         </h4>
       </div>
-      {group.description && (
+      {Boolean(description) && (
         <div className="font-brook italic text-xl leading-[1.083] tracking-[-0.02em]">
-          <PortableText
-            value={
-              group.description as Parameters<typeof PortableText>[0]["value"]
-            }
-          />
+          <PortableText value={description} />
         </div>
       )}
-      {group.items && (group.items as unknown[]).length > 0 && (
+      {items && items.length > 0 && (
         <div className="font-milling text-xl flex flex-col gap-3">
-          {(group.items as unknown[]).map((item) => {
+          {items.map((item) => {
             const i = item as Record<string, unknown>;
             return (
               <CreditItem
