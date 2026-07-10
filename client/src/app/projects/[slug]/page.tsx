@@ -80,8 +80,8 @@ export default async function ProjectPage({
 
           {project.related && (
             <div className="flex flex-col gap-[21px] mx-6 md:mx-0">
-              <div className="w-full py-6 border-t border-black">
-                <h3 className="text-3xl font-bold uppercase">Related</h3>
+              <div className="w-full py-6 border-t border-b border-black">
+                <h3 className="text-[28px] font-bold">Related</h3>
               </div>
               <RelatedCarousel related={project.related} />
             </div>

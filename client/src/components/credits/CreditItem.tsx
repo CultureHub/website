@@ -7,8 +7,8 @@ export default function CreditItem({
 }) {
   return (
     <div>
-      {role && <p className="font-brook uppercase">{role}</p>}
-      <p className="font-milling">{people}</p>
+      {role && <p className="font-brook uppercase text-xl">{role}</p>}
+      <p className="font-milling font-bold text-xl">{people}</p>
     </div>
   );
 }

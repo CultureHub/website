@@ -30,7 +30,7 @@ export default function CreditSection({
       </div>
 
       {description && (
-        <div className="font-brook italic text-2xl leading-[1.083] tracking-[-0.02em] max-w-[800px]">
+        <div className="font-brook italic text-2xl leading-[1.083] tracking-[-0.02em]">
           <PortableText value={description} />
         </div>
       )}
