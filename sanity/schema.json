@@ -2368,7 +2368,7 @@
                       },
                       "optional": true
                     },
-                    "organizations": {
+                    "groups": {
                       "type": "objectAttribute",
                       "value": {
                         "type": "array",
@@ -2561,7 +2561,7 @@
                               },
                               "optional": true
                             },
-                            "teams": {
+                            "items": {
                               "type": "objectAttribute",
                               "value": {
                                 "type": "array",
@@ -2586,7 +2586,7 @@
                                       "type": "objectAttribute",
                                       "value": {
                                         "type": "string",
-                                        "value": "team"
+                                        "value": "creditItem"
                                       }
                                     }
                                   },
@@ -2609,7 +2609,7 @@
                               "type": "objectAttribute",
                               "value": {
                                 "type": "string",
-                                "value": "organization"
+                                "value": "creditGroup"
                               }
                             }
                           },
@@ -2632,7 +2632,7 @@
                       "type": "objectAttribute",
                       "value": {
                         "type": "string",
-                        "value": "location"
+                        "value": "creditLocation"
                       }
                     }
                   },

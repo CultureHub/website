@@ -3,6 +3,7 @@ import {defineField, defineType, Rule} from 'sanity'
 import { imageField } from "@/util/image"
 import { linksField } from "@/util/link"
 import { programField } from "@/util/program"
+import { creditFields } from "@/schemaTypes/shared/creditFields"
 
 export const projectType = defineType({
   name: 'project',
@@ -145,93 +146,7 @@ export const projectType = defineType({
         },
       ],
     }),
-    defineField({
-      title: 'Credits',
-      name: "credits",
-      type: "object",
-      fields: [
-        {
-          title: 'Description',
-          name: 'description',
-          type: 'array',
-          of: [{type: 'block'}],
-        },
-        {
-          title: 'Locations',
-          name: 'locations',
-          type: 'array',
-          of: [
-            {
-              title: 'Location',
-              name: "location",
-              type: "object",
-              fields: [
-                {
-                  title: 'Name',
-                  name: 'name',
-                  type: 'string',
-                },
-                {
-                  title: 'Description',
-                  name: 'description',
-                  type: 'array',
-                  of: [{type: 'block'}],
-                },
-                {
-                  title: 'Organizations',
-                  name: "organizations",
-                  type: "array",
-                  of: [
-                    {
-                      title: 'Organization',
-                      name: "organization",
-                      type: "object",
-                      fields: [
-                        {
-                          title: 'Name',
-                          name: 'name',
-                          type: 'string',
-                        },
-                        {
-                          title: 'Description',
-                          name: 'description',
-                          type: 'array',
-                          of: [{type: 'block'}],
-                        },
-                        {
-                          title: 'Teams',
-                          name: 'teams',
-                          type: 'array',
-                          of: [
-                            {
-                              title: "Team",
-                              name: "team",
-                              type: "object",
-                              fields: [
-                                {
-                                  title: "Role",
-                                  name: "role",
-                                  type: "string",
-                                },
-                                {
-                                  title: "People",
-                                  name: "people",
-                                  type: "string",
-                                },
-                              ],
-                            }
-                          ],
-                        },
-                      ]
-                    },
-                  ],
-                },
-              ],
-            }
-          ],
-        },
-      ],
-    }),
+    ...creditFields,
     defineField({
       title: 'Related',
       name: "related",
