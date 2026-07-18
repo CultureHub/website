@@ -24,21 +24,8 @@ export default async function EventPage({ params }: EventPageProps) {
 
   return (
     <main className="min-h-screen">
-      <SanityImage
-        image={event.heroImage}
-        className="w-full h-[676px] object-cover"
-      />
-
-      {event.heroImage?.credits && (
-        <div className="flex justify-end px-16 py-9">
-          <p className="font-brook italic text-sm text-[#ACACAC]">
-            {event.heroImage.credits}
-          </p>
-        </div>
-      )}
-
-      <div className="px-16 py-9 flex flex-col items-center gap-5">
-        <div className="flex justify-between w-full">
+      <div className="py-9 flex flex-col items-center gap-5 bg-ch-lite">
+        <div className="flex justify-between w-full px-16">
           <div className="flex flex-col gap-6">
             <Breadcrumbs
               buttons={[
@@ -62,7 +49,7 @@ export default async function EventPage({ params }: EventPageProps) {
           )}
         </div>
 
-        <div className="flex justify-between items-center w-full max-w-[1312px]">
+        <div className="flex justify-between items-center w-full max-w-[1312px] px-16">
           <h1 className="font-milling font-bold text-5xl text-ch-midnite">
             {event.title}
           </h1>
@@ -81,6 +68,19 @@ export default async function EventPage({ params }: EventPageProps) {
           )}
         </div>
       </div>
+
+      <SanityImage
+        image={event.heroImage}
+        className="w-full h-[676px] object-cover"
+      />
+
+      {event.heroImage?.credits && (
+        <div className="flex justify-end px-16 py-9">
+          <p className="font-brook italic text-sm text-[#ACACAC]">
+            {event.heroImage.credits}
+          </p>
+        </div>
+      )}
 
       <div className="px-16 py-9 flex justify-between">
         <div className="w-[449px] pr-8 border-r border-ch-midnite flex flex-col gap-5">
@@ -245,7 +245,11 @@ export default async function EventPage({ params }: EventPageProps) {
         </section>
       )}
 
-      {event.credits && <CreditSection credits={event.credits} />}
+      {event.credits && (
+        <section className="px-16 py-9">
+          <CreditSection credits={event.credits} />
+        </section>
+      )}
 
       <UpcomingEvents />
     </main>

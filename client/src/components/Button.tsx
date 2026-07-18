@@ -55,7 +55,8 @@ export default function Button({
       containerClasses += "bg-ch-lite outline-ch-midnite";
       break;
     case "rounded":
-      containerClasses += "bg-ch-lite rounded-[5px] outline-ch-midnite";
+      containerClasses +=
+        "bg-ch-lite rounded-[5px] outline-ch-midnite px-[10px] py-2.5";
       break;
   }
 
