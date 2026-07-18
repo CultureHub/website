@@ -29,12 +29,17 @@ export default async function EventPage({ params }: EventPageProps) {
           <div className="flex flex-col gap-6">
             <Breadcrumbs
               buttons={[
-                { label: "Events", href: "/events" },
+                {
+                  label: "Events",
+                  href: "/events",
+                  variant: "square" as const,
+                },
                 ...(event.program
                   ? [
                       {
                         label: event.program.shortLabel ?? "",
                         children: event.program.title,
+                        variant: "pill" as const,
                       },
                     ]
                   : []),
@@ -42,9 +47,11 @@ export default async function EventPage({ params }: EventPageProps) {
             />
           </div>
 
-          {event.location && (
+          {(event.locationShort || event.location) && (
             <div className="flex flex-col items-end">
-              <LocationPin locations={[event.location]} />
+              <LocationPin
+                locations={[event.locationShort ?? event.location ?? ""]}
+              />
             </div>
           )}
         </div>
@@ -61,7 +68,7 @@ export default async function EventPage({ params }: EventPageProps) {
                   variant="rounded"
                   href={link.url ?? undefined}
                 >
-                  {link.label}
+                  {link.shortLabel ?? link.label}
                 </Button>
               ))}
             </div>

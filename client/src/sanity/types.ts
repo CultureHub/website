@@ -989,7 +989,7 @@ export type GetArtistsBySlugQueryResult = {
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getProjectBySlugQuery
-// Query: *[_type == "project" && slug.current == $slug][0]{      ...,      "program": program->{ _id, title, slug, shortLabel, displayTitle },      related[]->{        _id,        _type,        "image": select(          _type == "project" => heroImage,          _type == "artist" => image,        ),        "title": select(          _type == "project" => title,          _type == "artist" => name,        ),      },    }
+// Query: *[_type == "project" && slug.current == $slug][0]{      ...,      "program": program->{ _id, title, slug, shortLabel, displayTitle },      related[]->{        _id,        _type,        "slug": slug.current,        "image": select(          _type == "project" => heroImage,          _type == "artist" => image,        ),        "title": select(          _type == "project" => title,          _type == "artist" => name,        ),      },    }
 export type GetProjectBySlugQueryResult = {
   _id: string;
   _type: "project";
@@ -1634,10 +1634,12 @@ export type GetEventBySlugQueryResult = {
     _key: string;
   }>;
   cost?: string;
+  locationShort?: string;
   location?: string;
   accessInfo?: string;
   links?: Array<{
     label: string;
+    shortLabel?: string;
     url: string;
     _key: string;
   }>;
@@ -1842,7 +1844,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    "program": program->{ _id, title, slug, shortLabel },\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
-    '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
+    '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "slug": slug.current,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
     '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
     'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;

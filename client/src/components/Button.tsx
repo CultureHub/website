@@ -56,7 +56,8 @@ export default function Button({
       break;
     case "rounded":
       containerClasses +=
-        "bg-ch-lite rounded-[5px] outline-ch-midnite px-[10px] py-2.5";
+        "bg-ch-lite rounded-[5px] outline-ch-midnite px-[10px] py-[10px]";
+      textClasses = "text-ch-midnite font-milling font-bold text-2xl leading-6";
       break;
   }
 

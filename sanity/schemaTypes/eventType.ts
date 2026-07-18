@@ -1,5 +1,5 @@
 import { defineField, defineType } from 'sanity'
-import { CalendarIcon } from '@sanity/icons'
+import { CalendarIcon } from '@sanity/icons/Calendar';
 
 import { imageField } from '@/util/image'
 import { linkField } from '@/util/link'
@@ -12,7 +12,6 @@ export const eventType = defineType({
   type: 'document',
   icon: CalendarIcon,
   fields: [
-    // --- Core Metadata ---
     defineField({
       title: 'Title',
       name: 'title',
@@ -41,7 +40,6 @@ export const eventType = defineType({
       of: [{ type: 'block' }],
     }),
 
-    // --- Event Logistics ---
     defineField({
       title: 'Date / Times',
       name: 'dateTimes',
@@ -80,9 +78,16 @@ export const eventType = defineType({
       type: 'string',
     }),
     defineField({
-      title: 'Location',
+      title: 'Location Short',
+      name: 'locationShort',
+      type: 'string',
+      description: 'Brief location label for the page header pin (e.g. "New York" or "New York, Online")',
+    }),
+    defineField({
+      title: 'Location Description',
       name: 'location',
       type: 'text',
+      description: 'Full address displayed in the details sidebar',
     }),
     defineField({
       title: 'Access Info',
@@ -237,7 +242,6 @@ export const eventType = defineType({
       ],
     }),
 
-    // --- Credits ---
     ...creditFields,
   ],
 })
