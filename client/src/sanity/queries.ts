@@ -24,6 +24,7 @@ export function getProjectBySlug(slug: string) {
       related[]->{
         _id,
         _type,
+        "slug": slug.current,
         "image": select(
           _type == "project" => heroImage,
           _type == "artist" => image,

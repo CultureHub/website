@@ -1178,6 +1178,7 @@ export type GetProjectBySlugQueryResult = {
     | {
         _id: string;
         _type: "artist";
+        slug: string;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -1192,6 +1193,7 @@ export type GetProjectBySlugQueryResult = {
     | {
         _id: string;
         _type: "project";
+        slug: string;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
