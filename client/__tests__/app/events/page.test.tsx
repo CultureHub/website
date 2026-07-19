@@ -203,9 +203,9 @@ describe("EventPage", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("$15")).toBeInTheDocument();
+      expect(screen.getAllByText("$15")[0]).toBeInTheDocument();
       expect(screen.getAllByText("CultureHub NYC")[0]).toBeInTheDocument();
-      expect(screen.getByText("Elevator available")).toBeInTheDocument();
+      expect(screen.getAllByText("Elevator available")[0]).toBeInTheDocument();
     });
   });
 
