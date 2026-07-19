@@ -70,8 +70,8 @@ export default async function EventPage({ params }: EventPageProps) {
 
   return (
     <main className="min-h-screen">
-      <div className="py-9 flex flex-col items-center gap-5 bg-ch-lite">
-        <div className="flex justify-between w-full px-6 md:px-16">
+      <div className="py-9 px-6 md:px-16 flex flex-col items-center gap-5 bg-ch-lite">
+        <div className="flex justify-between w-full">
           <div className="flex flex-col gap-6">
             <Breadcrumbs
               buttons={[
@@ -102,7 +102,7 @@ export default async function EventPage({ params }: EventPageProps) {
           )}
         </div>
 
-        <div className="flex justify-between items-center w-full max-w-[1312px] px-6 md:px-16">
+        <div className="flex justify-between items-center w-full ">
           <h1 className="font-milling font-bold text-4xl md:text-5xl text-ch-midnite">
             {event.title}
           </h1>
