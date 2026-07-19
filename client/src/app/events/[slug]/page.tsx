@@ -56,7 +56,7 @@ export default async function EventPage({ params }: EventPageProps) {
           )}
         </div>
 
-        <div className="flex justify-between items-center w-full max-w-[1312px] px-16">
+        <div className="flex justify-between items-center w-full max-w-[1312px]">
           <h1 className="font-milling font-bold text-5xl text-ch-midnite">
             {event.title}
           </h1>
@@ -65,7 +65,7 @@ export default async function EventPage({ params }: EventPageProps) {
               {event.links.map((link) => (
                 <Button
                   key={link._key}
-                  variant="rounded"
+                  variant="ticket"
                   href={link.url ?? undefined}
                 >
                   {link.shortLabel ?? link.label}
@@ -142,8 +142,9 @@ export default async function EventPage({ params }: EventPageProps) {
               {event.links.map((link) => (
                 <Button
                   key={link._key}
-                  variant="rounded"
+                  variant="ticket"
                   href={link.url ?? undefined}
+                  className="w-1/2"
                 >
                   {link.label}
                 </Button>
