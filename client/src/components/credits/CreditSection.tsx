@@ -9,10 +9,8 @@ type CreditGroupData = NonNullable<CreditLocationData["groups"]>[number];
 
 export default function CreditSection({
   credits,
-  columns = 2,
 }: {
   credits: CreditData | null | undefined;
-  columns?: number;
 }) {
   if (!credits) return null;
 
