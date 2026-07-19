@@ -1,0 +1,21 @@
+[     491ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[     538ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[     575ms] [WARNING] Image with src "https://cdn.sanity.io/images/2r5hg86f/production/a15d78d0019c1b3c8d361255d1416312cb049217-1440x676.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[     746ms] [WARNING] Image with src "https://cdn.sanity.io/images/2r5hg86f/production/a15d78d0019c1b3c8d361255d1416312cb049217-1440x676.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  122525ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  122991ms] [LOG] [Fast Refresh] done in 114ms @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  123110ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  123414ms] [LOG] [Fast Refresh] done in 405ms @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  538148ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  538352ms] [LOG] [Fast Refresh] done in 82ms @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  544488ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  544733ms] [LOG] [Fast Refresh] done in 21ms @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  550122ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  550170ms] [LOG] [Fast Refresh] done in 25ms @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  550272ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  550517ms] [LOG] [Fast Refresh] done in 344ms @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  555797ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  556221ms] [LOG] [Fast Refresh] done in 50ms @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  563090ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287
+[  563339ms] [LOG] [Fast Refresh] done in 26ms @ http://localhost:3000/_next/static/chunks/c1368_next_dist_d0ac966e._.js:2287

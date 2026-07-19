@@ -1634,6 +1634,7 @@ export type GetEventBySlugQueryResult = {
     _key: string;
   }>;
   cost?: string;
+  timezoneLabel?: string;
   locationShort?: string;
   location?: string;
   accessInfo?: string;

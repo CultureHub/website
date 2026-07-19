@@ -20,7 +20,10 @@ export default async function EventPage({ params }: EventPageProps) {
 
   if (!event) notFound();
 
-  const dates = formatEventDates(event.dateTimes ?? []);
+  const dates = formatEventDates(
+    event.dateTimes ?? [],
+    event.timezoneLabel ?? undefined,
+  );
 
   return (
     <main className="min-h-screen">

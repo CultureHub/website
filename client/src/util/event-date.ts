@@ -122,6 +122,7 @@ function formatDateRange(dates: Date[]): string {
 
 export function formatEventDates(
   dateTimes: DateTimeRange[],
+  timezoneLabel?: string,
 ): FormattedEventDates | null {
   if (dateTimes.length === 0) return null;
 
@@ -145,7 +146,7 @@ export function formatEventDates(
   }
 
   const dateRange = formatDateRange(dayGroups.map((g) => g.date));
-  const timeDescription = formatTimeDescription(dayGroups);
+  const timeDescription = formatTimeDescription(dayGroups, timezoneLabel);
 
   return { dateRange, timeDescription };
 }
@@ -155,7 +156,10 @@ function formatTimeDescription(
     date: Date;
     entries: { start: Date; end: Date }[];
   }[],
+  timezoneLabel?: string,
 ): string {
+  const tz = timezoneLabel ? ` ${timezoneLabel}` : "";
+
   if (dayGroups.length === 1 && dayGroups[0].entries.length === 1) {
     const e = dayGroups[0].entries[0];
     return formatTimeRange(e.start, e.end);
@@ -197,16 +201,16 @@ function formatTimeDescription(
 
     if (merged.length === 1) {
       if (group.dates.length === 1) {
-        return `${times.join(timeJoin)} ET`;
+        return `${times.join(timeJoin)}${tz}`;
       }
-      return `${dayNames.join(" & ")} at ${times.join(timeJoin)} ET`;
+      return `${dayNames.join(" & ")} at ${times.join(timeJoin)}${tz}`;
     }
 
     if (group.dates.length === 1) {
-      return `${dayNames[0]} at ${times.join(timeJoin)} ET`;
+      return `${dayNames[0]} at ${times.join(timeJoin)}${tz}`;
     }
 
-    return `${dayNames.join(" & ")} at ${times.join(timeJoin)} ET`;
+    return `${dayNames.join(" & ")} at ${times.join(timeJoin)}${tz}`;
   });
 
   return lines.join("\n");

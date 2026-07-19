@@ -73,6 +73,12 @@ export const eventType = defineType({
       ],
     }),
     defineField({
+      title: 'Timezone Label',
+      name: 'timezoneLabel',
+      type: 'string',
+      description: 'Displayed in time descriptions (e.g. "ET", "PT"). Leave empty to omit.',
+    }),
+    defineField({
       title: 'Cost',
       name: 'cost',
       type: 'string',

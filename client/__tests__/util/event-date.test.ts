@@ -14,30 +14,63 @@ describe("formatEventDates", () => {
   });
 
   it("formats a single day with two time slots", () => {
-    const result = formatEventDates([
-      { start: "2026-05-28T14:00:00-04:00", end: "2026-05-28T16:00:00-04:00" },
-      { start: "2026-05-28T19:00:00-04:00", end: "2026-05-28T21:00:00-04:00" },
-    ]);
+    const result = formatEventDates(
+      [
+        {
+          start: "2026-05-28T14:00:00-04:00",
+          end: "2026-05-28T16:00:00-04:00",
+        },
+        {
+          start: "2026-05-28T19:00:00-04:00",
+          end: "2026-05-28T21:00:00-04:00",
+        },
+      ],
+      "ET",
+    );
     expect(result?.dateRange).toBe("Thursday, May 28, 2026");
     expect(result?.timeDescription).toBe("2pm and 7pm ET");
   });
 
   it("formats multi-day with same time each day", () => {
-    const result = formatEventDates([
-      { start: "2026-04-09T19:00:00-04:00", end: "2026-04-09T20:30:00-04:00" },
-      { start: "2026-04-10T19:00:00-04:00", end: "2026-04-10T20:30:00-04:00" },
-    ]);
+    const result = formatEventDates(
+      [
+        {
+          start: "2026-04-09T19:00:00-04:00",
+          end: "2026-04-09T20:30:00-04:00",
+        },
+        {
+          start: "2026-04-10T19:00:00-04:00",
+          end: "2026-04-10T20:30:00-04:00",
+        },
+      ],
+      "ET",
+    );
     expect(result?.dateRange).toBe("April 9-10, 2026");
     expect(result?.timeDescription).toBe("Thursday & Friday at 7pm ET");
   });
 
   it("formats three-day run with varied times per day", () => {
-    const result = formatEventDates([
-      { start: "2026-04-09T19:00:00-04:00", end: "2026-04-09T20:30:00-04:00" },
-      { start: "2026-04-10T19:00:00-04:00", end: "2026-04-10T20:30:00-04:00" },
-      { start: "2026-04-11T16:00:00-04:00", end: "2026-04-11T17:30:00-04:00" },
-      { start: "2026-04-11T19:30:00-04:00", end: "2026-04-11T21:00:00-04:00" },
-    ]);
+    const result = formatEventDates(
+      [
+        {
+          start: "2026-04-09T19:00:00-04:00",
+          end: "2026-04-09T20:30:00-04:00",
+        },
+        {
+          start: "2026-04-10T19:00:00-04:00",
+          end: "2026-04-10T20:30:00-04:00",
+        },
+        {
+          start: "2026-04-11T16:00:00-04:00",
+          end: "2026-04-11T17:30:00-04:00",
+        },
+        {
+          start: "2026-04-11T19:30:00-04:00",
+          end: "2026-04-11T21:00:00-04:00",
+        },
+      ],
+      "ET",
+    );
     expect(result?.dateRange).toBe("April 9-11, 2026");
     expect(result?.timeDescription).toMatch(/Thursday & Friday at 7pm/);
     expect(result?.timeDescription).toMatch(/Saturday at 4pm & 7:30pm/);
@@ -71,12 +104,27 @@ describe("formatEventDates", () => {
   });
 
   it("formats Castle Door event with start times only, grouped by day", () => {
-    const result = formatEventDates([
-      { start: "2026-04-09T19:00:00-04:00", end: "2026-04-09T20:30:00-04:00" },
-      { start: "2026-04-10T19:00:00-04:00", end: "2026-04-10T20:30:00-04:00" },
-      { start: "2026-04-11T16:00:00-04:00", end: "2026-04-11T17:30:00-04:00" },
-      { start: "2026-04-11T19:30:00-04:00", end: "2026-04-11T21:00:00-04:00" },
-    ]);
+    const result = formatEventDates(
+      [
+        {
+          start: "2026-04-09T19:00:00-04:00",
+          end: "2026-04-09T20:30:00-04:00",
+        },
+        {
+          start: "2026-04-10T19:00:00-04:00",
+          end: "2026-04-10T20:30:00-04:00",
+        },
+        {
+          start: "2026-04-11T16:00:00-04:00",
+          end: "2026-04-11T17:30:00-04:00",
+        },
+        {
+          start: "2026-04-11T19:30:00-04:00",
+          end: "2026-04-11T21:00:00-04:00",
+        },
+      ],
+      "ET",
+    );
     expect(result).not.toBeNull();
     expect(result!.dateRange).toBe("April 9-11, 2026");
     expect(result!.timeDescription).toBe(
