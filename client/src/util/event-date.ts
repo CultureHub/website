@@ -12,24 +12,33 @@ function parseDate(iso: string): Date {
   return new Date(iso);
 }
 
-function formatTime(date: Date, includeAmPm = true): string {
+function formatTime(date: Date): string {
   let hours = date.getHours();
   const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? "PM" : "AM";
+  const ampm = hours >= 12 ? "pm" : "am";
   hours = hours % 12 || 12;
-  if (minutes === 0) return `${hours}${includeAmPm ? ampm : ""}`;
-  return `${hours}:${String(minutes).padStart(2, "0")}${includeAmPm ? ampm : ""}`;
+  if (minutes === 0) return `${hours}${ampm}`;
+  return `${hours}:${String(minutes).padStart(2, "0")}${ampm}`;
 }
 
 function formatTimeRange(start: Date, end: Date): string {
-  const startH = start.getHours();
-  const endH = end.getHours();
-  const startAmPm = startH >= 12 ? "PM" : "AM";
-  const endAmPm = endH >= 12 ? "PM" : "AM";
+  const fmt = (d: Date, includeAmPm: boolean): string => {
+    let hours = d.getHours();
+    const minutes = d.getMinutes();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    if (minutes === 0) return includeAmPm ? `${hours}${ampm}` : `${hours}`;
+    return includeAmPm
+      ? `${hours}:${String(minutes).padStart(2, "0")}${ampm}`
+      : `${hours}:${String(minutes).padStart(2, "0")}`;
+  };
+
+  const startAmPm = start.getHours() >= 12 ? "PM" : "AM";
+  const endAmPm = end.getHours() >= 12 ? "PM" : "AM";
   if (startAmPm === endAmPm) {
-    return `${formatTime(start, false)}\u2013${formatTime(end, true)}`;
+    return `${fmt(start, false)}-${fmt(end, true)}`;
   }
-  return `${formatTime(start, true)}\u2013${formatTime(end, true)}`;
+  return `${fmt(start, true)}-${fmt(end, true)}`;
 }
 
 function formatWeekday(date: Date): string {
@@ -78,15 +87,6 @@ function isConsecutiveDays(dates: Date[]): boolean {
   return true;
 }
 
-function getTimePattern(entries: { start: Date; end: Date }[]): string {
-  return entries
-    .map(
-      (e) =>
-        `${e.start.getHours()}:${e.start.getMinutes()}-${e.end.getHours()}:${e.end.getMinutes()}`,
-    )
-    .join(",");
-}
-
 function formatDateRange(dates: Date[]): string {
   if (dates.length === 1) {
     return formatLongDate(dates[0]);
@@ -103,7 +103,7 @@ function formatDateRange(dates: Date[]): string {
     const month = formatMonth(dates[0]);
     const firstDay = formatNumericDay(dates[0]);
     const lastDay = formatNumericDay(dates[dates.length - 1]);
-    return `${month} ${firstDay}\u2013${lastDay}, ${formatYear(dates[0])}`;
+    return `${month} ${firstDay}-${lastDay}, ${formatYear(dates[0])}`;
   }
 
   const parts = dates.map((d) => {
@@ -156,13 +156,27 @@ function formatTimeDescription(
     entries: { start: Date; end: Date }[];
   }[],
 ): string {
-  const timeGroups: {
+  if (dayGroups.length === 1 && dayGroups[0].entries.length === 1) {
+    const e = dayGroups[0].entries[0];
+    return formatTimeRange(e.start, e.end);
+  }
+
+  const getStartTimes = (entries: { start: Date }[]): string[] =>
+    entries.map((e) => formatTime(e.start));
+
+  const getTimePattern = (entries: { start: Date }[]): string =>
+    entries
+      .map((e) => `${e.start.getHours()}:${e.start.getMinutes()}`)
+      .join(",");
+
+  const merged: {
     dates: Date[];
     entries: { start: Date; end: Date }[];
   }[] = [];
+
   for (const group of dayGroups) {
     const pattern = getTimePattern(group.entries);
-    const last = timeGroups[timeGroups.length - 1];
+    const last = merged[merged.length - 1];
     if (
       last &&
       getTimePattern(last.entries) === pattern &&
@@ -170,30 +184,30 @@ function formatTimeDescription(
     ) {
       last.dates.push(group.date);
     } else {
-      timeGroups.push({ dates: [group.date], entries: group.entries });
+      merged.push({ dates: [group.date], entries: group.entries });
     }
   }
 
-  const parts = timeGroups.map((group) => {
-    if (group.dates.length === 1) {
-      const date = group.dates[0];
-      const weekday = formatWeekday(date);
-      const timeRanges = group.entries.map((e) =>
-        formatTimeRange(e.start, e.end),
-      );
-      if (timeRanges.length === 1) {
-        return timeRanges[0];
-      } else {
-        return `${weekday}: ${timeRanges.join(" & ")}`;
+  const lines = merged.map((group) => {
+    const times = getStartTimes(group.entries);
+    const dayNames = group.dates.map((d) => formatWeekday(d));
+    const isStandaloneSingleDay =
+      merged.length === 1 && group.dates.length === 1;
+    const timeJoin = isStandaloneSingleDay ? " and " : " & ";
+
+    if (merged.length === 1) {
+      if (group.dates.length === 1) {
+        return `${times.join(timeJoin)} ET`;
       }
-    } else {
-      const dayNames = group.dates.map((d) => formatWeekday(d));
-      const timeRanges = group.entries.map((e) =>
-        formatTimeRange(e.start, e.end),
-      );
-      return `${dayNames.join(" & ")} at ${timeRanges.join(" & ")}`;
+      return `${dayNames.join(" & ")} at ${times.join(timeJoin)} ET`;
     }
+
+    if (group.dates.length === 1) {
+      return `${dayNames[0]} at ${times.join(timeJoin)} ET`;
+    }
+
+    return `${dayNames.join(" & ")} at ${times.join(timeJoin)} ET`;
   });
 
-  return parts.join(", ");
+  return lines.join("\n");
 }

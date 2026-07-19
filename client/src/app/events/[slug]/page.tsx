@@ -94,9 +94,9 @@ export default async function EventPage({ params }: EventPageProps) {
           {dates && (
             <div className="flex flex-col gap-3">
               <h3 className="font-brook text-xl uppercase">When</h3>
-              <p className="font-milling text-xl text-ch-midnite">
+              <p className="font-milling text-xl text-ch-midnite whitespace-pre-line">
                 {dates.dateRange}
-                <br />
+                {"\n"}
                 {dates.timeDescription}
               </p>
             </div>
@@ -138,16 +138,17 @@ export default async function EventPage({ params }: EventPageProps) {
           )}
 
           {event.links && event.links.length > 0 && (
-            <div className="flex gap-2.5">
+            <div className="flex flex-wrap gap-2.5">
               {event.links.map((link) => (
-                <Button
-                  key={link._key}
-                  variant="ticket"
-                  href={link.url ?? undefined}
-                  className="w-1/2"
-                >
-                  {link.label}
-                </Button>
+                <div key={link._key} className="w-1/2">
+                  <Button
+                    variant="ticket"
+                    href={link.url ?? undefined}
+                    className="w-full"
+                  >
+                    {link.label}
+                  </Button>
+                </div>
               ))}
             </div>
           )}
