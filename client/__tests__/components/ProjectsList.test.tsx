@@ -155,10 +155,23 @@ function renderList(overrides = {}) {
 }
 
 describe("ProjectsList", () => {
+  let consoleErrorSpy: jest.SpyInstance;
+
   beforeEach(() => {
     jest.clearAllMocks();
     setupIntersectionObserver();
     mockGetProjects.mockResolvedValue(mockInitialData);
+    consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation((...args) => {
+        const msg = typeof args[0] === "string" ? args[0] : "";
+        if (/Encountered two children with the same key/.test(msg)) return;
+        throw new Error(`Unexpected console.error: ${args.join(" ")}`);
+      });
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   it("renders initial projects", async () => {

@@ -9,7 +9,10 @@ interface FormattedEventDates {
 }
 
 function parseDate(iso: string): Date {
-  return new Date(iso);
+  const match = iso.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+  if (!match) return new Date(iso);
+  const [, year, month, day, hours, minutes] = match.map(Number);
+  return new Date(year, month - 1, day, hours, minutes);
 }
 
 function formatTime(date: Date): string {
