@@ -129,6 +129,8 @@ const UPCOMING_EVENTS_FRAGMENT = `{
   "slug": slug.current,
   dateTimes,
   location,
+  locationShort,
+  timezoneLabel,
   "program": program->{
     _id, title, slug, shortLabel, displayTitle
   },
@@ -323,20 +325,7 @@ export function getUpcomingEvents(limit: number = 10) {
       && count(dateTimes) > 0
       && dateTimes[-1].end >= $now
     ] | order(dateTimes[0].start asc) [0...$limit] {
-      _id,
-      title,
-      "slug": slug.current,
-      dateTimes,
-      location,
-      "program": program->{
-        _id, title, slug, shortLabel, displayTitle
-      },
-      heroImage {
-        asset,
-        hotspot,
-        crop,
-        alt
-      }
+      ${UPCOMING_EVENTS_FRAGMENT}
     }`,
   );
 
