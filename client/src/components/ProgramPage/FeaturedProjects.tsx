@@ -21,7 +21,7 @@ export default function FeaturedProjects({
   const items: CarouselItem[] = projects.map((p) => ({
     _key: p._id,
     title: p.title,
-    image: p.heroImage as CarouselItem["image"],
+    image: p.heroImage as never,
     href: `/projects/${p.slug.current}`,
     subtitle: p.people || undefined,
   }));

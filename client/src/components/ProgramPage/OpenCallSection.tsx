@@ -54,13 +54,18 @@ export default function OpenCallSection({
                 </div>
               ))}
             </div>
-            <div>
-              {description && (
+            {description && (
+              <div>
                 <div className="font-milling text-xl">
                   <PortableText value={description} />
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+          </div>
+        )}
+        {infoItems.length === 0 && description && (
+          <div className="font-milling text-xl">
+            <PortableText value={description} />
           </div>
         )}
       </div>
