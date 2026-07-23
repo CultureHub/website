@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 import { imageField } from '@/util/image'
 
@@ -63,6 +63,128 @@ export const programType = defineType({
         }),
       ],
       validation: (rule) => rule.required().min(1),
+    }),
+    defineField({
+      title: 'Page Description',
+      name: 'pageDescription',
+      type: 'array',
+      of: [{ type: 'block' }],
+      description: 'Rich text shown in the program page header. Leave empty to omit the header description.',
+    }),
+    defineField({
+      title: 'Jump To Buttons',
+      name: 'jumpToButtons',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'jumpToButton',
+          fields: [
+            defineField({
+              title: 'Label',
+              name: 'label',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              title: 'Anchor',
+              name: 'anchor',
+              type: 'string',
+              description: 'CSS ID to scroll to (e.g. "#projects")',
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
+      title: 'Open Call Title',
+      name: 'openCallTitle',
+      type: 'string',
+    }),
+    defineField(imageField({
+      title: 'Open Call Image',
+      name: 'openCallImage',
+    })),
+    defineField({
+      title: 'Open Call Timeline',
+      name: 'openCallTimeline',
+      type: 'text',
+      description: 'Displayed under "Timeline" in the open call section',
+    }),
+    defineField({
+      title: 'Open Call Where',
+      name: 'openCallWhere',
+      type: 'text',
+      description: 'Displayed under "Where" in the open call section',
+    }),
+    defineField({
+      title: 'Open Call Benefits',
+      name: 'openCallBenefits',
+      type: 'text',
+      description: 'Displayed under "Benefits" in the open call section',
+    }),
+    defineField({
+      title: 'Open Call Description',
+      name: 'openCallDescription',
+      type: 'array',
+      of: [{ type: 'block' }],
+      description: 'Rendered in two columns below the open call info grid',
+    }),
+    defineField({
+      title: 'Location Content',
+      name: 'locationContent',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'locationTab',
+          fields: [
+            defineField({
+              title: 'Location',
+              name: 'location',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              title: 'Display Title',
+              name: 'displayTitle',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              title: 'Description',
+              name: 'description',
+              type: 'array',
+              of: [{ type: 'block' }],
+            }),
+            defineField({
+              title: 'Accent Color',
+              name: 'accentColor',
+              type: 'string',
+              description: 'Hex color for tab styling',
+            }),
+          ],
+          preview: {
+            select: { title: 'location', subtitle: 'displayTitle' },
+            prepare: ({ title, subtitle }) => ({
+              title: title || 'Location',
+              subtitle,
+            }),
+          },
+        }),
+      ],
+    }),
+    defineField({
+      title: 'Featured Artists',
+      name: 'featuredArtists',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'artist' }] }],
+    }),
+    defineField({
+      title: 'Featured Projects',
+      name: 'featuredProjects',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'project' }] }],
     }),
   ],
   preview: {
