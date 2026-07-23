@@ -1,9 +1,5 @@
 import { notFound } from "next/navigation";
-import {
-  getProgramBySlug,
-  getResidentArtists,
-  getUpcomingEventsByProgram,
-} from "@/sanity/queries";
+import { getProgramBySlug, getResidentArtists } from "@/sanity/queries";
 import ProgramHeader from "@/components/ProgramPage/ProgramHeader";
 import ResidentArtistGrid from "@/components/ProgramPage/ResidentArtistGrid";
 import OpenCallSection from "@/components/ProgramPage/OpenCallSection";
