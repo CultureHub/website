@@ -63,9 +63,8 @@ export function getPrograms() {
 }
 
 export async function getProgramBySlug(slug: string) {
-  return client.fetch(
-    defineQuery(
-      `*[_type == "program" && slug.current == $slug][0]{
+  const getProgramBySlugQuery = defineQuery(
+    `*[_type == "program" && slug.current == $slug][0]{
         _id, title, displayTitle, slug, shortLabel, accentColor,
         heroImage {
           asset->{_id, url},
@@ -103,9 +102,8 @@ export async function getProgramBySlug(slug: string) {
           people
         }
       }`,
-    ),
-    { slug },
   );
+  return client.fetch(getProgramBySlugQuery, { slug });
 }
 
 export async function getResidentArtists(programId: string) {

@@ -165,11 +165,14 @@ export type Event = {
     _type: "dateTimeRange";
     _key: string;
   }>;
+  timezoneLabel?: string;
   cost?: string;
+  locationShort?: string;
   location?: string;
   accessInfo?: string;
   links?: Array<{
     label: string;
+    shortLabel?: string;
     url: string;
     _key: string;
   }>;
@@ -408,7 +411,16 @@ export type Artist = {
   }>;
   links?: Array<{
     label: string;
+    shortLabel?: string;
     url: string;
+    _key: string;
+  }>;
+  programs?: Array<{
+    program: ProgramReference;
+    yearStart: number;
+    yearEnd: number;
+    location?: string;
+    _type: "programMembership";
     _key: string;
   }>;
   program: ProgramReference;
@@ -462,6 +474,7 @@ export type Project = {
   program: ProgramReference;
   pressLinks?: Array<{
     label: string;
+    shortLabel?: string;
     url: string;
     _key: string;
   }>;
@@ -632,6 +645,96 @@ export type Program = {
     _type: "thumbnail";
     _key: string;
   }>;
+  pageDescription?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  jumpToButtons?: Array<{
+    label: string;
+    anchor?: string;
+    _type: "jumpToButton";
+    _key: string;
+  }>;
+  openCallTitle?: string;
+  openCallImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  openCallTimeline?: string;
+  openCallWhere?: string;
+  openCallBenefits?: string;
+  openCallDescription?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  locationContent?: Array<{
+    location: string;
+    displayTitle: string;
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    accentColor?: string;
+    _type: "locationTab";
+    _key: string;
+  }>;
+  featuredArtists?: Array<
+    {
+      _key: string;
+    } & ArtistReference
+  >;
+  featuredProjects?: Array<
+    {
+      _key: string;
+    } & ProjectReference
+  >;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -812,7 +915,16 @@ export type GetArtistsBySlugQueryResult = {
   }>;
   links?: Array<{
     label: string;
+    shortLabel?: string;
     url: string;
+    _key: string;
+  }>;
+  programs?: Array<{
+    program: ProgramReference;
+    yearStart: number;
+    yearEnd: number;
+    location?: string;
+    _type: "programMembership";
     _key: string;
   }>;
   program: {
@@ -864,6 +976,7 @@ export type GetArtistsBySlugQueryResult = {
     program: ProgramReference;
     pressLinks?: Array<{
       label: string;
+      shortLabel?: string;
       url: string;
       _key: string;
     }>;
@@ -1055,6 +1168,7 @@ export type GetProjectBySlugQueryResult = {
   };
   pressLinks?: Array<{
     label: string;
+    shortLabel?: string;
     url: string;
     _key: string;
   }>;
@@ -1262,6 +1376,104 @@ export type GetArtAndTechnologyPageQueryResult = {
       _type: "thumbnail";
       _key: string;
     }>;
+    pageDescription?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    jumpToButtons?: Array<{
+      label: string;
+      anchor?: string;
+      _type: "jumpToButton";
+      _key: string;
+    }>;
+    openCallTitle?: string;
+    openCallImage: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string;
+      credits?: string;
+      _type: "image";
+    };
+    openCallTimeline?: string;
+    openCallWhere?: string;
+    openCallBenefits?: string;
+    openCallDescription?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    locationContent?: Array<{
+      location: string;
+      displayTitle: string;
+      description?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      accentColor?: string;
+      _type: "locationTab";
+      _key: string;
+    }>;
+    featuredArtists?: Array<
+      {
+        _key: string;
+      } & ArtistReference
+    >;
+    featuredProjects?: Array<
+      {
+        _key: string;
+      } & ProjectReference
+    >;
   }> | null;
 } | null;
 
@@ -1316,6 +1528,258 @@ export type GetProgramsQueryResult = Array<{
     _type: "thumbnail";
     _key: string;
   }>;
+  pageDescription?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  jumpToButtons?: Array<{
+    label: string;
+    anchor?: string;
+    _type: "jumpToButton";
+    _key: string;
+  }>;
+  openCallTitle?: string;
+  openCallImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  openCallTimeline?: string;
+  openCallWhere?: string;
+  openCallBenefits?: string;
+  openCallDescription?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  locationContent?: Array<{
+    location: string;
+    displayTitle: string;
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    accentColor?: string;
+    _type: "locationTab";
+    _key: string;
+  }>;
+  featuredArtists?: Array<
+    {
+      _key: string;
+    } & ArtistReference
+  >;
+  featuredProjects?: Array<
+    {
+      _key: string;
+    } & ProjectReference
+  >;
+}>;
+
+// Source: ../client/src/sanity/queries.ts
+// Variable: getProgramBySlugQuery
+// Query: *[_type == "program" && slug.current == $slug][0]{        _id, title, displayTitle, slug, shortLabel, accentColor,        heroImage {          asset->{_id, url},          alt, credits        },        pageDescription,        jumpToButtons,        openCallTitle,        openCallImage {          asset->{_id, url},          alt, credits        },        openCallTimeline,        openCallWhere,        openCallBenefits,        openCallDescription,        locationContent[]{          _key,          location, displayTitle, description,          accentColor        },        featuredArtists[]->{          _id, name, slug,          image {            asset->{_id, url},            alt          }        },        featuredProjects[]->{          _id, title, slug,          heroImage {            asset->{_id, url},            alt          },          people        }      }
+export type GetProgramBySlugQueryResult = {
+  _id: string;
+  title: string;
+  displayTitle: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  slug: Slug;
+  shortLabel: string;
+  accentColor: string;
+  heroImage: {
+    asset: {
+      _id: string;
+      url: string;
+    } | null;
+    alt: string;
+    credits: string | null;
+  };
+  pageDescription: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  jumpToButtons: Array<{
+    label: string;
+    anchor?: string;
+    _type: "jumpToButton";
+    _key: string;
+  }> | null;
+  openCallTitle: string | null;
+  openCallImage: {
+    asset: {
+      _id: string;
+      url: string;
+    } | null;
+    alt: string;
+    credits: string | null;
+  };
+  openCallTimeline: string | null;
+  openCallWhere: string | null;
+  openCallBenefits: string | null;
+  openCallDescription: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  locationContent: Array<{
+    _key: string;
+    location: string;
+    displayTitle: string;
+    description: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+    accentColor: string | null;
+  }> | null;
+  featuredArtists: Array<{
+    _id: string;
+    name: string;
+    slug: Slug;
+    image: {
+      asset: {
+        _id: string;
+        url: string;
+      } | null;
+      alt: string;
+    };
+  }> | null;
+  featuredProjects: Array<{
+    _id: string;
+    title: string;
+    slug: Slug;
+    heroImage: {
+      asset: {
+        _id: string;
+        url: string;
+      } | null;
+      alt: string;
+    };
+    people: string | null;
+  }> | null;
+} | null;
+
+// Source: ../client/src/sanity/queries.ts
+// Variable: query
+// Query: *[_type == "artist" && $programId in programs[].program._ref]{      _id, name, slug,      image {        asset->{_id, url},        alt      },      locations,      "membership": programs[program._ref == $programId][0]{        yearStart, yearEnd, location      }    } | order(membership.yearStart desc)
+export type QueryResult = Array<{
+  _id: string;
+  name: string;
+  slug: Slug;
+  image: {
+    asset: {
+      _id: string;
+      url: string;
+    } | null;
+    alt: string;
+  };
+  locations: Array<string>;
+  membership: {
+    yearStart: number;
+    yearEnd: number;
+    location: string | null;
+  } | null;
 }>;
 
 // Source: ../client/src/sanity/queries.ts
@@ -1381,7 +1845,16 @@ export type GetArtistsQueryResult = Array<{
   }>;
   links?: Array<{
     label: string;
+    shortLabel?: string;
     url: string;
+    _key: string;
+  }>;
+  programs?: Array<{
+    program: ProgramReference;
+    yearStart: number;
+    yearEnd: number;
+    location?: string;
+    _type: "programMembership";
     _key: string;
   }>;
   program: ProgramReference;
@@ -1451,7 +1924,16 @@ export type GetArtistsByLocationsQueryResult = Array<{
   }>;
   links?: Array<{
     label: string;
+    shortLabel?: string;
     url: string;
+    _key: string;
+  }>;
+  programs?: Array<{
+    program: ProgramReference;
+    yearStart: number;
+    yearEnd: number;
+    location?: string;
+    _type: "programMembership";
     _key: string;
   }>;
   program: ProgramReference;
@@ -1633,8 +2115,8 @@ export type GetEventBySlugQueryResult = {
     _type: "dateTimeRange";
     _key: string;
   }>;
-  cost?: string;
   timezoneLabel?: string;
+  cost?: string;
   locationShort?: string;
   location?: string;
   accessInfo?: string;
@@ -1848,6 +2330,8 @@ declare module "@sanity/client" {
     '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "slug": slug.current,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
     '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
+    '*[_type == "program" && slug.current == $slug][0]{\n        _id, title, displayTitle, slug, shortLabel, accentColor,\n        heroImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        pageDescription,\n        jumpToButtons,\n        openCallTitle,\n        openCallImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        openCallTimeline,\n        openCallWhere,\n        openCallBenefits,\n        openCallDescription,\n        locationContent[]{\n          _key,\n          location, displayTitle, description,\n          accentColor\n        },\n        featuredArtists[]->{\n          _id, name, slug,\n          image {\n            asset->{_id, url},\n            alt\n          }\n        },\n        featuredProjects[]->{\n          _id, title, slug,\n          heroImage {\n            asset->{_id, url},\n            alt\n          },\n          people\n        }\n      }': GetProgramBySlugQueryResult;
+    '*[_type == "artist" && $programId in programs[].program._ref]{\n      _id, name, slug,\n      image {\n        asset->{_id, url},\n        alt\n      },\n      locations,\n      "membership": programs[program._ref == $programId][0]{\n        yearStart, yearEnd, location\n      }\n    } | order(membership.yearStart desc)': QueryResult;
     'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;
     '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;
     '*[\n    _type == "artist"\n    && count(locations[@ in $locations]) > 0\n    && defined(slug.current)\n  ][0...12]': GetArtistsByLocationsQueryResult;
