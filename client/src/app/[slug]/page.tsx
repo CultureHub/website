@@ -51,6 +51,7 @@ export default async function ProgramPage({
       {program.featuredArtists && program.featuredArtists.length > 0 && (
         <FeaturedArtists
           title="Featured Artists"
+          subtitle={program.shortLabel}
           artists={program.featuredArtists}
           columns={3}
         />

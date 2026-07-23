@@ -13,12 +13,14 @@ interface FeaturedArtist {
 
 interface FeaturedArtistsProps {
   title: string;
+  subtitle?: string;
   artists: FeaturedArtist[];
   columns?: number;
 }
 
 export default function FeaturedArtists({
   title,
+  subtitle,
   artists,
   columns = 3,
 }: FeaturedArtistsProps) {
@@ -47,9 +49,9 @@ export default function FeaturedArtists({
               />
             )}
             <div className="flex flex-row justify-between">
-              <span className="font-brook italic text-base">
-                Experiments in Digital Storytelling
-              </span>
+              {subtitle && (
+                <span className="font-brook italic text-base">{subtitle}</span>
+              )}
             </div>
             <span className="font-milling text-xl">{artist.name}</span>
           </Link>

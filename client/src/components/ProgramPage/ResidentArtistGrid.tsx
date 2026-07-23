@@ -38,11 +38,10 @@ export default function ResidentArtistGrid({
     return Array.from(years);
   }, [artists]);
 
-  const maxYear = Math.max(
-    ...artists
-      .filter((a) => a.membership?.yearStart)
-      .map((a) => a.membership!.yearStart),
-  );
+  const years = artists
+    .filter((a) => a.membership?.yearStart)
+    .map((a) => a.membership!.yearStart);
+  const maxYear = Math.max(...(years.length > 0 ? years : [0]));
 
   const [selectedYear, setSelectedYear] = useState<string | null>(
     showPast ? null : `${maxYear}-${maxYear + 1}`,

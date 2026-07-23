@@ -96,14 +96,14 @@ export async function getProgramBySlug(slug: string) {
         featuredProjects[]->{
           _id, title, slug,
           heroImage {
-            asset->{_id, url},
+            asset,
             alt
           },
           people
         }
       }`,
   );
-  return client.fetch(getProgramBySlugQuery, { slug });
+  return client.fetch(getProgramBySlugQuery, { slug }, options);
 }
 
 export async function getResidentArtists(programId: string) {
@@ -120,7 +120,7 @@ export async function getResidentArtists(programId: string) {
       }
     } | order(membership.yearStart desc)`,
   );
-  return client.fetch(query, { programId });
+  return client.fetch(query, { programId }, options);
 }
 
 const UPCOMING_EVENTS_FRAGMENT = `{
@@ -153,6 +153,7 @@ export async function getUpcomingEventsByProgram(
       }`,
     ),
     { programSlug, limit },
+    options,
   );
 }
 
