@@ -7,7 +7,7 @@ interface FeaturedProjectsProps {
     title: string;
     slug: { current: string };
     heroImage: {
-      asset?: { _id: string; url: string } | null;
+      asset?: { _ref: string; _type: string } | null;
       alt?: string | null;
     } | null;
     people?: string | null;
@@ -21,7 +21,7 @@ export default function FeaturedProjects({
   const items: CarouselItem[] = projects.map((p) => ({
     _key: p._id,
     title: p.title,
-    image: p.heroImage as never,
+    image: p.heroImage,
     href: `/projects/${p.slug.current}`,
     subtitle: p.people || undefined,
   }));

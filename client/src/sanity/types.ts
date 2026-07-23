@@ -1622,7 +1622,7 @@ export type GetProgramsQueryResult = Array<{
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getProgramBySlugQuery
-// Query: *[_type == "program" && slug.current == $slug][0]{        _id, title, displayTitle, slug, shortLabel, accentColor,        heroImage {          asset->{_id, url},          alt, credits        },        pageDescription,        jumpToButtons,        openCallTitle,        openCallImage {          asset->{_id, url},          alt, credits        },        openCallTimeline,        openCallWhere,        openCallBenefits,        openCallDescription,        locationContent[]{          _key,          location, displayTitle, description,          accentColor        },        featuredArtists[]->{          _id, name, slug,          image {            asset->{_id, url},            alt          }        },        featuredProjects[]->{          _id, title, slug,          heroImage {            asset->{_id, url},            alt          },          people        }      }
+// Query: *[_type == "program" && slug.current == $slug][0]{        _id, title, displayTitle, slug, shortLabel, accentColor,        heroImage {          asset->{_id, url},          alt, credits        },        pageDescription,        jumpToButtons,        openCallTitle,        openCallImage {          asset->{_id, url},          alt, credits        },        openCallTimeline,        openCallWhere,        openCallBenefits,        openCallDescription,        locationContent[]{          _key,          location, displayTitle, description,          accentColor        },        featuredArtists[]->{          _id, name, slug,          image {            asset->{_id, url},            alt          }        },        featuredProjects[]->{          _id, title, slug,          heroImage {            asset,            alt          },          people        }      }
 export type GetProgramBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1750,10 +1750,7 @@ export type GetProgramBySlugQueryResult = {
     title: string;
     slug: Slug;
     heroImage: {
-      asset: {
-        _id: string;
-        url: string;
-      } | null;
+      asset: SanityImageAssetReference | null;
       alt: string;
     };
     people: string | null;
@@ -2284,7 +2281,7 @@ declare module "@sanity/client" {
     '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "slug": slug.current,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
     '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
-    '*[_type == "program" && slug.current == $slug][0]{\n        _id, title, displayTitle, slug, shortLabel, accentColor,\n        heroImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        pageDescription,\n        jumpToButtons,\n        openCallTitle,\n        openCallImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        openCallTimeline,\n        openCallWhere,\n        openCallBenefits,\n        openCallDescription,\n        locationContent[]{\n          _key,\n          location, displayTitle, description,\n          accentColor\n        },\n        featuredArtists[]->{\n          _id, name, slug,\n          image {\n            asset->{_id, url},\n            alt\n          }\n        },\n        featuredProjects[]->{\n          _id, title, slug,\n          heroImage {\n            asset->{_id, url},\n            alt\n          },\n          people\n        }\n      }': GetProgramBySlugQueryResult;
+    '*[_type == "program" && slug.current == $slug][0]{\n        _id, title, displayTitle, slug, shortLabel, accentColor,\n        heroImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        pageDescription,\n        jumpToButtons,\n        openCallTitle,\n        openCallImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        openCallTimeline,\n        openCallWhere,\n        openCallBenefits,\n        openCallDescription,\n        locationContent[]{\n          _key,\n          location, displayTitle, description,\n          accentColor\n        },\n        featuredArtists[]->{\n          _id, name, slug,\n          image {\n            asset->{_id, url},\n            alt\n          }\n        },\n        featuredProjects[]->{\n          _id, title, slug,\n          heroImage {\n            asset,\n            alt\n          },\n          people\n        }\n      }': GetProgramBySlugQueryResult;
     '*[_type == "artist" && $programId in programs[].program._ref]{\n      _id, name, slug,\n      image {\n        asset->{_id, url},\n        alt\n      },\n      locations,\n      "membership": programs[program._ref == $programId][0]{\n        yearStart, yearEnd, location\n      }\n    } | order(membership.yearStart desc)': QueryResult;
     'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;
     '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;
