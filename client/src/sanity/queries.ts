@@ -62,6 +62,100 @@ export function getPrograms() {
   return client.fetch(getProgramsQuery, {}, options);
 }
 
+export async function getProgramBySlug(slug: string) {
+  return client.fetch(
+    defineQuery(
+      `*[_type == "program" && slug.current == $slug][0]{
+        _id, title, displayTitle, slug, shortLabel, accentColor,
+        heroImage {
+          asset->{_id, url},
+          alt, credits
+        },
+        pageDescription,
+        jumpToButtons,
+        openCallTitle,
+        openCallImage {
+          asset->{_id, url},
+          alt, credits
+        },
+        openCallTimeline,
+        openCallWhere,
+        openCallBenefits,
+        openCallDescription,
+        locationContent[]{
+          _key,
+          location, displayTitle, description,
+          accentColor
+        },
+        featuredArtists[]->{
+          _id, name, slug,
+          image {
+            asset->{_id, url},
+            alt
+          }
+        },
+        featuredProjects[]->{
+          _id, title, slug,
+          heroImage {
+            asset->{_id, url},
+            alt
+          },
+          people
+        }
+      }`,
+    ),
+    { slug },
+  );
+}
+
+export async function getResidentArtists(programId: string) {
+  const query = defineQuery(
+    `*[_type == "artist" && $programId in programs[].program._ref]{
+      _id, name, slug,
+      image {
+        asset->{_id, url},
+        alt
+      },
+      locations,
+      "membership": programs[program._ref == $programId][0]{
+        yearStart, yearEnd, location
+      }
+    } | order(membership.yearStart desc)`,
+  );
+  return client.fetch(query, { programId });
+}
+
+const UPCOMING_EVENTS_FRAGMENT = `{
+  _id,
+  title,
+  "slug": slug.current,
+  dateTimes,
+  location,
+  "program": program->{
+    _id, title, slug, shortLabel, displayTitle
+  },
+  heroImage {
+    asset,
+    hotspot,
+    crop,
+    alt
+  }
+}`;
+
+export async function getUpcomingEventsByProgram(
+  programSlug: string,
+  limit: number = 5,
+) {
+  return client.fetch(
+    defineQuery(
+      `*[_type == "event" && program->slug.current == $programSlug && dateTimes[0].start > now()] | order(dateTimes[0].start asc)[0...$limit]{
+        ${UPCOMING_EVENTS_FRAGMENT}
+      }`,
+    ),
+    { programSlug, limit },
+  );
+}
+
 export function getArtistLocationOptions() {
   const getArtistLocationOptionsQuery = defineQuery(
     `array::unique(*[_type == "artist"].locations[])`,
