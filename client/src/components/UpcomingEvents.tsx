@@ -3,14 +3,38 @@ import {
   getUpcomingEvents,
   getUpcomingEventsByProgram,
 } from "@/sanity/queries";
-import type { GetUpcomingEventsQueryResult } from "@/sanity/types";
+type UpcomingEventResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  dateTimes: Array<{
+    start: string;
+    end: string;
+  }> | null;
+  location: string | null;
+  locationShort: string | null;
+  timezoneLabel: string | null;
+  program: {
+    _id: string;
+    title: string | null;
+    slug: { current: string };
+    shortLabel: string | null;
+    displayTitle: string | null;
+  } | null;
+  heroImage: {
+    asset: unknown;
+    hotspot: unknown;
+    crop: unknown;
+    alt: string | null;
+  } | null;
+}>;
 import { formatEventDates } from "@/util/event-date";
 
 interface UpcomingEventsProps {
   programSlug?: string;
 }
 
-type UpcomingEvent = GetUpcomingEventsQueryResult[number] & {
+type UpcomingEvent = UpcomingEventResult[number] & {
   timezoneLabel?: string;
   locationShort?: string;
 };

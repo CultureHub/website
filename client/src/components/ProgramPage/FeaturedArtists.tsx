@@ -40,10 +40,12 @@ export default function FeaturedArtists({
             href={`/artists/${artist.slug.current}`}
             className="flex flex-col p-5 gap-3 border border-ch-midnite rounded-[10px] bg-[#B5FD8B]"
           >
-            <SanityImage
-              image={artist.image}
-              className="w-full aspect-[3/2] object-cover rounded-[10px] border border-ch-midnite"
-            />
+            {artist.image && (
+              <SanityImage
+                image={artist.image}
+                className="w-full aspect-[3/2] object-cover rounded-[10px] border border-ch-midnite"
+              />
+            )}
             <div className="flex flex-row justify-between">
               <span className="font-brook italic text-base">
                 Experiments in Digital Storytelling

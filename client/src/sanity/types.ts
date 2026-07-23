@@ -859,7 +859,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getArtistsBySlugQuery
-// Query: *[_type == "artist" && slug.current == $slug]{    ...,    "program": program->{ _id, title, slug, shortLabel },    projects[]->{      ...    }  }[0]
+// Query: *[_type == "artist" && slug.current == $slug]{    ...,    "program": programs[0].program->{ _id, title, slug, shortLabel },    projects[]->{      ...    }  }[0]
 export type GetArtistsBySlugQueryResult = {
   _id: string;
   _type: "artist";
@@ -932,7 +932,7 @@ export type GetArtistsBySlugQueryResult = {
     title: string;
     slug: Slug;
     shortLabel: string;
-  };
+  } | null;
   locations: Array<string>;
   projects: Array<{
     _id: string;
@@ -2276,57 +2276,11 @@ export type GetEventBySlugQueryResult = {
   credits?: Credits;
 } | null;
 
-// Source: ../client/src/sanity/queries.ts
-// Variable: getUpcomingEventsQuery
-// Query: *[      _type == "event"      && defined(slug.current)      && count(dateTimes) > 0      && dateTimes[-1].end >= $now    ] | order(dateTimes[0].start asc) [0...$limit] {      _id,      title,      "slug": slug.current,      dateTimes,      location,      "program": program->{        _id, title, slug, shortLabel, displayTitle      },      heroImage {        asset,        hotspot,        crop,        alt      }    }
-export type GetUpcomingEventsQueryResult = Array<{
-  _id: string;
-  title: string;
-  slug: string;
-  dateTimes: Array<{
-    start: string;
-    end: string;
-    _type: "dateTimeRange";
-    _key: string;
-  }> | null;
-  location: string | null;
-  program: {
-    _id: string;
-    title: string;
-    slug: Slug;
-    shortLabel: string;
-    displayTitle: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }> | null;
-  };
-  heroImage: {
-    asset: SanityImageAssetReference | null;
-    hotspot: SanityImageHotspot | null;
-    crop: SanityImageCrop | null;
-    alt: string;
-  };
-}>;
-
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    "program": program->{ _id, title, slug, shortLabel },\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
+    '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    "program": programs[0].program->{ _id, title, slug, shortLabel },\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
     '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "slug": slug.current,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
     '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
@@ -2339,6 +2293,5 @@ declare module "@sanity/client" {
     '{\n    "projects": *[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ] | order(date desc) [$offset...$end]\n    {\n  _id,\n  title,\n  slug,\n  date,\n  endDate,\n  locations,\n  people,\n  "program": program->{ _id, title, slug, shortLabel, accentColor, displayTitle },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  },\n  "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n},\n    "total": count(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ])\n  }': GetProjectsQueryResult;
     '{\n    "programSlugs": array::unique(*[_type == "project" && defined(slug.current)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].program->slug.current)[@ != null],\n    "places": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n    ].date) | order(@ desc)\n  }': GetProjectFacetsQueryResult;
     '*[_type == "event" && slug.current == $slug][0]{\n      ...,\n      "program": program->{\n        _id, title, slug, shortLabel, displayTitle, accentColor\n      },\n      featuredArtists[]{\n        _key,\n        artist->{ _id, name, slug },\n        "image": coalesce(image, artist->image),\n        "name": coalesce(name, artist->name),\n        "bio": coalesce(bio, artist->bio)\n      }\n    }': GetEventBySlugQueryResult;
-    '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc) [0...$limit] {\n      _id,\n      title,\n      "slug": slug.current,\n      dateTimes,\n      location,\n      "program": program->{\n        _id, title, slug, shortLabel, displayTitle\n      },\n      heroImage {\n        asset,\n        hotspot,\n        crop,\n        alt\n      }\n    }': GetUpcomingEventsQueryResult;
   }
 }

@@ -1,7 +1,6 @@
 import { PortableText } from "next-sanity";
 import SanityImage from "@/components/SanityImage";
 import type { SanityImageSource } from "@sanity/image-url";
-import type { TypedObject } from "next-sanity";
 
 interface OpenCallSectionProps {
   title: string | null;
@@ -9,7 +8,7 @@ interface OpenCallSectionProps {
   timeline: string | null;
   where: string | null;
   benefits: string | null;
-  description: TypedObject[] | null;
+  description: { _type: string; _key?: string; [k: string]: unknown }[] | null;
 }
 
 export default function OpenCallSection({
