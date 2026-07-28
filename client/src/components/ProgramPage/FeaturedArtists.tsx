@@ -1,15 +1,10 @@
 import Link from "next/link";
 import SanityImage from "@/components/SanityImage";
+import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
-interface FeaturedArtist {
-  _id: string;
-  name: string | null;
-  slug: { current: string };
-  image: {
-    asset?: { _id: string; url: string } | null;
-    alt?: string | null;
-  } | null;
-}
+type FeaturedArtist = NonNullable<
+  NonNullable<GetProgramBySlugQueryResult>["featuredArtists"]
+>[number];
 
 interface FeaturedArtistsProps {
   title: string;

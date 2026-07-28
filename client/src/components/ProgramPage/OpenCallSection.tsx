@@ -1,14 +1,16 @@
 import { PortableText } from "next-sanity";
 import SanityImage from "@/components/SanityImage";
-import type { SanityImageSource } from "@sanity/image-url";
+import type { GetProgramBySlugQueryResult } from "@/sanity/types";
+
+type Program = NonNullable<GetProgramBySlugQueryResult>;
 
 interface OpenCallSectionProps {
-  title: string | null;
-  image: SanityImageSource | null;
-  timeline: string | null;
-  where: string | null;
-  benefits: string | null;
-  description: { _type: string; _key?: string; [k: string]: unknown }[] | null;
+  title: Program["openCallTitle"];
+  image: Program["openCallImage"];
+  timeline: Program["openCallTimeline"];
+  where: Program["openCallWhere"];
+  benefits: Program["openCallBenefits"];
+  description: Program["openCallDescription"];
 }
 
 export default function OpenCallSection({

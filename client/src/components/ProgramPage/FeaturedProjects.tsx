@@ -1,17 +1,13 @@
 import { Carousel, type CarouselItem } from "@/components/Carousel";
+import type { GetProgramBySlugQueryResult } from "@/sanity/types";
+
+type FeaturedProject = NonNullable<
+  NonNullable<GetProgramBySlugQueryResult>["featuredProjects"]
+>[number];
 
 interface FeaturedProjectsProps {
   title: string;
-  projects: Array<{
-    _id: string;
-    title: string;
-    slug: { current: string };
-    heroImage: {
-      asset?: { _ref: string; _type: string } | null;
-      alt?: string | null;
-    } | null;
-    people?: string | null;
-  }>;
+  projects: FeaturedProject[];
 }
 
 export default function FeaturedProjects({

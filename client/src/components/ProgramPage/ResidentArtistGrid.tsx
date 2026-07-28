@@ -3,22 +3,9 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import SanityImage from "@/components/SanityImage";
+import type { GetResidentArtistsQueryResult } from "@/sanity/types";
 
-interface ResidentArtist {
-  _id: string;
-  name: string | null;
-  slug: { current: string };
-  image: {
-    asset?: { _id: string; url: string } | null;
-    alt?: string | null;
-  } | null;
-  locations?: string[] | null;
-  membership: {
-    yearStart: number;
-    yearEnd: number;
-    location?: string | null;
-  } | null;
-}
+type ResidentArtist = GetResidentArtistsQueryResult[number];
 
 interface ResidentArtistGridProps {
   artists: ResidentArtist[];

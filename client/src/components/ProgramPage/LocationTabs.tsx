@@ -2,13 +2,11 @@
 
 import { useState } from "react";
 import { PortableText } from "next-sanity";
-interface LocationTab {
-  _key?: string;
-  location: string;
-  displayTitle: string;
-  description: { _type: string; _key?: string; [k: string]: unknown }[] | null;
-  accentColor?: string | null;
-}
+import type { GetProgramBySlugQueryResult } from "@/sanity/types";
+
+type LocationTab = NonNullable<
+  NonNullable<GetProgramBySlugQueryResult>["locationContent"]
+>[number];
 
 interface LocationTabsProps {
   locations: LocationTab[];
