@@ -147,9 +147,8 @@ export async function getUpcomingEventsByProgram(
   limit: number = 5,
 ) {
   const getUpcomingEventsByProgramQuery = defineQuery(
-    `*[_type == "event" && program->slug.current == $programSlug && dateTimes[0].start > now()] | order(dateTimes[0].start asc) [0...$limit] {
-      ${UPCOMING_EVENTS_FRAGMENT}
-    }`,
+    `*[_type == "event" && program->slug.current == $programSlug && dateTimes[0].start > now()] | order(dateTimes[0].start asc) [0...$limit]
+      ${UPCOMING_EVENTS_FRAGMENT}`,
   );
   return client.fetch(
     getUpcomingEventsByProgramQuery,
@@ -326,9 +325,8 @@ export function getUpcomingEvents(limit: number = 10) {
       && defined(slug.current)
       && count(dateTimes) > 0
       && dateTimes[-1].end >= $now
-    ] | order(dateTimes[0].start asc) [0...$limit] {
-      ${UPCOMING_EVENTS_FRAGMENT}
-    }`,
+    ] | order(dateTimes[0].start asc) [0...$limit]
+      ${UPCOMING_EVENTS_FRAGMENT}`,
   );
 
   return client.fetch(getUpcomingEventsQuery, { now, limit }, options);
