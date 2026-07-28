@@ -1758,9 +1758,9 @@ export type GetProgramBySlugQueryResult = {
 } | null;
 
 // Source: ../client/src/sanity/queries.ts
-// Variable: query
+// Variable: getResidentArtistsQuery
 // Query: *[_type == "artist" && $programId in programs[].program._ref]{      _id, name, slug,      image {        asset->{_id, url},        alt      },      locations,      "membership": programs[program._ref == $programId][0]{        yearStart, yearEnd, location      }    } | order(membership.yearStart desc)
-export type QueryResult = Array<{
+export type GetResidentArtistsQueryResult = Array<{
   _id: string;
   name: string;
   slug: Slug;
@@ -2282,7 +2282,7 @@ declare module "@sanity/client" {
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
     '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
     '*[_type == "program" && slug.current == $slug][0]{\n        _id, title, displayTitle, slug, shortLabel, accentColor,\n        heroImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        pageDescription,\n        jumpToButtons,\n        openCallTitle,\n        openCallImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        openCallTimeline,\n        openCallWhere,\n        openCallBenefits,\n        openCallDescription,\n        locationContent[]{\n          _key,\n          location, displayTitle, description,\n          accentColor\n        },\n        featuredArtists[]->{\n          _id, name, slug,\n          image {\n            asset->{_id, url},\n            alt\n          }\n        },\n        featuredProjects[]->{\n          _id, title, slug,\n          heroImage {\n            asset,\n            alt\n          },\n          people\n        }\n      }': GetProgramBySlugQueryResult;
-    '*[_type == "artist" && $programId in programs[].program._ref]{\n      _id, name, slug,\n      image {\n        asset->{_id, url},\n        alt\n      },\n      locations,\n      "membership": programs[program._ref == $programId][0]{\n        yearStart, yearEnd, location\n      }\n    } | order(membership.yearStart desc)': QueryResult;
+    '*[_type == "artist" && $programId in programs[].program._ref]{\n      _id, name, slug,\n      image {\n        asset->{_id, url},\n        alt\n      },\n      locations,\n      "membership": programs[program._ref == $programId][0]{\n        yearStart, yearEnd, location\n      }\n    } | order(membership.yearStart desc)': GetResidentArtistsQueryResult;
     'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;
     '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;
     '*[\n    _type == "artist"\n    && count(locations[@ in $locations]) > 0\n    && defined(slug.current)\n  ][0...12]': GetArtistsByLocationsQueryResult;

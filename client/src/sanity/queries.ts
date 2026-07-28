@@ -107,7 +107,7 @@ export async function getProgramBySlug(slug: string) {
 }
 
 export async function getResidentArtists(programId: string) {
-  const query = defineQuery(
+  const getResidentArtistsQuery = defineQuery(
     `*[_type == "artist" && $programId in programs[].program._ref]{
       _id, name, slug,
       image {
@@ -120,7 +120,7 @@ export async function getResidentArtists(programId: string) {
       }
     } | order(membership.yearStart desc)`,
   );
-  return client.fetch(query, { programId }, options);
+  return client.fetch(getResidentArtistsQuery, { programId }, options);
 }
 
 const UPCOMING_EVENTS_FRAGMENT = `{
@@ -146,12 +146,13 @@ export async function getUpcomingEventsByProgram(
   programSlug: string,
   limit: number = 5,
 ) {
+  const getUpcomingEventsByProgramQuery = defineQuery(
+    `*[_type == "event" && program->slug.current == $programSlug && dateTimes[0].start > now()] | order(dateTimes[0].start asc) [0...$limit] {
+      ${UPCOMING_EVENTS_FRAGMENT}
+    }`,
+  );
   return client.fetch(
-    defineQuery(
-      `*[_type == "event" && program->slug.current == $programSlug && dateTimes[0].start > now()] | order(dateTimes[0].start asc)[0...$limit]{
-        ${UPCOMING_EVENTS_FRAGMENT}
-      }`,
-    ),
+    getUpcomingEventsByProgramQuery,
     { programSlug, limit },
     options,
   );
