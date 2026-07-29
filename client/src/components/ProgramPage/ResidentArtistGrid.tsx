@@ -48,7 +48,9 @@ export default function ResidentArtistGrid({
   return (
     <section className="px-6 md:px-16 py-9">
       <div className="border-t border-b border-ch-midnite px-3 pt-6 pb-9 flex flex-col gap-6">
-        <h2 className="font-milling font-bold text-[28px]">Resident Artists</h2>
+        <h2 className="font-milling font-bold text-[28px] text-ch-midnite">
+          Resident Artists
+        </h2>
 
         <div className="flex flex-row gap-[138px] w-full">
           <button
