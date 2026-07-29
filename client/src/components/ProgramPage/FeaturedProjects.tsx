@@ -38,7 +38,7 @@ export default function FeaturedProjects({
               <div className="flex justify-between items-center">
                 <span className="font-milling text-2xl">{p.title}</span>
                 {artistNames && (
-                  <span className="font-brook text-base uppercase opacity-60 text-right">
+                  <span className="font-milling font-thin text-xl text-right">
                     {artistNames}
                   </span>
                 )}
