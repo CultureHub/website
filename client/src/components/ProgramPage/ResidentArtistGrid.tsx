@@ -56,12 +56,11 @@ export default function ResidentArtistGrid({
               setShowPast(false);
               setSelectedYear(null);
             }}
-            className={`font-milling text-xl py-[10px] text-center border ${
+            className={`font-milling text-xl py-[10px] ${
               !showPast
-                ? "bg-ch-midnite text-ch-lite border-ch-lite flex-1"
-                : "bg-ch-lite text-ch-midnite border-ch-midnite w-[136px]"
+                ? "bg-ch-midnite text-ch-lite w-[136px] border-b border-ch-lite pl-[10px] pr-[50px]"
+                : "bg-ch-lite text-ch-midnite flex-1 border-t border-l border-r border-ch-midnite border-b-0 pl-3 pr-[87px]"
             }`}
-            style={showPast ? { borderBottomWidth: 0 } : undefined}
           >
             Current
           </button>
@@ -70,12 +69,11 @@ export default function ResidentArtistGrid({
               setShowPast(true);
               setSelectedYear(null);
             }}
-            className={`font-milling text-xl py-[10px] text-center border ${
+            className={`font-milling text-xl py-[10px] ${
               showPast
-                ? "bg-ch-midnite text-ch-lite border-ch-lite flex-1"
-                : "bg-ch-lite text-ch-midnite border-ch-midnite w-[136px]"
+                ? "bg-ch-midnite text-ch-lite w-[136px] border-b border-ch-lite pl-[10px] pr-[50px]"
+                : "bg-ch-lite text-ch-midnite flex-1 border-t border-l border-r border-ch-midnite border-b-0 pl-3 pr-[87px]"
             }`}
-            style={!showPast ? { borderBottomWidth: 0 } : undefined}
           >
             Past
           </button>
