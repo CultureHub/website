@@ -1,4 +1,6 @@
-import { Carousel, type CarouselItem } from "@/components/Carousel";
+import { Carousel } from "@/components/Carousel";
+import Link from "next/link";
+import SanityImage from "@/components/SanityImage";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
 type FeaturedProject = NonNullable<
@@ -14,20 +16,33 @@ export default function FeaturedProjects({
   title,
   projects,
 }: FeaturedProjectsProps) {
-  const items: CarouselItem[] = projects.map((p) => ({
-    _key: p._id,
-    title: p.title,
-    image: p.heroImage,
-    href: `/projects/${p.slug.current}`,
-    subtitle: p.people || undefined,
-  }));
-
   return (
     <section id="projects" className="px-6 md:px-16 py-9">
       <div className="border-t border-b border-ch-midnite py-6 mb-9">
         <h2 className="font-milling font-bold text-[28px]">{title}</h2>
       </div>
-      <Carousel items={items} />
+      <Carousel>
+        {projects.map((p) => (
+          <Link
+            key={p._id}
+            href={`/projects/${p.slug.current}`}
+            className="flex flex-col gap-4.5"
+          >
+            <div className="flex justify-between items-center">
+              <span className="font-milling text-2xl">{p.title}</span>
+              {p.people && (
+                <span className="font-brook text-base uppercase opacity-60 text-right">
+                  {p.people}
+                </span>
+              )}
+            </div>
+            <SanityImage
+              image={p.heroImage}
+              className="w-full h-[423px] object-cover border border-ch-midnite"
+            />
+          </Link>
+        ))}
+      </Carousel>
     </section>
   );
 }
