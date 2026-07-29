@@ -7,20 +7,24 @@ type FeaturedArtist = NonNullable<
 >[number];
 
 interface FeaturedArtistsProps {
+  id?: string;
   title: string;
   subtitle?: string;
   artists: FeaturedArtist[];
+  accentColor?: string;
   columns?: number;
 }
 
 export default function FeaturedArtists({
+  id,
   title,
   subtitle,
   artists,
+  accentColor = "#B5FD8B",
   columns = 3,
 }: FeaturedArtistsProps) {
   return (
-    <section className="px-6 md:px-16 py-9">
+    <section id={id} className="px-6 md:px-16 py-9">
       <div className="border-t border-b border-ch-midnite py-6 mb-9">
         <h2 className="font-milling font-bold text-[28px]">{title}</h2>
       </div>
@@ -35,18 +39,22 @@ export default function FeaturedArtists({
           <Link
             key={artist._id}
             href={`/artists/${artist.slug.current}`}
-            className="flex flex-col p-5 gap-3 border border-ch-midnite rounded-[10px] bg-[#B5FD8B]"
+            className="flex flex-col p-5 gap-3 border border-ch-midnite rounded-[10px]"
+            style={{ backgroundColor: accentColor }}
           >
             {artist.image && (
               <SanityImage
                 image={artist.image}
-                className="w-full aspect-[3/2] object-cover rounded-[10px] border border-ch-midnite"
+                className="w-full aspect-square object-cover rounded-[10px] border border-ch-midnite"
               />
             )}
             <div className="flex flex-row justify-between">
               {subtitle && (
                 <span className="font-brook italic text-base">{subtitle}</span>
               )}
+              <span className="font-brook text-base uppercase">
+                {artist.locations?.[0] || ""}
+              </span>
             </div>
             <span className="font-milling text-xl">{artist.name}</span>
           </Link>

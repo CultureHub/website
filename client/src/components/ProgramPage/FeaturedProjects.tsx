@@ -23,7 +23,7 @@ export default function FeaturedProjects({
   }));
 
   return (
-    <section className="px-6 md:px-16 py-9">
+    <section id="projects" className="px-6 md:px-16 py-9">
       <div className="border-t border-b border-ch-midnite py-6 mb-9">
         <h2 className="font-milling font-bold text-[28px]">{title}</h2>
       </div>

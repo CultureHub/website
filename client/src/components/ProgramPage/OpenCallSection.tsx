@@ -28,7 +28,7 @@ export default function OpenCallSection({
   ].filter((item) => item.value);
 
   return (
-    <section className="px-6 md:px-16 py-9">
+    <section id="open-call" className="px-6 md:px-16 py-9">
       <div className="border-t border-b border-ch-midnite py-6 mb-9">
         <h2 className="font-milling font-bold text-[28px]">Open Call</h2>
       </div>
@@ -41,11 +41,13 @@ export default function OpenCallSection({
           />
         )}
 
-        <h3 className="font-milling font-bold text-[40px]">{title}</h3>
+        <div className="flex flex-col md:flex-row justify-between gap-4">
+          <h3 className="font-milling font-bold text-[40px] max-w-[500px]">
+            {title}
+          </h3>
 
-        {infoItems.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16">
-            <div className="flex flex-col gap-6 border-r border-ch-midnite pr-8">
+          {infoItems.length > 0 && (
+            <div className="flex flex-col gap-6 max-w-[500px]">
               {infoItems.map((item) => (
                 <div key={item.label} className="flex flex-col gap-3">
                   <h4 className="font-brook text-xl uppercase">{item.label}</h4>
@@ -55,18 +57,14 @@ export default function OpenCallSection({
                 </div>
               ))}
             </div>
-            {description && (
-              <div>
-                <div className="font-milling text-xl">
-                  <PortableText value={description} />
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        {infoItems.length === 0 && description && (
-          <div className="font-milling text-xl">
-            <PortableText value={description} />
+          )}
+        </div>
+
+        {description && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16">
+            <div className="font-milling text-xl">
+              <PortableText value={description} />
+            </div>
           </div>
         )}
       </div>

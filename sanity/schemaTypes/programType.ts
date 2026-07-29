@@ -72,29 +72,11 @@ export const programType = defineType({
       description: 'Rich text shown in the program page header. Leave empty to omit the header description.',
     }),
     defineField({
-      title: 'Jump To Buttons',
-      name: 'jumpToButtons',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          name: 'jumpToButton',
-          fields: [
-            defineField({
-              title: 'Label',
-              name: 'label',
-              type: 'string',
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              title: 'Anchor',
-              name: 'anchor',
-              type: 'string',
-              description: 'CSS ID to scroll to (e.g. "#projects")',
-            }),
-          ],
-        }),
-      ],
+      title: 'Has Page',
+      name: 'hasPage',
+      type: 'boolean',
+      initialValue: true,
+      description: 'When disabled, visiting this program\'s slug returns a 404.',
     }),
     defineField({
       title: 'Open Call Title',

@@ -65,13 +65,12 @@ export function getPrograms() {
 export async function getProgramBySlug(slug: string) {
   const getProgramBySlugQuery = defineQuery(
     `*[_type == "program" && slug.current == $slug][0]{
-        _id, title, displayTitle, slug, shortLabel, accentColor,
+        _id, title, displayTitle, slug, shortLabel, accentColor, hasPage,
         heroImage {
           asset->{_id, url},
           alt, credits
         },
         pageDescription,
-        jumpToButtons,
         openCallTitle,
         openCallImage {
           asset->{_id, url},
@@ -87,7 +86,7 @@ export async function getProgramBySlug(slug: string) {
           accentColor
         },
         featuredArtists[]->{
-          _id, name, slug,
+          _id, name, slug, locations,
           image {
             asset->{_id, url},
             alt

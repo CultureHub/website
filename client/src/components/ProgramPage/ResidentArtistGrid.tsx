@@ -50,40 +50,38 @@ export default function ResidentArtistGrid({
   return (
     <section className="px-6 md:px-16 py-9">
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="border-t border-b border-ch-midnite py-6">
-            <h2 className="font-milling font-bold text-[28px]">
-              Resident Artists
-            </h2>
-          </div>
-          <div className="flex flex-row gap-4">
-            <button
-              onClick={() => {
-                setShowPast(false);
-                setSelectedYear(currentYearKey);
-              }}
-              className={`font-milling text-xl px-[50px] py-[10px] border ${
-                !showPast
-                  ? "bg-ch-midnite text-ch-lite border-ch-midnite"
-                  : "bg-ch-lite text-ch-midnite border-ch-midnite"
-              }`}
-            >
-              Current
-            </button>
-            <button
-              onClick={() => {
-                setShowPast(true);
-                setSelectedYear(null);
-              }}
-              className={`font-milling text-xl px-[87px] py-[10px] border ${
-                showPast
-                  ? "bg-ch-midnite text-ch-lite border-ch-midnite"
-                  : "bg-ch-lite text-ch-midnite border-ch-midnite"
-              }`}
-            >
-              Past
-            </button>
-          </div>
+        <div className="w-full">
+          <h2 className="font-milling font-bold text-[28px]">
+            Resident Artists
+          </h2>
+        </div>
+        <div className="flex flex-row gap-4 w-full">
+          <button
+            onClick={() => {
+              setShowPast(false);
+              setSelectedYear(currentYearKey);
+            }}
+            className={`font-milling text-xl px-[50px] py-[10px] border ${
+              !showPast
+                ? "bg-ch-midnite text-ch-lite border-ch-midnite"
+                : "bg-ch-lite text-ch-midnite border-ch-midnite"
+            }`}
+          >
+            Current
+          </button>
+          <button
+            onClick={() => {
+              setShowPast(true);
+              setSelectedYear(null);
+            }}
+            className={`font-milling text-xl px-[87px] py-[10px] border ${
+              showPast
+                ? "bg-ch-midnite text-ch-lite border-ch-midnite"
+                : "bg-ch-lite text-ch-midnite border-ch-midnite"
+            }`}
+          >
+            Past
+          </button>
         </div>
 
         {showPast && (

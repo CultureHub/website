@@ -17,9 +17,12 @@ export default async function ProgramPage({
   const program = await getProgramBySlug(slug);
 
   if (!program) notFound();
+  if (program.hasPage === false) notFound();
 
   const residentArtists =
     slug === "residency" ? await getResidentArtists(program._id) : null;
+
+  const accentColor = program.accentColor || "#B5FD8B";
 
   return (
     <main className="min-h-screen">
@@ -29,6 +32,22 @@ export default async function ProgramPage({
         residentArtists.length > 0 && (
           <ResidentArtistGrid artists={residentArtists} />
         )}
+      {program.featuredProjects && program.featuredProjects.length > 0 && (
+        <FeaturedProjects
+          title="Recent Projects"
+          projects={program.featuredProjects}
+        />
+      )}
+      {program.featuredArtists && program.featuredArtists.length > 0 && (
+        <FeaturedArtists
+          id="artists"
+          title="Featured Artists"
+          subtitle={program.title}
+          artists={program.featuredArtists}
+          accentColor={accentColor}
+          columns={3}
+        />
+      )}
       {program.openCallTitle && (
         <OpenCallSection
           title={program.openCallTitle}
@@ -41,20 +60,6 @@ export default async function ProgramPage({
       )}
       {program.locationContent && program.locationContent.length > 0 && (
         <LocationTabs locations={program.locationContent} />
-      )}
-      {program.featuredProjects && program.featuredProjects.length > 0 && (
-        <FeaturedProjects
-          title="Recent Projects"
-          projects={program.featuredProjects}
-        />
-      )}
-      {program.featuredArtists && program.featuredArtists.length > 0 && (
-        <FeaturedArtists
-          title="Featured Artists"
-          subtitle={program.shortLabel}
-          artists={program.featuredArtists}
-          columns={3}
-        />
       )}
       <UpcomingEvents programSlug={slug} />
     </main>
