@@ -30,9 +30,7 @@ export default function ResidentArtistGrid({
     .map((a) => a.membership!.yearStart);
   const maxYear = Math.max(...(years.length > 0 ? years : [0]));
 
-  const [selectedYear, setSelectedYear] = useState<string | null>(
-    showPast ? null : `${maxYear}-${maxYear + 1}`,
-  );
+  const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
   const currentYearKey = `${maxYear}-${maxYear + 1}`;
 
@@ -49,23 +47,21 @@ export default function ResidentArtistGrid({
 
   return (
     <section className="px-6 md:px-16 py-9">
-      <div className="flex flex-col gap-6">
-        <div className="w-full">
-          <h2 className="font-milling font-bold text-[28px]">
-            Resident Artists
-          </h2>
-        </div>
-        <div className="flex flex-row gap-4 w-full">
+      <div className="border-t border-b border-ch-midnite px-3 pt-6 pb-9 flex flex-col gap-6">
+        <h2 className="font-milling font-bold text-[28px]">Resident Artists</h2>
+
+        <div className="flex flex-row gap-[138px] w-full">
           <button
             onClick={() => {
               setShowPast(false);
-              setSelectedYear(currentYearKey);
+              setSelectedYear(null);
             }}
-            className={`font-milling text-xl px-[50px] py-[10px] border ${
+            className={`font-milling text-xl py-[10px] text-center border ${
               !showPast
-                ? "bg-ch-midnite text-ch-lite border-ch-midnite"
-                : "bg-ch-lite text-ch-midnite border-ch-midnite"
+                ? "bg-ch-midnite text-ch-lite border-ch-lite flex-1"
+                : "bg-ch-lite text-ch-midnite border-ch-midnite w-[136px]"
             }`}
+            style={showPast ? { borderBottomWidth: 0 } : undefined}
           >
             Current
           </button>
@@ -74,26 +70,27 @@ export default function ResidentArtistGrid({
               setShowPast(true);
               setSelectedYear(null);
             }}
-            className={`font-milling text-xl px-[87px] py-[10px] border ${
+            className={`font-milling text-xl py-[10px] text-center border ${
               showPast
-                ? "bg-ch-midnite text-ch-lite border-ch-midnite"
-                : "bg-ch-lite text-ch-midnite border-ch-midnite"
+                ? "bg-ch-midnite text-ch-lite border-ch-lite flex-1"
+                : "bg-ch-lite text-ch-midnite border-ch-midnite w-[136px]"
             }`}
+            style={!showPast ? { borderBottomWidth: 0 } : undefined}
           >
             Past
           </button>
         </div>
 
-        {showPast && (
-          <div className="flex flex-row flex-wrap gap-3">
+        {showPast && yearOptions.length > 0 && (
+          <div className="flex flex-row flex-wrap gap-[10px] border-t border-ch-midnite pt-6">
             {yearOptions.map((yr) => (
               <button
                 key={yr}
                 onClick={() => setSelectedYear(yr === selectedYear ? null : yr)}
-                className={`px-[10px] py-2 border font-milling text-xl ${
+                className={`px-[10px] py-2.5 border border-ch-midnite font-milling text-xl ${
                   yr === selectedYear
-                    ? "bg-ch-midnite text-ch-lite border-ch-midnite"
-                    : "bg-transparent text-ch-midnite border-ch-midnite"
+                    ? "bg-ch-midnite text-ch-lite"
+                    : "bg-ch-lite text-ch-midnite"
                 }`}
               >
                 {yr}
@@ -101,34 +98,34 @@ export default function ResidentArtistGrid({
             ))}
           </div>
         )}
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filtered.map((artist) => (
-            <Link
-              key={artist._id}
-              href={`/artists/${artist.slug.current}`}
-              className="flex flex-col p-5 gap-3 border border-ch-midnite rounded-[10px] bg-ch-blue"
-            >
-              {artist.image && (
-                <SanityImage
-                  image={artist.image}
-                  className="w-full aspect-[3/2] object-cover rounded-[10px] border border-ch-midnite"
-                />
-              )}
-              <div className="flex flex-row justify-between">
-                <span className="font-brook text-2xl uppercase">
-                  {artist.membership?.yearStart}-{artist.membership?.yearEnd}
-                </span>
-                <span className="font-brook text-2xl uppercase">
-                  {artist.membership?.location || artist.locations?.[0] || ""}
-                </span>
-              </div>
-              <span className="font-milling text-[32px] leading-tight">
-                {artist.name}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-9">
+        {filtered.map((artist) => (
+          <Link
+            key={artist._id}
+            href={`/artists/${artist.slug.current}`}
+            className="flex flex-col p-5 gap-3 border border-ch-midnite rounded-[10px] bg-ch-blue"
+          >
+            {artist.image && (
+              <SanityImage
+                image={artist.image}
+                className="w-full aspect-[3/2] object-cover rounded-[10px] border border-ch-midnite"
+              />
+            )}
+            <div className="flex flex-row justify-between">
+              <span className="font-brook text-2xl uppercase">
+                {artist.membership?.yearStart}-{artist.membership?.yearEnd}
               </span>
-            </Link>
-          ))}
-        </div>
+              <span className="font-brook text-2xl uppercase">
+                {artist.membership?.location || artist.locations?.[0] || ""}
+              </span>
+            </div>
+            <span className="font-milling text-[32px] leading-tight">
+              {artist.name}
+            </span>
+          </Link>
+        ))}
       </div>
     </section>
   );
