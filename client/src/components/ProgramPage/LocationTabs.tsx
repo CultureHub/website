@@ -18,14 +18,14 @@ export default function LocationTabs({ locations }: LocationTabsProps) {
 
   return (
     <section className="px-6 md:px-16 py-9">
-      <div className="flex flex-row gap-0">
+      <div className="flex flex-row">
         {locations.map((tab, i) => (
           <button
             key={tab._key ?? i}
             onClick={() => setActiveIndex(i)}
-            className={`px-4 py-6 font-brook text-[28px] uppercase border border-ch-midnite ${
-              i === 0 ? "" : "-ml-[1px]"
-            } ${i === activeIndex ? "border-b-0" : "border-b"}`}
+            className={`mr-8 px-4 py-6 font-brook text-[28px] uppercase border border-ch-midnite rounded-t-[20px] ${
+              i === activeIndex ? "border-b-0" : "border-b"
+            }`}
             style={{
               backgroundColor: tab.accentColor || "#B5FD8B",
             }}
@@ -38,10 +38,10 @@ export default function LocationTabs({ locations }: LocationTabsProps) {
 
       {active && (
         <div
-          className="p-9 border -mt-[1px] border-ch-midnite"
+          className="p-9 border -mt-[1px] border-ch-midnite rounded-b-[10px]"
           style={{ backgroundColor: active.accentColor || "#B5FD8B" }}
         >
-          <div className="max-w-[975px] flex flex-col gap-8 font-milling text-xl leading-[1.7]">
+          <div className="max-w-[975px] flex flex-col gap-8 font-milling text-xl leading-[1.7] [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1">
             {active.description && <PortableText value={active.description} />}
           </div>
         </div>

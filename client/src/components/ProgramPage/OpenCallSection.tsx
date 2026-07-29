@@ -41,13 +41,13 @@ export default function OpenCallSection({
           />
         )}
 
-        <div className="flex flex-col md:flex-row justify-between gap-4">
-          <h3 className="font-milling font-bold text-[40px] max-w-[500px]">
-            {title}
-          </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-x-16">
+          <div className="flex flex-col justify-start border-ch-midnite md:border-r md:pr-8 py-6 md:py-0">
+            <h3 className="font-milling font-bold text-[40px]">{title}</h3>
+          </div>
 
           {infoItems.length > 0 && (
-            <div className="flex flex-col gap-6 max-w-[500px]">
+            <div className="flex flex-col gap-6">
               {infoItems.map((item) => (
                 <div key={item.label} className="flex flex-col gap-3">
                   <h4 className="font-brook text-xl uppercase">{item.label}</h4>
@@ -60,13 +60,22 @@ export default function OpenCallSection({
           )}
         </div>
 
-        {description && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16">
-            <div className="font-milling text-xl">
-              <PortableText value={description} />
-            </div>
-          </div>
-        )}
+        {description &&
+          (() => {
+            const mid = Math.ceil(description.length / 2);
+            return (
+              <div className="border-t border-ch-midnite pt-9">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16">
+                  <div className="font-milling text-xl [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1">
+                    <PortableText value={description.slice(0, mid)} />
+                  </div>
+                  <div className="font-milling text-xl [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1">
+                    <PortableText value={description.slice(mid)} />
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
       </div>
     </section>
   );
