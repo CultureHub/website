@@ -1,6 +1,7 @@
 import { Carousel } from "@/components/Carousel";
 import Link from "next/link";
 import SanityImage from "@/components/SanityImage";
+import { getProjectPeopleOrNull } from "@/util/project-people";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
 type FeaturedProject = NonNullable<
@@ -22,26 +23,29 @@ export default function FeaturedProjects({
         <h2 className="font-milling font-bold text-[28px]">{title}</h2>
       </div>
       <Carousel>
-        {projects.map((p) => (
-          <Link
-            key={p._id}
-            href={`/projects/${p.slug.current}`}
-            className="flex flex-col gap-4.5"
-          >
-            <div className="flex justify-between items-center">
-              <span className="font-milling text-2xl">{p.title}</span>
-              {p.people && (
-                <span className="font-brook text-base uppercase opacity-60 text-right">
-                  {p.people}
-                </span>
-              )}
-            </div>
-            <SanityImage
-              image={p.heroImage}
-              className="w-full h-[423px] object-cover border border-ch-midnite"
-            />
-          </Link>
-        ))}
+        {projects.map((p) => {
+          const artistNames = getProjectPeopleOrNull(p);
+          return (
+            <Link
+              key={p._id}
+              href={`/projects/${p.slug.current}`}
+              className="flex flex-col gap-4.5"
+            >
+              <SanityImage
+                image={p.heroImage}
+                className="w-full h-[423px] object-cover border border-ch-midnite"
+              />
+              <div className="flex justify-between items-center">
+                <span className="font-milling text-2xl">{p.title}</span>
+                {artistNames && (
+                  <span className="font-brook text-base uppercase opacity-60 text-right">
+                    {artistNames}
+                  </span>
+                )}
+              </div>
+            </Link>
+          );
+        })}
       </Carousel>
     </section>
   );

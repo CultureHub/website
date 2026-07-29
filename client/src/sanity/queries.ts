@@ -98,7 +98,8 @@ export async function getProgramBySlug(slug: string) {
             asset,
             alt
           },
-          people
+          people,
+          "artists": *[_type == "artist" && references(^._id)]{ _id, name }
         }
       }`,
   );
