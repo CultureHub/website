@@ -2358,7 +2358,7 @@ export type GetUpcomingEventsQueryResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    "program": programs[0].program->{ _id, title, slug, shortLabel },\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
+    '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    "program": program->{ _id, title, slug, shortLabel },\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
     '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "slug": slug.current,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
     '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
