@@ -56,7 +56,7 @@ export default function Menu() {
         </button>
       </div>
       {isOpen && (
-        <div className="flex justify-center pb-4">
+        <div className="flex justify-center pb-4 overflow-y-auto max-h-[calc(100vh-4rem)] pt-8">
           <div className="flex flex-col md:inline-flex md:flex-row items-start justify-center md:border-t-1 gap-1">
             <div className="inline-flex flex-col gap-[10px] relative">
               <LeftTopBorderMask />

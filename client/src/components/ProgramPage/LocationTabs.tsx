@@ -23,7 +23,7 @@ export default function LocationTabs({ locations }: LocationTabsProps) {
           <button
             key={tab._key ?? i}
             onClick={() => setActiveIndex(i)}
-            className={`cursor-pointer mr-8 px-4 py-6 font-brook text-[28px] uppercase border border-ch-midnite rounded-t-[20px] ${
+            className={`cursor-pointer mr-4 md:mr-8 px-3 md:px-4 py-3 md:py-6 font-brook text-2xl md:text-[28px] uppercase border border-ch-midnite rounded-t-[20px] whitespace-normal text-left max-w-[183px] md:max-w-none ${
               i === activeIndex ? "border-b-0" : "border-b"
             }`}
             style={{

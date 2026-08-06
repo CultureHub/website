@@ -13,7 +13,6 @@ interface FeaturedArtistsProps {
   subtitle?: ReactNode;
   artists: FeaturedArtist[];
   accentColor?: string;
-  columns?: number;
 }
 
 export default function FeaturedArtists({
@@ -22,7 +21,6 @@ export default function FeaturedArtists({
   subtitle,
   artists,
   accentColor = "#B5FD8B",
-  columns = 3,
 }: FeaturedArtistsProps) {
   return (
     <section id={id} className="px-6 md:px-16 py-9">
@@ -30,12 +28,7 @@ export default function FeaturedArtists({
         <h2 className="font-milling font-bold text-[28px]">{title}</h2>
       </div>
 
-      <div
-        className="grid gap-6"
-        style={{
-          gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-        }}
-      >
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
         {artists.map((artist) => (
           <Link
             key={artist._id}

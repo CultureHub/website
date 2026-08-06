@@ -51,7 +51,7 @@ export default function ProgramHeader({
             <a
               key={btn.anchor}
               href={`#${btn.anchor}`}
-              className="inline-flex px-[10px] py-[5px] border border-ch-midnite rounded-[20px] bg-ch-lite font-milling text-xl"
+              className="inline-flex px-[5px] md:px-[10px] py-[5px] border border-ch-midnite rounded-[20px] bg-ch-lite font-milling text-xl"
             >
               {btn.label}
             </a>
@@ -95,7 +95,7 @@ export default function ProgramHeader({
             : { opacity: 0, pointerEvents: "none" }
         }
       >
-        <div className="flex flex-row justify-between items-center py-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 py-4">
           {titleBlock}
           {buttonRow}
         </div>

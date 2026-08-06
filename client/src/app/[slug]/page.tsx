@@ -58,7 +58,6 @@ export default async function ProgramPage({
           }
           artists={program.featuredArtists}
           accentColor={accentColor}
-          columns={3}
         />
       )}
       {program.openCallTitle && (
