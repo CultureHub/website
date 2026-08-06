@@ -9,98 +9,124 @@ type ResidentArtist = GetResidentArtistsQueryResult[number];
 
 interface ResidentArtistGridProps {
   artists: ResidentArtist[];
+  id?: string;
 }
 
 export default function ResidentArtistGrid({
   artists,
+  id,
 }: ResidentArtistGridProps) {
   const [showPast, setShowPast] = useState(false);
-
-  const yearOptions = useMemo(() => {
-    const years = new Set(
-      artists
-        .filter((a) => a.membership?.yearStart)
-        .map((a) => `${a.membership!.yearStart}-${a.membership!.yearEnd}`),
-    );
-    return Array.from(years);
-  }, [artists]);
-
-  const years = artists
-    .filter((a) => a.membership?.yearStart)
-    .map((a) => a.membership!.yearStart);
-  const maxYear = Math.max(...(years.length > 0 ? years : [0]));
-
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
+  const years: number[] = [];
+  for (const a of artists) {
+    if (a.membership?.yearStart) years.push(a.membership.yearStart);
+  }
+  const maxYear = Math.max(...(years.length > 0 ? years : [0]));
   const currentYearKey = `${maxYear}-${maxYear + 1}`;
+  const previousYearKey = maxYear > 0 ? `${maxYear - 1}-${maxYear}` : null;
+
+  const yearOptions = useMemo(() => {
+    const yearsSet = new Set<string>();
+    for (const a of artists) {
+      if (a.membership?.yearStart) {
+        yearsSet.add(`${a.membership.yearStart}-${a.membership.yearEnd}`);
+      }
+    }
+    return Array.from(yearsSet).sort((a, b) => {
+      const aStart = parseInt(a.split("-")[0], 10);
+      const bStart = parseInt(b.split("-")[0], 10);
+      return bStart - aStart;
+    });
+  }, [artists]);
+
+  const pastYearOptions = yearOptions.filter((yr) => yr !== currentYearKey);
+
+  const effectiveSelectedYear = showPast
+    ? (selectedYear ?? previousYearKey)
+    : currentYearKey;
 
   const filtered = artists.filter((a) => {
     if (!a.membership) return false;
     const yearKey = `${a.membership.yearStart}-${a.membership.yearEnd}`;
-    if (showPast) {
-      return selectedYear
-        ? yearKey === selectedYear
-        : yearKey !== currentYearKey;
-    }
-    return yearKey === currentYearKey;
+    return yearKey === effectiveSelectedYear;
   });
 
+  const yearChips = showPast ? yearOptions : [currentYearKey];
+
   return (
-    <section className="px-6 md:px-16 py-9">
-      <div className="border-t border-b border-ch-midnite px-3 pt-6 pb-9 flex flex-col gap-6">
+    <section id={id} className="px-6 md:px-16 py-9">
+      <div className="border-t border-b border-ch-midnite px-3 pt-6 pb-6 flex flex-col gap-6">
         <h2 className="font-milling font-bold text-[28px] text-ch-midnite">
           Resident Artists
         </h2>
 
-        <div className="flex flex-row gap-[138px] w-full">
-          <button
-            onClick={() => {
-              setShowPast(false);
-              setSelectedYear(null);
-            }}
-            className={`font-milling text-xl py-[10px] ${
-              !showPast
-                ? "bg-ch-midnite text-ch-lite w-[136px] border-b border-ch-lite pl-[10px] pr-[50px]"
-                : "bg-ch-lite text-ch-midnite flex-1 border-t border-l border-r border-ch-midnite border-b-0 pl-3 pr-[87px]"
-            }`}
-          >
-            Current
-          </button>
-          <button
-            onClick={() => {
-              setShowPast(true);
-              setSelectedYear(null);
-            }}
-            className={`font-milling text-xl py-[10px] ${
-              showPast
-                ? "bg-ch-midnite text-ch-lite w-[136px] border-b border-ch-lite pl-[10px] pr-[50px]"
-                : "bg-ch-lite text-ch-midnite flex-1 border-t border-l border-r border-ch-midnite border-b-0 pl-3 pr-[87px]"
-            }`}
-          >
-            Past
-          </button>
-        </div>
-
-        {showPast && yearOptions.length > 0 && (
-          <div className="flex flex-row flex-wrap gap-[10px] border-t border-ch-midnite pt-6">
-            {yearOptions.map((yr) => (
-              <button
-                key={yr}
-                onClick={() => setSelectedYear(yr === selectedYear ? null : yr)}
-                className={`px-[10px] py-2.5 border border-ch-midnite font-milling text-xl ${
-                  yr === selectedYear
-                    ? "bg-ch-midnite text-ch-lite"
-                    : "bg-ch-lite text-ch-midnite"
-                }`}
-              >
-                {yr}
-              </button>
-            ))}
+        <div>
+          <div className="flex flex-row w-full">
+            <button
+              onClick={() => {
+                setShowPast(false);
+                setSelectedYear(null);
+              }}
+              className={`font-milling text-xl py-[10px] w-[136px] ${
+                !showPast
+                  ? "bg-ch-midnite text-ch-lite border-b border-ch-lite pl-[10px] pr-[50px]"
+                  : "bg-ch-lite text-ch-midnite border border-ch-midnite pl-[10px] pr-[50px]"
+              }`}
+            >
+              Current
+            </button>
+            <button
+              onClick={() => {
+                setShowPast(true);
+                setSelectedYear(null);
+              }}
+              className={`font-milling text-xl py-[10px] flex-1 flex items-start pl-3 ${
+                showPast
+                  ? "bg-ch-midnite text-ch-lite border-b border-ch-lite"
+                  : "bg-ch-lite text-ch-midnite border border-ch-midnite"
+              }`}
+            >
+              Past
+            </button>
           </div>
-        )}
+
+          <div className="flex flex-row flex-wrap gap-[10px] border-ch-midnite">
+            {yearChips.map((yr) => {
+              const isSelected = yr === effectiveSelectedYear;
+              return (
+                <button
+                  key={yr}
+                  onClick={() => {
+                    if (yr === currentYearKey) {
+                      setShowPast(false);
+                      setSelectedYear(null);
+                    } else {
+                      setShowPast(true);
+                      setSelectedYear(yr === selectedYear ? null : yr);
+                    }
+                  }}
+                  className={`px-[10px] py-2.5 border-l border-b border-r border-ch-midnite font-milling text-xl ${
+                    isSelected
+                      ? "bg-ch-midnite text-ch-lite"
+                      : "bg-ch-lite text-ch-midnite"
+                  }`}
+                >
+                  {yr}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-9">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        {showPast && pastYearOptions.length === 0 && (
+          <p className="text-ch-midnite font-milling text-xl">
+            No past resident artists.
+          </p>
+        )}
         {filtered.map((artist) => (
           <Link
             key={artist._id}
@@ -110,7 +136,7 @@ export default function ResidentArtistGrid({
             {artist.image && (
               <SanityImage
                 image={artist.image}
-                className="w-full aspect-[3/2] object-cover rounded-[10px] border border-ch-midnite"
+                className="w-full aspect-square object-cover rounded-[10px] border border-ch-midnite"
               />
             )}
             <div className="flex flex-row justify-between">

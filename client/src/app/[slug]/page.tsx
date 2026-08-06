@@ -26,11 +26,17 @@ export default async function ProgramPage({
 
   return (
     <main className="min-h-screen">
-      <ProgramHeader program={program} />
+      <ProgramHeader
+        program={program}
+        hasArtists={
+          !!(residentArtists && residentArtists.length > 0) ||
+          !!(program.featuredArtists && program.featuredArtists.length > 0)
+        }
+      />
       {slug === "residency" &&
         residentArtists &&
         residentArtists.length > 0 && (
-          <ResidentArtistGrid artists={residentArtists} />
+          <ResidentArtistGrid artists={residentArtists} id="artists" />
         )}
       {program.featuredProjects && program.featuredProjects.length > 0 && (
         <FeaturedProjects

@@ -65,6 +65,7 @@ export default function Menu() {
                 variant="square-inverted"
                 className="mt-5"
                 onClick={close}
+                href="/art-and-technology"
               >
                 Art <span className="font-milling text-xs">&</span> Technology
               </MenuButton>
@@ -75,12 +76,16 @@ export default function Menu() {
               >
                 Project Index
               </MenuButton>
-              <MenuButton variant="pill" onClick={close}>
+              <MenuButton
+                variant="pill"
+                onClick={close}
+                href="/experiments-in-digital-storytelling"
+              >
                 Experiments in
                 <br />
                 Digital Storytelling
               </MenuButton>
-              <MenuButton variant="pill" onClick={close}>
+              <MenuButton variant="pill" onClick={close} href="/residency">
                 Residency
               </MenuButton>
               <MenuButton variant="pill" onClick={close}>
