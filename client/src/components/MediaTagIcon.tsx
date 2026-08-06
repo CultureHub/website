@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-type MediaTagType = "watch" | "read" | "project" | "event" | "artist";
+export type MediaTagType = "watch" | "read" | "project" | "event" | "artist";
 
 export default function MediaTagIcon({ type }: { type: MediaTagType }) {
   switch (type) {

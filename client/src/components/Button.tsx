@@ -6,7 +6,8 @@ type ButtonVariant =
   | "rounded"
   | "square"
   | "square-dashed"
-  | "square-inverted";
+  | "square-inverted"
+  | "ticket";
 
 export type ButtonProps = PropsWithChildren<{
   variant: ButtonVariant;
@@ -56,6 +57,10 @@ export default function Button({
       break;
     case "rounded":
       containerClasses += "bg-ch-lite rounded-[5px] outline-ch-midnite";
+      break;
+    case "ticket":
+      containerClasses += "bg-ch-lite outline-ch-midnite px-[10px] py-[10px]";
+      textClasses = "text-ch-midnite font-milling font-bold text-2xl leading-6";
       break;
   }
 

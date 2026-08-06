@@ -9,10 +9,8 @@ type CreditGroupData = NonNullable<CreditLocationData["groups"]>[number];
 
 export default function CreditSection({
   credits,
-  columns = 2,
 }: {
   credits: CreditData | null | undefined;
-  columns?: number;
 }) {
   if (!credits) return null;
 
@@ -50,12 +48,7 @@ export default function CreditSection({
           const groups = firstLoc.groups;
           if (!groups) return null;
           return (
-            <div
-              className="grid gap-[50px]"
-              style={{
-                gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-              }}
-            >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-[50px]">
               {groups.map((group) => (
                 <CreditGroup
                   key={group._key}

@@ -21,11 +21,314 @@ type ArrayOf<T> = Array<
 >;
 
 // Source: schema.json
+export type Credits = {
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  locations?: Array<{
+    name?: string;
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    groups?: Array<{
+      name?: string;
+      description?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "normal"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      items?: Array<{
+        role?: string;
+        people?: string;
+        _type: "creditItem";
+        _key: string;
+      }>;
+      _type: "creditGroup";
+      _key: string;
+    }>;
+    _type: "creditLocation";
+    _key: string;
+  }>;
+};
+
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
 export type ProgramReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "program";
+};
+
+export type ArtistReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "artist";
+};
+
+export type Event = {
+  _id: string;
+  _type: "event";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  program: ProgramReference;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  dateTimes?: Array<{
+    start: string;
+    end: string;
+    _type: "dateTimeRange";
+    _key: string;
+  }>;
+  cost?: string;
+  location?: string;
+  accessInfo?: string;
+  links?: Array<{
+    label: string;
+    url: string;
+    _key: string;
+  }>;
+  featuredArtists?: Array<{
+    artist?: ArtistReference;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+    name?: string;
+    bio?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    _type: "featuredArtist";
+    _key: string;
+  }>;
+  artworks?: Array<{
+    image: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string;
+      credits?: string;
+      _type: "image";
+    };
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    _type: "artwork";
+    _key: string;
+  }>;
+  aboutProgram?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  schedule?: {
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    items?: Array<{
+      title: string;
+      time?: string;
+      description?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "normal"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      _type: "scheduleItem";
+      _key: string;
+    }>;
+  };
+  credits?: Credits;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
 };
 
 export type ArtAndTechnologyPage = {
@@ -41,13 +344,6 @@ export type ArtAndTechnologyPage = {
       _key: string;
     } & ProgramReference
   >;
-};
-
-export type SanityImageAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
 export type ProjectReference = {
@@ -122,35 +418,6 @@ export type Artist = {
       _key: string;
     } & ProjectReference
   >;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
-};
-
-export type ArtistReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "artist";
 };
 
 export type Project = {
@@ -313,94 +580,7 @@ export type Project = {
         _key: string;
       }
   >;
-  credits?: {
-    description?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
-    locations?: Array<{
-      name?: string;
-      description?: Array<{
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?:
-          | "normal"
-          | "h1"
-          | "h2"
-          | "h3"
-          | "h4"
-          | "h5"
-          | "h6"
-          | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }>;
-      groups?: Array<{
-        name?: string;
-        description?: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "normal"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "h5"
-            | "h6"
-            | "blockquote";
-          listItem?: "bullet" | "number";
-          markDefs?: Array<{
-            href?: string;
-            _type: "link";
-            _key: string;
-          }>;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }>;
-        items?: Array<{
-          role?: string;
-          people?: string;
-          _type: "creditItem";
-          _key: string;
-        }>;
-        _type: "creditGroup";
-        _key: string;
-      }>;
-      _type: "creditLocation";
-      _key: string;
-    }>;
-  };
+  credits?: Credits;
   related?: ArrayOf<ArtistReference | ProjectReference>;
 };
 
@@ -552,15 +732,17 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | ProgramReference
-  | ArtAndTechnologyPage
+  | Credits
   | SanityImageAssetReference
-  | ProjectReference
-  | Artist
+  | ProgramReference
+  | ArtistReference
+  | Event
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
-  | ArtistReference
+  | ArtAndTechnologyPage
+  | ProjectReference
+  | Artist
   | Project
   | Program
   | SanityImagePaletteSwatch
@@ -800,109 +982,14 @@ export type GetArtistsBySlugQueryResult = {
           _key: string;
         }
     >;
-    credits?: {
-      description?: Array<{
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?:
-          | "blockquote"
-          | "h1"
-          | "h2"
-          | "h3"
-          | "h4"
-          | "h5"
-          | "h6"
-          | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }>;
-      locations?: Array<{
-        name?: string;
-        description?: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "h5"
-            | "h6"
-            | "normal";
-          listItem?: "bullet" | "number";
-          markDefs?: Array<{
-            href?: string;
-            _type: "link";
-            _key: string;
-          }>;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }>;
-        groups?: Array<{
-          name?: string;
-          description?: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
-              _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "h5"
-              | "h6"
-              | "normal";
-            listItem?: "bullet" | "number";
-            markDefs?: Array<{
-              href?: string;
-              _type: "link";
-              _key: string;
-            }>;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }>;
-          items?: Array<{
-            role?: string;
-            people?: string;
-            _type: "creditItem";
-            _key: string;
-          }>;
-          _type: "creditGroup";
-          _key: string;
-        }>;
-        _type: "creditLocation";
-        _key: string;
-      }>;
-    };
+    credits?: Credits;
     related?: ArrayOf<ArtistReference | ProjectReference>;
   }> | null;
 } | null;
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getProjectBySlugQuery
-// Query: *[_type == "project" && slug.current == $slug][0]{      ...,      "program": program->{ _id, title, slug, shortLabel, displayTitle },      related[]->{        _id,        _type,        "image": select(          _type == "project" => heroImage,          _type == "artist" => image,        ),        "title": select(          _type == "project" => title,          _type == "artist" => name,        ),      },    }
+// Query: *[_type == "project" && slug.current == $slug][0]{      ...,      "program": program->{ _id, title, slug, shortLabel, displayTitle },      related[]->{        _id,        _type,        "slug": slug.current,        "image": select(          _type == "project" => heroImage,          _type == "artist" => image,        ),        "title": select(          _type == "project" => title,          _type == "artist" => name,        ),      },    }
 export type GetProjectBySlugQueryResult = {
   _id: string;
   _type: "project";
@@ -1086,98 +1173,12 @@ export type GetProjectBySlugQueryResult = {
         _key: string;
       }
   >;
-  credits?: {
-    description?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
-    locations?: Array<{
-      name?: string;
-      description?: Array<{
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?:
-          | "blockquote"
-          | "h1"
-          | "h2"
-          | "h3"
-          | "h4"
-          | "h5"
-          | "h6"
-          | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }>;
-      groups?: Array<{
-        name?: string;
-        description?: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "h5"
-            | "h6"
-            | "normal";
-          listItem?: "bullet" | "number";
-          markDefs?: Array<{
-            href?: string;
-            _type: "link";
-            _key: string;
-          }>;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }>;
-        items?: Array<{
-          role?: string;
-          people?: string;
-          _type: "creditItem";
-          _key: string;
-        }>;
-        _type: "creditGroup";
-        _key: string;
-      }>;
-      _type: "creditLocation";
-      _key: string;
-    }>;
-  };
+  credits?: Credits;
   related: Array<
     | {
         _id: string;
         _type: "artist";
+        slug: string;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -1192,6 +1193,7 @@ export type GetProjectBySlugQueryResult = {
     | {
         _id: string;
         _type: "project";
+        slug: string;
         image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
@@ -1562,12 +1564,288 @@ export type GetProjectFacetsQueryResult = {
   dates: Array<string>;
 };
 
+// Source: ../client/src/sanity/queries.ts
+// Variable: getEventBySlugQuery
+// Query: *[_type == "event" && slug.current == $slug][0]{      ...,      "program": program->{        _id, title, slug, shortLabel, displayTitle, accentColor      },      featuredArtists[]{        _key,        artist->{ _id, name, slug },        "image": coalesce(image, artist->image),        "name": coalesce(name, artist->name),        "bio": coalesce(bio, artist->bio)      }    }
+export type GetEventBySlugQueryResult = {
+  _id: string;
+  _type: "event";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  program: {
+    _id: string;
+    title: string;
+    slug: Slug;
+    shortLabel: string;
+    displayTitle: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+    accentColor: string;
+  };
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  dateTimes?: Array<{
+    start: string;
+    end: string;
+    _type: "dateTimeRange";
+    _key: string;
+  }>;
+  cost?: string;
+  timezoneLabel?: string;
+  locationShort?: string;
+  location?: string;
+  accessInfo?: string;
+  links?: Array<{
+    label: string;
+    shortLabel?: string;
+    url: string;
+    _key: string;
+  }>;
+  featuredArtists: Array<{
+    _key: string;
+    artist: {
+      _id: string;
+      name: string;
+      slug: Slug;
+    } | null;
+    image:
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          credits?: string;
+          _type: "image";
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        }
+      | null;
+    name: string | null;
+    bio: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+  }> | null;
+  artworks?: Array<{
+    image: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string;
+      credits?: string;
+      _type: "image";
+    };
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    _type: "artwork";
+    _key: string;
+  }>;
+  aboutProgram?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  schedule?: {
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    items?: Array<{
+      title: string;
+      time?: string;
+      description?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      _type: "scheduleItem";
+      _key: string;
+    }>;
+  };
+  credits?: Credits;
+} | null;
+
+// Source: ../client/src/sanity/queries.ts
+// Variable: getUpcomingEventsQuery
+// Query: *[      _type == "event"      && defined(slug.current)      && count(dateTimes) > 0      && dateTimes[-1].end >= $now    ] | order(dateTimes[0].start asc) [0...$limit] {      _id,      title,      "slug": slug.current,      dateTimes,      location,      "program": program->{        _id, title, slug, shortLabel, displayTitle      },      heroImage {        asset,        hotspot,        crop,        alt      }    }
+export type GetUpcomingEventsQueryResult = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  dateTimes: Array<{
+    start: string;
+    end: string;
+    _type: "dateTimeRange";
+    _key: string;
+  }> | null;
+  location: string | null;
+  program: {
+    _id: string;
+    title: string;
+    slug: Slug;
+    shortLabel: string;
+    displayTitle: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+  };
+  heroImage: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+    alt: string;
+  };
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    "program": program->{ _id, title, slug, shortLabel },\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
-    '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
+    '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "slug": slug.current,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
     '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
     'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;
@@ -1576,5 +1854,7 @@ declare module "@sanity/client" {
     '{\n    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor, displayTitle },\n    "places": array::unique(*[_type == "project" && defined(slug.current)].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)].date) | order(@ desc)\n  }': GetProjectFilterOptionsQueryResult;
     '{\n    "projects": *[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ] | order(date desc) [$offset...$end]\n    {\n  _id,\n  title,\n  slug,\n  date,\n  endDate,\n  locations,\n  people,\n  "program": program->{ _id, title, slug, shortLabel, accentColor, displayTitle },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  },\n  "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n},\n    "total": count(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ])\n  }': GetProjectsQueryResult;
     '{\n    "programSlugs": array::unique(*[_type == "project" && defined(slug.current)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].program->slug.current)[@ != null],\n    "places": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n    ].date) | order(@ desc)\n  }': GetProjectFacetsQueryResult;
+    '*[_type == "event" && slug.current == $slug][0]{\n      ...,\n      "program": program->{\n        _id, title, slug, shortLabel, displayTitle, accentColor\n      },\n      featuredArtists[]{\n        _key,\n        artist->{ _id, name, slug },\n        "image": coalesce(image, artist->image),\n        "name": coalesce(name, artist->name),\n        "bio": coalesce(bio, artist->bio)\n      }\n    }': GetEventBySlugQueryResult;
+    '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc) [0...$limit] {\n      _id,\n      title,\n      "slug": slug.current,\n      dateTimes,\n      location,\n      "program": program->{\n        _id, title, slug, shortLabel, displayTitle\n      },\n      heroImage {\n        asset,\n        hotspot,\n        crop,\n        alt\n      }\n    }': GetUpcomingEventsQueryResult;
   }
 }

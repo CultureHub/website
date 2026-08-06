@@ -24,6 +24,7 @@ export function getProjectBySlug(slug: string) {
       related[]->{
         _id,
         _type,
+        "slug": slug.current,
         "image": select(
           _type == "project" => heroImage,
           _type == "artist" => image,
@@ -198,4 +199,54 @@ function buildProjectQueryParams(
     params.end = offset + limit;
   }
   return params;
+}
+
+export function getEventBySlug(slug: string) {
+  const getEventBySlugQuery = defineQuery(
+    `*[_type == "event" && slug.current == $slug][0]{
+      ...,
+      "program": program->{
+        _id, title, slug, shortLabel, displayTitle, accentColor
+      },
+      featuredArtists[]{
+        _key,
+        artist->{ _id, name, slug },
+        "image": coalesce(image, artist->image),
+        "name": coalesce(name, artist->name),
+        "bio": coalesce(bio, artist->bio)
+      }
+    }`,
+  );
+
+  return client.fetch(getEventBySlugQuery, { slug }, options);
+}
+
+export function getUpcomingEvents(limit: number = 10) {
+  const now = new Date().toISOString();
+
+  const getUpcomingEventsQuery = defineQuery(
+    `*[
+      _type == "event"
+      && defined(slug.current)
+      && count(dateTimes) > 0
+      && dateTimes[-1].end >= $now
+    ] | order(dateTimes[0].start asc) [0...$limit] {
+      _id,
+      title,
+      "slug": slug.current,
+      dateTimes,
+      location,
+      "program": program->{
+        _id, title, slug, shortLabel, displayTitle
+      },
+      heroImage {
+        asset,
+        hotspot,
+        crop,
+        alt
+      }
+    }`,
+  );
+
+  return client.fetch(getUpcomingEventsQuery, { now, limit }, options);
 }
