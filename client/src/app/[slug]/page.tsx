@@ -34,17 +34,17 @@ export default async function ProgramPage({
           !!(program.featuredArtists && program.featuredArtists.length > 0)
         }
       />
-      {slug === "residency" &&
-        residentArtists &&
-        residentArtists.length > 0 && (
-          <ResidentArtistGrid artists={residentArtists} id="artists" />
-        )}
       {program.featuredProjects && program.featuredProjects.length > 0 && (
         <FeaturedProjects
           title="Recent Projects"
           projects={program.featuredProjects}
         />
       )}
+      {slug === "residency" &&
+        residentArtists &&
+        residentArtists.length > 0 && (
+          <ResidentArtistGrid artists={residentArtists} id="artists" />
+        )}
       {program.featuredArtists && program.featuredArtists.length > 0 && (
         <FeaturedArtists
           id="artists"
