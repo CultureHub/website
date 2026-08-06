@@ -3,9 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getArtistsBySlug } from "@/sanity/queries";
-import type { GetArtistsBySlugQueryResult } from "@/sanity/types";
-
-type Artist = NonNullable<GetArtistsBySlugQueryResult>;
 import SanityImage from "@/components/SanityImage";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LocationPin from "@/components/LocationPin";
@@ -57,21 +54,19 @@ export default async function ArtistPage({
             </div>
             {artist.links && (
               <div className="flex flex-row gap-[30px] mx-6 md:m-0 md:px-2">
-                {artist.links.map(
-                  (link: NonNullable<Artist["links"]>[number]) => (
-                    <Button
-                      key={link._key}
-                      variant="rounded"
-                      href={link.url}
-                      openNewTab
-                      className="p-[5px]"
-                    >
-                      <div className="font-normal underline leading-6">
-                        {link.label}
-                      </div>
-                    </Button>
-                  ),
-                )}
+                {artist.links.map((link) => (
+                  <Button
+                    key={link._key}
+                    variant="rounded"
+                    href={link.url}
+                    openNewTab
+                    className="p-[5px]"
+                  >
+                    <div className="font-normal underline leading-6">
+                      {link.label}
+                    </div>
+                  </Button>
+                ))}
               </div>
             )}
           </div>
@@ -105,27 +100,25 @@ export default async function ArtistPage({
               Projects
             </h2>
             <ul>
-              {artist.projects?.map(
-                (project: NonNullable<Artist["projects"]>[number]) => (
-                  <li key={project._id}>
-                    <Link
-                      href={`/projects/${project.slug?.current}`}
-                      className={`flex flex-row min-h-[89px] group hover:bg-ch-bb active:bg-ch-teal justify-between items-center border-b-1 border-ch-midnite`}
-                    >
-                      <SanityImage
-                        className="h-auto max-w-[134px] py-1"
-                        image={project.heroImage}
-                      />
-                      <div className="flex flex-row gap-3">
-                        <MediaTagIcon type="project" />
-                        <p className="text-20/6 tracking-tight group-hover:underline group-active:underline underline-offset-10 pr-4">
-                          {project.title}
-                        </p>
-                      </div>
-                    </Link>
-                  </li>
-                ),
-              )}
+              {artist.projects?.map((project) => (
+                <li key={project._id}>
+                  <Link
+                    href={`/projects/${project.slug?.current}`}
+                    className={`flex flex-row min-h-[89px] group hover:bg-ch-bb active:bg-ch-teal justify-between items-center border-b-1 border-ch-midnite`}
+                  >
+                    <SanityImage
+                      className="h-auto max-w-[134px] py-1"
+                      image={project.heroImage}
+                    />
+                    <div className="flex flex-row gap-3">
+                      <MediaTagIcon type="project" />
+                      <p className="text-20/6 tracking-tight group-hover:underline group-active:underline underline-offset-10 pr-4">
+                        {project.title}
+                      </p>
+                    </div>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         ) : null}
