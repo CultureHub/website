@@ -7,7 +7,7 @@ export function getArtistsBySlug(slug: string) {
   const getArtistsBySlugQuery =
     defineQuery(`*[_type == "artist" && slug.current == $slug]{
     ...,
-    "program": programs[0].program->{ _id, title, slug, shortLabel },
+    "program": program->{ _id, title, slug, shortLabel },
     projects[]->{
       ...
     }

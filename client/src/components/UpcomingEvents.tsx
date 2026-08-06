@@ -3,7 +3,10 @@ import {
   getUpcomingEvents,
   getUpcomingEventsByProgram,
 } from "@/sanity/queries";
+import type { GetUpcomingEventsQueryResult } from "@/sanity/types";
 import { formatEventDates } from "@/util/event-date";
+
+type EventItem = GetUpcomingEventsQueryResult[number];
 
 interface UpcomingEventsProps {
   programSlug?: string;
@@ -17,7 +20,7 @@ export async function UpcomingEvents({ programSlug }: UpcomingEventsProps) {
 
   if (!events || events.length === 0) return null;
 
-  const items: CarouselItem[] = events.map((event) => {
+  const items: CarouselItem[] = events.map((event: EventItem) => {
     const dates = formatEventDates(
       event.dateTimes ?? [],
       event.timezoneLabel ?? undefined,

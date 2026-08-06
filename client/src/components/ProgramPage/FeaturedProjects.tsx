@@ -1,6 +1,4 @@
-import { Carousel } from "@/components/Carousel";
-import Link from "next/link";
-import SanityImage from "@/components/SanityImage";
+import { Carousel, type CarouselItem } from "@/components/Carousel";
 import { getProjectPeopleOrNull } from "@/util/project-people";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
@@ -17,36 +15,29 @@ export default function FeaturedProjects({
   title,
   projects,
 }: FeaturedProjectsProps) {
+  const items: CarouselItem[] = projects
+    .filter((p) => p.title)
+    .map((p) => {
+      const artistNames = getProjectPeopleOrNull(p);
+      return {
+        _key: p._id,
+        title: p.title,
+        image: p.heroImage,
+        href: `/projects/${p.slug.current}`,
+        subtitle: artistNames ? (
+          <span className="font-milling font-thin text-xl text-right">
+            {artistNames}
+          </span>
+        ) : undefined,
+      };
+    });
+
   return (
     <section id="projects" className="px-6 md:px-16 py-9">
       <div className="border-t border-b border-ch-midnite py-6 mb-9">
         <h2 className="font-milling font-bold text-[28px]">{title}</h2>
       </div>
-      <Carousel>
-        {projects.map((p) => {
-          const artistNames = getProjectPeopleOrNull(p);
-          return (
-            <Link
-              key={p._id}
-              href={`/projects/${p.slug.current}`}
-              className="flex flex-col gap-4.5"
-            >
-              <SanityImage
-                image={p.heroImage}
-                className="w-full h-[423px] object-cover border border-ch-midnite"
-              />
-              <div className="flex justify-between items-center">
-                <span className="font-milling text-2xl">{p.title}</span>
-                {artistNames && (
-                  <span className="font-milling font-thin text-xl text-right">
-                    {artistNames}
-                  </span>
-                )}
-              </div>
-            </Link>
-          );
-        })}
-      </Carousel>
+      <Carousel items={items} />
     </section>
   );
 }
