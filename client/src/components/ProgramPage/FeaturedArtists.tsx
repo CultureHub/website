@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import SanityImage from "@/components/SanityImage";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
@@ -9,7 +10,7 @@ type FeaturedArtist = NonNullable<
 interface FeaturedArtistsProps {
   id?: string;
   title: string;
-  subtitle?: string;
+  subtitle?: ReactNode;
   artists: FeaturedArtist[];
   accentColor?: string;
   columns?: number;
@@ -52,7 +53,7 @@ export default function FeaturedArtists({
               {subtitle && (
                 <span className="font-brook italic text-base">{subtitle}</span>
               )}
-              <span className="font-brook text-base uppercase">
+              <span className="font-brook text-base uppercase whitespace-nowrap">
                 {artist.locations?.[0] || ""}
               </span>
             </div>

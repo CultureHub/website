@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { PortableText } from "next-sanity";
 import { getProgramBySlug, getResidentArtists } from "@/sanity/queries";
 import ProgramHeader from "@/components/ProgramPage/ProgramHeader";
 import ResidentArtistGrid from "@/components/ProgramPage/ResidentArtistGrid";
@@ -48,7 +49,13 @@ export default async function ProgramPage({
         <FeaturedArtists
           id="artists"
           title="Featured Artists"
-          subtitle={program.title}
+          subtitle={
+            program.displayTitle ? (
+              <PortableText value={program.displayTitle} />
+            ) : (
+              program.title
+            )
+          }
           artists={program.featuredArtists}
           accentColor={accentColor}
           columns={3}
