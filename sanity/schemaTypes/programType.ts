@@ -86,7 +86,7 @@ export const programType = defineType({
     defineField(imageField({
       title: 'Open Call Image',
       name: 'openCallImage',
-    })),
+    }, false)),
     defineField({
       title: 'Open Call Timeline',
       name: 'openCallTimeline',

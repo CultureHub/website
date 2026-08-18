@@ -862,7 +862,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "program": {
         "type": "objectAttribute",
@@ -1518,7 +1518,7 @@
                     }
                   }
                 },
-                "optional": false
+                "optional": true
               },
               "description": {
                 "type": "objectAttribute",
@@ -2652,7 +2652,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "bio": {
         "type": "objectAttribute",
@@ -3121,7 +3121,7 @@
           "type": "inline",
           "name": "program.reference"
         },
-        "optional": false
+        "optional": true
       },
       "locations": {
         "type": "objectAttribute",
@@ -3287,7 +3287,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "description": {
         "type": "objectAttribute",
@@ -3599,7 +3599,7 @@
                         }
                       }
                     },
-                    "optional": false
+                    "optional": true
                   },
                   "_type": {
                     "type": "objectAttribute",
@@ -3683,7 +3683,7 @@
                         }
                       }
                     },
-                    "optional": false
+                    "optional": true
                   },
                   "image2": {
                     "type": "objectAttribute",
@@ -3744,7 +3744,7 @@
                         }
                       }
                     },
-                    "optional": false
+                    "optional": true
                   },
                   "_type": {
                     "type": "objectAttribute",
@@ -3828,7 +3828,7 @@
                         }
                       }
                     },
-                    "optional": false
+                    "optional": true
                   },
                   "text": {
                     "type": "objectAttribute",
@@ -4270,7 +4270,7 @@
                         }
                       }
                     },
-                    "optional": false
+                    "optional": true
                   },
                   "_type": {
                     "type": "objectAttribute",
@@ -4629,7 +4629,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "accentColor": {
         "type": "objectAttribute",
