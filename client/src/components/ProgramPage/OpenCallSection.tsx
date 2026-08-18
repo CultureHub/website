@@ -1,4 +1,4 @@
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import SanityImage from "@/components/SanityImage";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 

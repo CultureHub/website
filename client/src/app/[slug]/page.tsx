@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import { getProgramBySlug, getResidentArtists } from "@/sanity/queries";
 import ProgramHeader from "@/components/ProgramPage/ProgramHeader";
 import ResidentArtistGrid from "@/components/ProgramPage/ResidentArtistGrid";

@@ -131,7 +131,7 @@ export type Event = {
   _rev: string;
   title: string;
   slug: Slug;
-  heroImage?: {
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -209,7 +209,7 @@ export type Event = {
     _key: string;
   }>;
   artworks?: Array<{
-    image?: {
+    image: {
       asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
@@ -364,7 +364,7 @@ export type Artist = {
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -443,7 +443,7 @@ export type Project = {
   people?: string;
   date: string;
   endDate?: string;
-  heroImage?: {
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -480,7 +480,7 @@ export type Project = {
   }>;
   content?: Array<
     | {
-        image?: {
+        image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -493,7 +493,7 @@ export type Project = {
         _key: string;
       }
     | {
-        image1?: {
+        image1: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -502,7 +502,7 @@ export type Project = {
           credits?: string;
           _type: "image";
         };
-        image2?: {
+        image2: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -515,7 +515,7 @@ export type Project = {
         _key: string;
       }
     | {
-        image?: {
+        image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -580,7 +580,7 @@ export type Project = {
           _type: "block";
           _key: string;
         }>;
-        image?: {
+        image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -625,7 +625,7 @@ export type Program = {
   slug: Slug;
   shortLabel: string;
   description: string;
-  heroImage?: {
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -665,7 +665,7 @@ export type Program = {
   }>;
   hasPage?: boolean;
   openCallTitle?: string;
-  openCallImage: {
+  openCallImage?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -863,7 +863,7 @@ export type GetArtistsBySlugQueryResult = {
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -940,7 +940,7 @@ export type GetArtistsBySlugQueryResult = {
     people?: string;
     date: string;
     endDate?: string;
-    heroImage?: {
+    heroImage: {
       asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
@@ -977,7 +977,7 @@ export type GetArtistsBySlugQueryResult = {
     }>;
     content?: Array<
       | {
-          image?: {
+          image: {
             asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
@@ -1016,7 +1016,7 @@ export type GetArtistsBySlugQueryResult = {
           _key: string;
         }
       | {
-          image?: {
+          image: {
             asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
@@ -1055,7 +1055,7 @@ export type GetArtistsBySlugQueryResult = {
             _type: "block";
             _key: string;
           }>;
-          image?: {
+          image: {
             asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
@@ -1068,7 +1068,7 @@ export type GetArtistsBySlugQueryResult = {
           _key: string;
         }
       | {
-          image1?: {
+          image1: {
             asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
@@ -1077,7 +1077,7 @@ export type GetArtistsBySlugQueryResult = {
             credits?: string;
             _type: "image";
           };
-          image2?: {
+          image2: {
             asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
@@ -1109,7 +1109,7 @@ export type GetProjectBySlugQueryResult = {
   people?: string;
   date: string;
   endDate?: string;
-  heroImage?: {
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -1169,7 +1169,7 @@ export type GetProjectBySlugQueryResult = {
   }>;
   content?: Array<
     | {
-        image?: {
+        image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -1208,7 +1208,7 @@ export type GetProjectBySlugQueryResult = {
         _key: string;
       }
     | {
-        image?: {
+        image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -1247,7 +1247,7 @@ export type GetProjectBySlugQueryResult = {
           _type: "block";
           _key: string;
         }>;
-        image?: {
+        image: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -1260,7 +1260,7 @@ export type GetProjectBySlugQueryResult = {
         _key: string;
       }
     | {
-        image1?: {
+        image1: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -1269,7 +1269,7 @@ export type GetProjectBySlugQueryResult = {
           credits?: string;
           _type: "image";
         };
-        image2?: {
+        image2: {
           asset?: SanityImageAssetReference;
           media?: unknown;
           hotspot?: SanityImageHotspot;
@@ -1296,7 +1296,7 @@ export type GetProjectBySlugQueryResult = {
           alt: string;
           credits?: string;
           _type: "image";
-        } | null;
+        };
         title: string;
       }
     | {
@@ -1311,7 +1311,7 @@ export type GetProjectBySlugQueryResult = {
           alt: string;
           credits?: string;
           _type: "image";
-        } | null;
+        };
         title: string;
       }
   > | null;
@@ -1351,7 +1351,7 @@ export type GetArtAndTechnologyPageQueryResult = {
     slug: Slug;
     shortLabel: string;
     description: string;
-    heroImage?: {
+    heroImage: {
       asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
@@ -1391,7 +1391,7 @@ export type GetArtAndTechnologyPageQueryResult = {
     }>;
     hasPage?: boolean;
     openCallTitle?: string;
-    openCallImage: {
+    openCallImage?: {
       asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
@@ -1498,7 +1498,7 @@ export type GetProgramsQueryResult = Array<{
   slug: Slug;
   shortLabel: string;
   description: string;
-  heroImage?: {
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -1538,7 +1538,7 @@ export type GetProgramsQueryResult = Array<{
   }>;
   hasPage?: boolean;
   openCallTitle?: string;
-  openCallImage: {
+  openCallImage?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -1640,7 +1640,7 @@ export type GetProgramBySlugQueryResult = {
     } | null;
     alt: string;
     credits: string | null;
-  } | null;
+  };
   pageDescription: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1667,7 +1667,7 @@ export type GetProgramBySlugQueryResult = {
     } | null;
     alt: string;
     credits: string | null;
-  };
+  } | null;
   openCallTimeline: string | null;
   openCallWhere: string | null;
   openCallBenefits: string | null;
@@ -1724,7 +1724,7 @@ export type GetProgramBySlugQueryResult = {
         url: string;
       } | null;
       alt: string;
-    } | null;
+    };
   }> | null;
   featuredProjects: Array<{
     _id: string;
@@ -1733,7 +1733,7 @@ export type GetProgramBySlugQueryResult = {
     heroImage: {
       asset: SanityImageAssetReference | null;
       alt: string;
-    } | null;
+    };
     people: string | null;
     artists: Array<{
       _id: string;
@@ -1755,7 +1755,7 @@ export type GetResidentArtistsQueryResult = Array<{
       url: string;
     } | null;
     alt: string;
-  } | null;
+  };
   locations: Array<string>;
   membership: {
     yearStart: number;
@@ -1809,7 +1809,7 @@ export type GetUpcomingEventsByProgramQueryResult = Array<{
     hotspot: SanityImageHotspot | null;
     crop: SanityImageCrop | null;
     alt: string;
-  } | null;
+  };
 }>;
 
 // Source: ../client/src/sanity/queries.ts
@@ -1828,7 +1828,7 @@ export type GetArtistsQueryResult = Array<{
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -1907,7 +1907,7 @@ export type GetArtistsByLocationsQueryResult = Array<{
   _rev: string;
   name: string;
   slug: Slug;
-  image?: {
+  image: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -2058,7 +2058,7 @@ export type GetProjectsQueryResult = {
       hotspot: SanityImageHotspot | null;
       crop: SanityImageCrop | null;
       alt: string;
-    } | null;
+    };
     artists: Array<{
       _id: string;
       name: string;
@@ -2087,7 +2087,7 @@ export type GetEventBySlugQueryResult = {
   _rev: string;
   title: string;
   slug: Slug;
-  heroImage?: {
+  heroImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -2203,7 +2203,7 @@ export type GetEventBySlugQueryResult = {
     }> | null;
   }> | null;
   artworks?: Array<{
-    image?: {
+    image: {
       asset?: SanityImageAssetReference;
       media?: unknown;
       hotspot?: SanityImageHotspot;
@@ -2351,7 +2351,7 @@ export type GetUpcomingEventsQueryResult = Array<{
     hotspot: SanityImageHotspot | null;
     crop: SanityImageCrop | null;
     alt: string;
-  } | null;
+  };
 }>;
 
 // Query TypeMap

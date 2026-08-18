@@ -1,4 +1,4 @@
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 

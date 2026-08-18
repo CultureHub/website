@@ -69,10 +69,10 @@ export default function ResidentArtistGrid({
                 setShowPast(false);
                 setSelectedYear(null);
               }}
-              className={`font-milling text-xl py-[10px] w-[136px] ${
+              className={`cursor-pointer font-milling text-xl py-[10px] w-[136px] ${
                 !showPast
                   ? "bg-ch-midnite text-ch-lite border-b border-ch-lite pl-[10px] pr-[50px]"
-                  : "bg-ch-lite text-ch-midnite border border-ch-midnite pl-[10px] pr-[50px]"
+                  : "bg-ch-lite text-ch-midnite border-l border-t border-r border-ch-midnite pl-[10px] pr-[50px]"
               }`}
             >
               Current
@@ -82,7 +82,7 @@ export default function ResidentArtistGrid({
                 setShowPast(true);
                 setSelectedYear(null);
               }}
-              className={`font-milling text-xl py-[10px] flex-1 flex items-start pl-3 ${
+              className={`cursor-pointer font-milling text-xl py-[10px] flex-1 flex items-start pl-3 ${
                 showPast
                   ? "bg-ch-midnite text-ch-lite border-b border-ch-lite"
                   : "bg-ch-lite text-ch-midnite border border-ch-midnite"
@@ -92,7 +92,7 @@ export default function ResidentArtistGrid({
             </button>
           </div>
 
-          <div className="flex flex-row flex-wrap gap-[10px] border-ch-midnite">
+          <div className="flex flex-row flex-wrap border-ch-midnite border-l border-r border-b">
             {yearChips.map((yr) => {
               const isSelected = yr === effectiveSelectedYear;
               return (
@@ -107,7 +107,7 @@ export default function ResidentArtistGrid({
                       setSelectedYear(yr === selectedYear ? null : yr);
                     }
                   }}
-                  className={`px-[10px] py-2.5 border-l border-b border-r border-ch-midnite font-milling text-xl ${
+                  className={`cursor-pointer px-[10px] py-2.5 border-r border-t border-ch-midnite font-milling text-xl ${
                     isSelected
                       ? "bg-ch-midnite text-ch-lite"
                       : "bg-ch-lite text-ch-midnite"
@@ -121,7 +121,7 @@ export default function ResidentArtistGrid({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
         {showPast && pastYearOptions.length === 0 && (
           <p className="text-ch-midnite font-milling text-xl">
             No past resident artists.

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import * as Queries from "@/sanity/queries";
 import type { ProjectFilters } from "@/sanity/queries";
 import SanityImage from "@/components/SanityImage";

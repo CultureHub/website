@@ -38,6 +38,37 @@ body {
   }
 }
 
+.portable-text-link {
+  color: var(--color-ch-midnite);
+  text-decoration: underline;
+}
+
+.portable-text-link:hover {
+  color: var(--color-ch-teal);
+}
+
+.portable-text-link:active {
+  color: var(--color-ch-blue);
+}
+
+.jump-to-button {
+  background-color: var(--color-ch-lite);
+  color: var(--color-ch-midnite);
+  border-color: var(--color-ch-midnite);
+}
+
+.jump-to-button:hover {
+  background-color: var(--accent);
+  border-color: var(--color-ch-midnite);
+  color: var(--color-ch-midnite);
+}
+
+.jump-to-button:active {
+  background-color: var(--color-ch-midnite);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 @utility scrollbar-none {
   &::-webkit-scrollbar {
     display: none;

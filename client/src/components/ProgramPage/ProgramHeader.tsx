@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { PortableText } from "next-sanity";
+import type { CSSProperties } from "react";
+import { PortableText } from "@/components/PortableText";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
 type Program = NonNullable<GetProgramBySlugQueryResult>;
@@ -17,6 +18,7 @@ export default function ProgramHeader({
 }: ProgramHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
+  const accentColor = program.accentColor || "#B5FD8B";
 
   useEffect(() => {
     const el = headerRef.current;
@@ -51,7 +53,8 @@ export default function ProgramHeader({
             <a
               key={btn.anchor}
               href={`#${btn.anchor}`}
-              className="inline-flex px-[5px] md:px-[10px] py-[5px] border border-ch-midnite rounded-[20px] bg-ch-lite font-milling text-xl"
+              style={{ "--accent": accentColor } as CSSProperties}
+              className="jump-to-button inline-flex justify-center items-center w-[156px] h-[35px] border rounded-[20px] font-milling text-xl transition-colors"
             >
               {btn.label}
             </a>

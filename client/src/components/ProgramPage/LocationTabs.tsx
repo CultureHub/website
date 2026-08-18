@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
 type LocationTab = NonNullable<
