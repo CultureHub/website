@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import EmailLink from "@/components/EmailLink";
 
 export default function Footer() {
@@ -10,11 +11,11 @@ export default function Footer() {
             About
           </h2>
           <div className="flex-1 md:flex-initial flex flex-col gap-3 mr-4 tracking-tight">
-            <a href="/mission">Mission</a>
-            <a href="/history">History</a>
-            <a href="/locations">Locations</a>
-            <a href="/team">Team</a>
-            <a href="/partners">Partners</a>
+            <Link href="/mission">Mission</Link>
+            <Link href="/history">History</Link>
+            <Link href="/locations">Locations</Link>
+            <Link href="/team">Team</Link>
+            <Link href="/partners">Partners</Link>
           </div>
         </div>
         <div className="flex-1 flex justify-between py-4 border-t-[1px] border-ch-lite">
@@ -78,7 +79,7 @@ export default function Footer() {
                   YouTube
                 </div>
               </a>
-              <a href="/donate">
+              <Link href="/donate">
                 <div className="flex flex-row gap-7">
                   <Image
                     loading="eager"
@@ -89,7 +90,7 @@ export default function Footer() {
                   />
                   Donate
                 </div>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex flex-col gap-3">
