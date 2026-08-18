@@ -40,6 +40,11 @@ jobs:
         cd client
         pnpm run lint
 
+    - name: Run Sanity lint
+      run: |
+        cd sanity
+        pnpm run lint
+
     - name: Run typecheck
       run: |
         cd client
