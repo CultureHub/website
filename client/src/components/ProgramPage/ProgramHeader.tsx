@@ -54,7 +54,7 @@ export default function ProgramHeader({
               key={btn.anchor}
               href={`#${btn.anchor}`}
               style={{ "--accent": accentColor } as CSSProperties}
-              className="jump-to-button inline-flex justify-center items-center w-[156px] h-[35px] border rounded-[20px] font-milling text-xl transition-colors"
+              className="jump-to-button inline-flex justify-center items-center h-[35px] px-2.5 md:w-[156px] border rounded-[20px] font-milling text-xl transition-colors"
             >
               {btn.label}
             </a>

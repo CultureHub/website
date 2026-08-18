@@ -17,7 +17,7 @@ export default function LocationTabs({ locations }: LocationTabsProps) {
   const active = locations[activeIndex];
 
   return (
-    <section className="px-6 md:px-16 py-9">
+    <section className="px-6 md:px-16 py-6 md:py-9">
       <div className="flex flex-row">
         {locations.map((tab, i) => (
           <button

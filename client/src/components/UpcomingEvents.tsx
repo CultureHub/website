@@ -25,7 +25,7 @@ export async function UpcomingEvents({ programSlug }: UpcomingEventsProps) {
   if (filtered.length === 0) return null;
 
   return (
-    <section className="px-6 md:px-16 py-9">
+    <section className="px-6 md:px-16 py-6 md:py-9">
       <div className="border-t border-b border-ch-midnite py-6 mb-9">
         <h2 className="font-milling font-bold text-[28px]">Upcoming Events</h2>
       </div>

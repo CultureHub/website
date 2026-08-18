@@ -53,11 +53,9 @@ export default function ResidentArtistGrid({
     return yearKey === effectiveSelectedYear;
   });
 
-  const yearChips = showPast ? yearOptions : [currentYearKey];
-
   return (
-    <section id={id} className="px-6 md:px-16 py-9">
-      <div className="border-t border-b border-ch-midnite px-3 pt-6 pb-6 flex flex-col gap-6">
+    <section id={id} className="px-6 md:px-16 py-6 md:py-9">
+      <div className="border-t border-b border-ch-midnite px-0 md:px-3 pt-6 pb-6 flex flex-col gap-6">
         <h2 className="font-milling font-bold text-[28px] text-ch-midnite">
           Resident Artists
         </h2>
@@ -69,10 +67,10 @@ export default function ResidentArtistGrid({
                 setShowPast(false);
                 setSelectedYear(null);
               }}
-              className={`cursor-pointer font-milling text-xl py-[10px] w-[136px] ${
+              className={`cursor-pointer shrink-0 font-milling text-xl py-[10px] w-[129px] md:w-[136px] ${
                 !showPast
                   ? "bg-ch-midnite text-ch-lite border-b border-ch-lite pl-[10px] pr-[50px]"
-                  : "bg-ch-lite text-ch-midnite border-l border-t border-r border-ch-midnite pl-[10px] pr-[50px]"
+                  : "bg-ch-lite text-ch-midnite border border-ch-midnite pl-[10px] pr-[50px]"
               }`}
             >
               Current
@@ -92,31 +90,49 @@ export default function ResidentArtistGrid({
             </button>
           </div>
 
-          <div className="flex flex-row flex-wrap border-ch-midnite border-l border-r border-b">
-            {yearChips.map((yr) => {
-              const isSelected = yr === effectiveSelectedYear;
-              return (
-                <button
-                  key={yr}
-                  onClick={() => {
-                    if (yr === currentYearKey) {
-                      setShowPast(false);
-                      setSelectedYear(null);
-                    } else {
-                      setShowPast(true);
-                      setSelectedYear(yr === selectedYear ? null : yr);
-                    }
-                  }}
-                  className={`cursor-pointer px-[10px] py-2.5 border-r border-t border-ch-midnite font-milling text-xl ${
-                    isSelected
-                      ? "bg-ch-midnite text-ch-lite"
-                      : "bg-ch-lite text-ch-midnite"
-                  }`}
-                >
-                  {yr}
-                </button>
-              );
-            })}
+          <div className="grid grid-cols-[129px_1fr] md:grid-cols-[136px_1fr] border-ch-midnite">
+            <div className="border-ch-midnite border-r border-b md:border-b-0 border-l">
+              <button
+                onClick={() => {
+                  setShowPast(false);
+                  setSelectedYear(null);
+                }}
+                className={`w-full cursor-pointer border-b py-2.5 border-ch-midnite font-milling text-xl whitespace-nowrap ${
+                  !showPast
+                    ? "bg-ch-midnite text-ch-lite"
+                    : "bg-ch-lite text-ch-midnite"
+                }`}
+              >
+                {currentYearKey}
+              </button>
+            </div>
+            <div
+              className={`grid grid-cols-2 border-ch-midnite md:flex md:flex-wrap ${showPast ? "border-t" : "border-r border-b"}`}
+            >
+              {showPast &&
+                pastYearOptions.map((yr) => {
+                  const isSelected = yr === effectiveSelectedYear;
+                  return (
+                    <button
+                      key={yr}
+                      onClick={() => {
+                        setShowPast(true);
+                        setSelectedYear(yr === selectedYear ? null : yr);
+                      }}
+                      className={`cursor-pointer px-[10px] py-2.5 font-milling text-xl whitespace-nowrap md:w-[136px] md:shrink-0 border-b border-r border-ch-midnite ${
+                        isSelected
+                          ? "bg-ch-midnite text-ch-lite"
+                          : "bg-ch-lite text-ch-midnite"
+                      }`}
+                    >
+                      {yr}
+                    </button>
+                  );
+                })}
+              {showPast && pastYearOptions.length % 2 === 1 && (
+                <div aria-hidden className="bg-ch-lite md:hidden" />
+              )}
+            </div>
           </div>
         </div>
       </div>
