@@ -91,11 +91,13 @@ export default function ProgramHeader({
       </section>
 
       <section
-        className="px-6 md:px-16 sticky top-[61px] z-40 bg-ch-lite border-b border-ch-midnite"
+        className={`px-6 md:px-16 sticky top-[61px] z-40 bg-ch-lite border-b border-ch-midnite ${
+          isScrolled ? "" : "hidden"
+        }`}
         style={
           isScrolled
             ? { animation: "fade-in 0.15s ease-in-out forwards" }
-            : { opacity: 0, pointerEvents: "none" }
+            : undefined
         }
       >
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 py-4">
