@@ -12,10 +12,9 @@ export default function Footer() {
           </h2>
           <div className="flex-1 md:flex-initial flex flex-col gap-3 mr-4 tracking-tight">
             <Link href="/mission">Mission</Link>
-            <Link href="/history">History</Link>
             <Link href="/locations">Locations</Link>
-            <Link href="/team">Team</Link>
-            <Link href="/partners">Partners</Link>
+            <Link href="/people">People</Link>
+            <Link href="/services">Services</Link>
           </div>
         </div>
         <div className="flex-1 flex justify-between py-4 border-t-[1px] border-ch-lite">
@@ -52,44 +51,17 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="flex flex-row gap-7">
-                  <Image
-                    loading="eager"
-                    width="25"
-                    height="25"
-                    src="/ig_logo.svg"
-                    alt="Instagram logo"
-                  />
-                  Instagram
-                </div>
+                <div>Instagram</div>
               </a>
               <a
                 href="https://www.youtube.com/c/culturehub"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="flex flex-row gap-7">
-                  <Image
-                    loading="eager"
-                    width="25"
-                    height="25"
-                    src="/youtube_logo.svg"
-                    alt="YouTube logo"
-                  />
-                  YouTube
-                </div>
+                <div>YouTube</div>
               </a>
               <Link href="/donate">
-                <div className="flex flex-row gap-7">
-                  <Image
-                    loading="eager"
-                    width="25"
-                    height="25"
-                    src="/donate_icon.svg"
-                    alt="Donate icon"
-                  />
-                  Donate
-                </div>
+                <div>Donate</div>
               </Link>
             </div>
           </div>

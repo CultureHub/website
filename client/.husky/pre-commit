@@ -1,2 +1,2 @@
 cd client
-pnpx lint-staged
+pnpm exec lint-staged
