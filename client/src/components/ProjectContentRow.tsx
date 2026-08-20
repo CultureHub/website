@@ -1,4 +1,4 @@
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 
 import { Project } from "@/sanity/types";
 import SanityImage from "@/components/SanityImage";
@@ -43,11 +43,21 @@ export default function ProjectContentRow({ content }: ProjectContentRowProps) {
     case "twoImages": {
       return (
         <div className="flex flex-col md:flex-row gap-6">
-          <div className="flex-1">
-            <SanityImage className={imageClassName} image={content.image1} />
+          <div className="flex-1 relative aspect-[3/2]">
+            <SanityImage
+              className="md:rounded-[20px]"
+              image={content.image1}
+              fill
+              objectFit="cover"
+            />
           </div>
-          <div className="flex-1">
-            <SanityImage className={imageClassName} image={content.image2} />
+          <div className="flex-1 relative aspect-[3/2]">
+            <SanityImage
+              className="md:rounded-[20px]"
+              image={content.image2}
+              fill
+              objectFit="cover"
+            />
           </div>
         </div>
       );

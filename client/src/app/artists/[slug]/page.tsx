@@ -1,4 +1,4 @@
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -29,7 +29,9 @@ export default async function ArtistPage({
               <Breadcrumbs
                 buttons={[
                   { label: "Artist", href: "/artists", variant: "half" },
-                  { label: artist.program.shortLabel },
+                  ...(artist.program
+                    ? [{ label: artist.program.shortLabel }]
+                    : []),
                 ]}
               />
               {artist.locations && <LocationPin locations={artist.locations} />}

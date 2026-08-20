@@ -59,10 +59,12 @@ export const projectType = defineType({
       of: [{type: 'string'}],
       validation: (rule) => rule.required(),
     }),
-    defineField(programField({
-      title: 'Program',
-      name: 'program',
-    })),
+    defineField({...programField({
+        title: 'Program',
+        name: 'program',
+      }),
+      validation: (rule: Rule) => rule.required(),
+    }),
     defineField(linksField({
       title: 'Press Links',
       name: 'pressLinks',

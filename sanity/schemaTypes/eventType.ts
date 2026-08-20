@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import {defineField, defineType, Rule} from 'sanity'
 import { CalendarIcon } from '@sanity/icons/Calendar';
 
 import { imageField } from '@/util/image'
@@ -29,10 +29,12 @@ export const eventType = defineType({
       title: 'Hero Image',
       name: 'heroImage',
     })),
-    defineField(programField({
-      title: 'Program',
-      name: 'program',
-    })),
+    defineField({...programField({
+        title: 'Program',
+        name: 'program',
+      }),
+      validation: (rule: Rule) => rule.required(),
+    }),
     defineField({
       title: 'Description',
       name: 'description',

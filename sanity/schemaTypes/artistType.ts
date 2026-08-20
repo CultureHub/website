@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 import { imageField } from '@/util/image';
 import { linksField } from "@/util/link"
@@ -42,10 +42,70 @@ export const artistType = defineType({
       title: "Links",
       name: 'links',
     })),
-    defineField(programField({
-      title: 'Program',
-      name: 'program',
-    })),
+    defineField({
+      title: 'Program Memberships',
+      name: 'programs',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'programMembership',
+          title: 'Program Membership',
+          fields: [
+            defineField({
+              title: 'Program',
+              name: 'program',
+              type: 'reference',
+              to: [{ type: 'program' }],
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              title: 'Year Start',
+              name: 'yearStart',
+              type: 'number',
+              validation: (rule) => rule.required().integer().min(2000).max(2100),
+            }),
+            defineField({
+              title: 'Year End',
+              name: 'yearEnd',
+              type: 'number',
+              validation: (rule) => rule.required().integer().min(2000).max(2100),
+            }),
+            defineField({
+              title: 'Location',
+              name: 'location',
+              type: 'string',
+              description: 'e.g. "Los Angeles", "New York → Berlin"',
+            }),
+          ],
+          preview: {
+            select: {
+              programTitle: 'program.title',
+              yearStart: 'yearStart',
+            },
+            prepare: ({ programTitle, yearStart }) => ({
+              title: programTitle || 'Untitled Program',
+              subtitle: yearStart ? `${yearStart}` : '',
+            }),
+          },
+        }),
+      ],
+      validation: (rule) => rule.min(1).warning('Each artist should belong to at least one program.'),
+    }),
+
+    // Deprecate old program field
+    defineField({
+      ...programField({
+        title: 'Program (Deprecated)',
+        name: 'program',
+      }),
+      deprecated: {
+        reason: 'Use "Program Memberships" instead. This field will be removed in the next migration phase.',
+      },
+      readOnly: true,
+      hidden: ({ value }) => value === undefined,
+      initialValue: undefined,
+    }),
     defineField({
       title: "Locations",
       name: 'locations',

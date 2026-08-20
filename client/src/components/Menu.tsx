@@ -56,7 +56,7 @@ export default function Menu() {
         </button>
       </div>
       {isOpen && (
-        <div className="flex justify-center pb-4">
+        <div className="flex justify-center pb-4 overflow-y-auto max-h-[calc(100vh-4rem)] pt-8">
           <div className="flex flex-col md:inline-flex md:flex-row items-start justify-center md:border-t-1 gap-1">
             <div className="inline-flex flex-col gap-[10px] relative">
               <LeftTopBorderMask />
@@ -65,6 +65,7 @@ export default function Menu() {
                 variant="square-inverted"
                 className="mt-5"
                 onClick={close}
+                href="/art-and-technology"
               >
                 Art <span className="font-milling text-xs">&</span> Technology
               </MenuButton>
@@ -75,12 +76,16 @@ export default function Menu() {
               >
                 Project Index
               </MenuButton>
-              <MenuButton variant="pill" onClick={close}>
+              <MenuButton
+                variant="pill"
+                onClick={close}
+                href="/experiments-in-digital-storytelling"
+              >
                 Experiments in
                 <br />
                 Digital Storytelling
               </MenuButton>
-              <MenuButton variant="pill" onClick={close}>
+              <MenuButton variant="pill" onClick={close} href="/residency">
                 Residency
               </MenuButton>
               <MenuButton variant="pill" onClick={close}>

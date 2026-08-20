@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { notFound } from "next/navigation";
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Button from "@/components/Button";

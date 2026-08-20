@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import * as Queries from "@/sanity/queries";
 import type { ProjectFilters } from "@/sanity/queries";
 import SanityImage from "@/components/SanityImage";
+import { getProjectPeople } from "@/util/project-people";
 import type {
   GetProjectsQueryResult,
   GetProjectFilterOptionsQueryResult,
@@ -613,9 +614,7 @@ export default function ProjectsList({
                     className="font-sans font-thin text-base tracking-[-0.02em]"
                     style={{ color: "var(--row-text)" }}
                   >
-                    {project.people ||
-                      project.artists?.map((a) => a.name).join(", ") ||
-                      ""}
+                    {getProjectPeople(project)}
                   </span>
                 </div>
               </div>
@@ -750,9 +749,7 @@ export default function ProjectsList({
                       className="font-sans font-thin text-base tracking-[-0.02em]"
                       style={{ color: "var(--row-text)" }}
                     >
-                      {project.people ||
-                        project.artists?.map((a) => a.name).join(", ") ||
-                        ""}
+                      {getProjectPeople(project)}
                     </span>
                   </td>
                 </tr>

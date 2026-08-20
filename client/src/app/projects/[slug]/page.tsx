@@ -1,6 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import { getProjectBySlug } from "@/sanity/queries";
 import ProjectContentRow from "@/components/ProjectContentRow";
 import SanityImage from "@/components/SanityImage";

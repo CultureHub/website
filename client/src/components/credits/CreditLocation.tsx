@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import type { Project } from "@/sanity/types";
 import CreditGroup from "./CreditGroup";
 

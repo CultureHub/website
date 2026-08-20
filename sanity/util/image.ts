@@ -1,9 +1,9 @@
 import { Rule } from 'sanity'
 
-export function imageField(props: { title: string, name: string }) {
+export function imageField(props: { title: string, name: string }, required: boolean = true) {
   return {
     type: 'image',
-    validation: (rule: Rule) => rule.required(),
+    ...(required ? {validation: (rule: Rule) => rule.required()} : {}),
     fields: [
       {
         name: 'alt',

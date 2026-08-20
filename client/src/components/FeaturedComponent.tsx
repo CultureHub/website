@@ -1,6 +1,6 @@
 "use client";
 
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";

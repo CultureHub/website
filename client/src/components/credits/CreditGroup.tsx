@@ -1,4 +1,4 @@
-import { PortableText } from "next-sanity";
+import { PortableText } from "@/components/PortableText";
 import type { Project } from "@/sanity/types";
 import CreditItem from "./CreditItem";
 
