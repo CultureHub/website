@@ -98,16 +98,29 @@ export default function Menu() {
                 variant="square-inverted"
                 className="mt-5"
                 onClick={close}
+                href="/community"
               >
                 Community
               </MenuButton>
-              <MenuButton variant="half" href="/artists" onClick={close}>
+              <MenuButton
+                variant="half"
+                href="/community#artists"
+                onClick={close}
+              >
                 Artists
               </MenuButton>
-              <MenuButton variant="half" onClick={close}>
+              <MenuButton
+                variant="half"
+                href="/community#opportunities"
+                onClick={close}
+              >
                 Opportunities
               </MenuButton>
-              <MenuButton variant="half" onClick={close}>
+              <MenuButton
+                variant="half"
+                href="/community#support"
+                onClick={close}
+              >
                 Support
               </MenuButton>
             </div>

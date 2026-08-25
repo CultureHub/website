@@ -8,6 +8,10 @@
 @theme {
   --font-brook: var(--font-brook);
   --font-milling: var(--font-milling);
+  /* TODO: swap fallbacks for localFont once the FIG Script and 26A1 Marund
+     files are added to public/fonts and wired up in atoms/text.ts. */
+  --font-fig: "Fig Script", "Brush Script MT", "Segoe Script", cursive;
+  --font-marund: "26A1 Marund Trial", "Milling", serif;
 }
 
 @theme inline {
