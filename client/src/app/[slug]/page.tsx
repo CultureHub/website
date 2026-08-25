@@ -60,14 +60,14 @@ export default async function ProgramPage({
           accentColor={accentColor}
         />
       )}
-      {program.openCallTitle && (
+      {program.openCall && (
         <OpenCallSection
-          title={program.openCallTitle}
-          image={program.openCallImage}
-          timeline={program.openCallTimeline}
-          where={program.openCallWhere}
-          benefits={program.openCallBenefits}
-          description={program.openCallDescription}
+          title={program.openCall.title}
+          image={program.openCall.heroImage}
+          timeline={program.openCall.timeline}
+          where={program.openCall.where}
+          benefits={program.openCall.benefits}
+          description={program.openCall.description}
         />
       )}
       {program.locationContent && program.locationContent.length > 0 && (

@@ -71,15 +71,18 @@ export async function getProgramBySlug(slug: string) {
           alt, credits
         },
         pageDescription,
-        openCallTitle,
-        openCallImage {
-          asset->{_id, url},
-          alt, credits
+        "openCall": openCall->{
+          title, slug,
+          heroImage {
+            asset->{_id, url},
+            alt, credits
+          },
+          locationShort,
+          timeline,
+          where,
+          benefits,
+          description
         },
-        openCallTimeline,
-        openCallWhere,
-        openCallBenefits,
-        openCallDescription,
         locationContent[]{
           _key,
           location, displayTitle, description,

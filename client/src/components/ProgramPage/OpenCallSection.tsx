@@ -3,14 +3,15 @@ import SanityImage from "@/components/SanityImage";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
 type Program = NonNullable<GetProgramBySlugQueryResult>;
+type OpenCall = NonNullable<Program["openCall"]>;
 
 interface OpenCallSectionProps {
-  title: Program["openCallTitle"];
-  image: Program["openCallImage"];
-  timeline: Program["openCallTimeline"];
-  where: Program["openCallWhere"];
-  benefits: Program["openCallBenefits"];
-  description: Program["openCallDescription"];
+  title: OpenCall["title"];
+  image: OpenCall["heroImage"];
+  timeline: OpenCall["timeline"];
+  where: OpenCall["where"];
+  benefits: OpenCall["benefits"];
+  description: OpenCall["description"];
 }
 
 export default function OpenCallSection({

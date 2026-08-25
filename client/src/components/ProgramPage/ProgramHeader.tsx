@@ -40,7 +40,7 @@ export default function ProgramHeader({
   if (hasArtists) {
     jumpToButtons.push({ label: "Artists", anchor: "artists" });
   }
-  if (program.openCallTitle) {
+  if (program.openCall) {
     jumpToButtons.push({ label: "Open Call", anchor: "open-call" });
   }
 

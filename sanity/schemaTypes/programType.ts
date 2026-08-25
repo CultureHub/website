@@ -79,38 +79,11 @@ export const programType = defineType({
       description: 'When disabled, visiting this program\'s slug returns a 404.',
     }),
     defineField({
-      title: 'Open Call Title',
-      name: 'openCallTitle',
-      type: 'string',
-    }),
-    defineField(imageField({
-      title: 'Open Call Image',
-      name: 'openCallImage',
-    }, false)),
-    defineField({
-      title: 'Open Call Timeline',
-      name: 'openCallTimeline',
-      type: 'text',
-      description: 'Displayed under "Timeline" in the open call section',
-    }),
-    defineField({
-      title: 'Open Call Where',
-      name: 'openCallWhere',
-      type: 'text',
-      description: 'Displayed under "Where" in the open call section',
-    }),
-    defineField({
-      title: 'Open Call Benefits',
-      name: 'openCallBenefits',
-      type: 'text',
-      description: 'Displayed under "Benefits" in the open call section',
-    }),
-    defineField({
-      title: 'Open Call Description',
-      name: 'openCallDescription',
-      type: 'array',
-      of: [{ type: 'block' }],
-      description: 'Rendered in two columns below the open call info grid',
+      title: 'Open Call',
+      name: 'openCall',
+      type: 'reference',
+      to: [{ type: 'opportunity' }],
+      description: 'The opportunity powering this program\'s open call section.',
     }),
     defineField({
       title: 'Location Content',

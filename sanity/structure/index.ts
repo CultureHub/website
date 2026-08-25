@@ -1,6 +1,6 @@
 import type { StructureResolver } from 'sanity/structure'
 
-const SINGLETONS = ['artAndTechnologyPage']
+const SINGLETONS = ['artAndTechnologyPage', 'communityPage']
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -12,6 +12,13 @@ export const structure: StructureResolver = (S) =>
           S.document()
             .schemaType('artAndTechnologyPage')
             .documentId('artAndTechnologyPage'),
+        ),
+      S.listItem()
+        .title('Community Page')
+        .child(
+          S.document()
+            .schemaType('communityPage')
+            .documentId('communityPage'),
         ),
       S.divider(),
       ...S.documentTypeListItems().filter(
