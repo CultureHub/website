@@ -1,3 +1,4 @@
+@import url("https://use.typekit.net/qwz8mrs.css");
 @import "tailwindcss";
 
 :root {
@@ -8,9 +9,10 @@
 @theme {
   --font-brook: var(--font-brook);
   --font-milling: var(--font-milling);
-  /* TODO: swap fallbacks for localFont once the FIG Script and 26A1 Marund
-     files are added to public/fonts and wired up in atoms/text.ts. */
-  --font-fig: "Fig Script", "Brush Script MT", "Segoe Script", cursive;
+  /* FIG Script is loaded from Adobe Fonts (kit qwz8mrs).
+     26A1 Marund still needs local font files. */
+  --font-fig:
+    "fig-script", "Fig Script", "Brush Script MT", "Segoe Script", cursive;
   --font-marund: "26A1 Marund Trial", "Milling", serif;
 }
 
