@@ -21,7 +21,13 @@ type Filters = Record<DirCategory, string | null>;
 const EMPTY_FILTERS: Filters = { letter: null, program: null, place: null };
 
 function letterOf(name: string): string {
-  return name.trim().charAt(0).toUpperCase();
+  const normalized = name
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase();
+  const ch = normalized.charAt(0);
+  return ch >= "A" && ch <= "Z" ? ch : "#";
 }
 
 function programLabels(artist: ArtistRow): string[] {
@@ -107,7 +113,9 @@ export default function ArtistDirectory({
       if (existing) existing.push(artist);
       else groups.set(letter, [artist]);
     }
-    return ALPHABET.filter((l) => groups.has(l)).map((letter) => ({
+    const letters = ALPHABET.filter((l) => groups.has(l));
+    if (groups.has("#")) letters.push("#");
+    return letters.map((letter) => ({
       letter,
       artists: groups.get(letter)!,
     }));

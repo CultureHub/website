@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SanityImage from "@/components/SanityImage";
 import type { GetCommunityPageQueryResult } from "@/sanity/types";
 
 type CommunityPage = NonNullable<GetCommunityPageQueryResult>;
@@ -71,16 +72,20 @@ export default function OpportunitiesSection({
                     </span>
                   </div>
                   {opp.location && (
-                    <span className="font-brook text-base text-ch-midnite">
+                    <span className="font-brook text-base uppercase text-ch-midnite">
                       {opp.location}
                     </span>
                   )}
                 </div>
-                <div className="border-t border-black pt-0">
-                  <span className="font-milling font-normal text-2xl">
-                    {opp.title}
-                  </span>
-                </div>
+                <span className="font-milling font-normal text-2xl">
+                  {opp.title}
+                </span>
+                {opp.heroImage && (
+                  <SanityImage
+                    image={opp.heroImage}
+                    className="w-full h-[423px] object-cover border border-black"
+                  />
+                )}
               </Link>
             );
           })}

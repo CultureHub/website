@@ -77,7 +77,10 @@ export function getCommunityPage() {
         "location": select(
           _type == "program" => array::join(locationContent[].location, ", "),
           locationShort
-        )
+        ),
+        heroImage {
+          asset->{_id, url}, alt, credits
+        }
       },
       supportTitle,
       supportImages[]{
@@ -93,12 +96,32 @@ export function getCommunityPage() {
       donationTitle,
       donationText,
       donationMethods[]{
-        title, body
+        _key, title, body
       }
     }`,
   );
 
   return client.fetch(getCommunityPageQuery, {}, options);
+}
+
+export async function getOpportunityBySlug(slug: string) {
+  const getOpportunityBySlugQuery = defineQuery(
+    `*[_type == "opportunity" && slug.current == $slug][0]{
+      title,
+      "slug": slug.current,
+      locationShort,
+      heroImage {
+        asset->{_id, url}, alt, credits
+      },
+      timeline,
+      where,
+      benefits,
+      description,
+      links
+    }`,
+  );
+
+  return client.fetch(getOpportunityBySlugQuery, { slug }, options);
 }
 
 export function getPrograms() {

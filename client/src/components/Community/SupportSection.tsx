@@ -13,7 +13,7 @@ function methodBodyText(body: Method["body"]): string {
     .map((block) =>
       (block.children ?? []).map((child) => child.text ?? "").join(""),
     )
-    .join("\n");
+    .join("\n\n");
 }
 
 export default function SupportSection({
@@ -152,7 +152,7 @@ export default function SupportSection({
               const isOnline = method.title.toLowerCase().includes("online");
               return (
                 <div
-                  key={method.title}
+                  key={method._key}
                   className="flex flex-col gap-9 md:w-[515px]"
                 >
                   <div className="flex flex-row items-center gap-6 border-y border-ch-midnite py-[10px]">

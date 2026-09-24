@@ -1534,7 +1534,7 @@ export type GetArtAndTechnologyPageQueryResult = {
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getCommunityPageQuery
-// Query: *[_type == "communityPage"][0]{      heading,      introText,      featuredArtistsTitle,      featuredArtists[]->{        _id, name, slug, locations,        image { asset->{_id, url}, alt }      },      artistDirectoryTitle,      opportunitiesTitle,      opportunitiesIntro,      currentOpportunitiesTitle,      opportunities[]->{        _id,        _type,        title,        "slug": slug.current,        "tag": select(_type == "program" => shortLabel, "Opportunity"),        "location": select(          _type == "program" => array::join(locationContent[].location, ", "),          locationShort        )      },      supportTitle,      supportImages[]{        asset->{_id, url}, alt, credits      },      supportText,      supportSubtext,      membershipTitle,      membershipIntro,      membershipTiers[]{        name, price, benefits      },      donationTitle,      donationText,      donationMethods[]{        title, body      }    }
+// Query: *[_type == "communityPage"][0]{      heading,      introText,      featuredArtistsTitle,      featuredArtists[]->{        _id, name, slug, locations,        image { asset->{_id, url}, alt }      },      artistDirectoryTitle,      opportunitiesTitle,      opportunitiesIntro,      currentOpportunitiesTitle,      opportunities[]->{        _id,        _type,        title,        "slug": slug.current,        "tag": select(_type == "program" => shortLabel, "Opportunity"),        "location": select(          _type == "program" => array::join(locationContent[].location, ", "),          locationShort        ),        heroImage {          asset->{_id, url}, alt, credits        }      },      supportTitle,      supportImages[]{        asset->{_id, url}, alt, credits      },      supportText,      supportSubtext,      membershipTitle,      membershipIntro,      membershipTiers[]{        name, price, benefits      },      donationTitle,      donationText,      donationMethods[]{        _key, title, body      }    }
 export type GetCommunityPageQueryResult = {
   heading: string | null;
   introText: string | null;
@@ -1564,6 +1564,14 @@ export type GetCommunityPageQueryResult = {
         slug: string;
         tag: "Opportunity";
         location: string | null;
+        heroImage: {
+          asset: {
+            _id: string;
+            url: string;
+          } | null;
+          alt: string;
+          credits: string | null;
+        };
       }
     | {
         _id: string;
@@ -1572,6 +1580,14 @@ export type GetCommunityPageQueryResult = {
         slug: string;
         tag: string;
         location: string | null;
+        heroImage: {
+          asset: {
+            _id: string;
+            url: string;
+          } | null;
+          alt: string;
+          credits: string | null;
+        };
       }
   > | null;
   supportTitle: string | null;
@@ -1595,6 +1611,7 @@ export type GetCommunityPageQueryResult = {
   donationTitle: string | null;
   donationText: string | null;
   donationMethods: Array<{
+    _key: string;
     title: string;
     body: Array<{
       children?: Array<{
@@ -1614,6 +1631,50 @@ export type GetCommunityPageQueryResult = {
       _type: "block";
       _key: string;
     }> | null;
+  }> | null;
+} | null;
+
+// Source: ../client/src/sanity/queries.ts
+// Variable: getOpportunityBySlugQuery
+// Query: *[_type == "opportunity" && slug.current == $slug][0]{      title,      "slug": slug.current,      locationShort,      heroImage {        asset->{_id, url}, alt, credits      },      timeline,      where,      benefits,      description,      links    }
+export type GetOpportunityBySlugQueryResult = {
+  title: string;
+  slug: string;
+  locationShort: string | null;
+  heroImage: {
+    asset: {
+      _id: string;
+      url: string;
+    } | null;
+    alt: string;
+    credits: string | null;
+  };
+  timeline: string | null;
+  where: string | null;
+  benefits: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  links: Array<{
+    label: string;
+    shortLabel?: string;
+    url: string;
+    _key: string;
   }> | null;
 } | null;
 
@@ -2499,7 +2560,8 @@ declare module "@sanity/client" {
     '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    "program": program->{ _id, title, slug, shortLabel },\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
     '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "slug": slug.current,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
-    '*[_type == "communityPage"][0]{\n      heading,\n      introText,\n      featuredArtistsTitle,\n      featuredArtists[]->{\n        _id, name, slug, locations,\n        image { asset->{_id, url}, alt }\n      },\n      artistDirectoryTitle,\n      opportunitiesTitle,\n      opportunitiesIntro,\n      currentOpportunitiesTitle,\n      opportunities[]->{\n        _id,\n        _type,\n        title,\n        "slug": slug.current,\n        "tag": select(_type == "program" => shortLabel, "Opportunity"),\n        "location": select(\n          _type == "program" => array::join(locationContent[].location, ", "),\n          locationShort\n        )\n      },\n      supportTitle,\n      supportImages[]{\n        asset->{_id, url}, alt, credits\n      },\n      supportText,\n      supportSubtext,\n      membershipTitle,\n      membershipIntro,\n      membershipTiers[]{\n        name, price, benefits\n      },\n      donationTitle,\n      donationText,\n      donationMethods[]{\n        title, body\n      }\n    }': GetCommunityPageQueryResult;
+    '*[_type == "communityPage"][0]{\n      heading,\n      introText,\n      featuredArtistsTitle,\n      featuredArtists[]->{\n        _id, name, slug, locations,\n        image { asset->{_id, url}, alt }\n      },\n      artistDirectoryTitle,\n      opportunitiesTitle,\n      opportunitiesIntro,\n      currentOpportunitiesTitle,\n      opportunities[]->{\n        _id,\n        _type,\n        title,\n        "slug": slug.current,\n        "tag": select(_type == "program" => shortLabel, "Opportunity"),\n        "location": select(\n          _type == "program" => array::join(locationContent[].location, ", "),\n          locationShort\n        ),\n        heroImage {\n          asset->{_id, url}, alt, credits\n        }\n      },\n      supportTitle,\n      supportImages[]{\n        asset->{_id, url}, alt, credits\n      },\n      supportText,\n      supportSubtext,\n      membershipTitle,\n      membershipIntro,\n      membershipTiers[]{\n        name, price, benefits\n      },\n      donationTitle,\n      donationText,\n      donationMethods[]{\n        _key, title, body\n      }\n    }': GetCommunityPageQueryResult;
+    '*[_type == "opportunity" && slug.current == $slug][0]{\n      title,\n      "slug": slug.current,\n      locationShort,\n      heroImage {\n        asset->{_id, url}, alt, credits\n      },\n      timeline,\n      where,\n      benefits,\n      description,\n      links\n    }': GetOpportunityBySlugQueryResult;
     '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
     '*[_type == "program" && slug.current == $slug][0]{\n        _id, title, displayTitle, slug, shortLabel, accentColor, hasPage,\n        heroImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        pageDescription,\n        "openCall": openCall->{\n          title, slug,\n          heroImage {\n            asset->{_id, url},\n            alt, credits\n          },\n          locationShort,\n          timeline,\n          where,\n          benefits,\n          description\n        },\n        locationContent[]{\n          _key,\n          location, displayTitle, description,\n          accentColor\n        },\n        featuredArtists[]->{\n          _id, name, slug, locations,\n          image {\n            asset->{_id, url},\n            alt\n          }\n        },\n        featuredProjects[]->{\n          _id, title, slug,\n          heroImage {\n            asset,\n            alt\n          },\n          people,\n          "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n        }\n      }': GetProgramBySlugQueryResult;
     '*[_type == "artist" && $programId in programs[].program._ref]{\n      _id, name, slug,\n      image {\n        asset->{_id, url},\n        alt\n      },\n      locations,\n      "membership": programs[program._ref == $programId][0]{\n        yearStart, yearEnd, location\n      }\n    } | order(membership.yearStart desc)': GetResidentArtistsQueryResult;
