@@ -1998,171 +1998,8 @@ export type GetUpcomingEventsByProgramQueryResult = Array<{
 }>;
 
 // Source: ../client/src/sanity/queries.ts
-// Variable: getArtistLocationOptionsQuery
-// Query: array::unique(*[_type == "artist"].locations[])
-export type GetArtistLocationOptionsQueryResult = Array<string>;
-
-// Source: ../client/src/sanity/queries.ts
-// Variable: getArtistsQuery
-// Query: *[    _type == "artist"    && defined(slug.current)  ][0...12]
-export type GetArtistsQueryResult = Array<{
-  _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  slug: Slug;
-  image: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    credits?: string;
-    _type: "image";
-  };
-  bio?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  projectStatement?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  links?: Array<{
-    label: string;
-    shortLabel?: string;
-    url: string;
-    _key: string;
-  }>;
-  programs?: Array<{
-    program: ProgramReference;
-    yearStart: number;
-    yearEnd: number;
-    location?: string;
-    _type: "programMembership";
-    _key: string;
-  }>;
-  program?: ProgramReference;
-  locations: Array<string>;
-  projects?: Array<
-    {
-      _key: string;
-    } & ProjectReference
-  >;
-}>;
-
-// Source: ../client/src/sanity/queries.ts
-// Variable: getArtistsByLocationsQuery
-// Query: *[    _type == "artist"    && count(locations[@ in $locations]) > 0    && defined(slug.current)  ][0...12]
-export type GetArtistsByLocationsQueryResult = Array<{
-  _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  slug: Slug;
-  image: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    credits?: string;
-    _type: "image";
-  };
-  bio?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  projectStatement?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  links?: Array<{
-    label: string;
-    shortLabel?: string;
-    url: string;
-    _key: string;
-  }>;
-  programs?: Array<{
-    program: ProgramReference;
-    yearStart: number;
-    yearEnd: number;
-    location?: string;
-    _type: "programMembership";
-    _key: string;
-  }>;
-  program?: ProgramReference;
-  locations: Array<string>;
-  projects?: Array<
-    {
-      _key: string;
-    } & ProjectReference
-  >;
-}>;
-
-// Source: ../client/src/sanity/queries.ts
 // Variable: getArtistDirectoryQuery
-// Query: *[_type == "artist" && defined(slug.current)]{      _id, name, slug, locations,      "programs": programs[].program->{ _id, shortLabel }    } | order(name asc)
+// Query: *[_type == "artist" && defined(slug.current)]{      _id, name, slug, locations,      "programs": programs[].program->{ _id, title, displayTitle }    } | order(name asc)
 export type GetArtistDirectoryQueryResult = Array<{
   _id: string;
   name: string;
@@ -2170,7 +2007,25 @@ export type GetArtistDirectoryQueryResult = Array<{
   locations: Array<string>;
   programs: Array<{
     _id: string;
-    shortLabel: string;
+    title: string;
+    displayTitle: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
   }> | null;
 }>;
 
@@ -2566,10 +2421,7 @@ declare module "@sanity/client" {
     '*[_type == "program" && slug.current == $slug][0]{\n        _id, title, displayTitle, slug, shortLabel, accentColor, hasPage,\n        heroImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        pageDescription,\n        "openCall": openCall->{\n          title, slug,\n          heroImage {\n            asset->{_id, url},\n            alt, credits\n          },\n          locationShort,\n          timeline,\n          where,\n          benefits,\n          description\n        },\n        locationContent[]{\n          _key,\n          location, displayTitle, description,\n          accentColor\n        },\n        featuredArtists[]->{\n          _id, name, slug, locations,\n          image {\n            asset->{_id, url},\n            alt\n          }\n        },\n        featuredProjects[]->{\n          _id, title, slug,\n          heroImage {\n            asset,\n            alt\n          },\n          people,\n          "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n        }\n      }': GetProgramBySlugQueryResult;
     '*[_type == "artist" && $programId in programs[].program._ref]{\n      _id, name, slug,\n      image {\n        asset->{_id, url},\n        alt\n      },\n      locations,\n      "membership": programs[program._ref == $programId][0]{\n        yearStart, yearEnd, location\n      }\n    } | order(membership.yearStart desc)': GetResidentArtistsQueryResult;
     '*[_type == "event" && program->slug.current == $programSlug && dateTimes[0].start > now()] | order(dateTimes[0].start asc) [0...$limit]\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetUpcomingEventsByProgramQueryResult;
-    'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;
-    '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;
-    '*[\n    _type == "artist"\n    && count(locations[@ in $locations]) > 0\n    && defined(slug.current)\n  ][0...12]': GetArtistsByLocationsQueryResult;
-    '*[_type == "artist" && defined(slug.current)]{\n      _id, name, slug, locations,\n      "programs": programs[].program->{ _id, shortLabel }\n    } | order(name asc)': GetArtistDirectoryQueryResult;
+    '*[_type == "artist" && defined(slug.current)]{\n      _id, name, slug, locations,\n      "programs": programs[].program->{ _id, title, displayTitle }\n    } | order(name asc)': GetArtistDirectoryQueryResult;
     '{\n    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor, displayTitle },\n    "places": array::unique(*[_type == "project" && defined(slug.current)].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)].date) | order(@ desc)\n  }': GetProjectFilterOptionsQueryResult;
     '{\n    "projects": *[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ] | order(date desc) [$offset...$end]\n    {\n  _id,\n  title,\n  slug,\n  date,\n  endDate,\n  locations,\n  people,\n  "program": program->{ _id, title, slug, shortLabel, accentColor, displayTitle },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  },\n  "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n},\n    "total": count(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ])\n  }': GetProjectsQueryResult;
     '{\n    "programSlugs": array::unique(*[_type == "project" && defined(slug.current)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].program->slug.current)[@ != null],\n    "places": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n    ].date) | order(@ desc)\n  }': GetProjectFacetsQueryResult;

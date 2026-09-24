@@ -30,17 +30,23 @@ function letterOf(name: string): string {
   return ch >= "A" && ch <= "Z" ? ch : "#";
 }
 
-function programLabels(artist: ArtistRow): string[] {
+function programNames(artist: ArtistRow): string[] {
   return (artist.programs ?? [])
-    .filter((p): p is { _id: string; shortLabel: string } =>
-      Boolean(p?.shortLabel),
-    )
-    .map((p) => p.shortLabel);
+    .filter((p) => Boolean(p?.title))
+    .map((p) => {
+      const title = p?.title ?? "";
+      if (!p?.displayTitle) return title;
+      return p.displayTitle
+        .map((block) =>
+          (block.children ?? []).map((child) => child.text ?? "").join(""),
+        )
+        .join("\n");
+    });
 }
 
 function matches(artist: ArtistRow, filters: Filters): boolean {
   if (filters.letter && letterOf(artist.name) !== filters.letter) return false;
-  if (filters.program && !programLabels(artist).includes(filters.program)) {
+  if (filters.program && !programNames(artist).includes(filters.program)) {
     return false;
   }
   if (filters.place && !(artist.locations ?? []).includes(filters.place)) {
@@ -63,7 +69,7 @@ export default function ArtistDirectory({
 
   const programOptions = useMemo(
     () =>
-      Array.from(new Set(artists.flatMap((a) => programLabels(a)))).sort(
+      Array.from(new Set(artists.flatMap((a) => programNames(a)))).sort(
         (a, b) => a.localeCompare(b),
       ),
     [artists],
@@ -87,7 +93,7 @@ export default function ArtistDirectory({
   function isProgramAvailable(program: string): boolean {
     return artists.some(
       (a) =>
-        programLabels(a).includes(program) &&
+        programNames(a).includes(program) &&
         matches(a, { ...filters, program: null }),
     );
   }
@@ -135,7 +141,7 @@ export default function ArtistDirectory({
     available: boolean;
   }[] {
     if (category === "letter") {
-      return ALPHABET.map((l) => ({
+      return [...ALPHABET, "#"].map((l) => ({
         value: l,
         display: l,
         available: isLetterAvailable(l),
@@ -294,8 +300,8 @@ export default function ArtistDirectory({
         </div>
       </div>
 
-      {/* Letter sections (internal scroll) */}
-      <div className="overflow-y-auto max-h-[70vh] border-b border-black">
+      {/* Letter sections (internal scroll, desktop) */}
+      <div className="hidden md:block overflow-y-auto max-h-[70vh] border-b border-black">
         {sections.map(({ letter, artists: rows }, sectionIdx) => (
           <div
             key={letter}
@@ -326,12 +332,12 @@ export default function ArtistDirectory({
                       </span>
                     </div>
                     <div className="px-[10px] py-[10px] self-center">
-                      <span className="font-brook italic text-base leading-[14px]">
-                        {programLabels(artist).join(", ")}
+                      <span className="font-brook italic text-base leading-[14px] whitespace-pre-line">
+                        {programNames(artist).join(", ")}
                       </span>
                     </div>
                     <div className="px-[10px] py-[10px] self-center">
-                      <span className="font-brook italic text-base leading-[14px]">
+                      <span className="font-brook italic text-base leading-[14px] whitespace-pre-line">
                         {(artist.locations ?? []).join(", ")}
                       </span>
                     </div>
@@ -344,23 +350,32 @@ export default function ArtistDirectory({
       </div>
 
       {/* Mobile list */}
-      <div className="md:hidden">
-        {filtered.map((artist) => (
-          <Link
-            key={artist._id}
-            href={`/artists/${artist.slug.current}`}
-            className="flex flex-col gap-1 py-3 border-b border-black"
-          >
-            <span className="font-sans font-normal text-xl">{artist.name}</span>
-            <span className="font-brook italic text-base text-ch-midnite/70">
-              {[
-                programLabels(artist).join(", "),
-                (artist.locations ?? []).join(", "),
-              ]
-                .filter(Boolean)
-                .join(" · ")}
-            </span>
-          </Link>
+      <div className="md:hidden px-6">
+        {sections.map(({ letter, artists: rows }) => (
+          <div key={letter} id={`directory-letter-${letter}`}>
+            <div className="flex items-center h-12 border-t border-black">
+              <span className="font-milling font-bold text-2xl">{letter}</span>
+            </div>
+            {rows.map((artist) => (
+              <Link
+                key={artist._id}
+                href={`/artists/${artist.slug.current}`}
+                className="flex flex-col justify-between min-h-[125px] py-6 border-t border-black"
+              >
+                <div className="flex flex-row justify-between items-start flex-wrap gap-x-2 gap-y-1">
+                  <span className="font-brook italic text-base leading-[14px] whitespace-pre-line">
+                    {programNames(artist).join(", ")}
+                  </span>
+                  <span className="font-brook italic text-base leading-[14px] whitespace-pre-line">
+                    {(artist.locations ?? []).join(", ")}
+                  </span>
+                </div>
+                <span className="font-sans font-normal text-xl tracking-[-0.02em]">
+                  {artist.name}
+                </span>
+              </Link>
+            ))}
+          </div>
         ))}
       </div>
     </section>

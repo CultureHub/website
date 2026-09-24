@@ -44,7 +44,7 @@ export default function SupportSection({
       {/* Support CultureHub */}
       <div className="bg-ch-midnite px-6 md:px-16 py-8">
         <div className="flex flex-col items-center gap-9 py-9">
-          <h2 className="font-fig text-[72px] leading-none text-ch-bb">
+          <h2 className="font-fig text-5xl md:text-[72px] text-center leading-none text-ch-bb">
             {supportTitle || "Support CultureHub"}
           </h2>
           {supportImages.length > 0 && (
@@ -68,7 +68,7 @@ export default function SupportSection({
       {/* Membership */}
       <div className="bg-ch-bb">
         <div className="flex flex-col items-center gap-9 py-8">
-          <h2 className="font-fig text-[72px] text-ch-midnite">
+          <h2 className="font-fig text-5xl md:text-[72px] text-center text-ch-midnite">
             {membershipTitle || "Become a Member"}
           </h2>
           {membershipIntro && (
@@ -129,7 +129,7 @@ export default function SupportSection({
       <div className="bg-ch-teal px-6 md:px-16 py-8">
         <div className="flex flex-col items-center gap-[63px]">
           <div className="flex flex-col items-center gap-9">
-            <h2 className="font-fig text-[72px] text-ch-midnite">
+            <h2 className="font-fig text-5xl md:text-[72px] text-center text-ch-midnite">
               {donationTitle || "Make a Donation"}
             </h2>
             {donationText && (
@@ -144,7 +144,7 @@ export default function SupportSection({
             width={536}
             height={492}
             alt="Make a donation"
-            className="w-full max-w-[536px] h-auto"
+            className="w-full max-w-[300px] md:max-w-[536px] h-auto"
           />
 
           <div className="flex flex-col md:flex-row md:justify-between items-stretch w-full gap-9">

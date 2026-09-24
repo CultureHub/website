@@ -15,21 +15,21 @@ const mockArtists: GetArtistDirectoryQueryResult = [
     name: "Alice",
     slug: mockSlug("alice"),
     locations: ["New York"],
-    programs: [{ _id: "p1", shortLabel: "Residency" }],
+    programs: [{ _id: "p1", title: "Residency", displayTitle: null }],
   },
   {
     _id: "b1",
     name: "Bob",
     slug: mockSlug("bob"),
     locations: ["Los Angeles"],
-    programs: [{ _id: "p2", shortLabel: "CoLab" }],
+    programs: [{ _id: "p2", title: "CoLab", displayTitle: null }],
   },
   {
     _id: "c1",
     name: "Charlie",
     slug: mockSlug("charlie"),
     locations: ["New York"],
-    programs: [{ _id: "p1", shortLabel: "Residency" }],
+    programs: [{ _id: "p1", title: "Residency", displayTitle: null }],
   },
 ];
 

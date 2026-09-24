@@ -230,38 +230,11 @@ export async function getUpcomingEventsByProgram(
   );
 }
 
-export function getArtistLocationOptions() {
-  const getArtistLocationOptionsQuery = defineQuery(
-    `array::unique(*[_type == "artist"].locations[])`,
-  );
-
-  return client.fetch(getArtistLocationOptionsQuery, {}, options);
-}
-
-export function getArtists() {
-  const getArtistsQuery = defineQuery(`*[
-    _type == "artist"
-    && defined(slug.current)
-  ][0...12]`);
-
-  return client.fetch(getArtistsQuery, {}, options);
-}
-
-export function getArtistsByLocations(locations: string[]) {
-  const getArtistsByLocationsQuery = defineQuery(`*[
-    _type == "artist"
-    && count(locations[@ in $locations]) > 0
-    && defined(slug.current)
-  ][0...12]`);
-
-  return client.fetch(getArtistsByLocationsQuery, { locations }, options);
-}
-
 export function getArtistDirectory() {
   const getArtistDirectoryQuery = defineQuery(
     `*[_type == "artist" && defined(slug.current)]{
       _id, name, slug, locations,
-      "programs": programs[].program->{ _id, shortLabel }
+      "programs": programs[].program->{ _id, title, displayTitle }
     } | order(name asc)`,
   );
 
