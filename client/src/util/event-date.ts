@@ -218,3 +218,12 @@ function formatTimeDescription(
 
   return lines.join("\n");
 }
+
+export function formatEventStartTime(
+  dateTime: { start: string },
+  timezoneLabel?: string,
+): string {
+  const start = parseDate(dateTime.start);
+  const tz = timezoneLabel ? ` ${timezoneLabel}` : "";
+  return `${formatTime(start)}${tz}`;
+}
