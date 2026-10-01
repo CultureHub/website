@@ -123,11 +123,7 @@ export default function EventsCalendar({
           })}
         </div>
 
-        <button
-          onClick={nextWeek}
-          aria-label="Next week"
-          className="shrink-0"
-        >
+        <button onClick={nextWeek} aria-label="Next week" className="shrink-0">
           <Image src="/right_arrow.svg" alt="" width={15} height={26} />
         </button>
       </div>
