@@ -65,7 +65,7 @@ export default function PastEvents({
           ))}
         </div>
       </div>
-      <div className="border border-ch-midnite flex flex-col md:flex-row">
+      <div className="border-t border-b border-ch-midnite flex flex-col md:flex-row">
         <div className="flex-1 min-w-0 flex flex-row">
           <div className="hidden md:flex flex-col w-[97px] shrink-0 border-r border-ch-midnite">
             {months.map((m) => (
@@ -80,10 +80,7 @@ export default function PastEvents({
               </button>
             ))}
           </div>
-          <div
-            className="flex flex-col flex-1 min-w-0"
-            onMouseLeave={() => setHoveredEvent(null)}
-          >
+          <div className="flex flex-col flex-1 min-w-0">
             {groupEventsByMonth(filtered).map((group) => (
               <Fragment key={`${group.year}-${group.month}`}>
                 <EventMonthHeader month={group.month} />

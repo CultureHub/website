@@ -136,10 +136,7 @@ export function EventsExplorer({
             <EventsEmptyState />
           ) : (
             <div className="border-t border-b border-ch-midnite flex flex-col md:flex-row">
-              <div
-                className="flex-1 min-w-0 flex flex-col"
-                onMouseLeave={() => setHoveredEvent(null)}
-              >
+              <div className="flex-1 min-w-0 flex flex-col">
                 {selectedDayKey && (
                   <div className="flex items-center justify-between gap-4 px-4 py-3 border-b border-ch-midnite">
                     <span className="font-brook text-xs uppercase text-ch-midnite">
