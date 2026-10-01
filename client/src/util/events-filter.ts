@@ -1,17 +1,28 @@
+import { parseDate } from "@/util/event-date";
 import type { CalendarEventRef } from "@/util/events-calendar";
 
 export type PastEventRef = CalendarEventRef;
 
+function earliestStart(event: PastEventRef): Date | null {
+  const times = event.dateTimes ?? [];
+  if (times.length === 0) return null;
+  const starts = times
+    .map((t) => parseDate(t.start))
+    .sort((a, b) => a.getTime() - b.getTime());
+  const first = starts[0];
+  return first && !Number.isNaN(first.getTime()) ? first : null;
+}
+
 export function eventYear(event: PastEventRef): number | null {
-  const first = event.dateTimes?.[0];
+  const first = earliestStart(event);
   if (!first) return null;
-  return new Date(first.start).getFullYear();
+  return first.getFullYear();
 }
 
 export function eventMonthIndex(event: PastEventRef): number | null {
-  const first = event.dateTimes?.[0];
+  const first = earliestStart(event);
   if (!first) return null;
-  return new Date(first.start).getMonth();
+  return first.getMonth();
 }
 
 export function deriveYears<T extends PastEventRef>(events: T[]): number[] {
