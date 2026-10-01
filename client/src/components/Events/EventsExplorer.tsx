@@ -35,7 +35,7 @@ function TabButton({
       className={`px-[10px] py-[18px] w-[150px] font-milling text-xl ${
         active
           ? "bg-ch-midnite text-ch-lite"
-          : "text-ch-midnite border border-ch-midnite"
+          : "text-ch-midnite border-ch-midnite border-r"
       }`}
     >
       {children}
@@ -77,6 +77,15 @@ export function EventsExplorer({
 
   const previewEvent = hoveredEvent ?? filteredUpcoming[0] ?? null;
 
+  const selectedDayLabel = selectedDayKey
+    ? new Intl.DateTimeFormat("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }).format(new Date(`${selectedDayKey}T00:00:00`))
+    : null;
+
   const handleDayClick = useCallback(
     (day: Date, dayEvents: EventListItem[]) => {
       if (dayEvents.length === 1) {
@@ -93,7 +102,7 @@ export function EventsExplorer({
   );
 
   return (
-    <div className="px-6 md:px-16">
+    <div className="px-6 pb-6 md:px-16">
       <div className="py-9 border-b border-ch-midnite flex flex-col items-center gap-9 md:grid md:grid-cols-[auto_1fr_auto] md:items-center md:gap-0">
         <h1 className="font-milling font-bold text-[40px] text-ch-midnite self-start md:self-auto">
           Events
@@ -109,7 +118,7 @@ export function EventsExplorer({
         />
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col border-ch-midnite border-r border-l">
         <div className="flex flex-row">
           <TabButton
             active={tab === "upcoming"}
@@ -126,11 +135,24 @@ export function EventsExplorer({
           upcomingEvents.length === 0 ? (
             <EventsEmptyState />
           ) : (
-            <div className="border border-ch-midnite flex flex-col md:flex-row">
+            <div className="border-t border-b border-ch-midnite flex flex-col md:flex-row">
               <div
                 className="flex-1 min-w-0 flex flex-col"
                 onMouseLeave={() => setHoveredEvent(null)}
               >
+                {selectedDayKey && (
+                  <div className="flex items-center justify-between gap-4 px-4 py-3 border-b border-ch-midnite">
+                    <span className="font-brook text-xs uppercase text-ch-midnite">
+                      {selectedDayLabel}
+                    </span>
+                    <button
+                      onClick={() => setSelectedDayKey(null)}
+                      className="font-brook text-xs uppercase text-ch-midnite underline"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                )}
                 {groupEventsByMonth(filteredUpcoming).map((group) => (
                   <Fragment key={`${group.year}-${group.month}`}>
                     <EventMonthHeader month={group.month} />
