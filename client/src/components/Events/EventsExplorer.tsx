@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getPastEventsAction } from "@/app/events/actions";
 import EventsCalendar from "@/components/Events/EventsCalendar";
 import EventsEmptyState from "@/components/Events/EventsEmptyState";
+import EventMonthHeader from "@/components/Events/EventMonthHeader";
 import EventRow from "@/components/Events/EventRow";
 import EventSummary from "@/components/Events/EventSummary";
 import PastEvents from "@/components/Events/PastEvents";
@@ -13,6 +14,7 @@ import {
   formatToday,
   toDayKey,
 } from "@/util/events-calendar";
+import { groupEventsByMonth } from "@/util/events-filter";
 import { useToday } from "@/util/use-today";
 import type { EventListItem } from "@/sanity/queries";
 
@@ -92,11 +94,11 @@ export function EventsExplorer({
 
   return (
     <div className="px-6 md:px-16">
-      <div className="py-9 grid grid-cols-[auto_1fr_auto] items-center border-b border-ch-midnite">
-        <h1 className="font-milling font-bold text-[40px] text-ch-midnite">
+      <div className="py-9 border-b border-ch-midnite flex flex-col items-center gap-9 md:grid md:grid-cols-[auto_1fr_auto] md:items-center md:gap-0">
+        <h1 className="font-milling font-bold text-[40px] text-ch-midnite self-start md:self-auto">
           Events
         </h1>
-        <p className="font-brook text-base text-ch-midnite text-center">
+        <p className="hidden md:block font-brook text-base text-ch-midnite text-center">
           {today ? formatToday(today) : "\u00A0"}
         </p>
         <EventsCalendar
@@ -129,15 +131,20 @@ export function EventsExplorer({
                 className="flex-1 min-w-0 flex flex-col"
                 onMouseLeave={() => setHoveredEvent(null)}
               >
-                {filteredUpcoming.map((e) => (
-                  <EventRow
-                    key={e._id}
-                    event={e}
-                    onHover={() => setHoveredEvent(e)}
-                  />
+                {groupEventsByMonth(filteredUpcoming).map((group) => (
+                  <Fragment key={`${group.year}-${group.month}`}>
+                    <EventMonthHeader month={group.month} />
+                    {group.events.map((e) => (
+                      <EventRow
+                        key={e._id}
+                        event={e}
+                        onHover={() => setHoveredEvent(e)}
+                      />
+                    ))}
+                  </Fragment>
                 ))}
               </div>
-              <div className="flex-1 min-w-0 md:border-l border-ch-midnite">
+              <div className="hidden md:block flex-1 min-w-0 md:border-l border-ch-midnite">
                 <EventSummary event={previewEvent} />
               </div>
             </div>

@@ -29,7 +29,7 @@ export default function EventsEmptyState() {
           </button>
         </div>
       </div>
-      <div className="flex-1 min-w-0 md:border-l border-ch-midnite bg-ch-lite overflow-hidden">
+      <div className="hidden md:block flex-1 min-w-0 md:border-l border-ch-midnite bg-ch-lite overflow-hidden">
         <Image
           src="/c-pattern.svg"
           alt=""

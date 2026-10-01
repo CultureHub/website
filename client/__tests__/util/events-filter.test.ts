@@ -4,6 +4,7 @@ import {
   eventMonthIndex,
   eventYear,
   filterPastEvents,
+  groupEventsByMonth,
 } from "@/util/events-filter";
 
 const event = (id: string, start: string) => ({
@@ -53,5 +54,23 @@ describe("events-filter", () => {
       "b",
       "c",
     ]);
+  });
+
+  it("groups events by earliest month, preserving order", () => {
+    const events = [
+      event("a", "2026-03-15T10:00:00-04:00"),
+      event("b", "2026-03-01T10:00:00-04:00"),
+      event("c", "2026-01-20T10:00:00-05:00"),
+      event("d", "2025-12-01T10:00:00-05:00"),
+    ];
+    const groups = groupEventsByMonth(events);
+    expect(groups.map((g) => [g.year, g.month])).toEqual([
+      [2026, 2],
+      [2026, 0],
+      [2025, 11],
+    ]);
+    expect(groups[0].events.map((e) => e._id)).toEqual(["a", "b"]);
+    expect(groups[1].events.map((e) => e._id)).toEqual(["c"]);
+    expect(groups[2].events.map((e) => e._id)).toEqual(["d"]);
   });
 });

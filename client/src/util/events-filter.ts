@@ -59,3 +59,28 @@ export function filterPastEvents<T extends PastEventRef>(
     return true;
   });
 }
+
+export interface MonthGroup<T> {
+  year: number;
+  month: number;
+  events: T[];
+}
+
+export function groupEventsByMonth<T extends PastEventRef>(
+  events: T[],
+): MonthGroup<T>[] {
+  const groups: MonthGroup<T>[] = [];
+  for (const e of events) {
+    const first = earliestStart(e);
+    if (!first) continue;
+    const year = first.getFullYear();
+    const month = first.getMonth();
+    const last = groups[groups.length - 1];
+    if (last && last.year === year && last.month === month) {
+      last.events.push(e);
+    } else {
+      groups.push({ year, month, events: [e] });
+    }
+  }
+  return groups;
+}

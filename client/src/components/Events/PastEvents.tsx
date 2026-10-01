@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
+import EventMonthHeader from "@/components/Events/EventMonthHeader";
 import EventRow from "@/components/Events/EventRow";
 import EventSummary from "@/components/Events/EventSummary";
 import { MONTH_LABELS } from "@/util/events-calendar";
@@ -8,6 +9,7 @@ import {
   deriveMonths,
   deriveYears,
   filterPastEvents,
+  groupEventsByMonth,
 } from "@/util/events-filter";
 import type { EventListItem } from "@/sanity/queries";
 
@@ -47,12 +49,12 @@ export default function PastEvents({
   return (
     <div>
       <div className="border-t border-ch-midnite">
-        <div className="ml-[150px] flex flex-row items-center">
+        <div className="md:ml-[150px] flex flex-row flex-wrap items-center">
           {years.map((y) => (
             <button
               key={y}
               onClick={() => handleYearChange(y)}
-              className={`px-[5px] py-[5px] w-[150px] h-[61px] font-milling text-xl border-r border-ch-midnite ${
+              className={`px-[5px] py-[5px] w-[98px] md:w-[150px] h-[61px] font-milling text-xl border-r border-ch-midnite ${
                 y === activeYear
                   ? "bg-ch-midnite text-ch-lite"
                   : "text-ch-midnite"
@@ -65,7 +67,7 @@ export default function PastEvents({
       </div>
       <div className="border border-ch-midnite flex flex-col md:flex-row">
         <div className="flex-1 min-w-0 flex flex-row">
-          <div className="flex flex-col w-[97px] shrink-0 border-r border-ch-midnite">
+          <div className="hidden md:flex flex-col w-[97px] shrink-0 border-r border-ch-midnite">
             {months.map((m) => (
               <button
                 key={m}
@@ -82,16 +84,21 @@ export default function PastEvents({
             className="flex flex-col flex-1 min-w-0"
             onMouseLeave={() => setHoveredEvent(null)}
           >
-            {filtered.map((e) => (
-              <EventRow
-                key={e._id}
-                event={e}
-                onHover={() => setHoveredEvent(e)}
-              />
+            {groupEventsByMonth(filtered).map((group) => (
+              <Fragment key={`${group.year}-${group.month}`}>
+                <EventMonthHeader month={group.month} />
+                {group.events.map((e) => (
+                  <EventRow
+                    key={e._id}
+                    event={e}
+                    onHover={() => setHoveredEvent(e)}
+                  />
+                ))}
+              </Fragment>
             ))}
           </div>
         </div>
-        <div className="flex-1 min-w-0 md:border-l border-ch-midnite">
+        <div className="hidden md:block flex-1 min-w-0 md:border-l border-ch-midnite">
           <EventSummary event={hoveredEvent ?? filtered[0] ?? null} />
         </div>
       </div>
