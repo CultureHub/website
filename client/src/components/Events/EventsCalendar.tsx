@@ -1,16 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   MONTH_LABELS,
   WEEKDAY_LABELS,
-  buildMonthGrid,
-  countEventsInCurrentWeek,
+  buildWeek,
+  countEventsInWeek,
   formatDayHoverLine,
   getEventsForDay,
   getEventsForDayKey,
   isSameDay,
   toDayKey,
+  weekStartOf,
 } from "@/util/events-calendar";
 import { useToday } from "@/util/use-today";
 import type { EventListItem } from "@/sanity/queries";
@@ -27,94 +29,84 @@ export default function EventsCalendar({
   onDayHover: (key: string | null) => void;
 }) {
   const today = useToday();
-  const [monthOffset, setMonthOffset] = useState(0);
+  const [weekOffset, setWeekOffset] = useState(0);
 
   if (!today) {
     return (
-      <div className="w-[329px] h-[329px] bg-ch-lite" aria-hidden="true" />
+      <div className="w-[329px] h-[120px] bg-ch-lite" aria-hidden="true" />
     );
   }
 
-  const base = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
-  const view = { year: base.getFullYear(), month: base.getMonth() };
+  const weekStart = new Date(weekStartOf(today));
+  weekStart.setDate(weekStart.getDate() + weekOffset * 7);
+  const days = buildWeek(weekStart);
 
-  const days = buildMonthGrid(view.year, view.month);
-  const weekCount = countEventsInCurrentWeek(events, today);
+  const weekCount = countEventsInWeek(events, weekStart);
   const hoverEvents = hoveredDayKey
     ? getEventsForDayKey(events, hoveredDayKey)
     : [];
   const statusLine = hoveredDayKey
     ? formatDayHoverLine(hoverEvents)
-    : `There ${weekCount === 1 ? "is" : "are"} ${weekCount} event${
-        weekCount === 1 ? "" : "s"
-      } this week.`;
+    : weekCount === 0
+      ? "There are no events this week."
+      : `There ${weekCount === 1 ? "is" : "are"} ${weekCount} event${
+          weekCount === 1 ? "" : "s"
+        } this week.`;
 
-  const prevMonth = () => setMonthOffset((o) => o - 1);
-  const nextMonth = () => setMonthOffset((o) => o + 1);
+  const label = `${MONTH_LABELS[weekStart.getMonth()]} ${weekStart.getFullYear()}`;
 
   return (
     <div className="flex flex-col items-center gap-[13px] w-[329px] bg-ch-lite py-[3px]">
       <span className="font-brook text-base uppercase text-ch-midnite">
-        {MONTH_LABELS[view.month]} {view.year}
+        {label}
       </span>
 
       <div className="flex flex-row items-center gap-[15px]">
         <button
-          onClick={prevMonth}
-          aria-label="Previous month"
-          className="w-3 h-6 text-ch-midnite"
+          onClick={() => setWeekOffset((o) => o - 1)}
+          aria-label="Previous week"
+          className="shrink-0"
         >
-          &lsaquo;
+          <Image src="/left_arrow.svg" alt="" width={15} height={26} />
         </button>
-        <div className="grid grid-cols-7 gap-1">
-          {WEEKDAY_LABELS.map((d) => (
-            <span
-              key={d}
-              className="font-brook text-base text-ch-midnite w-[29px] text-center"
-            >
-              {d}
-            </span>
-          ))}
-        </div>
-        <button
-          onClick={nextMonth}
-          aria-label="Next month"
-          className="w-3 h-6 text-ch-midnite"
-        >
-          &rsaquo;
-        </button>
-      </div>
 
-      <div className="grid grid-cols-7 gap-y-1">
-        {days.map((day) => {
-          const key = toDayKey(day);
-          const inMonth =
-            day.getMonth() === view.month && day.getFullYear() === view.year;
-          const dayEvents = getEventsForDay(events, day);
-          const isToday = isSameDay(day, today);
-          return (
-            <button
-              key={key}
-              onClick={() => onDayClick(day, dayEvents)}
-              onMouseEnter={() => onDayHover(dayEvents.length ? key : null)}
-              onMouseLeave={() => onDayHover(null)}
-              className={`flex flex-col items-center justify-center w-[29px] h-[20px] rounded-full ${
-                isToday
-                  ? "bg-ch-midnite text-ch-lite"
-                  : inMonth
-                    ? "text-ch-midnite"
-                    : "text-neutral-400"
-              }`}
-            >
-              <span className="font-milling text-base leading-none">
-                {day.getDate()}
-              </span>
-              {dayEvents.length > 0 && !isToday && (
-                <span className="block w-1 h-1 rounded-full bg-ch-midnite" />
-              )}
-            </button>
-          );
-        })}
+        <div className="grid grid-cols-7 gap-3">
+          {days.map((day) => {
+            const key = toDayKey(day);
+            const dayEvents = getEventsForDay(events, day);
+            const isToday = isSameDay(day, today);
+            return (
+              <div key={key} className="flex flex-col items-center gap-2">
+                <span className="font-brook text-base text-ch-midnite">
+                  {WEEKDAY_LABELS[day.getDay()]}
+                </span>
+                <button
+                  onClick={() => onDayClick(day, dayEvents)}
+                  onMouseEnter={() => onDayHover(dayEvents.length ? key : null)}
+                  onMouseLeave={() => onDayHover(null)}
+                  className={`flex items-center justify-center w-[29px] h-[20px] rounded-full font-milling text-base leading-none ${
+                    isToday ? "bg-ch-midnite text-ch-lite" : "text-ch-midnite"
+                  }`}
+                >
+                  {day.getDate()}
+                </button>
+                <span
+                  className={`block w-1 h-1 rounded-full ${
+                    dayEvents.length > 0 ? "bg-ch-midnite" : "bg-transparent"
+                  }`}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        <button
+          onClick={() => setWeekOffset((o) => o + 1)}
+          aria-label="Next week"
+          className="shrink-0"
+        >
+          <Image src="/right_arrow.svg" alt="" width={15} height={26} />
+        </button>
       </div>
 
       <span className="font-brook text-base text-ch-midnite text-center whitespace-pre-line">

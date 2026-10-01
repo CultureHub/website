@@ -64,13 +64,31 @@ export function getEventsForDay<T extends CalendarEventRef>(
   return getEventsForDayKey(events, toDayKey(day));
 }
 
-export function countEventsInCurrentWeek<T extends CalendarEventRef>(
+export function weekStartOf(date: Date): Date {
+  const d = new Date(date);
+  d.setDate(d.getDate() - d.getDay());
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+export function buildWeek(weekStart: Date): Date[] {
+  const days: Date[] = [];
+  for (let i = 0; i < 7; i++) {
+    days.push(
+      new Date(
+        weekStart.getFullYear(),
+        weekStart.getMonth(),
+        weekStart.getDate() + i,
+      ),
+    );
+  }
+  return days;
+}
+
+export function countEventsInWeek<T extends CalendarEventRef>(
   events: T[],
-  today: Date = new Date(),
+  weekStart: Date,
 ): number {
-  const weekStart = new Date(today);
-  weekStart.setDate(weekStart.getDate() - weekStart.getDay());
-  weekStart.setHours(0, 0, 0, 0);
   const weekEnd = new Date(weekStart);
   weekEnd.setDate(weekEnd.getDate() + 7);
 
@@ -80,23 +98,6 @@ export function countEventsInCurrentWeek<T extends CalendarEventRef>(
     const d = new Date(`${key}T00:00:00`);
     return d >= weekStart && d < weekEnd;
   }).length;
-}
-
-export function buildMonthGrid(year: number, month: number): Date[] {
-  const first = new Date(year, month, 1);
-  const startOffset = first.getDay();
-  const gridStart = new Date(year, month, 1 - startOffset);
-  const days: Date[] = [];
-  for (let i = 0; i < 42; i++) {
-    days.push(
-      new Date(
-        gridStart.getFullYear(),
-        gridStart.getMonth(),
-        gridStart.getDate() + i,
-      ),
-    );
-  }
-  return days;
 }
 
 export function formatToday(date: Date = new Date()): string {

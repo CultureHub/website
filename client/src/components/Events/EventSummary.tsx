@@ -17,7 +17,7 @@ export default function EventSummary({
   );
 
   return (
-    <div className="md:w-[641px] shrink-0 flex flex-col items-center gap-[18px] border border-ch-midnite">
+    <div className="flex flex-col items-center gap-[18px]">
       {event.heroImage && (
         <SanityImage
           image={event.heroImage}

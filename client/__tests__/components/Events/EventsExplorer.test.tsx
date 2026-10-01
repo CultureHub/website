@@ -54,6 +54,7 @@ const upcoming: EventListItem[] = [
       slug: { _type: "slug", current: "eds" },
       shortLabel: "EDS",
       displayTitle: null,
+      accentColor: "#B5FD8B",
     },
     heroImage: { asset: null, hotspot: null, crop: null, alt: "" },
   },

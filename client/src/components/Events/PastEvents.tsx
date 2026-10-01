@@ -46,23 +46,25 @@ export default function PastEvents({
 
   return (
     <div>
-      <div className="flex flex-row items-center border-t border-b border-ch-midnite">
-        {years.map((y) => (
-          <button
-            key={y}
-            onClick={() => handleYearChange(y)}
-            className={`px-[5px] py-[5px] w-[150px] h-[61px] font-milling text-xl border-r border-ch-midnite ${
-              y === activeYear
-                ? "bg-ch-midnite text-ch-lite"
-                : "text-ch-midnite"
-            }`}
-          >
-            {y}
-          </button>
-        ))}
+      <div className="border-t border-ch-midnite">
+        <div className="ml-[150px] flex flex-row items-center">
+          {years.map((y) => (
+            <button
+              key={y}
+              onClick={() => handleYearChange(y)}
+              className={`px-[5px] py-[5px] w-[150px] h-[61px] font-milling text-xl border-r border-ch-midnite ${
+                y === activeYear
+                  ? "bg-ch-midnite text-ch-lite"
+                  : "text-ch-midnite"
+              }`}
+            >
+              {y}
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="flex flex-col md:flex-row">
-        <div className="md:w-[671px] flex flex-row">
+      <div className="border border-ch-midnite flex flex-col md:flex-row">
+        <div className="flex-1 min-w-0 flex flex-row">
           <div className="flex flex-col w-[97px] shrink-0 border-r border-ch-midnite">
             {months.map((m) => (
               <button
@@ -77,7 +79,7 @@ export default function PastEvents({
             ))}
           </div>
           <div
-            className="flex flex-col flex-1 min-w-0"
+            className="flex flex-col flex-1 min-w-0 divide-y divide-ch-midnite"
             onMouseLeave={() => setHoveredEvent(null)}
           >
             {filtered.map((e) => (
@@ -89,7 +91,9 @@ export default function PastEvents({
             ))}
           </div>
         </div>
-        <EventSummary event={hoveredEvent ?? filtered[0] ?? null} />
+        <div className="flex-1 min-w-0 md:border-l border-ch-midnite">
+          <EventSummary event={hoveredEvent ?? filtered[0] ?? null} />
+        </div>
       </div>
     </div>
   );

@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function EventsEmptyState() {
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className="md:w-[671px] px-6 py-6 flex flex-col gap-6 border-b md:border-b-0 border-ch-midnite">
+    <div className="border border-ch-midnite flex flex-col md:flex-row">
+      <div className="flex-1 min-w-0 px-6 py-6 flex flex-col gap-6">
         <p className="font-brook italic text-xl text-ch-midnite whitespace-pre-line">
           There are no upcoming events scheduled at this time.{"\n\n"}
           To be the first to hear about future opportunities, you can sign up
@@ -17,18 +17,25 @@ export default function EventsEmptyState() {
           />
           <button
             aria-label="Submit"
-            className="w-[59px] h-[33px] flex items-center justify-center rounded-lg border border-ch-midnite text-ch-midnite"
+            className="w-[59px] h-[33px] flex items-center justify-center rounded-lg border border-ch-midnite"
           >
-            &rarr;
+            <Image
+              loading="eager"
+              width={11}
+              height={20}
+              src="/submit_icon.svg"
+              alt=""
+            />
           </button>
         </div>
       </div>
-      <div className="md:w-[641px] shrink-0 border border-ch-midnite bg-ch-lite overflow-hidden">
+      <div className="flex-1 min-w-0 md:border-l border-ch-midnite bg-ch-lite overflow-hidden">
         <Image
           src="/c-pattern.svg"
           alt=""
           width={641}
           height={1045}
+          loading="eager"
           className="w-full h-auto"
         />
       </div>

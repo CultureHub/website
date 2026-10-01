@@ -416,7 +416,7 @@ const EVENT_LIST_FRAGMENT = `{
   description,
   links,
   "program": program->{
-    _id, title, slug, shortLabel, displayTitle
+    _id, title, slug, shortLabel, displayTitle, accentColor
   },
   heroImage {
     asset,

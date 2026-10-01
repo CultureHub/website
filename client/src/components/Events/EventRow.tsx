@@ -15,13 +15,15 @@ export default function EventRow({
     event.timezoneLabel ?? undefined,
   );
   const program = event.program;
+  const accentColor = program?.accentColor ?? "#0A0018";
 
   return (
     <Link
       href={`/events/${event.slug}`}
       onMouseEnter={onHover}
       onFocus={onHover}
-      className="grid grid-cols-[1fr_2fr] grid-rows-2 gap-y-4 gap-x-9 px-4 py-4 border-b border-ch-midnite hover:bg-ch-lite"
+      style={{ "--row-accent": accentColor } as React.CSSProperties}
+      className="grid grid-cols-[1fr_2fr] grid-rows-2 gap-y-4 gap-x-9 px-4 py-4 hover:bg-[var(--row-accent)]"
     >
       <span className="font-brook text-xs uppercase text-ch-midnite">
         {event.locationShort}

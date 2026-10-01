@@ -1,12 +1,13 @@
 import {
-  buildMonthGrid,
-  countEventsInCurrentWeek,
+  buildWeek,
+  countEventsInWeek,
   formatDayHoverLine,
   formatToday,
   getEventsForDay,
   getEventsForDayKey,
   MONTH_LABELS,
   toDayKey,
+  weekStartOf,
 } from "@/util/events-calendar";
 
 const event = (id: string, starts: string[]) => ({
@@ -22,11 +23,17 @@ describe("events-calendar", () => {
     expect(toDayKey(new Date(2026, 3, 6))).toBe("2026-04-06");
   });
 
-  it("builds a 42-cell month grid anchored to Sunday", () => {
-    const grid = buildMonthGrid(2026, 3); // April 2026
-    expect(grid).toHaveLength(42);
-    expect(toDayKey(grid[0])).toBe("2026-03-29"); // Sunday before April 1
-    expect(grid[0].getDay()).toBe(0);
+  it("computes the Sunday start of a week", () => {
+    expect(toDayKey(weekStartOf(new Date(2026, 3, 6)))).toBe("2026-04-05");
+    expect(toDayKey(weekStartOf(new Date(2026, 3, 11)))).toBe("2026-04-05");
+  });
+
+  it("builds a 7-day week anchored to Sunday", () => {
+    const week = buildWeek(new Date(2026, 3, 5)); // Sunday April 5 2026
+    expect(week).toHaveLength(7);
+    expect(toDayKey(week[0])).toBe("2026-04-05");
+    expect(toDayKey(week[6])).toBe("2026-04-11");
+    expect(week[0].getDay()).toBe(0);
   });
 
   it("groups events by start day", () => {
@@ -42,14 +49,14 @@ describe("events-calendar", () => {
     ]);
   });
 
-  it("counts events in the current week", () => {
-    const today = new Date(2026, 3, 6); // Monday April 6 2026
+  it("counts events within a week", () => {
+    const weekStart = new Date(2026, 3, 5); // Sunday April 5 2026
     const events = [
       event("in-week", ["2026-04-08T18:00:00-04:00"]),
       event("out-week", ["2026-04-13T18:00:00-04:00"]),
       event("before-week", ["2026-04-04T18:00:00-04:00"]),
     ];
-    expect(countEventsInCurrentWeek(events, today)).toBe(1);
+    expect(countEventsInWeek(events, weekStart)).toBe(1);
   });
 
   it("formats today's date with ordinal", () => {

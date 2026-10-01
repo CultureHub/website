@@ -92,64 +92,63 @@ export function EventsExplorer({
 
   return (
     <div className="px-6 md:px-16">
-      <div className="py-9 flex flex-col gap-6">
+      <div className="py-9 grid grid-cols-[auto_1fr_auto] items-center border-b border-ch-midnite">
         <h1 className="font-milling font-bold text-[40px] text-ch-midnite">
           Events
         </h1>
-        <p className="font-brook text-base text-ch-midnite">
+        <p className="font-brook text-base text-ch-midnite text-center">
           {today ? formatToday(today) : "\u00A0"}
         </p>
-      </div>
-
-      <div className="flex flex-col gap-9">
         <EventsCalendar
           events={upcomingEvents}
           hoveredDayKey={hoveredDayKey}
           onDayClick={handleDayClick}
           onDayHover={setHoveredDayKey}
         />
+      </div>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex flex-row border-b border-ch-midnite">
-            <TabButton
-              active={tab === "upcoming"}
-              onClick={() => setTab("upcoming")}
-            >
-              Upcoming
-            </TabButton>
-            <TabButton active={tab === "past"} onClick={() => setTab("past")}>
-              Past
-            </TabButton>
-          </div>
+      <div className="flex flex-col">
+        <div className="flex flex-row">
+          <TabButton
+            active={tab === "upcoming"}
+            onClick={() => setTab("upcoming")}
+          >
+            Upcoming
+          </TabButton>
+          <TabButton active={tab === "past"} onClick={() => setTab("past")}>
+            Past
+          </TabButton>
+        </div>
 
-          {tab === "upcoming" ? (
-            upcomingEvents.length === 0 ? (
-              <EventsEmptyState />
-            ) : (
-              <div className="flex flex-col md:flex-row">
-                <div
-                  className="md:w-[671px] flex flex-col"
-                  onMouseLeave={() => setHoveredEvent(null)}
-                >
-                  {filteredUpcoming.map((e) => (
-                    <EventRow
-                      key={e._id}
-                      event={e}
-                      onHover={() => setHoveredEvent(e)}
-                    />
-                  ))}
-                </div>
+        {tab === "upcoming" ? (
+          upcomingEvents.length === 0 ? (
+            <EventsEmptyState />
+          ) : (
+            <div className="border border-ch-midnite flex flex-col md:flex-row">
+              <div
+                className="flex-1 min-w-0 flex flex-col divide-y divide-ch-midnite"
+                onMouseLeave={() => setHoveredEvent(null)}
+              >
+                {filteredUpcoming.map((e) => (
+                  <EventRow
+                    key={e._id}
+                    event={e}
+                    onHover={() => setHoveredEvent(e)}
+                  />
+                ))}
+              </div>
+              <div className="flex-1 min-w-0 md:border-l border-ch-midnite">
                 <EventSummary event={previewEvent} />
               </div>
-            )
-          ) : pastError ? (
-            <div className="py-8 text-neutral-400 text-sm">
-              Failed to load past events.
             </div>
-          ) : (
-            <PastEvents events={pastEvents} />
-          )}
-        </div>
+          )
+        ) : pastError ? (
+          <div className="py-8 text-neutral-400 text-sm">
+            Failed to load past events.
+          </div>
+        ) : (
+          <PastEvents events={pastEvents} />
+        )}
       </div>
     </div>
   );
