@@ -844,6 +844,7 @@ git commit -m "feat(events): add EventsCalendar component"
 **Files:**
 - Create: `client/src/components/Events/EventsEmptyState.tsx`
 - Create: `client/src/components/Events/PastEvents.tsx`
+- Asset (already downloaded): `client/public/c-pattern.svg` — the decorative "C" pattern used in the empty-state detail panel (Figma node `3015-2231`, 641×1045).
 
 **Interfaces:**
 - Consumes: `EventRow`, `deriveYears`/`deriveMonths`/`filterPastEvents` from `@/util/events-filter`, `MONTH_LABELS` from `@/util/events-calendar`, `EventListItem`.
@@ -854,6 +855,8 @@ git commit -m "feat(events): add EventsCalendar component"
 Create `client/src/components/Events/EventsEmptyState.tsx`:
 
 ```tsx
+import Image from "next/image";
+
 export default function EventsEmptyState() {
   return (
     <div className="flex flex-col md:flex-row">
@@ -877,10 +880,15 @@ export default function EventsEmptyState() {
           </button>
         </div>
       </div>
-      <div
-        data-testid="c-pattern"
-        className="md:w-[641px] border border-ch-midnite min-h-[400px] bg-ch-lite"
-      />
+      <div className="md:w-[641px] shrink-0 border border-ch-midnite bg-ch-lite overflow-hidden">
+        <Image
+          src="/c-pattern.svg"
+          alt=""
+          width={641}
+          height={1045}
+          className="w-full h-auto"
+        />
+      </div>
     </div>
   );
 }
@@ -1176,6 +1184,19 @@ jest.mock("next/navigation", () => ({
 jest.mock("@/components/SanityImage", () => {
   return function MockSanityImage() {
     return <div data-testid="sanity-image" />;
+  };
+});
+
+jest.mock("next/image", () => {
+  return function MockNextImage({
+    src,
+    alt,
+  }: {
+    src: string;
+    alt: string;
+  }) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={src} alt={alt} data-testid="next-image" />;
   };
 });
 
