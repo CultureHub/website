@@ -404,3 +404,62 @@ export function getUpcomingEvents(limit: number = 10) {
 
   return client.fetch(getUpcomingEventsQuery, { now, limit }, options);
 }
+
+const EVENT_LIST_FRAGMENT = `{
+  _id,
+  title,
+  "slug": slug.current,
+  dateTimes,
+  location,
+  locationShort,
+  timezoneLabel,
+  description,
+  links,
+  "program": program->{
+    _id, title, slug, shortLabel, displayTitle, accentColor
+  },
+  heroImage {
+    asset,
+    hotspot,
+    crop,
+    alt
+  }
+}`;
+
+export async function getAllUpcomingEvents() {
+  const getAllUpcomingEventsQuery = defineQuery(
+    `*[
+      _type == "event"
+      && defined(slug.current)
+      && count(dateTimes) > 0
+      && dateTimes[-1].end >= $now
+    ] | order(dateTimes[0].start asc)
+      ${EVENT_LIST_FRAGMENT}`,
+  );
+  return client.fetch(
+    getAllUpcomingEventsQuery,
+    { now: new Date().toISOString() },
+    options,
+  );
+}
+
+export async function getPastEvents() {
+  const getPastEventsQuery = defineQuery(
+    `*[
+      _type == "event"
+      && defined(slug.current)
+      && count(dateTimes) > 0
+      && dateTimes[-1].end < $now
+    ] | order(dateTimes[0].start desc)
+      ${EVENT_LIST_FRAGMENT}`,
+  );
+  return client.fetch(
+    getPastEventsQuery,
+    { now: new Date().toISOString() },
+    options,
+  );
+}
+
+export type EventListItem = Awaited<
+  ReturnType<typeof getAllUpcomingEvents>
+>[number];

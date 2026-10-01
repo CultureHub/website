@@ -8,7 +8,7 @@ interface FormattedEventDates {
   timeDescription: string;
 }
 
-function parseDate(iso: string): Date {
+export function parseDate(iso: string): Date {
   const match = iso.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
   if (!match) return new Date(iso);
   const [, year, month, day, hours, minutes] = match.map(Number);
@@ -217,4 +217,13 @@ function formatTimeDescription(
   });
 
   return lines.join("\n");
+}
+
+export function formatEventStartTime(
+  dateTime: { start: string },
+  timezoneLabel?: string,
+): string {
+  const start = parseDate(dateTime.start);
+  const tz = timezoneLabel ? ` ${timezoneLabel}` : "";
+  return `${formatTime(start)}${tz}`;
 }
