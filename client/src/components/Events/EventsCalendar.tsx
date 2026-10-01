@@ -79,16 +79,30 @@ export default function EventsCalendar({
             const key = toDayKey(day);
             const dayEvents = getEventsForDay(events, day);
             const isToday = isSameDay(day, today);
+            const isHovered = hoveredDayKey === key;
+            const hasEvent = dayEvents.length > 0;
             const accentColor =
               dayEvents.length === 1
                 ? (dayEvents[0].program?.accentColor ?? null)
                 : null;
 
-            const circleClass = isToday
-              ? "bg-ch-midnite text-ch-lite border border-ch-midnite"
-              : dayEvents.length >= 1
-                ? "text-ch-midnite border border-ch-midnite"
-                : "text-ch-midnite";
+            let circleClass = "";
+            let textColorClass = "text-ch-midnite";
+            let weightClass = "";
+            let bgStyle: { backgroundColor?: string } | undefined;
+
+            if (isToday) {
+              circleClass = "bg-ch-midnite border border-ch-midnite";
+              textColorClass = "text-ch-lite";
+            } else if (isHovered && hasEvent) {
+              circleClass = "border border-ch-midnite";
+              weightClass = "font-bold";
+              if (accentColor) {
+                bgStyle = { backgroundColor: accentColor };
+              }
+            } else if (hasEvent) {
+              weightClass = "font-bold";
+            }
 
             return (
               <div key={key} className="flex flex-col items-center gap-2">
@@ -99,12 +113,8 @@ export default function EventsCalendar({
                   onClick={() => onDayClick(day, dayEvents)}
                   onMouseEnter={() => onDayHover(dayEvents.length ? key : null)}
                   onMouseLeave={() => onDayHover(null)}
-                  style={
-                    !isToday && accentColor
-                      ? { backgroundColor: accentColor }
-                      : undefined
-                  }
-                  className={`flex items-center justify-center w-[29px] h-[20px] rounded-full font-milling text-base leading-none ${circleClass}`}
+                  style={bgStyle}
+                  className={`flex items-center justify-center w-[29px] h-[20px] rounded-full font-milling text-base leading-none ${weightClass} ${circleClass} ${textColorClass}`}
                 >
                   {day.getDate()}
                 </button>
