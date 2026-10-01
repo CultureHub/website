@@ -9,7 +9,7 @@ export interface CalendarEventRef {
   _id: string;
   title: string;
   slug: string;
-  dateTimes: CalendarEventDate[];
+  dateTimes?: CalendarEventDate[] | null;
   timezoneLabel?: string | null;
 }
 
