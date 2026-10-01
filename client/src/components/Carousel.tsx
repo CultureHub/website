@@ -5,19 +5,22 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type ReactNode,
 } from "react";
 import Image from "next/image";
 
 export interface CarouselProps {
   children: ReactNode;
+  itemsPerView?: number;
 }
 
-export function Carousel({ children }: CarouselProps) {
+export function Carousel({ children, itemsPerView = 2 }: CarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [itemWidth, setItemWidth] = useState(0);
   const gap = 40;
+  const perView = itemsPerView > 0 ? itemsPerView : 2;
 
   useEffect(() => {
     const el = itemRefs.current[0];
@@ -51,11 +54,14 @@ export function Carousel({ children }: CarouselProps) {
       <div
         ref={scrollRef}
         className="flex flex-col md:flex-row w-full overflow-hidden scroll-smooth"
-        style={{
-          gap: `${gap}px`,
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-        }}
+        style={
+          {
+            gap: `${gap}px`,
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            "--carousel-item-width": `calc((100% - ${gap * (perView - 1)}px) / ${perView})`,
+          } as CSSProperties
+        }
       >
         {Array.isArray(children)
           ? children.map((child, index) => (
@@ -64,7 +70,7 @@ export function Carousel({ children }: CarouselProps) {
                 ref={(el) => {
                   itemRefs.current[index] = el;
                 }}
-                className="w-full md:flex-shrink-0 md:w-[calc(50%_-_20px)]"
+                className="w-full md:flex-shrink-0 md:w-[var(--carousel-item-width)]"
               >
                 {child}
               </div>

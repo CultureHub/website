@@ -334,6 +334,81 @@ export type Slug = {
   source?: string;
 };
 
+export type OpportunityReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "opportunity";
+};
+
+export type CommunityPage = {
+  _id: string;
+  _type: "communityPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  heading?: string;
+  introText?: string;
+  featuredArtistsTitle?: string;
+  featuredArtists?: Array<
+    {
+      _key: string;
+    } & ArtistReference
+  >;
+  artistDirectoryTitle?: string;
+  opportunitiesTitle?: string;
+  opportunitiesIntro?: string;
+  currentOpportunitiesTitle?: string;
+  opportunities?: ArrayOf<OpportunityReference | ProgramReference>;
+  supportTitle?: string;
+  supportImages?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  supportText?: string;
+  supportSubtext?: string;
+  membershipTitle?: string;
+  membershipIntro?: string;
+  membershipTiers?: Array<{
+    name: string;
+    price?: string;
+    benefits?: string;
+    _type: "membershipTier";
+    _key: string;
+  }>;
+  donationTitle?: string;
+  donationText?: string;
+  donationMethods?: Array<{
+    title: string;
+    body?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    _type: "donationMethod";
+    _key: string;
+  }>;
+};
+
 export type ArtAndTechnologyPage = {
   _id: string;
   _type: "artAndTechnologyPage";
@@ -664,37 +739,7 @@ export type Program = {
     _key: string;
   }>;
   hasPage?: boolean;
-  openCallTitle?: string;
-  openCallImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    credits?: string;
-    _type: "image";
-  };
-  openCallTimeline?: string;
-  openCallWhere?: string;
-  openCallBenefits?: string;
-  openCallDescription?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
+  openCall?: OpportunityReference;
   locationContent?: Array<{
     location: string;
     displayTitle: string;
@@ -730,6 +775,53 @@ export type Program = {
       _key: string;
     } & ProjectReference
   >;
+};
+
+export type Opportunity = {
+  _id: string;
+  _type: "opportunity";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  locationShort?: string;
+  timeline?: string;
+  where?: string;
+  benefits?: string;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  links?: Array<{
+    label: string;
+    shortLabel?: string;
+    url: string;
+    _key: string;
+  }>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -838,11 +930,14 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | OpportunityReference
+  | CommunityPage
   | ArtAndTechnologyPage
   | ProjectReference
   | Artist
   | Project
   | Program
+  | Opportunity
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -1390,37 +1485,7 @@ export type GetArtAndTechnologyPageQueryResult = {
       _key: string;
     }>;
     hasPage?: boolean;
-    openCallTitle?: string;
-    openCallImage?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt: string;
-      credits?: string;
-      _type: "image";
-    };
-    openCallTimeline?: string;
-    openCallWhere?: string;
-    openCallBenefits?: string;
-    openCallDescription?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
+    openCall?: OpportunityReference;
     locationContent?: Array<{
       location: string;
       displayTitle: string;
@@ -1464,6 +1529,152 @@ export type GetArtAndTechnologyPageQueryResult = {
         _key: string;
       } & ProjectReference
     >;
+  }> | null;
+} | null;
+
+// Source: ../client/src/sanity/queries.ts
+// Variable: getCommunityPageQuery
+// Query: *[_type == "communityPage"][0]{      heading,      introText,      featuredArtistsTitle,      featuredArtists[]->{        _id, name, slug, locations,        image { asset->{_id, url}, alt }      },      artistDirectoryTitle,      opportunitiesTitle,      opportunitiesIntro,      currentOpportunitiesTitle,      opportunities[]->{        _id,        _type,        title,        "slug": slug.current,        "tag": select(_type == "program" => shortLabel, "Opportunity"),        "location": select(          _type == "program" => array::join(locationContent[].location, ", "),          locationShort        ),        heroImage {          asset->{_id, url}, alt, credits        }      },      supportTitle,      supportImages[]{        asset->{_id, url}, alt, credits      },      supportText,      supportSubtext,      membershipTitle,      membershipIntro,      membershipTiers[]{        name, price, benefits      },      donationTitle,      donationText,      donationMethods[]{        _key, title, body      }    }
+export type GetCommunityPageQueryResult = {
+  heading: string | null;
+  introText: string | null;
+  featuredArtistsTitle: string | null;
+  featuredArtists: Array<{
+    _id: string;
+    name: string;
+    slug: Slug;
+    locations: Array<string>;
+    image: {
+      asset: {
+        _id: string;
+        url: string;
+      } | null;
+      alt: string;
+    };
+  }> | null;
+  artistDirectoryTitle: string | null;
+  opportunitiesTitle: string | null;
+  opportunitiesIntro: string | null;
+  currentOpportunitiesTitle: string | null;
+  opportunities: Array<
+    | {
+        _id: string;
+        _type: "opportunity";
+        title: string;
+        slug: string;
+        tag: "Opportunity";
+        location: string | null;
+        heroImage: {
+          asset: {
+            _id: string;
+            url: string;
+          } | null;
+          alt: string;
+          credits: string | null;
+        };
+      }
+    | {
+        _id: string;
+        _type: "program";
+        title: string;
+        slug: string;
+        tag: string;
+        location: string | null;
+        heroImage: {
+          asset: {
+            _id: string;
+            url: string;
+          } | null;
+          alt: string;
+          credits: string | null;
+        };
+      }
+  > | null;
+  supportTitle: string | null;
+  supportImages: Array<{
+    asset: {
+      _id: string;
+      url: string;
+    } | null;
+    alt: string;
+    credits: string | null;
+  }> | null;
+  supportText: string | null;
+  supportSubtext: string | null;
+  membershipTitle: string | null;
+  membershipIntro: string | null;
+  membershipTiers: Array<{
+    name: string;
+    price: string | null;
+    benefits: string | null;
+  }> | null;
+  donationTitle: string | null;
+  donationText: string | null;
+  donationMethods: Array<{
+    _key: string;
+    title: string;
+    body: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+  }> | null;
+} | null;
+
+// Source: ../client/src/sanity/queries.ts
+// Variable: getOpportunityBySlugQuery
+// Query: *[_type == "opportunity" && slug.current == $slug][0]{      title,      "slug": slug.current,      locationShort,      heroImage {        asset->{_id, url}, alt, credits      },      timeline,      where,      benefits,      description,      links    }
+export type GetOpportunityBySlugQueryResult = {
+  title: string;
+  slug: string;
+  locationShort: string | null;
+  heroImage: {
+    asset: {
+      _id: string;
+      url: string;
+    } | null;
+    alt: string;
+    credits: string | null;
+  };
+  timeline: string | null;
+  where: string | null;
+  benefits: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  links: Array<{
+    label: string;
+    shortLabel?: string;
+    url: string;
+    _key: string;
   }> | null;
 } | null;
 
@@ -1537,37 +1748,7 @@ export type GetProgramsQueryResult = Array<{
     _key: string;
   }>;
   hasPage?: boolean;
-  openCallTitle?: string;
-  openCallImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    credits?: string;
-    _type: "image";
-  };
-  openCallTimeline?: string;
-  openCallWhere?: string;
-  openCallBenefits?: string;
-  openCallDescription?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
+  openCall?: OpportunityReference;
   locationContent?: Array<{
     location: string;
     displayTitle: string;
@@ -1607,7 +1788,7 @@ export type GetProgramsQueryResult = Array<{
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getProgramBySlugQuery
-// Query: *[_type == "program" && slug.current == $slug][0]{        _id, title, displayTitle, slug, shortLabel, accentColor, hasPage,        heroImage {          asset->{_id, url},          alt, credits        },        pageDescription,        openCallTitle,        openCallImage {          asset->{_id, url},          alt, credits        },        openCallTimeline,        openCallWhere,        openCallBenefits,        openCallDescription,        locationContent[]{          _key,          location, displayTitle, description,          accentColor        },        featuredArtists[]->{          _id, name, slug, locations,          image {            asset->{_id, url},            alt          }        },        featuredProjects[]->{          _id, title, slug,          heroImage {            asset,            alt          },          people,          "artists": *[_type == "artist" && references(^._id)]{ _id, name }        }      }
+// Query: *[_type == "program" && slug.current == $slug][0]{        _id, title, displayTitle, slug, shortLabel, accentColor, hasPage,        heroImage {          asset->{_id, url},          alt, credits        },        pageDescription,        "openCall": openCall->{          title, slug,          heroImage {            asset->{_id, url},            alt, credits          },          locationShort,          timeline,          where,          benefits,          description        },        locationContent[]{          _key,          location, displayTitle, description,          accentColor        },        featuredArtists[]->{          _id, name, slug, locations,          image {            asset->{_id, url},            alt          }        },        featuredProjects[]->{          _id, title, slug,          heroImage {            asset,            alt          },          people,          "artists": *[_type == "artist" && references(^._id)]{ _id, name }        }      }
 export type GetProgramBySlugQueryResult = {
   _id: string;
   title: string;
@@ -1659,36 +1840,40 @@ export type GetProgramBySlugQueryResult = {
     _type: "block";
     _key: string;
   }> | null;
-  openCallTitle: string | null;
-  openCallImage: {
-    asset: {
-      _id: string;
-      url: string;
-    } | null;
-    alt: string;
-    credits: string | null;
+  openCall: {
+    title: string;
+    slug: Slug;
+    heroImage: {
+      asset: {
+        _id: string;
+        url: string;
+      } | null;
+      alt: string;
+      credits: string | null;
+    };
+    locationShort: string | null;
+    timeline: string | null;
+    where: string | null;
+    benefits: string | null;
+    description: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
   } | null;
-  openCallTimeline: string | null;
-  openCallWhere: string | null;
-  openCallBenefits: string | null;
-  openCallDescription: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }> | null;
   locationContent: Array<{
     _key: string;
     location: string;
@@ -1813,166 +1998,35 @@ export type GetUpcomingEventsByProgramQueryResult = Array<{
 }>;
 
 // Source: ../client/src/sanity/queries.ts
-// Variable: getArtistLocationOptionsQuery
-// Query: array::unique(*[_type == "artist"].locations[])
-export type GetArtistLocationOptionsQueryResult = Array<string>;
-
-// Source: ../client/src/sanity/queries.ts
-// Variable: getArtistsQuery
-// Query: *[    _type == "artist"    && defined(slug.current)  ][0...12]
-export type GetArtistsQueryResult = Array<{
+// Variable: getArtistDirectoryQuery
+// Query: *[_type == "artist" && defined(slug.current)]{      _id, name, slug, locations,      "programs": programs[].program->{ _id, title, displayTitle }    } | order(name asc)
+export type GetArtistDirectoryQueryResult = Array<{
   _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
   name: string;
   slug: Slug;
-  image: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    credits?: string;
-    _type: "image";
-  };
-  bio?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  projectStatement?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  links?: Array<{
-    label: string;
-    shortLabel?: string;
-    url: string;
-    _key: string;
-  }>;
-  programs?: Array<{
-    program: ProgramReference;
-    yearStart: number;
-    yearEnd: number;
-    location?: string;
-    _type: "programMembership";
-    _key: string;
-  }>;
-  program?: ProgramReference;
   locations: Array<string>;
-  projects?: Array<
-    {
+  programs: Array<{
+    _id: string;
+    title: string;
+    displayTitle: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
       _key: string;
-    } & ProjectReference
-  >;
-}>;
-
-// Source: ../client/src/sanity/queries.ts
-// Variable: getArtistsByLocationsQuery
-// Query: *[    _type == "artist"    && count(locations[@ in $locations]) > 0    && defined(slug.current)  ][0...12]
-export type GetArtistsByLocationsQueryResult = Array<{
-  _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  slug: Slug;
-  image: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    credits?: string;
-    _type: "image";
-  };
-  bio?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  projectStatement?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  links?: Array<{
-    label: string;
-    shortLabel?: string;
-    url: string;
-    _key: string;
-  }>;
-  programs?: Array<{
-    program: ProgramReference;
-    yearStart: number;
-    yearEnd: number;
-    location?: string;
-    _type: "programMembership";
-    _key: string;
-  }>;
-  program?: ProgramReference;
-  locations: Array<string>;
-  projects?: Array<
-    {
-      _key: string;
-    } & ProjectReference
-  >;
+    }> | null;
+  }> | null;
 }>;
 
 // Source: ../client/src/sanity/queries.ts
@@ -2361,13 +2415,13 @@ declare module "@sanity/client" {
     '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    "program": program->{ _id, title, slug, shortLabel },\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
     '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "slug": slug.current,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
+    '*[_type == "communityPage"][0]{\n      heading,\n      introText,\n      featuredArtistsTitle,\n      featuredArtists[]->{\n        _id, name, slug, locations,\n        image { asset->{_id, url}, alt }\n      },\n      artistDirectoryTitle,\n      opportunitiesTitle,\n      opportunitiesIntro,\n      currentOpportunitiesTitle,\n      opportunities[]->{\n        _id,\n        _type,\n        title,\n        "slug": slug.current,\n        "tag": select(_type == "program" => shortLabel, "Opportunity"),\n        "location": select(\n          _type == "program" => array::join(locationContent[].location, ", "),\n          locationShort\n        ),\n        heroImage {\n          asset->{_id, url}, alt, credits\n        }\n      },\n      supportTitle,\n      supportImages[]{\n        asset->{_id, url}, alt, credits\n      },\n      supportText,\n      supportSubtext,\n      membershipTitle,\n      membershipIntro,\n      membershipTiers[]{\n        name, price, benefits\n      },\n      donationTitle,\n      donationText,\n      donationMethods[]{\n        _key, title, body\n      }\n    }': GetCommunityPageQueryResult;
+    '*[_type == "opportunity" && slug.current == $slug][0]{\n      title,\n      "slug": slug.current,\n      locationShort,\n      heroImage {\n        asset->{_id, url}, alt, credits\n      },\n      timeline,\n      where,\n      benefits,\n      description,\n      links\n    }': GetOpportunityBySlugQueryResult;
     '*[_type == "program"]{\n    ...\n  }': GetProgramsQueryResult;
-    '*[_type == "program" && slug.current == $slug][0]{\n        _id, title, displayTitle, slug, shortLabel, accentColor, hasPage,\n        heroImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        pageDescription,\n        openCallTitle,\n        openCallImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        openCallTimeline,\n        openCallWhere,\n        openCallBenefits,\n        openCallDescription,\n        locationContent[]{\n          _key,\n          location, displayTitle, description,\n          accentColor\n        },\n        featuredArtists[]->{\n          _id, name, slug, locations,\n          image {\n            asset->{_id, url},\n            alt\n          }\n        },\n        featuredProjects[]->{\n          _id, title, slug,\n          heroImage {\n            asset,\n            alt\n          },\n          people,\n          "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n        }\n      }': GetProgramBySlugQueryResult;
+    '*[_type == "program" && slug.current == $slug][0]{\n        _id, title, displayTitle, slug, shortLabel, accentColor, hasPage,\n        heroImage {\n          asset->{_id, url},\n          alt, credits\n        },\n        pageDescription,\n        "openCall": openCall->{\n          title, slug,\n          heroImage {\n            asset->{_id, url},\n            alt, credits\n          },\n          locationShort,\n          timeline,\n          where,\n          benefits,\n          description\n        },\n        locationContent[]{\n          _key,\n          location, displayTitle, description,\n          accentColor\n        },\n        featuredArtists[]->{\n          _id, name, slug, locations,\n          image {\n            asset->{_id, url},\n            alt\n          }\n        },\n        featuredProjects[]->{\n          _id, title, slug,\n          heroImage {\n            asset,\n            alt\n          },\n          people,\n          "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n        }\n      }': GetProgramBySlugQueryResult;
     '*[_type == "artist" && $programId in programs[].program._ref]{\n      _id, name, slug,\n      image {\n        asset->{_id, url},\n        alt\n      },\n      locations,\n      "membership": programs[program._ref == $programId][0]{\n        yearStart, yearEnd, location\n      }\n    } | order(membership.yearStart desc)': GetResidentArtistsQueryResult;
     '*[_type == "event" && program->slug.current == $programSlug && dateTimes[0].start > now()] | order(dateTimes[0].start asc) [0...$limit]\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetUpcomingEventsByProgramQueryResult;
-    'array::unique(*[_type == "artist"].locations[])': GetArtistLocationOptionsQueryResult;
-    '*[\n    _type == "artist"\n    && defined(slug.current)\n  ][0...12]': GetArtistsQueryResult;
-    '*[\n    _type == "artist"\n    && count(locations[@ in $locations]) > 0\n    && defined(slug.current)\n  ][0...12]': GetArtistsByLocationsQueryResult;
+    '*[_type == "artist" && defined(slug.current)]{\n      _id, name, slug, locations,\n      "programs": programs[].program->{ _id, title, displayTitle }\n    } | order(name asc)': GetArtistDirectoryQueryResult;
     '{\n    "programs": *[_type == "program"]{ _id, title, slug, shortLabel, accentColor, displayTitle },\n    "places": array::unique(*[_type == "project" && defined(slug.current)].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)].date) | order(@ desc)\n  }': GetProjectFilterOptionsQueryResult;
     '{\n    "projects": *[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ] | order(date desc) [$offset...$end]\n    {\n  _id,\n  title,\n  slug,\n  date,\n  endDate,\n  locations,\n  people,\n  "program": program->{ _id, title, slug, shortLabel, accentColor, displayTitle },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  },\n  "artists": *[_type == "artist" && references(^._id)]{ _id, name }\n},\n    "total": count(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ])\n  }': GetProjectsQueryResult;
     '{\n    "programSlugs": array::unique(*[_type == "project" && defined(slug.current)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].program->slug.current)[@ != null],\n    "places": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n    ].date) | order(@ desc)\n  }': GetProjectFacetsQueryResult;

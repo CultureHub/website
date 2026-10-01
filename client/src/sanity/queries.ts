@@ -54,6 +54,76 @@ export function getArtAndTechnologyPage() {
   return client.fetch(getArtAndTechnologyPageQuery, {}, options);
 }
 
+export function getCommunityPage() {
+  const getCommunityPageQuery = defineQuery(
+    `*[_type == "communityPage"][0]{
+      heading,
+      introText,
+      featuredArtistsTitle,
+      featuredArtists[]->{
+        _id, name, slug, locations,
+        image { asset->{_id, url}, alt }
+      },
+      artistDirectoryTitle,
+      opportunitiesTitle,
+      opportunitiesIntro,
+      currentOpportunitiesTitle,
+      opportunities[]->{
+        _id,
+        _type,
+        title,
+        "slug": slug.current,
+        "tag": select(_type == "program" => shortLabel, "Opportunity"),
+        "location": select(
+          _type == "program" => array::join(locationContent[].location, ", "),
+          locationShort
+        ),
+        heroImage {
+          asset->{_id, url}, alt, credits
+        }
+      },
+      supportTitle,
+      supportImages[]{
+        asset->{_id, url}, alt, credits
+      },
+      supportText,
+      supportSubtext,
+      membershipTitle,
+      membershipIntro,
+      membershipTiers[]{
+        name, price, benefits
+      },
+      donationTitle,
+      donationText,
+      donationMethods[]{
+        _key, title, body
+      }
+    }`,
+  );
+
+  return client.fetch(getCommunityPageQuery, {}, options);
+}
+
+export async function getOpportunityBySlug(slug: string) {
+  const getOpportunityBySlugQuery = defineQuery(
+    `*[_type == "opportunity" && slug.current == $slug][0]{
+      title,
+      "slug": slug.current,
+      locationShort,
+      heroImage {
+        asset->{_id, url}, alt, credits
+      },
+      timeline,
+      where,
+      benefits,
+      description,
+      links
+    }`,
+  );
+
+  return client.fetch(getOpportunityBySlugQuery, { slug }, options);
+}
+
 export function getPrograms() {
   const getProgramsQuery = defineQuery(`*[_type == "program"]{
     ...
@@ -71,15 +141,18 @@ export async function getProgramBySlug(slug: string) {
           alt, credits
         },
         pageDescription,
-        openCallTitle,
-        openCallImage {
-          asset->{_id, url},
-          alt, credits
+        "openCall": openCall->{
+          title, slug,
+          heroImage {
+            asset->{_id, url},
+            alt, credits
+          },
+          locationShort,
+          timeline,
+          where,
+          benefits,
+          description
         },
-        openCallTimeline,
-        openCallWhere,
-        openCallBenefits,
-        openCallDescription,
         locationContent[]{
           _key,
           location, displayTitle, description,
@@ -157,31 +230,15 @@ export async function getUpcomingEventsByProgram(
   );
 }
 
-export function getArtistLocationOptions() {
-  const getArtistLocationOptionsQuery = defineQuery(
-    `array::unique(*[_type == "artist"].locations[])`,
+export function getArtistDirectory() {
+  const getArtistDirectoryQuery = defineQuery(
+    `*[_type == "artist" && defined(slug.current)]{
+      _id, name, slug, locations,
+      "programs": programs[].program->{ _id, title, displayTitle }
+    } | order(name asc)`,
   );
 
-  return client.fetch(getArtistLocationOptionsQuery, {}, options);
-}
-
-export function getArtists() {
-  const getArtistsQuery = defineQuery(`*[
-    _type == "artist"
-    && defined(slug.current)
-  ][0...12]`);
-
-  return client.fetch(getArtistsQuery, {}, options);
-}
-
-export function getArtistsByLocations(locations: string[]) {
-  const getArtistsByLocationsQuery = defineQuery(`*[
-    _type == "artist"
-    && count(locations[@ in $locations]) > 0
-    && defined(slug.current)
-  ][0...12]`);
-
-  return client.fetch(getArtistsByLocationsQuery, { locations }, options);
+  return client.fetch(getArtistDirectoryQuery, {}, options);
 }
 
 export type ProjectFilters = {

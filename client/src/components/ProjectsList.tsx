@@ -6,6 +6,7 @@ import { PortableText } from "@/components/PortableText";
 import * as Queries from "@/sanity/queries";
 import type { ProjectFilters } from "@/sanity/queries";
 import SanityImage from "@/components/SanityImage";
+import FilterMenu from "@/components/Filter/FilterMenu";
 import { getProjectPeople } from "@/util/project-people";
 import type {
   GetProjectsQueryResult,
@@ -72,7 +73,6 @@ export default function ProjectsList({
   } | null>(null);
 
   const sentinelRef = useRef<HTMLDivElement>(null);
-  const filterBarRef = useRef<HTMLDivElement>(null);
 
   const loadingRef = useRef(false);
   loadingRef.current = loading;
@@ -176,29 +176,13 @@ export default function ProjectsList({
     return () => observer.disconnect();
   }, [handleLoadMore]);
 
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (
-        filterBarRef.current &&
-        !filterBarRef.current.contains(e.target as Node)
-      ) {
-        setActiveCategory(null);
-      }
-    }
-    function handleScroll() {
-      if (window.innerWidth < 768) {
-        setActiveCategory(null);
-      }
-    }
-    if (activeCategory) {
-      document.addEventListener("mousedown", handleClickOutside);
-      window.addEventListener("scroll", handleScroll, { passive: true });
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [activeCategory]);
+  const handleToggleCategory = useCallback((key: FilterCategory) => {
+    setActiveCategory((prev) => (prev === key ? null : key));
+  }, []);
+
+  const handleCloseCategories = useCallback(() => {
+    setActiveCategory(null);
+  }, []);
 
   function isOptionAvailable(category: string, value: string): boolean {
     if (!facets) return true;
@@ -296,6 +280,8 @@ export default function ProjectsList({
     },
   ];
 
+  const categories = filterOptions.map(({ key, label }) => ({ key, label }));
+
   const activeFilterOptions = filterOptions.find(
     (f) => f.key === activeCategory,
   );
@@ -311,216 +297,123 @@ export default function ProjectsList({
 
   return (
     <div>
-      <div ref={filterBarRef}>
-        {/* Desktop filter bar */}
-        <div className="hidden md:flex flex-row justify-between px-3 md:px-8">
-          <div className="flex flex-col gap-4 w-[210px]">
-            <span className="font-sans font-thin text-xl text-ch-midnite">
-              Work Index
-            </span>
-            <span className="font-sans font-thin text-base text-neutral-400">
-              Filter by
-            </span>
-            {activeTags.length > 0 && (
-              <div className="flex flex-col gap-[7px]">
-                {activeTags.map((tag) => (
-                  <span
-                    key={tag.category}
-                    onClick={() => handleRemoveFilter(tag.category)}
-                    className="inline-flex flex-row items-center gap-[5px] border border-ch-midnite px-[2px] py-[5px] self-start cursor-pointer"
-                  >
-                    <span className="font-sans font-thin text-[13px] leading-[13px] text-ch-midnite">
-                      {tag.displayTitle ? (
-                        <PortableText value={tag.displayTitle} />
-                      ) : (
-                        tag.label
-                      )}
-                    </span>
-                    <span className="font-sans font-thin text-[8px] text-ch-midnite w-[5px] h-[10px] flex items-center justify-center pointer-events-none">
-                      x
-                    </span>
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-col pt-[42px] flex-1">
-            <div
-              className={`flex flex-row justify-between items-center ${
-                activeCategory ? "" : "border-b border-ch-midnite"
-              }`}
-            >
-              <div className="flex flex-row items-center">
-                {filterOptions.map(({ key, label }, idx) => {
-                  const isFirst = idx === 0;
-                  const isLast = key === "year";
-                  const rightPad = isFirst
-                    ? "pr-[50px]"
-                    : isLast
-                      ? "pr-[87px]"
-                      : "pr-[81px]";
-                  const leftPad = isFirst ? "pl-[10px]" : "pl-3";
-                  return (
-                    <button
-                      key={key}
-                      onClick={() =>
-                        setActiveCategory(activeCategory === key ? null : key)
-                      }
-                      className={`font-sans font-thin text-xl ${leftPad} ${rightPad} py-[10px] border-t border-ch-midnite border-l ${
-                        isLast ? "border-r" : ""
-                      } ${
-                        activeCategory === key
-                          ? "bg-ch-midnite text-ch-lite"
-                          : "bg-transparent text-ch-midnite"
-                      } cursor-pointer`}
+      <FilterMenu<FilterCategory>
+        title="Work Index"
+        categories={categories}
+        activeCategory={activeCategory}
+        onToggleCategory={handleToggleCategory}
+        onClose={handleCloseCategories}
+        showingLabel={getShowingLabel()}
+        renderTags={(variant) =>
+          variant === "desktop"
+            ? activeTags.length > 0 && (
+                <div className="flex flex-col gap-[7px]">
+                  {activeTags.map((tag) => (
+                    <span
+                      key={tag.category}
+                      onClick={() => handleRemoveFilter(tag.category)}
+                      className="inline-flex flex-row items-center gap-[5px] border border-ch-midnite px-[2px] py-[5px] self-start cursor-pointer"
                     >
-                      {label}
-                    </button>
-                  );
-                })}
-              </div>
-              <span className="font-sans font-thin text-base text-neutral-400">
-                {getShowingLabel()}
-              </span>
-            </div>
-
-            {activeCategory && activeFilterOptions && (
-              <div className="flex flex-row flex-wrap gap-x-6 gap-y-0 py-4 border-t border-b border-ch-midnite">
-                {activeFilterOptions.options.map((opt) => {
-                  const isSelected = filters[activeCategory] === opt.value;
-                  const available = isOptionAvailable(
-                    activeCategory,
-                    opt.value,
-                  );
-                  return (
-                    <button
-                      key={opt.value}
-                      className={`text-left ${
-                        isSelected
-                          ? "font-sans font-bold text-xl tracking-[-0.02em]"
-                          : "font-sans font-thin text-xl"
-                      } ${
-                        available
-                          ? "text-ch-midnite hover:text-ch-midnite/70 cursor-pointer"
-                          : "text-neutral-400 cursor-not-allowed"
-                      }`}
-                      disabled={!available}
-                      onClick={() =>
-                        available &&
-                        handleFilterChange(activeCategory, opt.value)
-                      }
+                      <span className="font-sans font-thin text-[13px] leading-[13px] text-ch-midnite">
+                        {tag.displayTitle ? (
+                          <PortableText value={tag.displayTitle} />
+                        ) : (
+                          tag.label
+                        )}
+                      </span>
+                      <span className="font-sans font-thin text-[8px] text-ch-midnite w-[5px] h-[10px] flex items-center justify-center pointer-events-none">
+                        x
+                      </span>
+                    </span>
+                  ))}
+                </div>
+              )
+            : activeTags.length > 0 && (
+                <div className="flex flex-row flex-wrap gap-1.5 ml-auto">
+                  {activeTags.map((tag) => (
+                    <span
+                      key={tag.category}
+                      onClick={() => handleRemoveFilter(tag.category)}
+                      className="inline-flex flex-row items-center gap-1 border-[0.5px] border-black px-1.5 py-0.5 cursor-pointer"
                     >
-                      {opt.fullTitle ?? opt.display}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Mobile filter menu */}
-        <div className="md:hidden flex flex-col gap-4">
-          <div className="flex flex-row justify-between items-center h-[56px] px-6">
-            <span className="font-sans font-thin text-base text-ch-midnite">
-              Work Index
-            </span>
-            <span className="font-sans font-thin text-sm text-[#989898]">
-              {getShowingLabel()}
-            </span>
-          </div>
-
-          <div className="flex flex-row items-center gap-3 px-6">
-            <span className="font-sans font-thin text-base text-[#989898]">
-              Filter by
-            </span>
-            {activeTags.length > 0 && (
-              <div className="flex flex-row flex-wrap gap-1.5 ml-auto">
-                {activeTags.map((tag) => (
-                  <span
-                    key={tag.category}
-                    onClick={() => handleRemoveFilter(tag.category)}
-                    className="inline-flex flex-row items-center gap-1 border-[0.5px] border-black px-1.5 py-0.5 cursor-pointer"
-                  >
-                    <span className="font-sans font-thin text-xs text-ch-midnite whitespace-pre-line">
-                      {tag.displayTitle ? (
-                        <PortableText value={tag.displayTitle} />
-                      ) : (
-                        tag.label
-                      )}
+                      <span className="font-sans font-thin text-xs text-ch-midnite whitespace-pre-line">
+                        {tag.displayTitle ? (
+                          <PortableText value={tag.displayTitle} />
+                        ) : (
+                          tag.label
+                        )}
+                      </span>
+                      <span className="font-sans font-thin text-[10px] text-ch-midnite flex items-center justify-center pointer-events-none">
+                        x
+                      </span>
                     </span>
-                    <span className="font-sans font-thin text-[10px] text-ch-midnite flex items-center justify-center pointer-events-none">
-                      x
-                    </span>
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-col">
-            <div className="flex flex-row px-6 border-b border-black">
-              {filterOptions.map(({ key, label }, idx) => {
-                const isLast = idx === filterOptions.length - 1;
-                const isActive = activeCategory === key;
+                  ))}
+                </div>
+              )
+        }
+        renderDesktopItems={(key) =>
+          activeFilterOptions && (
+            <div className="flex flex-row flex-wrap gap-x-6 gap-y-0 py-4 border-t border-b border-ch-midnite">
+              {activeFilterOptions.options.map((opt) => {
+                const isSelected = filters[key] === opt.value;
+                const available = isOptionAvailable(key, opt.value);
                 return (
                   <button
-                    key={key}
-                    onClick={() =>
-                      setActiveCategory(activeCategory === key ? null : key)
-                    }
-                    className={`w-[105px] py-[10px] font-sans font-thin text-base cursor-pointer border-t border-l border-ch-midnite ${
-                      isLast ? "border-r" : ""
+                    key={opt.value}
+                    className={`text-left ${
+                      isSelected
+                        ? "font-sans font-bold text-xl tracking-[-0.02em]"
+                        : "font-sans font-thin text-xl"
                     } ${
-                      isActive
-                        ? "bg-ch-midnite text-ch-lite"
-                        : "bg-ch-lite text-ch-midnite"
+                      available
+                        ? "text-ch-midnite hover:text-ch-midnite/70 cursor-pointer"
+                        : "text-neutral-400 cursor-not-allowed"
                     }`}
+                    disabled={!available}
+                    onClick={() =>
+                      available && handleFilterChange(key, opt.value)
+                    }
                   >
-                    {label}
+                    {opt.fullTitle ?? opt.display}
                   </button>
                 );
               })}
             </div>
-
-            {activeCategory && activeFilterOptions && (
-              <div className="flex flex-row flex-wrap px-6 py-4 border-b border-black gap-x-6 gap-y-1">
-                {activeFilterOptions.options.map((opt) => {
-                  const isSelected = filters[activeCategory] === opt.value;
-                  const available = isOptionAvailable(
-                    activeCategory,
-                    opt.value,
-                  );
-                  return (
-                    <button
-                      key={opt.value}
-                      className={`font-sans text-base text-left ${
-                        isSelected ? "font-bold" : "font-thin"
-                      } ${
-                        available
-                          ? "text-ch-midnite cursor-pointer"
-                          : "text-[#989898] cursor-not-allowed"
-                      }`}
-                      disabled={!available}
-                      onClick={() =>
-                        available &&
-                        handleFilterChange(activeCategory, opt.value)
-                      }
-                    >
-                      {opt.displayTitle ? (
-                        <PortableText value={opt.displayTitle} />
-                      ) : (
-                        opt.display
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+          )
+        }
+        renderMobileItems={(key) =>
+          activeFilterOptions && (
+            <div className="flex flex-row flex-wrap px-6 py-4 border-b border-black gap-x-6 gap-y-1">
+              {activeFilterOptions.options.map((opt) => {
+                const isSelected = filters[key] === opt.value;
+                const available = isOptionAvailable(key, opt.value);
+                return (
+                  <button
+                    key={opt.value}
+                    className={`font-sans text-base text-left ${
+                      isSelected ? "font-bold" : "font-thin"
+                    } ${
+                      available
+                        ? "text-ch-midnite cursor-pointer"
+                        : "text-[#989898] cursor-not-allowed"
+                    }`}
+                    disabled={!available}
+                    onClick={() =>
+                      available && handleFilterChange(key, opt.value)
+                    }
+                  >
+                    {opt.displayTitle ? (
+                      <PortableText value={opt.displayTitle} />
+                    ) : (
+                      opt.display
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )
+        }
+      />
 
       {/* Mobile card list */}
       <div className="md:hidden">
