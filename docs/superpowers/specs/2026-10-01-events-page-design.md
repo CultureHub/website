@@ -3,7 +3,7 @@
 ## Overview
 
 Implement the `/events` page — a calendar + events hub for the CultureHub website. The
-page lets visitors browse upcoming events via a month calendar and a master–detail list,
+page lets visitors browse upcoming events via a month calendar and a main–detail list,
 and browse past events via year/month filters. It complements the existing event detail
 page at `/events/[slug]`.
 
@@ -98,7 +98,7 @@ Outer wrapper `px-6 md:px-16` matching existing pages. Content width ~1312px.
 3. **Tabs**: "Upcoming" / "Past" (150px pills). Active tab = CH Midnite background, CH Lite
    text; inactive = outline.
 
-4. **Master–detail** (list 671px + detail 641px) shown for Upcoming.
+4. **Main–detail** (list 671px + detail 641px) shown for Upcoming.
 
 ### Event row
 
