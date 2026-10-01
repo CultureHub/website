@@ -123,12 +123,19 @@ describe("events-calendar", () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `pnpm -C client test -- --watchAll=false __tests__/util/events-calendar.test.ts`
+Run: `pnpm -C client test --watchAll=false __tests__/util/events-calendar.test.ts`
 Expected: FAIL with "Cannot find module '@/util/events-calendar'".
 
 - [ ] **Step 3: Export a start-time formatter from event-date**
 
-Append to `client/src/util/event-date.ts` (reuses the existing module-private `parseDate` and `formatTime`, which are timezone-safe and lowercase `am`/`pm`):
+Make `parseDate` public and append `formatEventStartTime` to `client/src/util/event-date.ts` (both reuse the existing timezone-safe `parseDate`/`formatTime`, lowercase `am`/`pm`):
+
+```ts
+// change `function parseDate(iso: string): Date {` to:
+export function parseDate(iso: string): Date {
+```
+
+Then append:
 
 ```ts
 export function formatEventStartTime(
@@ -146,7 +153,7 @@ export function formatEventStartTime(
 Create `client/src/util/events-calendar.ts`:
 
 ```ts
-import { formatEventStartTime } from "@/util/event-date";
+import { formatEventStartTime, parseDate } from "@/util/event-date";
 
 export interface CalendarEventDate {
   start: string;
@@ -193,7 +200,7 @@ export function eventStartDayKey(event: CalendarEventRef): string | null {
   const times = event.dateTimes ?? [];
   if (times.length === 0) return null;
   const starts = times
-    .map((t) => new Date(t.start))
+    .map((t) => parseDate(t.start))
     .sort((a, b) => a.getTime() - b.getTime());
   return toDayKey(starts[0]);
 }
@@ -271,7 +278,7 @@ export function formatDayHoverLine<T extends CalendarEventRef>(events: T[]): str
 
 - [ ] **Step 5: Run test to verify it passes**
 
-Run: `pnpm -C client test -- --watchAll=false __tests__/util/events-calendar.test.ts`
+Run: `pnpm -C client test --watchAll=false __tests__/util/events-calendar.test.ts`
 Expected: PASS (all tests green).
 
 - [ ] **Step 6: Commit**
@@ -359,7 +366,7 @@ describe("events-filter", () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `pnpm -C client test -- --watchAll=false __tests__/util/events-filter.test.ts`
+Run: `pnpm -C client test --watchAll=false __tests__/util/events-filter.test.ts`
 Expected: FAIL with "Cannot find module '@/util/events-filter'".
 
 - [ ] **Step 3: Write the implementation**
@@ -421,7 +428,7 @@ export function filterPastEvents<T extends PastEventRef>(
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `pnpm -C client test -- --watchAll=false __tests__/util/events-filter.test.ts`
+Run: `pnpm -C client test --watchAll=false __tests__/util/events-filter.test.ts`
 Expected: PASS.
 
 - [ ] **Step 5: Commit**
@@ -1261,7 +1268,7 @@ describe("EventsExplorer", () => {
 
 - [ ] **Step 4: Run tests**
 
-Run: `pnpm -C client test -- --watchAll=false __tests__/components/Events/EventsExplorer.test.tsx`
+Run: `pnpm -C client test --watchAll=false __tests__/components/Events/EventsExplorer.test.tsx`
 Expected: PASS.
 
 - [ ] **Step 5: Typecheck and lint**
@@ -1340,7 +1347,7 @@ Expected: PASS.
 
 - [ ] **Step 3: Full test suite**
 
-Run: `pnpm -C client test -- --watchAll=false`
+Run: `pnpm -C client test --watchAll=false`
 Expected: PASS (all existing + new tests green).
 
 - [ ] **Step 4: Manual smoke check (optional)**
