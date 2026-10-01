@@ -69,6 +69,9 @@ export function EventsExplorer({
         router.push(`/events/${dayEvents[0].slug}`);
         return;
       }
+      if (dayEvents.length === 0) {
+        return;
+      }
       const key = toDayKey(day);
       setSelectedDayKey((prev) => (prev === key ? null : key));
     },
@@ -78,7 +81,7 @@ export function EventsExplorer({
   return (
     <div className="px-6 md:px-16">
       <div className="py-9 flex flex-col gap-6">
-        <h1 className="font-milling font-bold text-4xl text-ch-midnite">
+        <h1 className="font-milling font-bold text-[40px] text-ch-midnite">
           Events
         </h1>
         <p className="font-brook text-base text-ch-midnite">{formatToday()}</p>
