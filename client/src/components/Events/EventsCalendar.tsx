@@ -55,6 +55,9 @@ export default function EventsCalendar({
 
   const label = `${MONTH_LABELS[weekStart.getMonth()]} ${weekStart.getFullYear()}`;
 
+  const prevWeek = () => setWeekOffset((o) => Math.max(0, o - 1));
+  const nextWeek = () => setWeekOffset((o) => o + 1);
+
   return (
     <div className="flex flex-col items-center gap-[13px] w-[329px] bg-ch-lite py-[3px]">
       <span className="font-brook text-base uppercase text-ch-midnite">
@@ -63,9 +66,10 @@ export default function EventsCalendar({
 
       <div className="flex flex-row items-center gap-[15px]">
         <button
-          onClick={() => setWeekOffset((o) => o - 1)}
+          onClick={prevWeek}
           aria-label="Previous week"
-          className="shrink-0"
+          disabled={weekOffset === 0}
+          className={`shrink-0 ${weekOffset === 0 ? "opacity-30" : ""}`}
         >
           <Image src="/left_arrow.svg" alt="" width={15} height={26} />
         </button>
@@ -101,7 +105,7 @@ export default function EventsCalendar({
         </div>
 
         <button
-          onClick={() => setWeekOffset((o) => o + 1)}
+          onClick={nextWeek}
           aria-label="Next week"
           className="shrink-0"
         >
