@@ -26,13 +26,13 @@ export default function EventRow({
       <span className="font-brook text-xs uppercase text-ch-midnite">
         {event.locationShort}
       </span>
-      <span className="font-brook italic text-xs text-ch-midnite">
+      <div className="font-brook italic text-xs text-ch-midnite">
         {program?.displayTitle ? (
           <PortableText value={program.displayTitle} />
         ) : (
           program?.shortLabel
         )}
-      </span>
+      </div>
       <span className="font-brook text-base uppercase text-ch-midnite">
         {dates?.dateRange}
       </span>

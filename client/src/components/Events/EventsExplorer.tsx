@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getPastEventsAction } from "@/app/events/actions";
 import EventsCalendar from "@/components/Events/EventsCalendar";
@@ -8,7 +8,12 @@ import EventsEmptyState from "@/components/Events/EventsEmptyState";
 import EventRow from "@/components/Events/EventRow";
 import EventSummary from "@/components/Events/EventSummary";
 import PastEvents from "@/components/Events/PastEvents";
-import { eventStartDayKey, formatToday, toDayKey } from "@/util/events-calendar";
+import {
+  eventStartDayKey,
+  formatToday,
+  toDayKey,
+} from "@/util/events-calendar";
+import { useToday } from "@/util/use-today";
 import type { EventListItem } from "@/sanity/queries";
 
 type Tab = "upcoming" | "past";
@@ -42,23 +47,30 @@ export function EventsExplorer({
   upcomingEvents: EventListItem[];
 }) {
   const router = useRouter();
+  const today = useToday();
   const [tab, setTab] = useState<Tab>("upcoming");
   const [hoveredEvent, setHoveredEvent] = useState<EventListItem | null>(null);
   const [selectedDayKey, setSelectedDayKey] = useState<string | null>(null);
   const [hoveredDayKey, setHoveredDayKey] = useState<string | null>(null);
   const [pastEvents, setPastEvents] = useState<EventListItem[] | null>(null);
+  const [pastError, setPastError] = useState(false);
+  const fetchingPastRef = useRef(false);
 
   useEffect(() => {
-    if (tab === "past" && pastEvents === null) {
-      getPastEventsAction().then(setPastEvents);
+    if (tab === "past" && pastEvents === null && !fetchingPastRef.current) {
+      fetchingPastRef.current = true;
+      getPastEventsAction()
+        .then((events) => setPastEvents(events))
+        .catch(() => setPastError(true))
+        .finally(() => {
+          fetchingPastRef.current = false;
+        });
     }
   }, [tab, pastEvents]);
 
   const filteredUpcoming = useMemo(() => {
     if (!selectedDayKey) return upcomingEvents;
-    return upcomingEvents.filter(
-      (e) => eventStartDayKey(e) === selectedDayKey,
-    );
+    return upcomingEvents.filter((e) => eventStartDayKey(e) === selectedDayKey);
   }, [upcomingEvents, selectedDayKey]);
 
   const previewEvent = hoveredEvent ?? filteredUpcoming[0] ?? null;
@@ -84,7 +96,9 @@ export function EventsExplorer({
         <h1 className="font-milling font-bold text-[40px] text-ch-midnite">
           Events
         </h1>
-        <p className="font-brook text-base text-ch-midnite">{formatToday()}</p>
+        <p className="font-brook text-base text-ch-midnite">
+          {today ? formatToday(today) : "\u00A0"}
+        </p>
       </div>
 
       <div className="flex flex-col md:flex-row gap-9">
@@ -115,7 +129,10 @@ export function EventsExplorer({
               <EventsEmptyState />
             ) : (
               <div className="flex flex-col md:flex-row">
-                <div className="md:w-[671px] flex flex-col">
+                <div
+                  className="md:w-[671px] flex flex-col"
+                  onMouseLeave={() => setHoveredEvent(null)}
+                >
                   {filteredUpcoming.map((e) => (
                     <EventRow
                       key={e._id}
@@ -127,6 +144,10 @@ export function EventsExplorer({
                 <EventSummary event={previewEvent} />
               </div>
             )
+          ) : pastError ? (
+            <div className="py-8 text-neutral-400 text-sm">
+              Failed to load past events.
+            </div>
           ) : (
             <PastEvents events={pastEvents} />
           )}

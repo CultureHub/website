@@ -12,6 +12,7 @@ import {
   isSameDay,
   toDayKey,
 } from "@/util/events-calendar";
+import { useToday } from "@/util/use-today";
 import type { EventListItem } from "@/sanity/queries";
 
 export default function EventsCalendar({
@@ -25,11 +26,17 @@ export default function EventsCalendar({
   onDayClick: (day: Date, dayEvents: EventListItem[]) => void;
   onDayHover: (key: string | null) => void;
 }) {
-  const today = new Date();
-  const [view, setView] = useState({
-    year: today.getFullYear(),
-    month: today.getMonth(),
-  });
+  const today = useToday();
+  const [monthOffset, setMonthOffset] = useState(0);
+
+  if (!today) {
+    return (
+      <div className="w-[329px] h-[329px] bg-ch-lite" aria-hidden="true" />
+    );
+  }
+
+  const base = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
+  const view = { year: base.getFullYear(), month: base.getMonth() };
 
   const days = buildMonthGrid(view.year, view.month);
   const weekCount = countEventsInCurrentWeek(events, today);
@@ -42,18 +49,8 @@ export default function EventsCalendar({
         weekCount === 1 ? "" : "s"
       } this week.`;
 
-  const prevMonth = () =>
-    setView((v) =>
-      v.month === 0
-        ? { year: v.year - 1, month: 11 }
-        : { year: v.year, month: v.month - 1 },
-    );
-  const nextMonth = () =>
-    setView((v) =>
-      v.month === 11
-        ? { year: v.year + 1, month: 0 }
-        : { year: v.year, month: v.month + 1 },
-    );
+  const prevMonth = () => setMonthOffset((o) => o - 1);
+  const nextMonth = () => setMonthOffset((o) => o + 1);
 
   return (
     <div className="flex flex-col items-center gap-[13px] w-[329px] bg-ch-lite py-[3px]">
