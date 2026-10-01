@@ -101,15 +101,13 @@ export function EventsExplorer({
         </p>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-9">
-        <div className="md:w-[329px] shrink-0">
-          <EventsCalendar
-            events={upcomingEvents}
-            hoveredDayKey={hoveredDayKey}
-            onDayClick={handleDayClick}
-            onDayHover={setHoveredDayKey}
-          />
-        </div>
+      <div className="flex flex-col gap-9">
+        <EventsCalendar
+          events={upcomingEvents}
+          hoveredDayKey={hoveredDayKey}
+          onDayClick={handleDayClick}
+          onDayHover={setHoveredDayKey}
+        />
 
         <div className="flex-1 min-w-0">
           <div className="flex flex-row border-b border-ch-midnite">
