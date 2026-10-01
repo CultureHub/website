@@ -1037,7 +1037,7 @@ import EventsEmptyState from "@/components/Events/EventsEmptyState";
 import EventRow from "@/components/Events/EventRow";
 import EventSummary from "@/components/Events/EventSummary";
 import PastEvents from "@/components/Events/PastEvents";
-import { formatToday } from "@/util/events-calendar";
+import { eventStartDayKey, formatToday, toDayKey } from "@/util/events-calendar";
 import type { EventListItem } from "@/sanity/queries";
 
 type Tab = "upcoming" | "past";
@@ -1085,8 +1085,8 @@ export function EventsExplorer({
 
   const filteredUpcoming = useMemo(() => {
     if (!selectedDayKey) return upcomingEvents;
-    return upcomingEvents.filter((e) =>
-      (e.dateTimes ?? []).some((dt) => dt.start.slice(0, 10) === selectedDayKey),
+    return upcomingEvents.filter(
+      (e) => eventStartDayKey(e) === selectedDayKey,
     );
   }, [upcomingEvents, selectedDayKey]);
 
@@ -1098,7 +1098,7 @@ export function EventsExplorer({
         router.push(`/events/${dayEvents[0].slug}`);
         return;
       }
-      const key = day.toISOString().slice(0, 10);
+      const key = toDayKey(day);
       setSelectedDayKey((prev) => (prev === key ? null : key));
     },
     [router],
@@ -1253,7 +1253,7 @@ describe("EventsExplorer", () => {
   it("renders the header and upcoming event title", () => {
     render(<EventsExplorer upcomingEvents={upcoming} />);
     expect(screen.getByRole("heading", { name: "Events" })).toBeInTheDocument();
-    expect(screen.getByText("Castle Door")).toBeInTheDocument();
+    expect(screen.getAllByText("Castle Door")[0]).toBeInTheDocument();
   });
 
   it("renders the empty state when there are no upcoming events", () => {
