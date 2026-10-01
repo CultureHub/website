@@ -703,7 +703,7 @@ git commit -m "feat(events): add EventRow and EventSummary components"
 
 **Interfaces:**
 - Consumes: `buildMonthGrid`, `countEventsInCurrentWeek`, `formatDayHoverLine`, `getEventsForDay`, `getEventsForDayKey`, `isSameDay`, `toDayKey`, `WEEKDAY_LABELS`, `MONTH_LABELS` from `@/util/events-calendar`; `EventListItem`.
-- Produces: `EventsCalendar` (default export). Props: `events`, `selectedDayKey`, `hoveredDayKey`, `onDayClick(day: Date, dayEvents: EventListItem[])`, `onDayHover(key: string | null)`.
+- Produces: `EventsCalendar` (default export). Props: `events`, `hoveredDayKey`, `onDayClick(day: Date, dayEvents: EventListItem[])`, `onDayHover(key: string | null)`.
 
 - [ ] **Step 1: Create the component**
 
