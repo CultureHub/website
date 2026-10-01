@@ -1,4 +1,4 @@
-import { formatEventStartTime } from "@/util/event-date";
+import { formatEventStartTime, parseDate } from "@/util/event-date";
 
 export interface CalendarEventDate {
   start: string;
@@ -45,7 +45,7 @@ export function eventStartDayKey(event: CalendarEventRef): string | null {
   const times = event.dateTimes ?? [];
   if (times.length === 0) return null;
   const starts = times
-    .map((t) => new Date(t.start))
+    .map((t) => parseDate(t.start))
     .sort((a, b) => a.getTime() - b.getTime());
   return toDayKey(starts[0]);
 }
