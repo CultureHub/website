@@ -16,13 +16,11 @@ import type { EventListItem } from "@/sanity/queries";
 
 export default function EventsCalendar({
   events,
-  selectedDayKey,
   hoveredDayKey,
   onDayClick,
   onDayHover,
 }: {
   events: EventListItem[];
-  selectedDayKey: string | null;
   hoveredDayKey: string | null;
   onDayClick: (day: Date, dayEvents: EventListItem[]) => void;
   onDayHover: (key: string | null) => void;
@@ -97,7 +95,6 @@ export default function EventsCalendar({
             day.getMonth() === view.month && day.getFullYear() === view.year;
           const dayEvents = getEventsForDay(events, day);
           const isToday = isSameDay(day, today);
-          const isSelected = selectedDayKey === key;
           return (
             <button
               key={key}

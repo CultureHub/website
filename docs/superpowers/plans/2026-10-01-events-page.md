@@ -164,7 +164,7 @@ export interface CalendarEventRef {
   _id: string;
   title: string;
   slug: string;
-  dateTimes: CalendarEventDate[];
+  dateTimes?: CalendarEventDate[] | null;
   timezoneLabel?: string | null;
 }
 
@@ -728,13 +728,11 @@ import type { EventListItem } from "@/sanity/queries";
 
 export default function EventsCalendar({
   events,
-  selectedDayKey,
   hoveredDayKey,
   onDayClick,
   onDayHover,
 }: {
   events: EventListItem[];
-  selectedDayKey: string | null;
   hoveredDayKey: string | null;
   onDayClick: (day: Date, dayEvents: EventListItem[]) => void;
   onDayHover: (key: string | null) => void;
@@ -809,7 +807,6 @@ export default function EventsCalendar({
             day.getMonth() === view.month && day.getFullYear() === view.year;
           const dayEvents = getEventsForDay(events, day);
           const isToday = isSameDay(day, today);
-          const isSelected = selectedDayKey === key;
           return (
             <button
               key={key}
@@ -1118,7 +1115,6 @@ export function EventsExplorer({
         <div className="md:w-[329px] shrink-0">
           <EventsCalendar
             events={upcomingEvents}
-            selectedDayKey={selectedDayKey}
             hoveredDayKey={hoveredDayKey}
             onDayClick={handleDayClick}
             onDayHover={setHoveredDayKey}
