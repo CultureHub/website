@@ -147,7 +147,7 @@ export function EventsExplorer({
                     </span>
                     <button
                       onClick={() => setSelectedDayKey(null)}
-                      className="font-brook text-xs uppercase text-ch-midnite underline"
+                      className="font-brook text-xs uppercase text-ch-midnite underline cursor-pointer"
                     >
                       Clear
                     </button>
