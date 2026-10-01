@@ -126,7 +126,7 @@ export function EventsExplorer({
           ) : (
             <div className="border border-ch-midnite flex flex-col md:flex-row">
               <div
-                className="flex-1 min-w-0 flex flex-col divide-y divide-ch-midnite"
+                className="flex-1 min-w-0 flex flex-col"
                 onMouseLeave={() => setHoveredEvent(null)}
               >
                 {filteredUpcoming.map((e) => (

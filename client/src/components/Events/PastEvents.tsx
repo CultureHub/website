@@ -79,7 +79,7 @@ export default function PastEvents({
             ))}
           </div>
           <div
-            className="flex flex-col flex-1 min-w-0 divide-y divide-ch-midnite"
+            className="flex flex-col flex-1 min-w-0"
             onMouseLeave={() => setHoveredEvent(null)}
           >
             {filtered.map((e) => (
