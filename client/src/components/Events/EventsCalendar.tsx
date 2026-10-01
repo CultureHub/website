@@ -79,6 +79,17 @@ export default function EventsCalendar({
             const key = toDayKey(day);
             const dayEvents = getEventsForDay(events, day);
             const isToday = isSameDay(day, today);
+            const accentColor =
+              dayEvents.length === 1
+                ? (dayEvents[0].program?.accentColor ?? null)
+                : null;
+
+            const circleClass = isToday
+              ? "bg-ch-midnite text-ch-lite border border-ch-midnite"
+              : dayEvents.length >= 1
+                ? "text-ch-midnite border border-ch-midnite"
+                : "text-ch-midnite";
+
             return (
               <div key={key} className="flex flex-col items-center gap-2">
                 <span className="font-brook text-base text-ch-midnite">
@@ -88,17 +99,15 @@ export default function EventsCalendar({
                   onClick={() => onDayClick(day, dayEvents)}
                   onMouseEnter={() => onDayHover(dayEvents.length ? key : null)}
                   onMouseLeave={() => onDayHover(null)}
-                  className={`flex items-center justify-center w-[29px] h-[20px] rounded-full font-milling text-base leading-none ${
-                    isToday ? "bg-ch-midnite text-ch-lite" : "text-ch-midnite"
-                  }`}
+                  style={
+                    !isToday && accentColor
+                      ? { backgroundColor: accentColor }
+                      : undefined
+                  }
+                  className={`flex items-center justify-center w-[29px] h-[20px] rounded-full font-milling text-base leading-none ${circleClass}`}
                 >
                   {day.getDate()}
                 </button>
-                <span
-                  className={`block w-1 h-1 rounded-full ${
-                    dayEvents.length > 0 ? "bg-ch-midnite" : "bg-transparent"
-                  }`}
-                />
               </div>
             );
           })}
