@@ -2408,6 +2408,150 @@ export type GetUpcomingEventsQueryResult = Array<{
   };
 }>;
 
+// Source: ../client/src/sanity/queries.ts
+// Variable: getAllUpcomingEventsQuery
+// Query: *[      _type == "event"      && defined(slug.current)      && count(dateTimes) > 0      && dateTimes[-1].end >= $now    ] | order(dateTimes[0].start asc)      {  _id,  title,  "slug": slug.current,  dateTimes,  location,  locationShort,  timezoneLabel,  description,  links,  "program": program->{    _id, title, slug, shortLabel, displayTitle  },  heroImage {    asset,    hotspot,    crop,    alt  }}
+export type GetAllUpcomingEventsQueryResult = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  dateTimes: Array<{
+    start: string;
+    end: string;
+    _type: "dateTimeRange";
+    _key: string;
+  }> | null;
+  location: string | null;
+  locationShort: string | null;
+  timezoneLabel: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  links: Array<{
+    label: string;
+    shortLabel?: string;
+    url: string;
+    _key: string;
+  }> | null;
+  program: {
+    _id: string;
+    title: string;
+    slug: Slug;
+    shortLabel: string;
+    displayTitle: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+  };
+  heroImage: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+    alt: string;
+  };
+}>;
+
+// Source: ../client/src/sanity/queries.ts
+// Variable: getPastEventsQuery
+// Query: *[      _type == "event"      && defined(slug.current)      && count(dateTimes) > 0      && dateTimes[-1].end < $now    ] | order(dateTimes[0].start desc)      {  _id,  title,  "slug": slug.current,  dateTimes,  location,  locationShort,  timezoneLabel,  description,  links,  "program": program->{    _id, title, slug, shortLabel, displayTitle  },  heroImage {    asset,    hotspot,    crop,    alt  }}
+export type GetPastEventsQueryResult = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  dateTimes: Array<{
+    start: string;
+    end: string;
+    _type: "dateTimeRange";
+    _key: string;
+  }> | null;
+  location: string | null;
+  locationShort: string | null;
+  timezoneLabel: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  links: Array<{
+    label: string;
+    shortLabel?: string;
+    url: string;
+    _key: string;
+  }> | null;
+  program: {
+    _id: string;
+    title: string;
+    slug: Slug;
+    shortLabel: string;
+    displayTitle: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+  };
+  heroImage: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+    alt: string;
+  };
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -2427,5 +2571,7 @@ declare module "@sanity/client" {
     '{\n    "programSlugs": array::unique(*[_type == "project" && defined(slug.current)\n      && ($place == "" || $place in locations)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].program->slug.current)[@ != null],\n    "places": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($year == "" || (\n  (defined(endDate) && endDate >= $yearStart && date < $yearEnd)\n  || (!defined(endDate) && date >= $yearStart && date < $yearEnd)\n))\n    ].locations[]) | order(@ asc),\n    "dates": array::unique(*[_type == "project" && defined(slug.current)\n      && ($program == "" || program->slug.current == $program)\n      && ($place == "" || $place in locations)\n    ].date) | order(@ desc)\n  }': GetProjectFacetsQueryResult;
     '*[_type == "event" && slug.current == $slug][0]{\n      ...,\n      "program": program->{\n        _id, title, slug, shortLabel, displayTitle, accentColor\n      },\n      featuredArtists[]{\n        _key,\n        artist->{ _id, name, slug },\n        "image": coalesce(image, artist->image),\n        "name": coalesce(name, artist->name),\n        "bio": coalesce(bio, artist->bio)\n      }\n    }': GetEventBySlugQueryResult;
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc) [0...$limit] {\n      _id,\n      title,\n      "slug": slug.current,\n      dateTimes,\n      location,\n      locationShort,\n      timezoneLabel,\n      "program": program->{\n        _id, title, slug, shortLabel, displayTitle\n      },\n      heroImage {\n        asset,\n        hotspot,\n        crop,\n        alt\n      }\n    }': GetUpcomingEventsQueryResult;
+    '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc)\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  description,\n  links,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetAllUpcomingEventsQueryResult;
+    '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end < $now\n    ] | order(dateTimes[0].start desc)\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  description,\n  links,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetPastEventsQueryResult;
   }
 }
