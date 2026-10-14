@@ -25,7 +25,7 @@ export default function EventSummary({
         />
       )}
       <div className="flex flex-col gap-8 px-6 pb-6 w-full max-w-[604px]">
-        <h2 className="font-milling font-bold text-5xl text-center text-ch-midnite">
+        <h2 className="font-milling font-bold text-5xl text-left text-ch-midnite">
           {event.title}
         </h2>
         <div className="flex flex-col gap-2.5 w-[478px] max-w-full">

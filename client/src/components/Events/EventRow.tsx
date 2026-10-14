@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PortableText } from "@/components/PortableText";
 import SanityImage from "@/components/SanityImage";
-import { formatEventDates } from "@/util/event-date";
+import { formatEventDateShort } from "@/util/event-date";
 import type { EventListItem } from "@/sanity/queries";
 
 export default function EventRow({
@@ -11,10 +11,7 @@ export default function EventRow({
   event: EventListItem;
   onHover?: () => void;
 }) {
-  const dates = formatEventDates(
-    event.dateTimes ?? [],
-    event.timezoneLabel ?? undefined,
-  );
+  const dateShort = formatEventDateShort(event.dateTimes ?? []);
   const program = event.program;
   const accentColor = program?.accentColor ?? "#0A0018";
 
@@ -50,8 +47,8 @@ export default function EventRow({
             </div>
           </div>
           <div className="flex flex-col gap-4">
-            <span className="font-brook text-base uppercase text-ch-midnite">
-              {dates?.dateRange}
+            <span className="font-brook text-base uppercase whitespace-pre-line text-ch-midnite">
+              {dateShort}
             </span>
             <span className="font-milling text-[28px] leading-tight tracking-[-0.04em] text-ch-midnite">
               {event.title}
@@ -68,8 +65,8 @@ export default function EventRow({
         <div className="font-brook italic text-xs text-ch-midnite">
           {programLabel}
         </div>
-        <span className="font-brook text-base uppercase text-ch-midnite">
-          {dates?.dateRange}
+        <span className="font-brook text-base uppercase whitespace-pre-line text-ch-midnite">
+          {dateShort}
         </span>
         <span className="font-milling text-[28px] leading-tight tracking-[-0.04em] text-ch-midnite">
           {event.title}

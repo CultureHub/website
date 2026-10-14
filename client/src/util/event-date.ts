@@ -227,3 +227,29 @@ export function formatEventStartTime(
   const tz = timezoneLabel ? ` ${timezoneLabel}` : "";
   return `${formatTime(start)}${tz}`;
 }
+
+function formatShortDate(date: Date): string {
+  const weekday = new Intl.DateTimeFormat("en-US", { weekday: "short" })
+    .format(date)
+    .toUpperCase();
+  const month = new Intl.DateTimeFormat("en-US", { month: "short" })
+    .format(date)
+    .toUpperCase();
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${weekday}. ${month} ${day}`;
+}
+
+export function formatEventDateShort(
+  dateTimes: { start: string; end?: string }[],
+): string | null {
+  if (!dateTimes || dateTimes.length === 0) return null;
+  const parsed = dateTimes
+    .map((dt) => parseDate(dt.start))
+    .sort((a, b) => a.getTime() - b.getTime());
+  const first = parsed[0];
+  const last = parsed[parsed.length - 1];
+  if (getDateKey(first) === getDateKey(last)) {
+    return formatShortDate(first);
+  }
+  return `${formatShortDate(first)}-\n${formatShortDate(last)}`;
+}

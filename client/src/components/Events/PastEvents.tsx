@@ -95,8 +95,17 @@ export default function PastEvents({
             ))}
           </div>
         </div>
-        <div className="hidden md:block flex-1 min-w-0 md:border-l border-ch-midnite">
-          <EventSummary event={hoveredEvent ?? filtered[0] ?? null} />
+        <div className="hidden md:grid flex-1 min-w-0 md:border-l border-ch-midnite">
+          {filtered.map((e) => (
+            <div
+              key={e._id}
+              className={`col-start-1 row-start-1 ${
+                e._id === (hoveredEvent ?? filtered[0])?._id ? "" : "invisible"
+              }`}
+            >
+              <EventSummary event={e} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

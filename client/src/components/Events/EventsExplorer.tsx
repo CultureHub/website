@@ -41,7 +41,7 @@ function TabButton({
       onClick={onClick}
       className={`px-[10px] py-[18px] w-[150px] font-milling text-xl ${
         active
-          ? "bg-ch-midnite text-ch-lite"
+          ? "bg-ch-midnite text-ch-lite border-b border-ch-lite"
           : "text-ch-midnite border-ch-midnite border-r"
       }`}
     >
@@ -170,8 +170,17 @@ export function EventsExplorer({
                   </Fragment>
                 ))}
               </div>
-              <div className="hidden md:block flex-1 min-w-0 md:border-l border-ch-midnite">
-                <EventSummary event={previewEvent} />
+              <div className="hidden md:grid flex-1 min-w-0 md:border-l border-ch-midnite">
+                {filteredUpcoming.map((e) => (
+                  <div
+                    key={e._id}
+                    className={`col-start-1 row-start-1 ${
+                      e._id === (previewEvent?._id ?? "") ? "" : "invisible"
+                    }`}
+                  >
+                    <EventSummary event={e} />
+                  </div>
+                ))}
               </div>
             </div>
           )

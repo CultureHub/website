@@ -142,7 +142,7 @@ export default async function EventPage({ params }: EventPageProps) {
               <div className="w-[449px] pr-8 border-r border-ch-midnite flex flex-col gap-5">
                 {detailFields}
               </div>
-              <div className="w-[816px] flex flex-col gap-[46px]">
+              <div className="w-[816px] pl-8 flex flex-col gap-[46px]">
                 {event.description && (
                   <div className="max-w-[788px] font-milling text-2xl font-light">
                     <PortableText value={event.description} />
