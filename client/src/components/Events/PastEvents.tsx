@@ -29,9 +29,10 @@ export default function PastEvents({
       events && activeYear != null ? deriveMonths(events, activeYear) : [],
     [events, activeYear],
   );
+  const selectedMonth = month ?? months[0] ?? null;
   const filtered = useMemo(
-    () => (events ? filterPastEvents(events, activeYear, month) : []),
-    [events, activeYear, month],
+    () => (events ? filterPastEvents(events, activeYear, selectedMonth) : []),
+    [events, activeYear, selectedMonth],
   );
 
   if (!events) {
@@ -71,9 +72,11 @@ export default function PastEvents({
             {months.map((m) => (
               <button
                 key={m}
-                onClick={() => setMonth((prev) => (prev === m ? null : m))}
+                onClick={() => setMonth(m)}
                 className={`w-[97px] h-[65px] font-brook text-xl uppercase ${
-                  m === month ? "bg-ch-midnite text-ch-lite" : "text-ch-midnite"
+                  m === selectedMonth
+                    ? "bg-ch-midnite text-ch-lite"
+                    : "text-ch-midnite"
                 }`}
               >
                 {MONTH_LABELS[m]}
