@@ -130,10 +130,15 @@ export default function Menu() {
                 variant="square-inverted"
                 className="mt-5"
                 onClick={close}
+                href="/events"
               >
                 Events
               </MenuButton>
-              <MenuButton variant="square-dashed" onClick={close}>
+              <MenuButton
+                variant="square-dashed"
+                onClick={close}
+                href="/events"
+              >
                 Upcoming
               </MenuButton>
             </div>

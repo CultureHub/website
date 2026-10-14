@@ -55,7 +55,7 @@ export async function UpcomingEvents({ programSlug }: UpcomingEventsProps) {
                   </span>
                 </div>
                 <div className="flex flex-row justify-between items-center">
-                  <span className="font-brook text-base uppercase px-7">
+                  <span className="font-brook text-base uppercase">
                     {dates?.dateRange}
                   </span>
                   <span className="font-brook text-base uppercase">

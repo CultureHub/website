@@ -1,4 +1,27 @@
-import { formatEventDates } from "@/util/event-date";
+import { formatEventDateShort, formatEventDates } from "@/util/event-date";
+
+describe("formatEventDateShort", () => {
+  it("returns null for empty array", () => {
+    expect(formatEventDateShort([])).toBeNull();
+  });
+
+  it("formats a single day", () => {
+    expect(
+      formatEventDateShort([
+        { start: "2026-04-17T19:00:00-04:00", end: "2026-04-17T21:00:00-04:00" },
+      ]),
+    ).toBe("FRI. APR 17");
+  });
+
+  it("formats a multi-day range with a line break", () => {
+    expect(
+      formatEventDateShort([
+        { start: "2026-04-09T19:00:00-04:00", end: "2026-04-09T20:30:00-04:00" },
+        { start: "2026-04-11T16:00:00-04:00", end: "2026-04-11T17:30:00-04:00" },
+      ]),
+    ).toBe("THU. APR 09-\nSAT. APR 11");
+  });
+});
 
 describe("formatEventDates", () => {
   it("returns null for empty array", () => {

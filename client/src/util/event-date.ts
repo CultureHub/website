@@ -8,7 +8,7 @@ interface FormattedEventDates {
   timeDescription: string;
 }
 
-function parseDate(iso: string): Date {
+export function parseDate(iso: string): Date {
   const match = iso.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
   if (!match) return new Date(iso);
   const [, year, month, day, hours, minutes] = match.map(Number);
@@ -217,4 +217,39 @@ function formatTimeDescription(
   });
 
   return lines.join("\n");
+}
+
+export function formatEventStartTime(
+  dateTime: { start: string },
+  timezoneLabel?: string,
+): string {
+  const start = parseDate(dateTime.start);
+  const tz = timezoneLabel ? ` ${timezoneLabel}` : "";
+  return `${formatTime(start)}${tz}`;
+}
+
+function formatShortDate(date: Date): string {
+  const weekday = new Intl.DateTimeFormat("en-US", { weekday: "short" })
+    .format(date)
+    .toUpperCase();
+  const month = new Intl.DateTimeFormat("en-US", { month: "short" })
+    .format(date)
+    .toUpperCase();
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${weekday}. ${month} ${day}`;
+}
+
+export function formatEventDateShort(
+  dateTimes: { start: string; end?: string }[],
+): string | null {
+  if (!dateTimes || dateTimes.length === 0) return null;
+  const parsed = dateTimes
+    .map((dt) => parseDate(dt.start))
+    .sort((a, b) => a.getTime() - b.getTime());
+  const first = parsed[0];
+  const last = parsed[parsed.length - 1];
+  if (getDateKey(first) === getDateKey(last)) {
+    return formatShortDate(first);
+  }
+  return `${formatShortDate(first)}-\n${formatShortDate(last)}`;
 }
