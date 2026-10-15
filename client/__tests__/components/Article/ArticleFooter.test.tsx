@@ -20,7 +20,7 @@ function readMoreItem(overrides: Partial<ReadMoreItem> = {}): ReadMoreItem {
 }
 
 describe("ArticleAuthorBio", () => {
-  it("renders name, bio, and a website link", () => {
+  it("renders bio and a website link", () => {
     render(
       <ArticleAuthorBio
         author={
@@ -47,7 +47,6 @@ describe("ArticleAuthorBio", () => {
       />,
     );
 
-    expect(screen.getByText("Mark Iosifescu")).toBeInTheDocument();
     expect(screen.getByText("A writer from New York.")).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /iosifescu\.biz/ }),

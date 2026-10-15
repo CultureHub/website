@@ -26,9 +26,6 @@ export default function ArticleAuthorBio({
           {author.photo ? (
             <SanityImage image={author.photo} className="h-auto w-full" />
           ) : null}
-          {author.name ? (
-            <div className="font-brook text-2xl">{author.name}</div>
-          ) : null}
           {author.website && websiteLabel ? (
             <Button
               variant="rounded"
@@ -45,7 +42,7 @@ export default function ArticleAuthorBio({
         {author.bio || author.note ? (
           <div className="flex flex-col gap-9">
             {author.bio ? (
-              <div className="font-miller text-2xl leading-10">
+              <div className="font-milling text-2xl leading-10 tracking-[-0.02em]">
                 <PortableText value={author.bio} />
               </div>
             ) : null}

@@ -21,12 +21,12 @@ export default function ImageTextBlock({
 
   return (
     <div
-      className={`flex flex-col gap-9 ${
+      className={`flex flex-col gap-9 md:justify-center ${
         position === "right" ? "md:flex-row-reverse" : "md:flex-row"
       }`}
     >
       {hasImage ? (
-        <div className="md:w-1/2">
+        <div className="max-w-full md:w-[669px]">
           <SanityImage
             image={block.image}
             objectFit="cover"
@@ -35,7 +35,7 @@ export default function ImageTextBlock({
         </div>
       ) : null}
       {hasText ? (
-        <div className="font-miller md:w-1/2">
+        <div className="font-miller max-w-full md:w-[674px]">
           <PortableText value={block.text} />
         </div>
       ) : null}
