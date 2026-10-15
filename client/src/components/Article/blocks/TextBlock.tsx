@@ -12,9 +12,9 @@ const ALIGN_CLASSES: Record<NonNullable<TextBlockType["align"]>, string> = {
 };
 
 const STYLE_CLASSES: Record<NonNullable<TextBlockType["style"]>, string> = {
-  body: "font-miller text-[32px] leading-10 tracking-[-0.02em]",
-  lead: "font-miller text-[32px] leading-10 tracking-[-0.02em]",
-  small: "font-miller text-2xl leading-10 tracking-[-0.02em]",
+  body: "font-miller text-[32px] leading-9 tracking-[-0.02em]",
+  lead: "font-miller text-[32px] leading-9 tracking-[-0.02em]",
+  small: "font-miller text-2xl leading-8 tracking-[-0.02em]",
 };
 
 export default function TextBlock({ block }: { block: TextBlockType }) {
@@ -24,7 +24,7 @@ export default function TextBlock({ block }: { block: TextBlockType }) {
   const styleClass = STYLE_CLASSES[block.style ?? "body"];
 
   return (
-    <div className={`${alignClass} ${styleClass}`}>
+    <div className={`${alignClass} ${styleClass} space-y-4`}>
       <PortableText value={block.text} />
     </div>
   );
