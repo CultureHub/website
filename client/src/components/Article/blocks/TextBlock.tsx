@@ -4,10 +4,11 @@ import type { GetArticleBySlugQueryResult } from "@/sanity/types";
 type Content = NonNullable<NonNullable<GetArticleBySlugQueryResult>["content"]>;
 export type TextBlockType = Extract<Content[number], { _type: "articleText" }>;
 
+// "align" positions the column (text is always left-aligned within it).
 const ALIGN_CLASSES: Record<NonNullable<TextBlockType["align"]>, string> = {
-  left: "text-left",
-  right: "text-right",
-  center: "text-center",
+  left: "pl-16 pr-16 md:pr-[418px]",
+  right: "pl-16 pr-16 md:pl-[418px]",
+  center: "mx-auto w-[892px] max-w-full px-4 md:px-0",
 };
 
 const STYLE_CLASSES: Record<NonNullable<TextBlockType["style"]>, string> = {

@@ -17,7 +17,7 @@ export default async function ArticlePage({
 
   return (
     <main className="min-h-screen">
-      <div className="flex flex-col gap-24 px-16 py-16">
+      <div className="flex flex-col gap-24 py-16">
         <ArticleHeader article={article} />
         <ArticleBody content={article.content} />
         <ArticleAuthorBio author={article.author} />

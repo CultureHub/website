@@ -17,8 +17,10 @@ export default function ReadMore({ items }: { items: Article["readMore"] }) {
   if (valid.length === 0) return null;
 
   return (
-    <section>
-      <h2 className="font-milling text-2xl">Read More</h2>
+    <section className="px-16">
+      <h2 className="border-b border-t border-ch-midnite py-6 font-milling text-2xl">
+        Read More
+      </h2>
       <div className="mt-5 flex flex-col md:flex-row">
         {valid.map((item) => (
           <Link

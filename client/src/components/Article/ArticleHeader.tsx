@@ -17,8 +17,10 @@ function formatPublishDate(value: string): string {
 export default function ArticleHeader({ article }: { article: Article }) {
   return (
     <header className="flex flex-col gap-6">
-      <Breadcrumbs buttons={[{ label: "Editorial" }, { label: "Read" }]} />
-      <div className="flex flex-col items-center gap-[46px] text-center">
+      <div className="px-16">
+        <Breadcrumbs buttons={[{ label: "Editorial" }, { label: "Read" }]} />
+      </div>
+      <div className="flex flex-col items-center gap-[46px] px-16 text-center">
         <div className="font-brook text-2xl">
           {formatPublishDate(article.publishDate)}
         </div>
@@ -35,13 +37,13 @@ export default function ArticleHeader({ article }: { article: Article }) {
         ) : null}
       </div>
       {article.heroImage ? (
-        <figure>
+        <figure className="w-full">
           <SanityImage
             image={article.heroImage}
             className="h-auto w-full object-cover"
           />
           {article.heroImage.credits ? (
-            <figcaption className="font-brook italic text-2xl">
+            <figcaption className="pr-16 text-right font-brook italic text-2xl">
               {article.heroImage.credits}
             </figcaption>
           ) : null}

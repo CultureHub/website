@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Button from "@/components/Button";
 import SanityImage from "@/components/SanityImage";
 import { PortableText } from "@/components/PortableText";
 import type { GetArticleBySlugQueryResult } from "@/sanity/types";
@@ -17,9 +17,11 @@ export default function ArticleAuthorBio({
     : null;
 
   return (
-    <section className="border-t border-ch-midnite pt-8">
-      <h2 className="font-milling text-2xl">About the Author</h2>
-      <div className="mt-8 flex flex-col gap-8 md:flex-row md:gap-13">
+    <section className="px-16">
+      <h2 className="border-b border-t border-ch-midnite py-6 font-milling text-2xl">
+        About the Author
+      </h2>
+      <div className="flex flex-col gap-8 py-8 md:flex-row md:gap-13">
         <div className="flex w-[355px] max-w-full shrink-0 flex-col gap-2.5">
           {author.photo ? (
             <SanityImage image={author.photo} className="h-auto w-full" />
@@ -28,12 +30,16 @@ export default function ArticleAuthorBio({
             <div className="font-brook text-2xl">{author.name}</div>
           ) : null}
           {author.website && websiteLabel ? (
-            <Link
+            <Button
+              variant="rounded"
               href={author.website}
-              className="font-brook text-base underline"
+              openNewTab
+              className="p-[5px] self-start"
             >
-              {websiteLabel}
-            </Link>
+              <div className="font-normal underline leading-6">
+                {websiteLabel}
+              </div>
+            </Button>
           ) : null}
         </div>
         {author.bio ? (

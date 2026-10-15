@@ -10,8 +10,8 @@ export type ImageBlockType = Extract<
 const LAYOUT_CLASSES: Record<NonNullable<ImageBlockType["layout"]>, string> = {
   fullBleed: "w-full",
   full: "w-full",
-  alignLeft: "w-[958px] max-w-full",
-  alignRight: "w-[958px] max-w-full self-end",
+  alignLeft: "pl-16 w-[958px] max-w-full",
+  alignRight: "ml-auto mr-16 w-[958px] max-w-full",
 };
 
 export default function ImageBlock({ block }: { block: ImageBlockType }) {
@@ -27,7 +27,7 @@ export default function ImageBlock({ block }: { block: ImageBlockType }) {
         className="h-auto w-full"
       />
       {block.image.credits ? (
-        <figcaption className="font-brook italic text-2xl">
+        <figcaption className="text-right font-brook italic text-2xl">
           {block.image.credits}
         </figcaption>
       ) : null}
