@@ -325,7 +325,7 @@ async function main() {
           "Spencer Chang is an artist and toymaker who makes software you can touch. Working across internet spaces, interactive sculpture, and creative infrastructure, he activates the care, creativity, and intimacy in our everyday interactions with and through technology. These works leverage subversive play to interrogate our systems, invite different imaginations, and provide the means to reinvent them. He is interested in how we inspire new forms of technology and how these inspire us to discover new versions of ourselves. Spencer is the creator of playhtml, an open-source platform for creating communal websites, and Computing Shrines, a public art installation protocol.",
         ),
         note: paragraphs(
-          "\u2317Scribble is a series of handwritten interviews about the handmade web, edited by Blair Johnson.",
+          "\u2307Scribble is a series of handwritten interviews about the handmade web, edited by Blair Johnson.",
         ),
       },
     },

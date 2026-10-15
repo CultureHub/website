@@ -42,14 +42,18 @@ export default function ArticleAuthorBio({
             </Button>
           ) : null}
         </div>
-        {author.bio ? (
-          <div className="font-miller text-2xl leading-10">
-            <PortableText value={author.bio} />
-          </div>
-        ) : null}
-        {author.note ? (
-          <div className="font-milling italic text-2xl leading-10">
-            <PortableText value={author.note} />
+        {author.bio || author.note ? (
+          <div className="flex flex-col gap-9">
+            {author.bio ? (
+              <div className="font-miller text-2xl leading-10">
+                <PortableText value={author.bio} />
+              </div>
+            ) : null}
+            {author.note ? (
+              <div className="font-milling font-thin italic text-2xl leading-10">
+                <PortableText value={author.note} />
+              </div>
+            ) : null}
           </div>
         ) : null}
       </div>

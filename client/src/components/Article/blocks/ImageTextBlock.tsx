@@ -21,7 +21,7 @@ export default function ImageTextBlock({
 
   return (
     <div
-      className={`flex flex-col gap-8 ${
+      className={`flex flex-col gap-9 ${
         position === "right" ? "md:flex-row-reverse" : "md:flex-row"
       }`}
     >
