@@ -24,7 +24,7 @@ export default function ArticleHeader({ article }: { article: Article }) {
         <div className="font-brook text-2xl">
           {formatPublishDate(article.publishDate)}
         </div>
-        <h1 className="break-words font-milling font-bold text-[44px] leading-[1.05] tracking-[-0.03em] md:text-[80px] lg:text-[128px]">
+        <h1 className="break-words font-milling font-extrabold text-[44px] leading-[1.05] tracking-[-0.03em] md:text-[80px] lg:text-[128px]">
           {article.title}
         </h1>
         {article.deck ? (
