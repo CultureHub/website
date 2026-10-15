@@ -38,19 +38,6 @@ export const articleType = defineType({
       type: 'string',
       description: 'e.g. "Written by Mark Iosifescu" or "Scribble".',
     }),
-    defineField({
-      title: 'Header Layout',
-      name: 'headerLayout',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Centered', value: 'centered'},
-          {title: 'Split', value: 'split'},
-          {title: 'Split tall', value: 'splitTall'},
-        ],
-      },
-      initialValue: 'centered',
-    }),
     defineField(imageField({title: 'Hero Image', name: 'heroImage'}, false)),
     defineField({
       title: 'Content',

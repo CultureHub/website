@@ -1830,27 +1830,6 @@
         },
         "optional": true
       },
-      "headerLayout": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "union",
-          "of": [
-            {
-              "type": "string",
-              "value": "centered"
-            },
-            {
-              "type": "string",
-              "value": "split"
-            },
-            {
-              "type": "string",
-              "value": "splitTall"
-            }
-          ]
-        },
-        "optional": true
-      },
       "heroImage": {
         "type": "objectAttribute",
         "value": {

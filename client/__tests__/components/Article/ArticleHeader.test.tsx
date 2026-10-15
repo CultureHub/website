@@ -12,7 +12,6 @@ function makeArticle(overrides: Partial<Article> = {}): Article {
     publishDate: "2025-10-21",
     deck: "Leveraged Tech and Reclaimed Infrastructure",
     byline: "Written by Mark Iosifescu",
-    headerLayout: "centered",
     heroImage: null,
     content: null,
     author: null,
@@ -22,8 +21,22 @@ function makeArticle(overrides: Partial<Article> = {}): Article {
 }
 
 describe("ArticleHeader", () => {
-  it("renders date, title, deck, byline, and hero credit (centered)", () => {
-    render(
+  it("renders date, title, deck, and byline", () => {
+    render(<ArticleHeader article={makeArticle()} />);
+
+    expect(screen.getByText("October 21, 2025")).toBeInTheDocument();
+    expect(screen.getByText("Quadrophonic Landscapes")).toBeInTheDocument();
+    expect(
+      screen.getByText("Leveraged Tech and Reclaimed Infrastructure"),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Written by Mark Iosifescu")).toBeInTheDocument();
+  });
+
+  it("renders the hero image credit when present, none when absent", () => {
+    const { rerender } = render(<ArticleHeader article={makeArticle()} />);
+    expect(screen.queryByText(/Photo by/)).not.toBeInTheDocument();
+
+    rerender(
       <ArticleHeader
         article={makeArticle({
           heroImage: {
@@ -36,27 +49,7 @@ describe("ArticleHeader", () => {
         })}
       />,
     );
-
-    expect(screen.getByText("October 21, 2025")).toBeInTheDocument();
-    expect(screen.getByText("Quadrophonic Landscapes")).toBeInTheDocument();
-    expect(
-      screen.getByText("Leveraged Tech and Reclaimed Infrastructure"),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Written by Mark Iosifescu")).toBeInTheDocument();
     expect(screen.getByText("Photo by Ji Hoon Kim")).toBeInTheDocument();
-  });
-
-  it("renders no credit when hero is absent (centered)", () => {
-    render(<ArticleHeader article={makeArticle()} />);
-
-    expect(screen.queryByText(/Photo by/)).not.toBeInTheDocument();
-  });
-
-  it("renders the metadata column for the split layout", () => {
-    render(<ArticleHeader article={makeArticle({ headerLayout: "split" })} />);
-
-    expect(screen.getByText("Quadrophonic Landscapes")).toBeInTheDocument();
-    expect(screen.getByText("10.21.25")).toBeInTheDocument();
   });
 
   it("uses responsive, wrapping title classes for mobile", () => {

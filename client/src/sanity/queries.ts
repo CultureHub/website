@@ -473,7 +473,6 @@ export async function getArticleBySlug(slug: string) {
       publishDate,
       deck,
       byline,
-      headerLayout,
       heroImage { asset, hotspot, crop, alt, credits },
       content[]{
         _key,
