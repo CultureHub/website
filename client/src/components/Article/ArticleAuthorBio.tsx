@@ -31,6 +31,7 @@ export default function ArticleAuthorBio({
               variant="rounded"
               href={author.website}
               openNewTab
+              hoverColor="ch-read-lilac"
               className="p-[5px] self-start"
             >
               <div className="font-normal underline leading-6">

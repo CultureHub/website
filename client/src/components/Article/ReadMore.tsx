@@ -34,23 +34,23 @@ export default function ReadMore({ items }: { items: Article["readMore"] }) {
                 className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity group-hover:opacity-100"
               />
             ) : null}
-            <div className="absolute inset-0 bg-black/30 opacity-0 transition-opacity group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-ch-read-lilac/70 opacity-0 transition-opacity group-hover:opacity-100" />
 
             <div className="relative flex flex-row items-center justify-between">
-              <span className="font-brook text-base uppercase group-hover:text-ch-lite">
+              <span className="font-brook text-base uppercase group-hover:text-ch-midnite">
                 READ
               </span>
-              <span className="font-brook text-base uppercase group-hover:text-ch-lite">
+              <span className="font-brook text-base uppercase group-hover:text-ch-midnite">
                 {formatShortDate(item.publishDate)}
               </span>
             </div>
 
             <div className="relative flex flex-col">
-              <span className="font-miller italic text-[36px] leading-10 group-hover:text-ch-lite">
+              <span className="font-miller italic text-[36px] leading-10 group-hover:text-ch-midnite">
                 {item.title}
               </span>
               {item.authorName ? (
-                <span className="font-miller text-2xl leading-10 group-hover:text-ch-lite">
+                <span className="font-miller text-2xl leading-10 group-hover:text-ch-midnite">
                   {item.authorName}
                 </span>
               ) : null}

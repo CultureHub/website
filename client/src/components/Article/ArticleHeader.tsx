@@ -18,7 +18,12 @@ export default function ArticleHeader({ article }: { article: Article }) {
   return (
     <header className="flex flex-col">
       <div className="mb-[85px] px-16 pt-8">
-        <Breadcrumbs buttons={[{ label: "Editorial" }, { label: "Read" }]} />
+        <Breadcrumbs
+          buttons={[
+            { label: "Editorial", hoverColor: "ch-read-lilac" },
+            { label: "Read", hoverColor: "ch-read-lilac" },
+          ]}
+        />
       </div>
       <div className="flex flex-col items-center gap-[46px] px-16 pb-[128px] text-center">
         <div className="font-brook text-2xl">
