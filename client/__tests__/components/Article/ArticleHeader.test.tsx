@@ -58,4 +58,12 @@ describe("ArticleHeader", () => {
     expect(screen.getByText("Quadrophonic Landscapes")).toBeInTheDocument();
     expect(screen.getByText("10.21.25")).toBeInTheDocument();
   });
+
+  it("uses responsive, wrapping title classes for mobile", () => {
+    render(<ArticleHeader article={makeArticle()} />);
+
+    const title = screen.getByRole("heading", { level: 1 });
+    expect(title.className).toContain("break-words");
+    expect(title.className).toMatch(/md:text-/);
+  });
 });

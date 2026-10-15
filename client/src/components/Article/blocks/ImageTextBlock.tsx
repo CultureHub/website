@@ -13,7 +13,7 @@ export default function ImageTextBlock({
 }: {
   block: ImageTextBlockType;
 }) {
-  const hasImage = !!block.image.asset;
+  const hasImage = !!block.image?.asset;
   const hasText = !!block.text && block.text.length > 0;
   if (!hasImage && !hasText) return null;
 

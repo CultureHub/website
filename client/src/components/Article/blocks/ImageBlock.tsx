@@ -15,7 +15,7 @@ const LAYOUT_CLASSES: Record<NonNullable<ImageBlockType["layout"]>, string> = {
 };
 
 export default function ImageBlock({ block }: { block: ImageBlockType }) {
-  if (!block.image.asset) return null;
+  if (!block.image?.asset) return null;
 
   const layoutClass = LAYOUT_CLASSES[block.layout ?? "full"];
 

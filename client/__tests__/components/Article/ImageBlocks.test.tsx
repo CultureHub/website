@@ -110,4 +110,23 @@ describe("ImageBlocks", () => {
     expect(screen.getByText("Who are you?")).toBeInTheDocument();
     expect(screen.getByText("An artist.")).toBeInTheDocument();
   });
+
+  it("renders null when an articleImage has a missing image object", () => {
+    const { container } = render(
+      <ArticleBody
+        content={
+          [
+            {
+              _key: "i1",
+              _type: "articleImage",
+              layout: "full",
+              image: null,
+            },
+          ] as unknown as Content
+        }
+      />,
+    );
+
+    expect(container.textContent).toBe("");
+  });
 });

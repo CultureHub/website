@@ -13,6 +13,14 @@ import { join } from "node:path";
  * Requires a SANITY_WRITE_TOKEN with write access and a NON-production dataset
  * (SANITY_DATASET defaults to "development"; the app's configured dataset is
  * "production").
+ *
+ * Images live in `scripts/seed-assets/` (gitignored). Re-download them from the
+ * Figma file (erOB5ZYdcXZ27cukPYrfZr) with download_figma_images:
+ *   quadrophonic-hero.png          #3833:1841 (1ae183e4…)
+ *   quadrophonic-inline-right.png  #2845:5325 (84396817…)
+ *   iosifescu.png                  #3849:2671 (8e4e6b5b…)
+ *   chang.png                      #3855:3465 (3fce36a2…)
+ *   gero.png                       #3855:3488 (1a2a3e4a…)
  */
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
@@ -34,7 +42,7 @@ const client = createClient({
   useCdn: false,
 });
 
-const IMG_DIR = join(process.cwd(), "public/article-images");
+const IMG_DIR = join(process.cwd(), "scripts/seed-assets");
 
 type ImageValue = {
   _type: "image";
@@ -75,6 +83,19 @@ const qa = (question: string, answer: string) => ({
   answer: [p(answer)],
 });
 
+type SeedArticle = {
+  _type: "article";
+  title: string;
+  slug: { _type: "slug"; current: string };
+  publishDate: string;
+  deck: string | null;
+  byline: string;
+  headerLayout: string;
+  heroImage: ImageValue | null;
+  content: unknown[];
+  author: Record<string, unknown>;
+};
+
 async function main() {
   const [hero, iosifescu, chang, gero, inlineRight] = await Promise.all([
     uploadImage(
@@ -88,7 +109,7 @@ async function main() {
     uploadImage("quadrophonic-inline-right.png", ""),
   ]);
 
-  const articles = [
+  const articles: SeedArticle[] = [
     {
       _type: "article",
       title: "Quadrophonic Landscapes",
@@ -211,10 +232,17 @@ async function main() {
       headerLayout: "centered",
       heroImage: null,
       content: [
-        qa(
-          "Hi Spencer! Can you introduce yourself & what you make?",
-          "Hi :) I'm an artist and technologist based in San Francisco. I like to say I make software you can touch—systems, sculptures, and environments that use technology to help us create, connect, and care for each other in more playful and empowering ways.",
-        ),
+        {
+          _type: "articleText",
+          align: "left",
+          style: "body",
+          text: [
+            qa(
+              "Hi Spencer! Can you introduce yourself & what you make?",
+              "Hi :) I'm an artist and technologist based in San Francisco. I like to say I make software you can touch—systems, sculptures, and environments that use technology to help us create, connect, and care for each other in more playful and empowering ways.",
+            ),
+          ],
+        },
         {
           _type: "imageText",
           imagePosition: "right",

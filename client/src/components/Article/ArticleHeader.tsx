@@ -38,11 +38,13 @@ export default function ArticleHeader({ article }: { article: Article }) {
           <div className="font-brook text-2xl">
             {formatShortDate(article.publishDate)}
           </div>
-          <h1 className="font-milling font-bold text-[52px] leading-[1.1] tracking-[-0.03em]">
+          <h1 className="break-words font-milling font-bold text-[32px] leading-[1.1] tracking-[-0.03em] md:text-[52px]">
             {article.title}
           </h1>
           {article.deck ? (
-            <p className="font-miller italic text-2xl">{article.deck}</p>
+            <p className="break-words font-miller italic text-2xl">
+              {article.deck}
+            </p>
           ) : null}
           {article.byline ? (
             <p className="font-brook text-2xl">{article.byline}</p>
@@ -69,11 +71,13 @@ export default function ArticleHeader({ article }: { article: Article }) {
           <div className="font-brook text-2xl">
             {formatLongDate(article.publishDate)}
           </div>
-          <h1 className="font-milling font-bold text-[96px] leading-[1.05] tracking-[-0.03em]">
+          <h1 className="break-words font-milling font-bold text-[40px] leading-[1.05] tracking-[-0.03em] md:text-[64px] lg:text-[96px]">
             {article.title}
           </h1>
           {article.deck ? (
-            <p className="font-miller italic text-[36px]">{article.deck}</p>
+            <p className="break-words font-miller italic text-[24px] md:text-[36px]">
+              {article.deck}
+            </p>
           ) : null}
           {article.byline ? (
             <p className="font-brook text-2xl">{article.byline}</p>
@@ -99,11 +103,13 @@ export default function ArticleHeader({ article }: { article: Article }) {
         <div className="font-brook text-2xl">
           {formatLongDate(article.publishDate)}
         </div>
-        <h1 className="font-milling font-bold text-[128px] leading-[1.05] tracking-[-0.03em]">
+        <h1 className="break-words font-milling font-bold text-[44px] leading-[1.05] tracking-[-0.03em] md:text-[80px] lg:text-[128px]">
           {article.title}
         </h1>
         {article.deck ? (
-          <p className="font-miller italic text-[36px]">{article.deck}</p>
+          <p className="break-words font-miller italic text-[24px] md:text-[36px]">
+            {article.deck}
+          </p>
         ) : null}
         {article.byline ? (
           <p className="font-brook italic text-[32px]">{article.byline}</p>
