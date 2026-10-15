@@ -88,7 +88,7 @@ describe("ReadMore", () => {
     expect(screen.getAllByTestId("sanity-image")).toHaveLength(1);
     expect(screen.getByRole("link").className).toContain("group");
     expect(screen.getByText("A Title").className).toContain(
-      "group-hover:text-ch-midnite",
+      "group-hover:text-ch-lite",
     );
   });
 });
