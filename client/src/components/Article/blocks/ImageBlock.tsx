@@ -17,7 +17,9 @@ const LAYOUT_CLASSES: Record<NonNullable<ImageBlockType["layout"]>, string> = {
 export default function ImageBlock({ block }: { block: ImageBlockType }) {
   if (!block.image?.asset) return null;
 
-  const layoutClass = LAYOUT_CLASSES[block.layout ?? "full"];
+  const layout = block.layout ?? "full";
+  const layoutClass = LAYOUT_CLASSES[layout];
+  const isFullWidth = layout === "fullBleed" || layout === "full";
 
   return (
     <figure className={layoutClass}>
@@ -27,7 +29,11 @@ export default function ImageBlock({ block }: { block: ImageBlockType }) {
         className="h-auto w-full"
       />
       {block.image.credits ? (
-        <figcaption className="mt-2.5 text-right font-brook italic text-2xl">
+        <figcaption
+          className={`mt-2.5 text-right font-brook italic text-2xl ${
+            isFullWidth ? "pr-16" : ""
+          }`}
+        >
           {block.image.credits}
         </figcaption>
       ) : null}
