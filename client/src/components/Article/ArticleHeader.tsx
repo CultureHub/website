@@ -16,11 +16,11 @@ function formatPublishDate(value: string): string {
 
 export default function ArticleHeader({ article }: { article: Article }) {
   return (
-    <header className="flex flex-col gap-6">
-      <div className="px-16">
+    <header className="flex flex-col">
+      <div className="mb-[85px] px-16 pt-8">
         <Breadcrumbs buttons={[{ label: "Editorial" }, { label: "Read" }]} />
       </div>
-      <div className="flex flex-col items-center gap-[46px] px-16 text-center">
+      <div className="flex flex-col items-center gap-[46px] px-16 pb-[128px] text-center">
         <div className="font-brook text-2xl">
           {formatPublishDate(article.publishDate)}
         </div>
@@ -43,7 +43,7 @@ export default function ArticleHeader({ article }: { article: Article }) {
             className="h-auto w-full object-cover"
           />
           {article.heroImage.credits ? (
-            <figcaption className="pr-16 text-right font-brook italic text-2xl">
+            <figcaption className="mt-2.5 pr-16 text-right font-brook italic text-2xl">
               {article.heroImage.credits}
             </figcaption>
           ) : null}

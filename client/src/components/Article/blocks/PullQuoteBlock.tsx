@@ -15,7 +15,7 @@ export default function PullQuoteBlock({
 
   return (
     <blockquote
-      className={`text-center font-milling font-bold leading-tight tracking-[-0.03em] ${
+      className={`mx-auto max-w-[1279px] px-16 text-center font-milling font-bold leading-tight tracking-[-0.03em] ${
         isLarge ? "text-[48px]" : "text-[32px]"
       }`}
     >

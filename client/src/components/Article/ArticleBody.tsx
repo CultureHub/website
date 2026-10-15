@@ -15,7 +15,7 @@ export default function ArticleBody({
   if (!Array.isArray(content) || content.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-24">
       {content.map((block) => {
         switch (block._type) {
           case "articleText":

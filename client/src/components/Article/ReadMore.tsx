@@ -21,7 +21,7 @@ export default function ReadMore({ items }: { items: Article["readMore"] }) {
       <h2 className="border-b border-t border-ch-midnite py-6 font-milling text-2xl">
         Read More
       </h2>
-      <div className="mt-5 flex flex-col md:flex-row">
+      <div className="mt-[21px] flex flex-col md:flex-row">
         {valid.map((item) => (
           <Link
             key={item._id}

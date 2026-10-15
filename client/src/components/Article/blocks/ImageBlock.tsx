@@ -27,7 +27,7 @@ export default function ImageBlock({ block }: { block: ImageBlockType }) {
         className="h-auto w-full"
       />
       {block.image.credits ? (
-        <figcaption className="text-right font-brook italic text-2xl">
+        <figcaption className="mt-2.5 text-right font-brook italic text-2xl">
           {block.image.credits}
         </figcaption>
       ) : null}
