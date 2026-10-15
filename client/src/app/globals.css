@@ -9,11 +9,9 @@
 @theme {
   --font-brook: var(--font-brook);
   --font-milling: var(--font-milling);
-  --font-baskervville: var(--font-baskervville);
-  /* "Miller Text" isn't available as a webfont in this project; fall back to
-     Baskervville (loaded via next/font, whose @font-face uses the literal
-     "Baskervville" family name), then a generic serif. */
-  --font-miller: "Miller Text", "Baskervville", Georgia, serif;
+  /* "Miller Text" (the article serif) falls back to a generic serif until a
+     Miller Text webfont is provided. */
+  --font-miller: "Miller Text", Georgia, serif;
   /* FIG Script is loaded from Adobe Fonts (kit qwz8mrs).
      26A1 Marund still needs local font files. */
   --font-fig:

@@ -14,7 +14,6 @@ const STYLE_CLASSES: Record<NonNullable<TextBlockType["style"]>, string> = {
   body: "font-miller text-[32px] leading-10 tracking-[-0.02em]",
   lead: "font-miller text-[32px] leading-10 tracking-[-0.02em]",
   small: "font-miller text-2xl leading-10 tracking-[-0.02em]",
-  seriesNote: "font-milling italic text-2xl leading-10 tracking-[-0.02em]",
 };
 
 export default function TextBlock({ block }: { block: TextBlockType }) {

@@ -271,7 +271,7 @@ async function main() {
         {
           _type: "imageText",
           _key: key(),
-          imagePosition: "left",
+          imagePosition: "right",
           image: sP3,
           text: [
             qa(
@@ -295,7 +295,7 @@ async function main() {
         {
           _type: "imageText",
           _key: key(),
-          imagePosition: "left",
+          imagePosition: "right",
           image: sP5,
           text: [
             qa(
@@ -316,15 +316,6 @@ async function main() {
             ),
           ],
         },
-        {
-          _type: "articleText",
-          _key: key(),
-          align: "left",
-          style: "seriesNote",
-          text: paragraphs(
-            "\u2317Scribble is a series of handwritten interviews about the handmade web, edited by Blair Johnson.",
-          ),
-        },
       ],
       author: {
         name: "Spencer Chang",
@@ -332,6 +323,9 @@ async function main() {
         photo: chang,
         bio: paragraphs(
           "Spencer Chang is an artist and toymaker who makes software you can touch. Working across internet spaces, interactive sculpture, and creative infrastructure, he activates the care, creativity, and intimacy in our everyday interactions with and through technology. These works leverage subversive play to interrogate our systems, invite different imaginations, and provide the means to reinvent them. He is interested in how we inspire new forms of technology and how these inspire us to discover new versions of ourselves. Spencer is the creator of playhtml, an open-source platform for creating communal websites, and Computing Shrines, a public art installation protocol.",
+        ),
+        note: paragraphs(
+          "\u2317Scribble is a series of handwritten interviews about the handmade web, edited by Blair Johnson.",
         ),
       },
     },
@@ -342,7 +336,6 @@ async function main() {
       publishDate: "2021-02-16",
       deck: null,
       byline: "Written by Katy Iloka Gero",
-      heroImage: null,
       content: [
         {
           _type: "articleText",

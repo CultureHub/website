@@ -497,7 +497,8 @@ export async function getArticleBySlug(slug: string) {
         name,
         website,
         photo { asset, hotspot, crop, alt },
-        bio
+        bio,
+        note
       },
       readMore[defined(@->slug.current)]->{
         _id,

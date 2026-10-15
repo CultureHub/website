@@ -41,6 +41,11 @@ export default function ArticleAuthorBio({
             <PortableText value={author.bio} />
           </div>
         ) : null}
+        {author.note ? (
+          <div className="font-milling italic text-2xl leading-10">
+            <PortableText value={author.note} />
+          </div>
+        ) : null}
       </div>
     </section>
   );

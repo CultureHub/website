@@ -73,6 +73,13 @@ export const articleType = defineType({
           type: 'array',
           of: [{type: 'block'}],
         }),
+        defineField({
+          title: 'Note',
+          name: 'note',
+          type: 'array',
+          of: [{type: 'block'}],
+          description: 'Optional note shown under the bio (e.g. a series credit).',
+        }),
       ],
     }),
     defineField({

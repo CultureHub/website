@@ -2,6 +2,16 @@ import {defineField, defineType} from 'sanity'
 
 import {imageField} from '@/util/image'
 
+function firstText(value: unknown): string {
+  if (!Array.isArray(value)) return ''
+  const first = value[0] as
+    | {_type?: string; question?: string; children?: Array<{text?: string}>}
+    | undefined
+  if (!first) return ''
+  if (first._type === 'qa') return first.question || ''
+  return first.children?.[0]?.text || ''
+}
+
 export const qaType = defineType({
   name: 'qa',
   title: 'Q&A',
@@ -54,7 +64,6 @@ export const articleTextType = defineType({
           {title: 'Body', value: 'body'},
           {title: 'Lead', value: 'lead'},
           {title: 'Small', value: 'small'},
-          {title: 'Series note', value: 'seriesNote'},
         ],
       },
       initialValue: 'body',
@@ -67,8 +76,11 @@ export const articleTextType = defineType({
     }),
   ],
   preview: {
-    select: {style: 'style'},
-    prepare: ({style}) => ({title: 'Text', subtitle: style}),
+    select: {text: 'text', style: 'style'},
+    prepare: ({text, style}) => ({
+      title: firstText(text) || 'Text',
+      subtitle: style,
+    }),
   },
 })
 
@@ -124,8 +136,12 @@ export const articleImageType = defineType({
     }),
   ],
   preview: {
-    select: {media: 'image', layout: 'layout'},
-    prepare: ({media, layout}) => ({title: 'Image', subtitle: layout, media}),
+    select: {media: 'image', layout: 'layout', alt: 'image.alt'},
+    prepare: ({media, layout, alt}) => ({
+      title: alt || 'Image',
+      subtitle: layout,
+      media,
+    }),
   },
 })
 
@@ -138,8 +154,11 @@ export const imagePairType = defineType({
     defineField(imageField({title: 'Second Image', name: 'image2'})),
   ],
   preview: {
-    select: {media: 'image1'},
-    prepare: ({media}) => ({title: 'Two Images', media}),
+    select: {media: 'image1', alt: 'image1.alt'},
+    prepare: ({media, alt}) => ({
+      title: alt || 'Two Images',
+      media,
+    }),
   },
 })
 
@@ -169,9 +188,9 @@ export const imageTextType = defineType({
     }),
   ],
   preview: {
-    select: {media: 'image', imagePosition: 'imagePosition'},
-    prepare: ({media, imagePosition}) => ({
-      title: 'Image + Text',
+    select: {media: 'image', imagePosition: 'imagePosition', text: 'text'},
+    prepare: ({media, imagePosition, text}) => ({
+      title: firstText(text) || 'Image + Text',
       subtitle: imagePosition,
       media,
     }),

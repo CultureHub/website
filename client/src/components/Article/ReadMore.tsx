@@ -44,11 +44,11 @@ export default function ReadMore({ items }: { items: Article["readMore"] }) {
             </div>
 
             <div className="relative flex flex-col">
-              <span className="font-baskervville italic text-[36px] leading-10 group-hover:text-ch-lite">
+              <span className="font-miller italic text-[36px] leading-10 group-hover:text-ch-lite">
                 {item.title}
               </span>
               {item.authorName ? (
-                <span className="font-baskervville text-2xl leading-10 group-hover:text-ch-lite">
+                <span className="font-miller text-2xl leading-10 group-hover:text-ch-lite">
                   {item.authorName}
                 </span>
               ) : null}

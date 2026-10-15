@@ -1,5 +1,4 @@
 import localFont from "next/font/local";
-import { Baskervville } from "next/font/google";
 
 export const MillingFont = localFont({
   src: [
@@ -50,16 +49,4 @@ export const BrookFont = localFont({
   display: "swap",
   variable: "--font-brook",
   preload: false,
-});
-
-// "Miller Text" (the article serif) is NOT in the Typekit kit (qwz8mrs only
-// loads fig-script, schoolbook, schoolbook-condensed) and no local files exist,
-// so it is exposed as a CSS font stack (`--font-miller`) in globals.css that
-// falls back to Baskervville. Baskervville is loaded here as a real webfont.
-export const BaskervvilleFont = Baskervville({
-  weight: "400",
-  style: ["normal", "italic"],
-  display: "swap",
-  preload: false,
-  variable: "--font-baskervville",
 });
