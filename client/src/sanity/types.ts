@@ -2794,7 +2794,7 @@ export type GetPastEventsQueryResult = Array<{
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getArticleBySlugQuery
-// Query: *[_type == "article" && slug.current == $slug][0]{      _id,      title,      "slug": slug.current,      publishDate,      deck,      byline,      headerLayout,      heroImage { asset, hotspot, crop, alt, credits },      content[]{        _key,        _type,        _type == "articleText" => { align, style, text },        _type == "pullQuote" => { text, size },        _type == "articleImage" => {          layout,          image { asset, hotspot, crop, alt, credits }        },        _type == "imagePair" => {          image1 { asset, hotspot, crop, alt, credits },          image2 { asset, hotspot, crop, alt, credits }        },        _type == "imageText" => {          imagePosition,          image { asset, hotspot, crop, alt, credits },          text        }      },      author {        name,        website,        photo { asset, hotspot, crop, alt },        bio      },      readMore[]->{        _id,        title,        "slug": slug.current,        publishDate,        "authorName": author.name,        heroImage { asset, hotspot, crop, alt }      }[defined(slug)]    }
+// Query: *[_type == "article" && slug.current == $slug][0]{      _id,      title,      "slug": slug.current,      publishDate,      deck,      byline,      headerLayout,      heroImage { asset, hotspot, crop, alt, credits },      content[]{        _key,        _type,        _type == "articleText" => { align, style, text },        _type == "pullQuote" => { text, size },        _type == "articleImage" => {          layout,          image { asset, hotspot, crop, alt, credits }        },        _type == "imagePair" => {          image1 { asset, hotspot, crop, alt, credits },          image2 { asset, hotspot, crop, alt, credits }        },        _type == "imageText" => {          imagePosition,          image { asset, hotspot, crop, alt, credits },          text        }      },      author {        name,        website,        photo { asset, hotspot, crop, alt },        bio      },      readMore[defined(@->slug.current)]->{        _id,        title,        "slug": slug.current,        publishDate,        "authorName": author.name,        heroImage { asset, hotspot, crop, alt }      }    }
 export type GetArticleBySlugQueryResult = {
   _id: string;
   title: string;
@@ -2956,7 +2956,19 @@ export type GetArticleBySlugQueryResult = {
       _key: string;
     }> | null;
   } | null;
-  readMore: Array<null> | null;
+  readMore: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    publishDate: string;
+    authorName: string | null;
+    heroImage: {
+      asset: SanityImageAssetReference | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      alt: string;
+    } | null;
+  }> | null;
 } | null;
 
 // Query TypeMap
@@ -2980,6 +2992,6 @@ declare module "@sanity/client" {
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc) [0...$limit] {\n      _id,\n      title,\n      "slug": slug.current,\n      dateTimes,\n      location,\n      locationShort,\n      timezoneLabel,\n      "program": program->{\n        _id, title, slug, shortLabel, displayTitle\n      },\n      heroImage {\n        asset,\n        hotspot,\n        crop,\n        alt\n      }\n    }': GetUpcomingEventsQueryResult;
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc)\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  description,\n  links,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle, accentColor\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetAllUpcomingEventsQueryResult;
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end < $now\n    ] | order(dateTimes[0].start desc)\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  description,\n  links,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle, accentColor\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetPastEventsQueryResult;
-    '*[_type == "article" && slug.current == $slug][0]{\n      _id,\n      title,\n      "slug": slug.current,\n      publishDate,\n      deck,\n      byline,\n      headerLayout,\n      heroImage { asset, hotspot, crop, alt, credits },\n      content[]{\n        _key,\n        _type,\n        _type == "articleText" => { align, style, text },\n        _type == "pullQuote" => { text, size },\n        _type == "articleImage" => {\n          layout,\n          image { asset, hotspot, crop, alt, credits }\n        },\n        _type == "imagePair" => {\n          image1 { asset, hotspot, crop, alt, credits },\n          image2 { asset, hotspot, crop, alt, credits }\n        },\n        _type == "imageText" => {\n          imagePosition,\n          image { asset, hotspot, crop, alt, credits },\n          text\n        }\n      },\n      author {\n        name,\n        website,\n        photo { asset, hotspot, crop, alt },\n        bio\n      },\n      readMore[]->{\n        _id,\n        title,\n        "slug": slug.current,\n        publishDate,\n        "authorName": author.name,\n        heroImage { asset, hotspot, crop, alt }\n      }[defined(slug)]\n    }': GetArticleBySlugQueryResult;
+    '*[_type == "article" && slug.current == $slug][0]{\n      _id,\n      title,\n      "slug": slug.current,\n      publishDate,\n      deck,\n      byline,\n      headerLayout,\n      heroImage { asset, hotspot, crop, alt, credits },\n      content[]{\n        _key,\n        _type,\n        _type == "articleText" => { align, style, text },\n        _type == "pullQuote" => { text, size },\n        _type == "articleImage" => {\n          layout,\n          image { asset, hotspot, crop, alt, credits }\n        },\n        _type == "imagePair" => {\n          image1 { asset, hotspot, crop, alt, credits },\n          image2 { asset, hotspot, crop, alt, credits }\n        },\n        _type == "imageText" => {\n          imagePosition,\n          image { asset, hotspot, crop, alt, credits },\n          text\n        }\n      },\n      author {\n        name,\n        website,\n        photo { asset, hotspot, crop, alt },\n        bio\n      },\n      readMore[defined(@->slug.current)]->{\n        _id,\n        title,\n        "slug": slug.current,\n        publishDate,\n        "authorName": author.name,\n        heroImage { asset, hotspot, crop, alt }\n      }\n    }': GetArticleBySlugQueryResult;
   }
 }

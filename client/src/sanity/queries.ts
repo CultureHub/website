@@ -500,14 +500,14 @@ export async function getArticleBySlug(slug: string) {
         photo { asset, hotspot, crop, alt },
         bio
       },
-      readMore[]->{
+      readMore[defined(@->slug.current)]->{
         _id,
         title,
         "slug": slug.current,
         publishDate,
         "authorName": author.name,
         heroImage { asset, hotspot, crop, alt }
-      }[defined(slug)]
+      }
     }`,
   );
 
