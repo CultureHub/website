@@ -15,8 +15,8 @@ export default function PullQuoteBlock({
 
   return (
     <blockquote
-      className={`font-miller italic text-center leading-10 ${
-        isLarge ? "text-5xl" : "text-[32px]"
+      className={`text-center font-milling font-bold leading-tight tracking-[-0.03em] ${
+        isLarge ? "text-[48px]" : "text-[32px]"
       }`}
     >
       {block.text}
