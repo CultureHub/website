@@ -9,6 +9,10 @@
 @theme {
   --font-brook: var(--font-brook);
   --font-milling: var(--font-milling);
+  --font-baskervville: var(--font-baskervville);
+  /* "Miller Text" isn't available as a webfont in this project; fall back to
+     Baskervville (loaded via next/font), then a generic serif. */
+  --font-miller: "Miller Text", var(--font-baskervville), Georgia, serif;
   /* FIG Script is loaded from Adobe Fonts (kit qwz8mrs).
      26A1 Marund still needs local font files. */
   --font-fig:
@@ -24,6 +28,7 @@
   --color-ch-bb: #ccf1ff;
   --color-ch-blue: #6dcffd;
   --color-ch-teal: #94deeb;
+  --color-ch-read-lilac: #d5c1ff;
   --color-eds-green: #b5fd8b;
   --color-re-fest-highlighter: #edfd8b;
   --font-sans: var(--font-milling);

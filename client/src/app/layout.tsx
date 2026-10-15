@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MillingFont, BrookFont } from "@/atoms/text";
+import { MillingFont, BrookFont, BaskervvilleFont } from "@/atoms/text";
 import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${MillingFont.className} ${MillingFont.variable} ${BrookFont.variable} antialiased`}
+        className={`${MillingFont.className} ${MillingFont.variable} ${BrookFont.variable} ${BaskervvilleFont.variable} antialiased`}
       >
         <Menu />
         <div className="pt-[61px]">{children}</div>
