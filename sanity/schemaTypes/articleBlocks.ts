@@ -12,6 +12,11 @@ function firstText(value: unknown): string {
   return first.children?.[0]?.text || ''
 }
 
+const ALIGN_LABELS = {left: 'Left', right: 'Right', center: 'Center'} as const
+const STYLE_LABELS = {body: 'Body', lead: 'Lead', small: 'Small'} as const
+const LAYOUT_LABELS = {full: 'Full', alignLeft: 'Align left', alignRight: 'Align right'} as const
+const POSITION_LABELS = {left: 'Left', right: 'Right'} as const
+
 export const qaType = defineType({
   name: 'qa',
   title: 'Q&A',
@@ -76,10 +81,10 @@ export const articleTextType = defineType({
     }),
   ],
   preview: {
-    select: {text: 'text', style: 'style'},
-    prepare: ({text, style}) => ({
+    select: {text: 'text', style: 'style', align: 'align'},
+    prepare: ({text, style, align}) => ({
       title: firstText(text) || 'Text',
-      subtitle: style,
+      subtitle: `${ALIGN_LABELS[align as keyof typeof ALIGN_LABELS] ?? ''} · ${STYLE_LABELS[style as keyof typeof STYLE_LABELS] ?? ''}`,
     }),
   },
 })
@@ -126,7 +131,6 @@ export const articleImageType = defineType({
       type: 'string',
       options: {
         list: [
-          {title: 'Full bleed', value: 'fullBleed'},
           {title: 'Full', value: 'full'},
           {title: 'Align left', value: 'alignLeft'},
           {title: 'Align right', value: 'alignRight'},
@@ -139,7 +143,7 @@ export const articleImageType = defineType({
     select: {media: 'image', layout: 'layout', alt: 'image.alt'},
     prepare: ({media, layout, alt}) => ({
       title: alt || 'Image',
-      subtitle: layout,
+      subtitle: LAYOUT_LABELS[layout as keyof typeof LAYOUT_LABELS] ?? 'Full',
       media,
     }),
   },
@@ -191,7 +195,7 @@ export const imageTextType = defineType({
     select: {media: 'image', imagePosition: 'imagePosition', text: 'text'},
     prepare: ({media, imagePosition, text}) => ({
       title: firstText(text) || 'Image + Text',
-      subtitle: imagePosition,
+      subtitle: POSITION_LABELS[imagePosition as keyof typeof POSITION_LABELS] ?? 'Left',
       media,
     }),
   },

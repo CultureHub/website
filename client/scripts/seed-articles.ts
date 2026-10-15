@@ -222,7 +222,7 @@ async function main() {
         {
           _type: "articleImage",
           _key: key(),
-          layout: "fullBleed",
+          layout: "full",
           image: qBleed,
         },
         {

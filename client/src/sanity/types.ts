@@ -210,7 +210,7 @@ export type ArticleImage = {
     credits?: string;
     _type: "image";
   };
-  layout?: "fullBleed" | "full" | "alignLeft" | "alignRight";
+  layout?: "full" | "alignLeft" | "alignRight";
 };
 
 export type PullQuote = {
@@ -2830,7 +2830,7 @@ export type GetArticleBySlugQueryResult = {
     | {
         _key: string;
         _type: "articleImage";
-        layout: "alignLeft" | "alignRight" | "full" | "fullBleed" | null;
+        layout: "alignLeft" | "alignRight" | "full" | null;
         image: {
           asset: SanityImageAssetReference | null;
           hotspot: SanityImageHotspot | null;

@@ -1407,10 +1407,6 @@
             "of": [
               {
                 "type": "string",
-                "value": "fullBleed"
-              },
-              {
-                "type": "string",
                 "value": "full"
               },
               {

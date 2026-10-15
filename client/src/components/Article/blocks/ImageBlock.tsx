@@ -8,7 +8,6 @@ export type ImageBlockType = Extract<
 >;
 
 const LAYOUT_CLASSES: Record<NonNullable<ImageBlockType["layout"]>, string> = {
-  fullBleed: "w-full",
   full: "w-full",
   alignLeft: "pl-16 w-[958px] max-w-full",
   alignRight: "ml-auto mr-16 w-[958px] max-w-full",
@@ -19,7 +18,7 @@ export default function ImageBlock({ block }: { block: ImageBlockType }) {
 
   const layout = block.layout ?? "full";
   const layoutClass = LAYOUT_CLASSES[layout];
-  const isFullWidth = layout === "fullBleed" || layout === "full";
+  const isFullWidth = layout === "full";
 
   return (
     <figure className={layoutClass}>
