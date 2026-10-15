@@ -54,6 +54,59 @@ const paragraphs = (text: string) =>
     .filter(Boolean)
     .map(p);
 
+// Rich text: supports *italic* and [label](url) inline formatting.
+const rich = (text: string) =>
+  text
+    .split(/\n\n+/)
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .map((para) => {
+      const children: Array<Record<string, unknown>> = [];
+      const markDefs: Array<Record<string, unknown>> = [];
+      const regex = /\*[^*]+\*|\[[^\]]+\]\([^)]+\)/g;
+      let last = 0;
+      let m: RegExpExecArray | null;
+      while ((m = regex.exec(para)) !== null) {
+        if (m.index > last) {
+          children.push({
+            _type: "span",
+            _key: key(),
+            text: para.slice(last, m.index),
+          });
+        }
+        const token = m[0];
+        if (token.startsWith("*")) {
+          children.push({
+            _type: "span",
+            _key: key(),
+            text: token.slice(1, -1),
+            marks: ["em"],
+          });
+        } else {
+          const lm = token.match(/\[([^\]]+)\]\(([^)]+)\)/);
+          const linkKey = key();
+          markDefs.push({ _type: "link", _key: linkKey, href: lm![2] });
+          children.push({
+            _type: "span",
+            _key: key(),
+            text: lm![1],
+            marks: [linkKey],
+          });
+        }
+        last = regex.lastIndex;
+      }
+      if (last < para.length) {
+        children.push({ _type: "span", _key: key(), text: para.slice(last) });
+      }
+      return {
+        _type: "block",
+        _key: key(),
+        style: "normal",
+        children,
+        ...(markDefs.length ? { markDefs } : {}),
+      };
+    });
+
 const qa = (question: string, answer: string) => ({
   _type: "qa" as const,
   _key: key(),
@@ -375,8 +428,8 @@ async function main() {
           _key: key(),
           align: "left",
           style: "body",
-          text: paragraphs(
-            "At CultureHub I am asking how feedback frames the creative process. Where does this word, feedback, come from, and how far has it traveled? When does feedback act as a self-regulating process, driving us towards a desired equilibrium? When does it produce instability, which in turn can lead to chaos, destruction? And when does it bring forth that subtle shift inside, a slight rise in our internal temperature, and create something new?\n\nI have always loved Kay Ryan's poem Don't Look Back. The poem suggests that looking back is meaningless. It's antithetical to feedback. Whether or not we witness loss does not change the fact that loss occurred:\n\n\u201cThis is not / a problem / for the neckless. / Fish cannot / recklessly / swivel their heads / to check / on their fry. / No one expects / this.\u201d\n\nAnd even if geese, with their long S-shaped necks, can check on their goslings, this does not prevent their demise. The play of life does not require our attention. Though aren't we the S-necked geese? The poem is a kind of logical trickery. Ryan tells us, don't look back, because of course we look back. Ryan surely looked back, to revise her poem, or just to reread it, languish in her creation. Looking back is our only shot at noticing something new. This is why we review our own work, or even better turn a caring eye to the work of our colleagues. Training our attention back onto ourselves, our ancestors, and our past is a powerful act of witness. And looking back may be necessary for change-- to stop history from repeating itself, to learn from our mistakes, and to understand the context in which we go forward.",
+          text: rich(
+            "At CultureHub I am asking how feedback frames the creative process. Where does this word, feedback, come from, and how far has it traveled? When does feedback act as a self-regulating process, driving us towards a desired equilibrium? When does it produce instability, which in turn can lead to chaos, destruction? And when does it bring forth that subtle shift inside, a slight rise in our internal temperature, and create something new?\n\nI have always loved Kay Ryan's poem [Don't Look Back](https://www.poetryfoundation.org/poetrymagazine/browse?contentId=39960). The poem suggests that looking back is meaningless. It's antithetical to feedback. Whether or not we witness loss does not change the fact that loss occurred:\n\n\u201cThis is not / a problem / for the neckless. / Fish cannot / recklessly / swivel their heads / to check / on their fry. / No one expects / this.\u201d\n\nAnd even if geese, with their long S-shaped necks, can check on their goslings, this does not prevent their demise. The play of life does not require our attention. Though aren't we the S-necked geese? The poem is a kind of logical trickery. Ryan tells us, don't look back, because of course we look back. Ryan surely looked back, to revise her poem, or just to reread it, languish in her creation. Looking back is our only shot at noticing something new. This is why we review our own work, or even better turn a caring eye to the work of our colleagues. Training our attention back onto ourselves, our ancestors, and our past is a powerful act of witness. And looking back may be necessary for change-- to stop history from repeating itself, to learn from our mistakes, and to understand the context in which we go forward.",
           ),
         },
         {
@@ -390,8 +443,8 @@ async function main() {
           _key: key(),
           align: "right",
           style: "body",
-          text: paragraphs(
-            "Looking back is the first part of feedback. The word \u2018feedback\u2019 seems to be birthed for electronics, where, in the 1920s, engineers were struggling to amplify only the signals they wanted. Mechanical amplification, as used in traditional gramophones, would only go so far. And electrical components weren't yet well manufactured. Feeding signals back into themselves, in clever and sometimes complicated ways, would help them grow.\n\nUltimately these feedback techniques allowed signals to be selected and increased, for instance selecting a single radio frequency from all the signals in the air and amplifying that one frequency above everything else. Tuning in. I love this vision of feedback, where amidst all the invisible signs moving through the air (and this still works even now when our rooms are filled to the brim with electrical signals of all kinds) a single thought can be selected and allowed to blossom. This is the ultimate self-reflection: an amplification of the selected part of the self. A positive loop ever increasing, until some natural limit is hit.\n\nSeveral of the artists I have interviewed at CultureHub brought up Steve Reich's piece Pendulum Music, which embodies the feedback that occurs when a microphone is placed in front of its own speaker. Three microphones are suspended from the ceiling, above three speakers. Pull the microphones back, setting them to swing like pendulums, and if you adjust the pick-up and volume just right, as they swing back and forth a melody emerges.",
+          text: rich(
+            "Looking back is the first part of feedback. The word \u2018feedback\u2019 seems to be birthed for electronics, where, in the 1920s, engineers were struggling to amplify only the signals they wanted. Mechanical amplification, as used in traditional gramophones, would only go so far. And electrical components weren't yet well manufactured. Feeding signals back into themselves, in clever and sometimes complicated ways, would help them grow.\n\nUltimately these feedback techniques allowed signals to be selected and increased, for instance selecting a single radio frequency from all the signals in the air and amplifying that one frequency above everything else. Tuning in. I love this vision of feedback, where amidst all the invisible signs moving through the air (and this still works even now when our rooms are filled to the brim with electrical signals of all kinds) a single thought can be selected and allowed to blossom. This is the ultimate self-reflection: an amplification of the selected part of the self. A positive loop ever increasing, until some natural limit is hit.\n\nSeveral of the artists I have interviewed at CultureHub brought up Steve Reich's piece *Pendulum Music*, which embodies the feedback that occurs when a microphone is placed in front of its own speaker. Three microphones are suspended from the ceiling, above three speakers. Pull the microphones back, setting them to swing like pendulums, and if you adjust the pick-up and volume just right, as they swing back and forth a melody emerges.",
           ),
         },
         {
@@ -405,8 +458,8 @@ async function main() {
           _key: key(),
           align: "left",
           style: "body",
-          text: paragraphs(
-            "The melody shifts as the microphones slow down, their arcs becoming shallow, their beat frequency shifting until eventually everything comes to a stand still. This is the second level of feedback, the feedback of air resistance, that means everything that has started will, left to its own devices, eventually stop.\n\nPendulum Music captivates me because it harnesses what I consider wild. When I think of audio feedback I think of that chaotic screeching that emerges from a microphone too close to a speaker-- now maybe we think of a video call with multiple people gone awry, a cry that someone mute themselves. But there is a way in which feedback can create balance, where the signal fed back into the circuit regulates the system. Too loud and it will get quieter; too quiet and it automatically gets louder.\n\nIn the 1940s a group of thinkers and engineers emerged called the cyberneticists, and they saw feedback in everything. Norbert Weiner, an originator of cybernetics, discusses patients with neurological diseases in the same way he discusses signal towers at railroads. Neurological diseases are an instance of something broken in the chain of feedback of the brain; the mechanical systems demonstrate our ability to stabilize systems using a human-designed chain of feedback. Here feedback becomes a different kind of tool, one that points us towards solutions, that can be harnessed.",
+          text: rich(
+            "The melody shifts as the microphones slow down, their arcs becoming shallow, their beat frequency shifting until eventually everything comes to a stand still. This is the second level of feedback, the feedback of air resistance, that means everything that has started will, left to its own devices, eventually stop.\n\n*Pendulum Music* captivates me because it harnesses what I consider wild. When I think of audio feedback I think of that chaotic screeching that emerges from a microphone too close to a speaker-- now maybe we think of a video call with multiple people gone awry, a cry that someone mute themselves. But there is a way in which feedback can create balance, where the signal fed back into the circuit regulates the system. Too loud and it will get quieter; too quiet and it automatically gets louder.\n\nIn the 1940s a group of thinkers and engineers emerged called the cyberneticists, and they saw feedback in everything. Norbert Weiner, an originator of cybernetics, discusses patients with neurological diseases in the same way he discusses signal towers at railroads. Neurological diseases are an instance of something broken in the chain of feedback of the brain; the mechanical systems demonstrate our ability to stabilize systems using a human-designed chain of feedback. Here feedback becomes a different kind of tool, one that points us towards solutions, that can be harnessed.",
           ),
         },
       ],

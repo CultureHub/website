@@ -48,7 +48,9 @@ export default function ArticleHeader({ article }: { article: Article }) {
             </figcaption>
           ) : null}
         </figure>
-      ) : null}
+      ) : (
+        <div className="mx-16 border-b border-ch-midnite" />
+      )}
     </header>
   );
 }
