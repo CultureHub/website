@@ -24,7 +24,7 @@ export default function TextBlock({ block }: { block: TextBlockType }) {
   const styleClass = STYLE_CLASSES[block.style ?? "body"];
 
   return (
-    <div className={`${alignClass} ${styleClass} space-y-4`}>
+    <div className={`${alignClass} ${styleClass} space-y-12`}>
       <PortableText value={block.text} />
     </div>
   );
