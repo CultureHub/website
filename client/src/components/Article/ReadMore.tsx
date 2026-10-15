@@ -18,7 +18,7 @@ export default function ReadMore({ items }: { items: Article["readMore"] }) {
 
   return (
     <section className="px-16">
-      <h2 className="border-b border-t border-ch-midnite py-6 font-milling text-2xl">
+      <h2 className="border-b border-t border-ch-midnite py-6 font-milling font-bold text-2xl">
         Read More
       </h2>
       <div className="mt-[21px] flex flex-col md:flex-row">

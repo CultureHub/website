@@ -18,7 +18,7 @@ export default function ArticleAuthorBio({
 
   return (
     <section className="px-16">
-      <h2 className="border-b border-t border-ch-midnite py-6 font-milling text-2xl">
+      <h2 className="border-b border-t border-ch-midnite py-6 font-milling font-bold text-2xl">
         About the Author
       </h2>
       <div className="flex flex-col gap-8 py-8 md:flex-row md:gap-13">
