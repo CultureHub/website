@@ -7,6 +7,7 @@ import type { RefestPageData } from "@/sanity/queries";
 export default function RefestPage({ data }: { data: RefestPageData }) {
   return (
     <main className="min-h-screen">
+      <h1 className="sr-only">{data.title}</h1>
       <ProgramHeader
         program={data}
         hasArtists={false}

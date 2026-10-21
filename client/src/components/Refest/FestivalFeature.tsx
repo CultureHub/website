@@ -12,14 +12,14 @@ export default function FestivalFeature({
   festival: FestivalArchiveItem;
 }) {
   return (
-    <div className="flex flex-col md:flex-row md:justify-center md:items-center gap-9 md:gap-[55px]">
+    <div className="flex flex-col xl:flex-row xl:justify-center xl:items-center gap-9 xl:gap-[55px]">
       {festival.heroImage && (
         <SanityImage
           image={festival.heroImage}
-          className="w-full md:w-[637px] h-[576px] md:h-[606px] object-cover border border-ch-midnite"
+          className="w-full xl:w-[637px] h-[576px] xl:h-[606px] object-cover border border-ch-midnite"
         />
       )}
-      <div className="flex flex-col justify-center gap-7 md:w-[604px]">
+      <div className="flex flex-col justify-center gap-7 xl:w-[604px]">
         <FestivalYearTitle festival={festival} size="feature" />
         <FestivalDateLines festival={festival} />
         {festival.summary && (

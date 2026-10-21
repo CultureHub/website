@@ -57,9 +57,20 @@ export function FestivalLocationSection({
             <h3 className="font-brook italic text-[40px] leading-tight">
               Participating Artists
             </h3>
-            <div className="flex flex-col gap-1 font-milling font-semibold text-2xl leading-tight">
+            <div
+              className={
+                location.kind === "virtual"
+                  ? "columns-1 md:columns-2 xl:columns-3 gap-8 font-milling font-semibold text-2xl leading-tight"
+                  : "flex flex-col gap-1 font-milling font-semibold text-2xl leading-tight"
+              }
+            >
               {artists.map((artist, index) => (
-                <span key={`${artist}-${index}`}>{artist}</span>
+                <span
+                  key={`${artist}-${index}`}
+                  className="block mb-1 break-inside-avoid"
+                >
+                  {artist}
+                </span>
               ))}
             </div>
           </div>

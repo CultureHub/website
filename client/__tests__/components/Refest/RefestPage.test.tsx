@@ -14,7 +14,7 @@ jest.mock("@/components/ProgramPage/ProgramHeader", () => {
   }: {
     program: { title: string };
   }) {
-    return <h1>{program.title}</h1>;
+    return <p>{program.title}</p>;
   };
 });
 
@@ -59,7 +59,9 @@ const data = {
 it("renders the Re-Fest header, current festival, and archive", () => {
   render(<RefestPage data={data} />);
 
-  expect(screen.getByRole("heading", { name: "Re-Fest" })).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { level: 1, name: "Re-Fest" }),
+  ).toBeInTheDocument();
   expect(screen.getByText("Current")).toBeInTheDocument();
   expect(screen.getByText("Re–Mapping")).toBeInTheDocument();
   expect(screen.getByText("Festival Archive")).toBeInTheDocument();

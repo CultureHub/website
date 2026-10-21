@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { FestivalJumpTo } from "@/components/Festival/FestivalJumpTo";
 import type { FestivalTemplateData } from "@/sanity/queries";
 
-function makeFestival(locations: { name: string }[]) {
+function makeFestival(locations: { name: string; kind?: string }[]) {
   return {
     _id: "festival-2025",
     title: "Re–Collect",
@@ -47,10 +47,12 @@ it("handles a single location", () => {
 
 it("handles a virtual-only location", () => {
   render(
-    <FestivalJumpTo festival={makeFestival([{ name: "Virtual Gallery" }])} />,
+    <FestivalJumpTo
+      festival={makeFestival([{ name: "Virtual Gallery", kind: "virtual" }])}
+    />,
   );
 
-  expect(screen.getByRole("link", { name: "Virtual Gallery" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Virtual" })).toHaveAttribute(
     "href",
     "#virtual-gallery",
   );

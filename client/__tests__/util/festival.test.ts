@@ -45,13 +45,13 @@ describe("festival helpers", () => {
       festivalNavItems([
         { name: "New York" },
         { name: "Los Angeles" },
-        { name: "Virtual Gallery" },
+        { name: "Virtual Gallery", kind: "virtual" },
       ]),
     ).toEqual([
       { label: "About", anchor: "about" },
       { label: "New York", anchor: "new-york" },
       { label: "Los Angeles", anchor: "los-angeles" },
-      { label: "Virtual Gallery", anchor: "virtual-gallery" },
+      { label: "Virtual", anchor: "virtual-gallery" },
     ]);
   });
 

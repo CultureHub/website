@@ -24,7 +24,7 @@ export function FestivalSchedule({
                 className="flex flex-col md:flex-row md:justify-between gap-2 border-x-2 border-b-2 border-rf-ocher bg-rf-cream px-6 py-2.5"
               >
                 {item.time && (
-                  <span className="font-milling font-semibold text-[32px] text-rf-ocher">
+                  <span className="font-milling font-semibold text-[32px] text-rf-ocher shrink-0 whitespace-nowrap">
                     {item.time}
                   </span>
                 )}

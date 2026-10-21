@@ -100,6 +100,12 @@ describe("FestivalPage", () => {
     });
 
     await waitFor(() => {
+      expect(
+        screen.getByRole("heading", {
+          level: 1,
+          name: "Re–Collect — Re–Fest 2025",
+        }),
+      ).toBeInTheDocument();
       expect(screen.getAllByText("Re–Collect").length).toBeGreaterThan(0);
       expect(screen.getAllByText("New York").length).toBeGreaterThan(0);
       expect(screen.getByText("Thursday, March 6th")).toBeInTheDocument();

@@ -61,7 +61,7 @@ export function FestivalAbout({
         </div>
 
         {festival.about && (
-          <div className="font-brook text-[27px] text-rf-cream md:w-[777px]">
+          <div className="font-brook text-[27px] text-rf-cream md:w-[777px] [&_p]:mb-5 [&_p:last-child]:mb-0">
             <PortableText value={festival.about} />
           </div>
         )}

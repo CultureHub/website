@@ -42,12 +42,12 @@ export function festivalDateLines(
 }
 
 export function festivalNavItems(
-  locations: { name: string }[],
+  locations: { name: string; kind?: string | null }[],
 ): { label: string; anchor: string }[] {
   return [
     { label: "About", anchor: "about" },
     ...locations.map((location) => ({
-      label: location.name,
+      label: location.kind === "virtual" ? "Virtual" : location.name,
       anchor: festivalAnchor(location.name),
     })),
   ];

@@ -31,6 +31,9 @@ export default async function FestivalPage({ params }: FestivalPageProps) {
 
   return (
     <main className="min-h-screen">
+      <h1 className="sr-only">
+        {festival.title} — Re–Fest {festival.year}
+      </h1>
       <FestivalJumpTo festival={festival} />
 
       {festival.heroImage && (

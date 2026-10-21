@@ -12,11 +12,11 @@ export function FestivalYearTitle({
   const textSize = size === "feature" ? "text-[48px]" : "text-[32px]";
   return (
     <div className="flex flex-col md:flex-row md:items-end gap-1 md:gap-8">
-      <span className={`font-brook ${textSize} leading-none`}>
+      <span className={`font-brook ${textSize} leading-none whitespace-nowrap`}>
         {festival.year}
       </span>
       <span
-        className={`font-milling font-semibold ${textSize} tracking-[-0.04em] leading-none`}
+        className={`font-milling font-semibold ${textSize} tracking-[-0.04em] leading-none whitespace-nowrap`}
       >
         {festival.title}
       </span>
