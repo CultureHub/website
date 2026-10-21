@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { cache, Fragment } from "react";
 import { notFound } from "next/navigation";
 import SanityImage from "@/components/SanityImage";
 import { FestivalAbout } from "@/components/Festival/FestivalAbout";
@@ -14,9 +14,11 @@ interface FestivalPageProps {
   params: Promise<{ slug: string }>;
 }
 
+const getFestival = cache((slug: string) => getFestivalBySlug("re-fest", slug));
+
 export async function generateMetadata({ params }: FestivalPageProps) {
   const { slug } = await params;
-  const festival = await getFestivalBySlug("re-fest", slug);
+  const festival = await getFestival(slug);
   if (!festival) return {};
   return {
     title: `${festival.title} — Re–Fest ${festival.year}`,
@@ -26,7 +28,7 @@ export async function generateMetadata({ params }: FestivalPageProps) {
 
 export default async function FestivalPage({ params }: FestivalPageProps) {
   const { slug } = await params;
-  const festival = await getFestivalBySlug("re-fest", slug);
+  const festival = await getFestival(slug);
   if (!festival) notFound();
 
   return (

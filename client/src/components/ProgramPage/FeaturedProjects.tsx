@@ -21,7 +21,7 @@ export default function FeaturedProjects({
 }: FeaturedProjectsProps) {
   return (
     <section id="projects" className="px-6 md:px-16 pb-6 md:pb-9">
-      <SectionHeading title={title} className="mb-9" />
+      <SectionHeading title={title} className="mb-9" borderTop={false} />
 
       <div className="hidden md:block">
         <Carousel>

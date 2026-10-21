@@ -7,6 +7,13 @@ export function FestivalAbout({
 }: {
   festival: FestivalTemplateData;
 }) {
+  const hasContent =
+    !!festival.about ||
+    !!festival.logo ||
+    (festival.locations?.length ?? 0) > 0;
+
+  if (!hasContent) return null;
+
   return (
     <section
       id="about"

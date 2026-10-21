@@ -16,7 +16,7 @@ export function FestivalYearTitle({
         {festival.year}
       </span>
       <span
-        className={`font-milling font-semibold ${textSize} tracking-[-0.04em] leading-none whitespace-nowrap`}
+        className={`font-milling font-semibold ${textSize} tracking-[-0.04em] leading-none`}
       >
         {festival.title}
       </span>
