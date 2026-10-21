@@ -7,6 +7,7 @@ import { FestivalJumpTo } from "@/components/Festival/FestivalJumpTo";
 import { FestivalLocationSection } from "@/components/Festival/FestivalLocationSection";
 import { FestivalPartners } from "@/components/Festival/FestivalPartners";
 import { FestivalSchedule } from "@/components/Festival/FestivalSchedule";
+import { FestivalVideos } from "@/components/Festival/FestivalVideos";
 import { getFestivalBySlug } from "@/sanity/queries";
 
 interface FestivalPageProps {
@@ -54,6 +55,7 @@ export default async function FestivalPage({ params }: FestivalPageProps) {
         </Fragment>
       ))}
 
+      <FestivalVideos videos={festival.videos} />
       <FestivalPartners groups={festival.partnerGroups} />
     </main>
   );
