@@ -2706,6 +2706,294 @@ export type GetPastEventsQueryResult = Array<{
   };
 }>;
 
+// Source: ../client/src/sanity/queries.ts
+// Variable: getRefestPageQuery
+// Query: *[_type == "program" && slug.current == $programSlug][0]{      ...,      "currentFestival": currentFestival->{        _id, title, year, "slug": slug.current, summary, locationSummary,        heroImage { asset, hotspot, crop, alt, credits },        links[] { _key, label, shortLabel, url },        locations[] { name, kind, dateLabel }      },      "archive": *[_type == "festival"        && program._ref == ^._id        && _id != ^.currentFestival._ref      ] | order(year desc) {        _id, title, year, "slug": slug.current, summary, locationSummary,        heroImage { asset, hotspot, crop, alt, credits },        links[] { _key, label, shortLabel, url },        locations[] { name, kind, dateLabel }      }    }
+export type GetRefestPageQueryResult = {
+  _id: string;
+  _type: "program";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  displayTitle?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  slug: Slug;
+  shortLabel: string;
+  description: string;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  accentColor: string;
+  thumbnails: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "thumbnail";
+    _key: string;
+  }>;
+  pageDescription?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  hasPage?: boolean;
+  openCall?: OpportunityReference;
+  locationContent?: Array<{
+    location: string;
+    displayTitle: string;
+    description?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    accentColor?: string;
+    _type: "locationTab";
+    _key: string;
+  }>;
+  featuredArtists?: Array<
+    {
+      _key: string;
+    } & ArtistReference
+  >;
+  featuredProjects?: Array<
+    {
+      _key: string;
+    } & ProjectReference
+  >;
+  currentFestival: {
+    _id: string;
+    title: string;
+    year: number;
+    slug: string;
+    summary: string | null;
+    locationSummary: string | null;
+    heroImage: {
+      asset: SanityImageAssetReference | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      alt: string;
+      credits: string | null;
+    };
+    links: Array<{
+      _key: string;
+      label: string;
+      shortLabel: string | null;
+      url: string;
+    }> | null;
+    locations: Array<{
+      name: string;
+      kind: "in-person" | "virtual";
+      dateLabel: string | null;
+    }> | null;
+  } | null;
+  archive: Array<{
+    _id: string;
+    title: string;
+    year: number;
+    slug: string;
+    summary: string | null;
+    locationSummary: string | null;
+    heroImage: {
+      asset: SanityImageAssetReference | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      alt: string;
+      credits: string | null;
+    };
+    links: Array<{
+      _key: string;
+      label: string;
+      shortLabel: string | null;
+      url: string;
+    }> | null;
+    locations: Array<{
+      name: string;
+      kind: "in-person" | "virtual";
+      dateLabel: string | null;
+    }> | null;
+  }>;
+} | null;
+
+// Source: ../client/src/sanity/queries.ts
+// Variable: getFestivalBySlugQuery
+// Query: *[      _type == "festival"      && slug.current == $slug      && program->slug.current == $programSlug    ][0]{      _id, title, year, "slug": slug.current, summary, about,      startDate, endDate, locationSummary,      heroImage { asset, hotspot, crop, alt, credits },      logo { asset, hotspot, crop, alt, credits },      links[] { label, shortLabel, url },      locations[] {        _key, name, kind, colorVariant, dateLabel, venueName, address, details,        links[] { label, shortLabel, url },        participatingArtists,        schedule {          days[] {            _key, dateLabel,            items[] { _key, time, description, links[] { label, shortLabel, url } }          }        },        featuredArtworks[] {          _key, title, artist, description, link,          image { asset, hotspot, crop, alt, credits }        }      },      videos[] { _key, title, artist, url, thumbnail { asset, hotspot, crop, alt, credits } },      partnerGroups[] { _key, title, names },      "program": program->{ _id, title, "slug": slug.current, shortLabel, accentColor }    }
+export type GetFestivalBySlugQueryResult = {
+  _id: string;
+  title: string;
+  year: number;
+  slug: string;
+  summary: string | null;
+  about: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  startDate: string | null;
+  endDate: string | null;
+  locationSummary: string | null;
+  heroImage: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+    alt: string;
+    credits: string | null;
+  };
+  logo: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+    alt: string;
+    credits: string | null;
+  } | null;
+  links: Array<{
+    label: string;
+    shortLabel: string | null;
+    url: string;
+  }> | null;
+  locations: Array<{
+    _key: string;
+    name: string;
+    kind: "in-person" | "virtual";
+    colorVariant:
+      | "cream"
+      | "highlighter"
+      | "metal"
+      | "midnight"
+      | "ocher"
+      | "pool";
+    dateLabel: string | null;
+    venueName: string | null;
+    address: string | null;
+    details: string | null;
+    links: Array<{
+      label: string;
+      shortLabel: string | null;
+      url: string;
+    }> | null;
+    participatingArtists: Array<string> | null;
+    schedule: {
+      days: Array<{
+        _key: string;
+        dateLabel: string;
+        items: Array<{
+          _key: string;
+          time: string | null;
+          description: string | null;
+          links: Array<{
+            label: string;
+            shortLabel: string | null;
+            url: string;
+          }> | null;
+        }> | null;
+      }> | null;
+    } | null;
+    featuredArtworks: Array<{
+      _key: string;
+      title: string;
+      artist: string;
+      description: string | null;
+      link: string | null;
+      image: {
+        asset: SanityImageAssetReference | null;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
+        alt: string;
+        credits: string | null;
+      };
+    }> | null;
+  }> | null;
+  videos: Array<{
+    _key: string;
+    title: string;
+    artist: string | null;
+    url: string | null;
+    thumbnail: {
+      asset: SanityImageAssetReference | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      alt: string;
+      credits: string | null;
+    } | null;
+  }> | null;
+  partnerGroups: Array<{
+    _key: string;
+    title: string;
+    names: Array<string> | null;
+  }> | null;
+  program: {
+    _id: string;
+    title: string;
+    slug: string;
+    shortLabel: string;
+    accentColor: string;
+  };
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -2727,5 +3015,7 @@ declare module "@sanity/client" {
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc) [0...$limit] {\n      _id,\n      title,\n      "slug": slug.current,\n      dateTimes,\n      location,\n      locationShort,\n      timezoneLabel,\n      "program": program->{\n        _id, title, slug, shortLabel, displayTitle\n      },\n      heroImage {\n        asset,\n        hotspot,\n        crop,\n        alt\n      }\n    }': GetUpcomingEventsQueryResult;
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc)\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  description,\n  links,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle, accentColor\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetAllUpcomingEventsQueryResult;
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end < $now\n    ] | order(dateTimes[0].start desc)\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  description,\n  links,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle, accentColor\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetPastEventsQueryResult;
+    '*[_type == "program" && slug.current == $programSlug][0]{\n      ...,\n      "currentFestival": currentFestival->{\n        _id, title, year, "slug": slug.current, summary, locationSummary,\n        heroImage { asset, hotspot, crop, alt, credits },\n        links[] { _key, label, shortLabel, url },\n        locations[] { name, kind, dateLabel }\n      },\n      "archive": *[_type == "festival"\n        && program._ref == ^._id\n        && _id != ^.currentFestival._ref\n      ] | order(year desc) {\n        _id, title, year, "slug": slug.current, summary, locationSummary,\n        heroImage { asset, hotspot, crop, alt, credits },\n        links[] { _key, label, shortLabel, url },\n        locations[] { name, kind, dateLabel }\n      }\n    }': GetRefestPageQueryResult;
+    '*[\n      _type == "festival"\n      && slug.current == $slug\n      && program->slug.current == $programSlug\n    ][0]{\n      _id, title, year, "slug": slug.current, summary, about,\n      startDate, endDate, locationSummary,\n      heroImage { asset, hotspot, crop, alt, credits },\n      logo { asset, hotspot, crop, alt, credits },\n      links[] { label, shortLabel, url },\n      locations[] {\n        _key, name, kind, colorVariant, dateLabel, venueName, address, details,\n        links[] { label, shortLabel, url },\n        participatingArtists,\n        schedule {\n          days[] {\n            _key, dateLabel,\n            items[] { _key, time, description, links[] { label, shortLabel, url } }\n          }\n        },\n        featuredArtworks[] {\n          _key, title, artist, description, link,\n          image { asset, hotspot, crop, alt, credits }\n        }\n      },\n      videos[] { _key, title, artist, url, thumbnail { asset, hotspot, crop, alt, credits } },\n      partnerGroups[] { _key, title, names },\n      "program": program->{ _id, title, "slug": slug.current, shortLabel, accentColor }\n    }': GetFestivalBySlugQueryResult;
   }
 }

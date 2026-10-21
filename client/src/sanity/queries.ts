@@ -463,3 +463,82 @@ export async function getPastEvents() {
 export type EventListItem = Awaited<
   ReturnType<typeof getAllUpcomingEvents>
 >[number];
+
+export async function getRefestPage(programSlug: string) {
+  const getRefestPageQuery = defineQuery(
+    `*[_type == "program" && slug.current == $programSlug][0]{
+      ...,
+      "currentFestival": currentFestival->{
+        _id, title, year, "slug": slug.current, summary, locationSummary,
+        heroImage { asset, hotspot, crop, alt, credits },
+        links[] { _key, label, shortLabel, url },
+        locations[] { name, kind, dateLabel }
+      },
+      "archive": *[_type == "festival"
+        && program._ref == ^._id
+        && _id != ^.currentFestival._ref
+      ] | order(year desc) {
+        _id, title, year, "slug": slug.current, summary, locationSummary,
+        heroImage { asset, hotspot, crop, alt, credits },
+        links[] { _key, label, shortLabel, url },
+        locations[] { name, kind, dateLabel }
+      }
+    }`,
+  );
+  return client.fetch(getRefestPageQuery, { programSlug }, options);
+}
+
+export async function getFestivalBySlug(programSlug: string, slug: string) {
+  const getFestivalBySlugQuery = defineQuery(
+    `*[
+      _type == "festival"
+      && slug.current == $slug
+      && program->slug.current == $programSlug
+    ][0]{
+      _id, title, year, "slug": slug.current, summary, about,
+      startDate, endDate, locationSummary,
+      heroImage { asset, hotspot, crop, alt, credits },
+      logo { asset, hotspot, crop, alt, credits },
+      links[] { label, shortLabel, url },
+      locations[] {
+        _key, name, kind, colorVariant, dateLabel, venueName, address, details,
+        links[] { label, shortLabel, url },
+        participatingArtists,
+        schedule {
+          days[] {
+            _key, dateLabel,
+            items[] { _key, time, description, links[] { label, shortLabel, url } }
+          }
+        },
+        featuredArtworks[] {
+          _key, title, artist, description, link,
+          image { asset, hotspot, crop, alt, credits }
+        }
+      },
+      videos[] { _key, title, artist, url, thumbnail { asset, hotspot, crop, alt, credits } },
+      partnerGroups[] { _key, title, names },
+      "program": program->{ _id, title, "slug": slug.current, shortLabel, accentColor }
+    }`,
+  );
+  return client.fetch(getFestivalBySlugQuery, { programSlug, slug }, options);
+}
+
+export type RefestPageData = NonNullable<
+  Awaited<ReturnType<typeof getRefestPage>>
+>;
+export type FestivalArchiveItem = NonNullable<
+  RefestPageData["archive"]
+>[number];
+export type FestivalTemplateData = NonNullable<
+  Awaited<ReturnType<typeof getFestivalBySlug>>
+>;
+export type FestivalLocation = NonNullable<
+  FestivalTemplateData["locations"]
+>[number];
+export type FestivalScheduleDay = NonNullable<
+  NonNullable<FestivalLocation["schedule"]>["days"]
+>[number];
+export type FestivalArtwork = NonNullable<
+  FestivalLocation["featuredArtworks"]
+>[number];
+export type FestivalVideo = NonNullable<FestivalTemplateData["videos"]>[number];
