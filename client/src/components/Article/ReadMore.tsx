@@ -26,7 +26,7 @@ export default function ReadMore({ items }: { items: Article["readMore"] }) {
           <Link
             key={item._id}
             href={`/read/${item.slug}`}
-            className="group relative flex h-[600px] w-[437px] max-w-full flex-col justify-between border border-ch-midnite bg-ch-lite p-6"
+            className="group relative flex h-[600px] w-[437px] max-w-full flex-col border border-ch-midnite bg-ch-lite p-6"
           >
             {item.heroImage ? (
               <SanityImage
@@ -45,12 +45,12 @@ export default function ReadMore({ items }: { items: Article["readMore"] }) {
               </span>
             </div>
 
-            <div className="relative flex flex-col items-center">
-              <span className="text-center font-miller italic text-[36px] leading-10 group-hover:text-ch-lite">
+            <div className="relative flex flex-1 flex-col justify-center">
+              <span className="font-miller italic text-[36px] leading-10 group-hover:text-ch-lite">
                 {item.title}
               </span>
               {item.authorName ? (
-                <span className="text-center font-miller text-2xl leading-10 group-hover:text-ch-lite">
+                <span className="font-miller text-2xl leading-10 group-hover:text-ch-lite">
                   {item.authorName}
                 </span>
               ) : null}
