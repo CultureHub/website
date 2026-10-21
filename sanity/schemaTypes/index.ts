@@ -5,6 +5,7 @@ import {artAndTechnologyPageType} from './artAndTechnologyPageType'
 import {communityPageType} from './communityPageType'
 import {opportunityType} from './opportunityType'
 import {eventType} from './eventType'
+import {festivalType} from './festivalType'
 
 export const schemaTypes = [
   projectType,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   communityPageType,
   opportunityType,
   eventType,
+  festivalType,
 ]

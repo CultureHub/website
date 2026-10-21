@@ -672,6 +672,13 @@ export type Project = {
   related?: ArrayOf<ArtistReference | ProjectReference>;
 };
 
+export type FestivalReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "festival";
+};
+
 export type Program = {
   _id: string;
   _type: "program";
@@ -775,6 +782,147 @@ export type Program = {
       _key: string;
     } & ProjectReference
   >;
+  currentFestival?: FestivalReference;
+};
+
+export type Festival = {
+  _id: string;
+  _type: "festival";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  year: number;
+  slug: Slug;
+  program: ProgramReference;
+  startDate?: string;
+  endDate?: string;
+  summary?: string;
+  about?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  logo?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  locationSummary?: string;
+  links?: Array<{
+    label: string;
+    shortLabel?: string;
+    url: string;
+    _key: string;
+  }>;
+  locations?: Array<{
+    name: string;
+    kind: "in-person" | "virtual";
+    colorVariant:
+      | "highlighter"
+      | "pool"
+      | "midnight"
+      | "ocher"
+      | "cream"
+      | "metal";
+    dateLabel?: string;
+    venueName?: string;
+    address?: string;
+    details?: string;
+    links?: Array<{
+      label: string;
+      shortLabel?: string;
+      url: string;
+      _key: string;
+    }>;
+    participatingArtists?: Array<string>;
+    schedule?: {
+      days?: Array<{
+        dateLabel: string;
+        items?: Array<{
+          time?: string;
+          description?: string;
+          links?: Array<{
+            label: string;
+            shortLabel?: string;
+            url: string;
+            _key: string;
+          }>;
+          _type: "festivalScheduleItem";
+          _key: string;
+        }>;
+        _type: "festivalScheduleDay";
+        _key: string;
+      }>;
+    };
+    featuredArtworks?: Array<{
+      title: string;
+      artist: string;
+      description?: string;
+      image: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string;
+        credits?: string;
+        _type: "image";
+      };
+      link?: string;
+      _type: "festivalArtwork";
+      _key: string;
+    }>;
+    _type: "festivalLocation";
+    _key: string;
+  }>;
+  partnerGroups?: Array<{
+    title: string;
+    names?: Array<string>;
+    _type: "festivalPartnerGroup";
+    _key: string;
+  }>;
+  videos?: Array<{
+    title: string;
+    artist?: string;
+    thumbnail?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string;
+      credits?: string;
+      _type: "image";
+    };
+    url?: string;
+    _type: "festivalVideo";
+    _key: string;
+  }>;
 };
 
 export type Opportunity = {
@@ -936,7 +1084,9 @@ export type AllSanitySchemaTypes =
   | ProjectReference
   | Artist
   | Project
+  | FestivalReference
   | Program
+  | Festival
   | Opportunity
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -1529,6 +1679,7 @@ export type GetArtAndTechnologyPageQueryResult = {
         _key: string;
       } & ProjectReference
     >;
+    currentFestival?: FestivalReference;
   }> | null;
 } | null;
 
@@ -1784,6 +1935,7 @@ export type GetProgramsQueryResult = Array<{
       _key: string;
     } & ProjectReference
   >;
+  currentFestival?: FestivalReference;
 }>;
 
 // Source: ../client/src/sanity/queries.ts

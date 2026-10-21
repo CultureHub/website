@@ -25,7 +25,13 @@
   --color-ch-blue: #6dcffd;
   --color-ch-teal: #94deeb;
   --color-eds-green: #b5fd8b;
-  --color-re-fest-highlighter: #edfd8b;
+  --color-rf-metal: #15252b;
+  --color-rf-cream: #fcf8e0;
+  --color-rf-highlighter: #edfd8b;
+  --color-rf-ocher: #ffde3e;
+  --color-rf-pool: #7ab8b1;
+  --color-rf-midnight: #5858bc;
+  --color-rf-blue-smoke: #accbdb;
   --font-sans: var(--font-milling);
   --font-mono: var(--font-brook);
 }
