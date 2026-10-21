@@ -1,6 +1,11 @@
 import { notFound } from "next/navigation";
 import { PortableText } from "@/components/PortableText";
-import { getProgramBySlug, getResidentArtists } from "@/sanity/queries";
+import {
+  getProgramBySlug,
+  getRefestPage,
+  getResidentArtists,
+} from "@/sanity/queries";
+import RefestPage from "@/components/Refest/RefestPage";
 import ProgramHeader from "@/components/ProgramPage/ProgramHeader";
 import ResidentArtistGrid from "@/components/ProgramPage/ResidentArtistGrid";
 import OpenCallSection from "@/components/ProgramPage/OpenCallSection";
@@ -15,6 +20,13 @@ export default async function ProgramPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+
+  if (slug === "re-fest") {
+    const data = await getRefestPage(slug);
+    if (!data) notFound();
+    return <RefestPage data={data} />;
+  }
+
   const program = await getProgramBySlug(slug);
 
   if (!program) notFound();

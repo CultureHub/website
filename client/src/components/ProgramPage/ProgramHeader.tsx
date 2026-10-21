@@ -5,16 +5,26 @@ import type { CSSProperties } from "react";
 import { PortableText } from "@/components/PortableText";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
-type Program = NonNullable<GetProgramBySlugQueryResult>;
+type ProgramResult = NonNullable<GetProgramBySlugQueryResult>;
 
 interface ProgramHeaderProps {
-  program: Program;
+  program: {
+    title: string;
+    displayTitle?: ProgramResult["displayTitle"];
+    pageDescription?: ProgramResult["pageDescription"];
+    accentColor?: ProgramResult["accentColor"];
+    featuredProjects?: unknown[] | null;
+    featuredArtists?: unknown[] | null;
+    openCall?: unknown;
+  };
   hasArtists?: boolean;
+  descriptionClassName?: string;
 }
 
 export default function ProgramHeader({
   program,
   hasArtists = false,
+  descriptionClassName,
 }: ProgramHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -83,7 +93,11 @@ export default function ProgramHeader({
           </div>
 
           {program.pageDescription && (
-            <div className="max-w-[614px] font-milling text-2xl font-light">
+            <div
+              className={`max-w-[614px] text-2xl font-light ${
+                descriptionClassName ?? "font-milling"
+              }`}
+            >
               <PortableText value={program.pageDescription} />
             </div>
           )}
