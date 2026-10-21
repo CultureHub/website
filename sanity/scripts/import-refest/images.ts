@@ -11,8 +11,37 @@ async function uploadBuffer(buffer: Buffer, filename: string) {
   )
   if (existing?._id) return existing._id
 
-  const asset = await client.assets.upload('image', buffer, {filename})
-  return asset._id
+  for (let attempt = 0; attempt < 5; attempt++) {
+    try {
+      const asset = await client.assets.upload('image', buffer, {filename})
+      return asset._id
+    } catch (error) {
+      const status = (error as {statusCode?: number}).statusCode
+      if (status !== 429 || attempt === 4) throw error
+      await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)))
+    }
+  }
+
+  throw new Error(`Failed to upload ${filename}`)
+}
+
+async function mapLimit<T, R>(
+  items: T[],
+  limit: number,
+  fn: (item: T) => Promise<R>,
+): Promise<R[]> {
+  const results: R[] = new Array(items.length)
+  let nextIndex = 0
+
+  async function worker() {
+    while (nextIndex < items.length) {
+      const index = nextIndex++
+      results[index] = await fn(items[index])
+    }
+  }
+
+  await Promise.all(Array.from({length: Math.min(limit, items.length)}, worker))
+  return results
 }
 
 async function download(url: string) {
@@ -72,11 +101,9 @@ export async function resolveImages(
   sources: ImageSource[],
   options: {dryRun: boolean},
 ) {
-  const entries = await Promise.all(
-    sources.map(async (source) => {
-      const resolved = await resolveImage(source, options)
-      return [imageKey(source), resolved] as const
-    }),
-  )
+  const entries = await mapLimit(sources, 4, async (source) => {
+    const resolved = await resolveImage(source, options)
+    return [imageKey(source), resolved] as const
+  })
   return Object.fromEntries(entries)
 }

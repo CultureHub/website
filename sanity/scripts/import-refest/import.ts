@@ -5,6 +5,7 @@ import {
 } from './build'
 import {client} from './client'
 import {resolveImages} from './images'
+import {refest2025} from './manifests/2025'
 import {archiveSeeds} from './manifests/archive'
 import {refest2026} from './manifests/2026'
 import type {FestivalSeed} from './types'
@@ -18,7 +19,7 @@ async function main() {
   )
   if (!program?._id) throw new Error('Re-Fest program document not found')
 
-  const seeds: FestivalSeed[] = [refest2026, ...archiveSeeds]
+  const seeds: FestivalSeed[] = [refest2026, refest2025, ...archiveSeeds]
   const imageSources = seeds.flatMap(collectImageSources)
   const images = await resolveImages(imageSources, {dryRun})
   const docs = seeds.map((seed) =>
