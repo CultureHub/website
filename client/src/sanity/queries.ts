@@ -499,15 +499,15 @@ export async function getFestivalBySlug(programSlug: string, slug: string) {
       startDate, endDate, locationSummary,
       heroImage { asset, hotspot, crop, alt, credits },
       logo { asset, hotspot, crop, alt, credits },
-      links[] { label, shortLabel, url },
+      links[] { _key, label, shortLabel, url },
       locations[] {
         _key, name, kind, colorVariant, dateLabel, venueName, address, details,
-        links[] { label, shortLabel, url },
+        links[] { _key, label, shortLabel, url },
         participatingArtists,
         schedule {
           days[] {
             _key, dateLabel,
-            items[] { _key, time, description, links[] { label, shortLabel, url } }
+            items[] { _key, time, description, links[] { _key, label, shortLabel, url } }
           }
         },
         featuredArtworks[] {
