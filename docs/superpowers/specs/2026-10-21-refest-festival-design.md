@@ -354,7 +354,9 @@ day cell contains a full-width Highlighter date header followed by bordered
 content rows. The grid has no gaps; cells share 2px RF Ocher borders, and a
 blank cream filler cell appears when one column is shorter than the other.
 Day cells stretch to their row height, and the blank filler preserves the
-continuous grid. The last content row inside a day cell has no bottom
+continuous grid. Date headers in the same grid row share the tallest header
+height, so a wrapped date label does not push its content rows below the
+adjacent day’s rows. The last content row inside a day cell has no bottom
 border of its own; the cell's single bottom border closes it, avoiding a
 double border when the content touches the cell bottom. On mobile the
 schedule becomes a single column and the filler is hidden.
@@ -555,7 +557,7 @@ pnpm -C sanity build
 - Anchor jumps clear the fixed menu and sticky jump bar.
 - Long artist lists and long artwork descriptions wrap without horizontal overflow.
 - At 1440px, Featured Artworks cards match the tallest card in their own row; different rows have different heights.
-- The schedule is a continuous two-column grid with 2px ocher cell borders, no gaps, and blank filler cells for uneven columns; the last content row inside a cell has no extra bottom border.
+- The schedule is a continuous two-column grid with 2px ocher cell borders, no gaps, and blank filler cells for uneven columns; date headers in the same row share the tallest header height, and the last content row inside a cell has no extra bottom border.
 - The archive rows are 125px tall, the preview title is 48px, and the list and preview bottoms align at 875px.
 - The archive preview has right/bottom borders and no left border; the list/preview seam is a single 1px line.
 - The archive row program label is SchoolBook Condensed regular, not italic.

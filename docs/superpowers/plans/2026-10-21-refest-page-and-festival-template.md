@@ -2187,6 +2187,7 @@ Commit the font loading, component font classes, and the 2023 logo import fix.
 - Modify: `client/src/util/festival.ts`
 - Modify: `client/src/components/Festival/FestivalMeta.tsx`
 - Modify: `client/src/components/Festival/FestivalJumpTo.tsx`
+- Create: `client/src/components/Festival/ScheduleHeaderAligner.tsx`
 - Modify: `client/src/components/Refest/RefestPage.tsx`
 - Modify: `client/src/components/Refest/FestivalArchive.tsx`
 - Modify: `client/src/components/Refest/FestivalSummary.tsx`
@@ -2223,4 +2224,5 @@ Add `hoverClassName` to `Button` (replacing the default `hover:bg-ch-bb`). Pass 
 - Current heading has no top border.
 - Clicking a jump button turns it Midnight/Blue Smoke; scrolling updates the active item.
 - Current and archive “Visit Festival” hovers are `#EDFD8B`.
+- In the 2023 schedule, the “Thursday-Friday, April 27 & 28” and “Friday, April 28th” headers share the taller 146px header height; other rows remain 106px.
 - Tests, typecheck, lint, and build pass.

@@ -16,7 +16,10 @@ export function FestivalSchedule({
             key={day._key}
             className="flex h-full flex-col border-r-2 border-b-2 border-rf-ocher bg-rf-cream"
           >
-            <div className="border-b-2 border-rf-ocher bg-rf-highlighter px-6 py-8 text-center">
+            <div
+              data-schedule-header
+              className="border-b-2 border-rf-ocher bg-rf-highlighter px-6 py-8 text-center"
+            >
               <h3 className="font-new-edge font-semibold text-4xl uppercase text-rf-ocher">
                 {day.dateLabel}
               </h3>
