@@ -2026,3 +2026,64 @@ If visual QA required fixes, commit them:
 git add -A
 git commit -m "fix: re-fest visual QA fixes"
 ```
+
+---
+
+### Task 12: Re-Fest list page typography, spacing, and border audit
+
+**Files:**
+- Modify: `client/src/components/shared/SectionHeading.tsx`
+- Modify: `client/src/components/Refest/RefestPage.tsx`
+- Modify: `client/src/components/Refest/FestivalArchiveRow.tsx`
+- Modify: `client/src/components/Refest/FestivalArchive.tsx`
+- Modify: `client/src/components/Refest/FestivalSummary.tsx`
+- Modify: `client/src/components/Festival/FestivalMeta.tsx`
+
+**Interfaces:** no new interfaces; visual and type-level corrections only.
+
+- [ ] **Step 1: Tighten section heading line-height**
+
+Set the `SectionHeading` h2 to `text-[28px] leading-[1.2]`. This brings the 92px rendered heading down to 84px, matching the Figma 83px heading.
+
+- [ ] **Step 2: Remove the archive heading gap**
+
+In `RefestPage`, render the “Festival Archive” heading without `mb-9`. The list rows start directly under the heading, and the heading bottom border is the list’s top border.
+
+- [ ] **Step 3: Restore archive row height and program label**
+
+Add `min-h-[125px]` to both the desktop and mobile archive rows. Change the “Re–Fest” program label from `font-brook italic` to `font-brook` (SchoolBook regular), matching Figma.
+
+- [ ] **Step 4: Fix archive preview borders**
+
+In `FestivalArchive`, the preview panel gets `border-r border-b` and no `border-l`; the list rows’ right border provides the seam. In `FestivalSummary`, add a 1px CH Midnite border to the preview image.
+
+- [ ] **Step 5: Fix archive preview title and line-height**
+
+`FestivalYearTitle` is 48px for both the current feature and archive preview (Brook year + Milling theme). Set `FestivalDateLines` and the preview summary to `leading-[1.2]`. This aligns the preview and the seven 125px rows at 875px.
+
+- [ ] **Step 6: Tighten the Re-Fest header description**
+
+Pass `leading-[1.2]` through `ProgramHeader`’s `descriptionClassName` for Re-Fest.
+
+- [ ] **Step 7: Verify measurements**
+
+At 1440px on `/re-fest`:
+
+- section heading height ≈ 84px
+- archive rows all 125px
+- list total 875px
+- preview panel 875px
+- preview title 48px
+- preview panel borders: left 0, right 1, bottom 1
+- first row top equals archive heading bottom
+
+- [ ] **Step 8: Run checks and commit**
+
+```bash
+pnpm -C client test
+pnpm -C client typecheck
+pnpm -C client lint
+pnpm -C client build
+```
+
+Commit the typography/spacing/border fixes.

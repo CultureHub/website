@@ -13,7 +13,9 @@ export default function SectionHeading({
         borderTop ? "border-t " : ""
       }border-b border-ch-midnite py-6 ${className}`}
     >
-      <h2 className="font-milling font-bold text-[28px]">{title}</h2>
+      <h2 className="font-milling font-bold text-[28px] leading-[1.2]">
+        {title}
+      </h2>
     </div>
   );
 }

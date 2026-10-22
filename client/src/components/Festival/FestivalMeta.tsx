@@ -4,12 +4,10 @@ import type { FestivalArchiveItem } from "@/sanity/queries";
 
 export function FestivalYearTitle({
   festival,
-  size,
 }: {
   festival: FestivalArchiveItem;
-  size: "feature" | "summary";
 }) {
-  const textSize = size === "feature" ? "text-[48px]" : "text-[32px]";
+  const textSize = "text-[48px]";
   return (
     <div className="flex flex-col md:flex-row md:items-end gap-1 md:gap-8">
       <span className={`font-brook ${textSize} leading-none whitespace-nowrap`}>
@@ -35,7 +33,7 @@ export function FestivalDateLines({
   return (
     <div className="flex flex-col gap-0.5">
       {lines.map((line) => (
-        <p key={line} className="font-brook text-xl">
+        <p key={line} className="font-brook text-xl leading-[1.2]">
           {line}
         </p>
       ))}

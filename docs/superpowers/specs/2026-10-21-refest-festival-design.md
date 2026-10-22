@@ -87,6 +87,14 @@ The design uses NewEdge666 and SchoolBook. The site already maps those roles to 
 
 No new font files are required.
 
+Usage audit for the festival template:
+
+- **Milling (NewEdge666):** section headings, jump-menu theme and buttons, schedule date headers and times, participating artist names, artwork titles, video titles, partner names, and the About theme title.
+- **Brook (SchoolBook):** header and About body copy, location names (italic), dates, venue/address details, schedule descriptions, artwork credits and descriptions, video credits, partner group labels, and links.
+- **Brook regular, not italic:** the archive row’s “Re–Fest” program label.
+
+The archive preview year is Brook and its theme is Milling, both at 48px.
+
 ### 4.7 Artist and partner lists are strings
 
 `participatingArtists` and partner names are arrays of strings, not references. This matches the live content (line-separated names) and keeps imports and editing simple.
@@ -346,7 +354,16 @@ border of its own; the cell's single bottom border closes it, avoiding a
 double border when the content touches the cell bottom. On mobile the
 schedule becomes a single column and the filler is hidden.
 
-### 7.6 Not reused, and why
+### 7.6 Re-Fest list page typography and borders
+
+- The Re-Fest header description uses a 1.2 line-height; section headings use 28px Milling at 1.2 line-height.
+- The “Festival Archive” heading sits directly on top of the archive rows; it has no bottom margin. Its bottom border is the list’s top border.
+- Archive rows have a minimum height of 125px.
+- The archive preview title row is 48px: Brook year + Milling theme.
+- Preview date lines and summary use 1.2 line-height so the preview aligns with the seven 125px list rows (875px total).
+- The preview image has a 1px CH Midnite border. The preview panel has right and bottom borders only. The seam between the list and preview is the list rows’ single right border; the preview has no left border, avoiding a double seam.
+
+### 7.7 Not reused, and why
 
 | Component | Why not |
 |---|---|
@@ -531,6 +548,9 @@ pnpm -C sanity build
 - Long artist lists and long artwork descriptions wrap without horizontal overflow.
 - At 1440px, Featured Artworks cards match the tallest card in their own row; different rows have different heights.
 - The schedule is a continuous two-column grid with 2px ocher cell borders, no gaps, and blank filler cells for uneven columns; the last content row inside a cell has no extra bottom border.
+- The archive rows are 125px tall, the preview title is 48px, and the list and preview bottoms align at 875px.
+- The archive preview has right/bottom borders and no left border; the list/preview seam is a single 1px line.
+- The archive row program label is Brook regular, not italic.
 - At 375px, Featured Artworks is one column, the schedule is one column, and content flows naturally.
 
 ---

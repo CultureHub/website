@@ -29,7 +29,7 @@ export default function FestivalArchive({
         ))}
       </div>
 
-      <div className="hidden md:grid min-w-0 border-l border-ch-midnite">
+      <div className="hidden md:grid min-w-0 border-r border-b border-ch-midnite">
         {festivals.map((festival) => {
           const active = festival._id === preview?._id;
           return (

@@ -11,7 +11,7 @@ export default function RefestPage({ data }: { data: RefestPageData }) {
       <ProgramHeader
         program={data}
         hasArtists={false}
-        descriptionClassName="font-brook font-normal"
+        descriptionClassName="font-brook font-normal leading-[1.2]"
       />
       {data.currentFestival && (
         <section className="px-6 md:px-16 pb-6 md:pb-9">
@@ -21,7 +21,7 @@ export default function RefestPage({ data }: { data: RefestPageData }) {
       )}
       {(data.archive?.length ?? 0) > 0 && (
         <section className="px-6 md:px-16 pb-6 md:pb-9">
-          <SectionHeading title="Festival Archive" className="mb-9" />
+          <SectionHeading title="Festival Archive" />
           <FestivalArchive festivals={data.archive ?? []} />
         </section>
       )}

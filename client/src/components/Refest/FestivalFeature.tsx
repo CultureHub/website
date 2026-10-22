@@ -20,10 +20,10 @@ export default function FestivalFeature({
         />
       )}
       <div className="flex flex-col justify-center gap-7 xl:w-[604px]">
-        <FestivalYearTitle festival={festival} size="feature" />
+        <FestivalYearTitle festival={festival} />
         <FestivalDateLines festival={festival} />
         {festival.summary && (
-          <p className="font-brook text-2xl text-ch-midnite">
+          <p className="font-brook text-2xl leading-[1.2] text-ch-midnite">
             {festival.summary}
           </p>
         )}
