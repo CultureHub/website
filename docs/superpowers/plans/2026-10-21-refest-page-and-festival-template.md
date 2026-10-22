@@ -154,6 +154,7 @@ client/src/
 │       ├── FestivalLocationSection.tsx # CREATE
 │       ├── FestivalSchedule.tsx     # CREATE
 │       ├── FestivalFeaturedArtworks.tsx # CREATE
+│       ├── EqualHeightManager.tsx   # CREATE
 │       ├── FestivalVideos.tsx       # CREATE
 │       └── FestivalPartners.tsx     # CREATE
 ├── sanity/queries.ts                # MODIFY
@@ -1495,6 +1496,7 @@ git commit -m "feat: add re-fest page with current festival and archive"
 - Create: `client/src/components/Festival/FestivalLocationSection.tsx`
 - Create: `client/src/components/Festival/FestivalSchedule.tsx`
 - Create: `client/src/components/Festival/FestivalFeaturedArtworks.tsx`
+- Create: `client/src/components/Festival/EqualHeightManager.tsx`
 - Create: `client/src/components/Festival/FestivalPartners.tsx`
 - Test: `client/__tests__/components/Festival/FestivalJumpTo.test.tsx`
 - Test: `client/__tests__/components/Festival/FestivalSchedule.test.tsx`
@@ -1579,12 +1581,16 @@ Details:
 
 Props: `{ schedule: NonNullable<FestivalLocation["schedule"]> }`. Cream background.
 
-Render `schedule.days` as a `flex flex-wrap justify-between gap-y-6` of blocks. Each block is `w-full md:w-[684px]`; two 684px blocks plus the 36px section padding on each side fit the 1368px inner width exactly.
+Render `schedule.days` as a two-column grid. Every day block carries `data-equal-height-group="schedule"`; `EqualHeightManager` (Step 7) gives all blocks the tallest block height across all locations at `md` and above.
 
 ```tsx
-<div className="flex flex-wrap justify-between gap-y-6">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:auto-rows-fr">
   {schedule.days.map((day) => (
-    <div key={day._key} className="w-full md:w-[684px]">
+    <div
+      key={day._key}
+      data-equal-height-group="schedule"
+      className="flex h-full w-full flex-col"
+    >
       <div className="border-2 border-rf-ocher bg-rf-highlighter px-6 py-8 text-center">
         <h3 className="font-milling font-semibold text-4xl uppercase text-rf-ocher">
           {day.dateLabel}
@@ -1618,12 +1624,16 @@ If `schedule.days` is empty, return `null`.
 
 Ocher background; centered heading “Featured Artworks” in `font-brook italic text-[40px] text-rf-metal`.
 
-Use CSS columns for the masonry feel:
+Use a uniform three-column grid. Every artwork card carries `data-equal-height-group="artwork"`; `EqualHeightManager` gives all cards the tallest card height across all locations at `md` and above.
 
 ```tsx
-<div className="columns-1 md:columns-3 gap-6">
+<div className="mt-9 grid grid-cols-1 md:grid-cols-3 gap-6 md:auto-rows-fr">
   {artworks.map((artwork) => (
-    <article key={artwork._key} className="mb-6 break-inside-avoid">
+    <article
+      key={artwork._key}
+      data-equal-height-group="artwork"
+      className="flex h-full flex-col break-inside-avoid"
+    >
       {artwork.image && (
         <SanityImage image={artwork.image} className="w-full h-auto object-cover" />
       )}
@@ -1657,6 +1667,7 @@ import { FestivalAbout } from "@/components/Festival/FestivalAbout";
 import { FestivalLocationSection } from "@/components/Festival/FestivalLocationSection";
 import { FestivalSchedule } from "@/components/Festival/FestivalSchedule";
 import { FestivalFeaturedArtworks } from "@/components/Festival/FestivalFeaturedArtworks";
+import EqualHeightManager from "@/components/Festival/EqualHeightManager";
 import { FestivalPartners } from "@/components/Festival/FestivalPartners";
 
 export default async function FestivalPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -1684,6 +1695,7 @@ export default async function FestivalPage({ params }: { params: Promise<{ slug:
         </Fragment>
       ))}
       <FestivalPartners groups={festival.partnerGroups} />
+      <EqualHeightManager />
     </main>
   );
 }
@@ -1980,9 +1992,10 @@ Check the visual checklist in the “Testing & QA Strategy” section:
 
 - Type sizes/roles, palette values, 1px borders, image proportions, archive split, hero heights, sticky offsets, and hover/selected states.
 - No empty sections, broken images, missing alt text, or overflow.
-- Mobile: no preview panel; rows use small images; all sections single-column.
+- All Featured Artworks cards across both locations share the tallest card height at 1440px; all schedule day blocks across both schedules share the tallest block height.
+- Mobile: no preview panel; rows use small images; all sections single-column; equal-height minimums are cleared.
 
-Record intentional deviations (for example, CSS-column artwork ordering versus Figma’s manual masonry) in the final report.
+Record intentional deviations in the final report. The artwork cards and schedule day blocks intentionally use uniform heights derived from the tallest element, rather than Figma’s variable masonry heights.
 
 - [ ] **Step 9: Accessibility and keyboard QA**
 

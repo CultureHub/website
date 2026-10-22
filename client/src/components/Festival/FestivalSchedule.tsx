@@ -10,9 +10,13 @@ export function FestivalSchedule({
 
   return (
     <section className="bg-rf-cream px-6 py-9 md:px-16">
-      <div className="flex flex-wrap justify-between gap-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:auto-rows-fr">
         {days.map((day) => (
-          <div key={day._key} className="w-full md:w-[684px]">
+          <div
+            key={day._key}
+            data-equal-height-group="schedule"
+            className="flex h-full w-full flex-col"
+          >
             <div className="border-2 border-rf-ocher bg-rf-highlighter px-6 py-8 text-center">
               <h3 className="font-milling font-semibold text-4xl uppercase text-rf-ocher">
                 {day.dateLabel}

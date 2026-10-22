@@ -15,9 +15,13 @@ export function FestivalFeaturedArtworks({
           Featured Artworks
         </h2>
       </div>
-      <div className="mt-9 columns-1 md:columns-3 gap-6">
+      <div className="mt-9 grid grid-cols-1 md:grid-cols-3 gap-6 md:auto-rows-fr">
         {artworks.map((artwork) => (
-          <article key={artwork._key} className="mb-6 break-inside-avoid">
+          <article
+            key={artwork._key}
+            data-equal-height-group="artwork"
+            className="flex h-full flex-col break-inside-avoid"
+          >
             {artwork.image && (
               <SanityImage
                 image={artwork.image}

@@ -326,11 +326,22 @@ interface DetailSummaryProps {
 | `Festival/FestivalAbout.tsx` | Metal theme block: logo, theme, location summaries, long copy. |
 | `Festival/FestivalLocationSection.tsx` | Location info + participating artists, colored by variant. |
 | `Festival/FestivalSchedule.tsx` | Day blocks and schedule rows. |
-| `Festival/FestivalFeaturedArtworks.tsx` | Masonry-style artwork columns. |
+| `Festival/FestivalFeaturedArtworks.tsx` | Uniform-height artwork grid. |
+| `Festival/EqualHeightManager.tsx` | Measures the tallest artwork card and tallest schedule day block across the page and applies that height to every card/block at `md` and above; clears on mobile. |
 | `Festival/FestivalVideos.tsx` | Stub cards; no player. |
 | `Festival/FestivalPartners.tsx` | Grouped partner names. |
 
-### 7.5 Not reused, and why
+### 7.5 Equal-height content blocks
+
+The Featured Artworks cards and the schedule day blocks do not use variable
+masonry heights. At `md` and above, every artwork card across all Featured
+Artworks sections shares the height of the tallest artwork card on the page,
+and every schedule day block across all schedules shares the height of the
+tallest day block. `EqualHeightManager` measures after mount, after font
+loading, after each image load, and on resize. Below `md`, it clears the
+minimum heights so mobile content flows naturally.
+
+### 7.6 Not reused, and why
 
 | Component | Why not |
 |---|---|
@@ -513,6 +524,8 @@ pnpm -C sanity build
 - `/re-fest/2023`: three locations including virtual, video stub, partners.
 - Anchor jumps clear the fixed menu and sticky jump bar.
 - Long artist lists and long artwork descriptions wrap without horizontal overflow.
+- At 1440px, all Featured Artworks cards across both locations have the same measured height, and all schedule day blocks across both locations have the same measured height.
+- At 375px, equal-height minimums are cleared and content flows naturally.
 
 ---
 
