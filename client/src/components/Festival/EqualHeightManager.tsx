@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const GROUPS = ["artwork", "schedule"] as const;
+const GROUPS = ["artwork"] as const;
 
 export default function EqualHeightManager() {
   useEffect(() => {

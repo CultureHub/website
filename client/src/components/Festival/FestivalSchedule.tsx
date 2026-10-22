@@ -9,15 +9,14 @@ export function FestivalSchedule({
   if (days.length === 0) return null;
 
   return (
-    <section className="bg-rf-cream px-6 py-9 md:px-16">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:auto-rows-fr">
+    <section className="bg-rf-cream px-6 py-9 md:px-9">
+      <div className="grid grid-cols-1 md:grid-cols-2 border-l-2 border-t-2 border-rf-ocher">
         {days.map((day) => (
           <div
             key={day._key}
-            data-equal-height-group="schedule"
-            className="flex h-full w-full flex-col"
+            className="flex h-full flex-col border-r-2 border-b-2 border-rf-ocher bg-rf-cream"
           >
-            <div className="border-2 border-rf-ocher bg-rf-highlighter px-6 py-8 text-center">
+            <div className="border-b-2 border-rf-ocher bg-rf-highlighter px-6 py-8 text-center">
               <h3 className="font-milling font-semibold text-4xl uppercase text-rf-ocher">
                 {day.dateLabel}
               </h3>
@@ -25,7 +24,7 @@ export function FestivalSchedule({
             {(day.items ?? []).map((item) => (
               <div
                 key={item._key}
-                className="flex flex-col md:flex-row md:justify-between gap-2 border-x-2 border-b-2 border-rf-ocher bg-rf-cream px-6 py-2.5"
+                className="flex flex-col md:flex-row md:justify-between gap-2 border-b-2 border-rf-ocher px-6 py-2.5"
               >
                 {item.time && (
                   <span className="font-milling font-semibold text-[32px] text-rf-ocher shrink-0 whitespace-nowrap">
@@ -48,8 +47,15 @@ export function FestivalSchedule({
                 </div>
               </div>
             ))}
+            <div className="flex-1 bg-rf-cream" aria-hidden />
           </div>
         ))}
+        {days.length % 2 === 1 && (
+          <div
+            aria-hidden
+            className="hidden md:block border-r-2 border-b-2 border-rf-ocher bg-rf-cream"
+          />
+        )}
       </div>
     </section>
   );

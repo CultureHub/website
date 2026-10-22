@@ -1581,25 +1581,24 @@ Details:
 
 Props: `{ schedule: NonNullable<FestivalLocation["schedule"]> }`. Cream background.
 
-Render `schedule.days` as a two-column grid. Every day block carries `data-equal-height-group="schedule"`; `EqualHeightManager` (Step 7) gives all blocks the tallest block height across all locations at `md` and above.
+Render `schedule.days` as a seamless two-column grid matching Figma node `3048:4299`. There are no gaps. The grid container owns the left/top 2px ocher border; each day cell owns its right/bottom 2px border. A day cell is `h-full flex flex-col` so it stretches to the row height, and a `flex-1` cream filler preserves the grid when the adjacent day is taller. When the number of days is odd, append a hidden-on-mobile blank filler cell for the second column. The section uses `md:px-9` (36px) to match the Figma 1368px grid.
 
 ```tsx
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:auto-rows-fr">
+<div className="grid grid-cols-1 md:grid-cols-2 border-l-2 border-t-2 border-rf-ocher">
   {schedule.days.map((day) => (
     <div
       key={day._key}
-      data-equal-height-group="schedule"
-      className="flex h-full w-full flex-col"
+      className="flex h-full flex-col border-r-2 border-b-2 border-rf-ocher bg-rf-cream"
     >
-      <div className="border-2 border-rf-ocher bg-rf-highlighter px-6 py-8 text-center">
+      <div className="border-b-2 border-rf-ocher bg-rf-highlighter px-6 py-8 text-center">
         <h3 className="font-milling font-semibold text-4xl uppercase text-rf-ocher">
           {day.dateLabel}
         </h3>
       </div>
       {day.items.map((item) => (
-        <div key={item._key} className="flex flex-col md:flex-row md:justify-between gap-2 border-x-2 border-b-2 border-rf-ocher bg-rf-cream px-6 py-2.5">
+        <div key={item._key} className="flex flex-col md:flex-row md:justify-between gap-2 border-b-2 border-rf-ocher px-6 py-2.5">
           {item.time && (
-            <span className="font-milling font-semibold text-[32px] text-rf-ocher">
+            <span className="font-milling font-semibold text-[32px] text-rf-ocher shrink-0 whitespace-nowrap">
               {item.time}
             </span>
           )}
@@ -1613,8 +1612,12 @@ Render `schedule.days` as a two-column grid. Every day block carries `data-equal
           </div>
         </div>
       ))}
+      <div className="flex-1 bg-rf-cream" aria-hidden />
     </div>
   ))}
+  {schedule.days.length % 2 === 1 && (
+    <div aria-hidden className="hidden md:block border-r-2 border-b-2 border-rf-ocher bg-rf-cream" />
+  )}
 </div>
 ```
 
@@ -1992,10 +1995,11 @@ Check the visual checklist in the “Testing & QA Strategy” section:
 
 - Type sizes/roles, palette values, 1px borders, image proportions, archive split, hero heights, sticky offsets, and hover/selected states.
 - No empty sections, broken images, missing alt text, or overflow.
-- All Featured Artworks cards across both locations share the tallest card height at 1440px; all schedule day blocks across both schedules share the tallest block height.
-- Mobile: no preview panel; rows use small images; all sections single-column; equal-height minimums are cleared.
+- All Featured Artworks cards across both locations share the tallest card height at 1440px.
+- The schedule is a continuous two-column grid with 2px ocher cell borders, no gaps, and blank filler cells for uneven columns.
+- Mobile: no preview panel; rows use small images; all sections single-column; artwork equal-height minimums are cleared and the schedule is one column.
 
-Record intentional deviations in the final report. The artwork cards and schedule day blocks intentionally use uniform heights derived from the tallest element, rather than Figma’s variable masonry heights.
+Record intentional deviations in the final report. Featured artwork cards intentionally use uniform heights derived from the tallest card rather than Figma’s variable masonry heights. The schedule intentionally follows Figma’s seamless two-column grid rather than spaced cards.
 
 - [ ] **Step 9: Accessibility and keyboard QA**
 

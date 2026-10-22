@@ -331,15 +331,21 @@ interface DetailSummaryProps {
 | `Festival/FestivalVideos.tsx` | Stub cards; no player. |
 | `Festival/FestivalPartners.tsx` | Grouped partner names. |
 
-### 7.5 Equal-height content blocks
+### 7.5 Featured artwork heights and the schedule grid
 
-The Featured Artworks cards and the schedule day blocks do not use variable
-masonry heights. At `md` and above, every artwork card across all Featured
-Artworks sections shares the height of the tallest artwork card on the page,
-and every schedule day block across all schedules shares the height of the
-tallest day block. `EqualHeightManager` measures after mount, after font
-loading, after each image load, and on resize. Below `md`, it clears the
-minimum heights so mobile content flows naturally.
+**Featured Artworks** uses a uniform three-column grid at `md` and above.
+Every artwork card across all Featured Artworks sections shares the height
+of the tallest artwork card on the page. `EqualHeightManager` measures after
+mount, after font loading, after each image load, and on resize. Below `md`,
+it clears the minimum heights so mobile content flows naturally.
+
+**Schedule** is a seamless two-column grid, not a set of spaced cards. Each
+day cell contains a full-width Highlighter date header followed by bordered
+content rows. The grid has no gaps; cells share 2px RF Ocher borders, and a
+blank cream filler cell appears when one column is shorter than the other.
+Day cells stretch to their row height, and the blank filler preserves the
+continuous grid. On mobile the schedule becomes a single column and the
+filler is hidden.
 
 ### 7.6 Not reused, and why
 
@@ -524,8 +530,9 @@ pnpm -C sanity build
 - `/re-fest/2023`: three locations including virtual, video stub, partners.
 - Anchor jumps clear the fixed menu and sticky jump bar.
 - Long artist lists and long artwork descriptions wrap without horizontal overflow.
-- At 1440px, all Featured Artworks cards across both locations have the same measured height, and all schedule day blocks across both locations have the same measured height.
-- At 375px, equal-height minimums are cleared and content flows naturally.
+- At 1440px, all Featured Artworks cards across both locations have the same measured height.
+- The schedule is a continuous two-column grid with 2px ocher cell borders, no gaps, and blank filler cells for uneven columns.
+- At 375px, artwork equal-height minimums are cleared, the schedule is one column, and content flows naturally.
 
 ---
 
