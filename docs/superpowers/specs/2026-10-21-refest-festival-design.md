@@ -97,7 +97,7 @@ The archive preview year is `font-schoolbook` and its theme is `font-new-edge`, 
 
 Archive/Current date lines come from `festival.dateLines` when present; otherwise they are derived from non-virtual locations. The 2025 and 2026 displays use “March 6-9, 2025 in New York” / “March 14-15, 2025 in Los Angeles”; the 2023 display uses “April 20-29, 2023 in New York” / “April 28-29, 2023 in Los Angeles”.
 
-Jump-menu buttons use RF Blue Smoke with an RF Metal border by default, and RF Midnight with an RF Blue Smoke border/text when active. The active button is determined by click and updated on scroll. The archive preview’s “Visit Festival” button hovers to RF Highlighter, the Re-Fest program accent.
+Jump-menu buttons use RF Blue Smoke with an RF Metal border by default, and RF Midnight with an RF Blue Smoke border/text when active. The active button is determined by click and updated on scroll. The Current feature and archive preview “Visit Festival” buttons hover to RF Highlighter, the Re-Fest program accent.
 
 ### 4.7 Artist and partner lists are strings
 
@@ -561,7 +561,7 @@ pnpm -C sanity build
 - The archive row program label is SchoolBook Condensed regular, not italic.
 - Current/archive date lines match their `dateLines` overrides and exclude virtual locations.
 - Clicking a jump button sets its active Midnight/Blue Smoke state; scrolling updates the active section.
-- The archive preview Visit Festival button hovers to RF Highlighter.
+- The Current feature and archive preview Visit Festival buttons hover to RF Highlighter.
 - At 375px, Featured Artworks is one column, the schedule is one column, and content flows naturally.
 
 ---

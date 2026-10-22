@@ -27,7 +27,10 @@ export default function FestivalFeature({
             {festival.summary}
           </p>
         )}
-        <FestivalActions festival={festival} />
+        <FestivalActions
+          festival={festival}
+          hoverClassName="hover:bg-rf-highlighter"
+        />
       </div>
     </div>
   );

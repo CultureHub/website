@@ -2212,9 +2212,9 @@ Render the Re-Fest `Current` section heading with `borderTop={false}`. The heade
 
 Make `FestivalJumpTo` a client component. Track the active anchor with `useState`; set it on click and update it on scroll by finding the last section whose top is at or above 166px. Apply `aria-current="page"` and the Figma active style: RF Midnight background, RF Blue Smoke border/text. Default remains RF Blue Smoke background, RF Metal border/text.
 
-- [ ] **Step 5: Use the Re-Fest highlighter for archive button hover**
+- [ ] **Step 5: Use the Re-Fest highlighter for Visit Festival hover**
 
-Add `hoverClassName` to `Button` (replacing the default `hover:bg-ch-bb`). Pass `hover:bg-rf-highlighter` from `FestivalArchive` through `FestivalSummary`/`FestivalActions`.
+Add `hoverClassName` to `Button` (replacing the default `hover:bg-ch-bb`). Pass `hover:bg-rf-highlighter` from both `FestivalFeature` (Current) and `FestivalArchive` through `FestivalSummary`/`FestivalActions`.
 
 - [ ] **Step 6: Verify**
 
@@ -2222,5 +2222,5 @@ Add `hoverClassName` to `Button` (replacing the default `hover:bg-ch-bb`). Pass 
 - 2023 preview shows only New York and Los Angeles lines.
 - Current heading has no top border.
 - Clicking a jump button turns it Midnight/Blue Smoke; scrolling updates the active item.
-- Archive “Visit Festival” hover is `#EDFD8B`.
+- Current and archive “Visit Festival” hovers are `#EDFD8B`.
 - Tests, typecheck, lint, and build pass.

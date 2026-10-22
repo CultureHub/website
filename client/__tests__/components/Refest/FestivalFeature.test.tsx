@@ -33,8 +33,7 @@ it("renders the current festival feature", () => {
   expect(
     screen.getByText("A theme about collecting and recollection."),
   ).toBeInTheDocument();
-  expect(screen.getByRole("link", { name: "Visit Festival" })).toHaveAttribute(
-    "href",
-    "/re-fest/2025",
-  );
+  const visitLink = screen.getByRole("link", { name: "Visit Festival" });
+  expect(visitLink).toHaveAttribute("href", "/re-fest/2025");
+  expect(visitLink.firstElementChild).toHaveClass("hover:bg-rf-highlighter");
 });
