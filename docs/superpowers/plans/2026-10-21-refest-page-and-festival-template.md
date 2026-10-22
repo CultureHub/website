@@ -154,7 +154,6 @@ client/src/
 │       ├── FestivalLocationSection.tsx # CREATE
 │       ├── FestivalSchedule.tsx     # CREATE
 │       ├── FestivalFeaturedArtworks.tsx # CREATE
-│       ├── EqualHeightManager.tsx   # CREATE
 │       ├── FestivalVideos.tsx       # CREATE
 │       └── FestivalPartners.tsx     # CREATE
 ├── sanity/queries.ts                # MODIFY
@@ -1496,7 +1495,6 @@ git commit -m "feat: add re-fest page with current festival and archive"
 - Create: `client/src/components/Festival/FestivalLocationSection.tsx`
 - Create: `client/src/components/Festival/FestivalSchedule.tsx`
 - Create: `client/src/components/Festival/FestivalFeaturedArtworks.tsx`
-- Create: `client/src/components/Festival/EqualHeightManager.tsx`
 - Create: `client/src/components/Festival/FestivalPartners.tsx`
 - Test: `client/__tests__/components/Festival/FestivalJumpTo.test.tsx`
 - Test: `client/__tests__/components/Festival/FestivalSchedule.test.tsx`
@@ -1581,7 +1579,7 @@ Details:
 
 Props: `{ schedule: NonNullable<FestivalLocation["schedule"]> }`. Cream background.
 
-Render `schedule.days` as a seamless two-column grid matching Figma node `3048:4299`. There are no gaps. The grid container owns the left/top 2px ocher border; each day cell owns its right/bottom 2px border. A day cell is `h-full flex flex-col` so it stretches to the row height, and a `flex-1` cream filler preserves the grid when the adjacent day is taller. When the number of days is odd, append a hidden-on-mobile blank filler cell for the second column. The section uses `md:px-9` (36px) to match the Figma 1368px grid.
+Render `schedule.days` as a seamless two-column grid matching Figma node `3048:4299`. There are no gaps. The grid container owns the left/top 2px ocher border; each day cell owns its right/bottom 2px border. A day cell is `h-full flex flex-col` so it stretches to the row height, and a `flex-1` cream filler preserves the grid when the adjacent day is taller. The last content row inside each cell uses `last:border-b-0`; the cell's single bottom border closes it, so content touching the cell bottom does not produce a double border. When the number of days is odd, append a hidden-on-mobile blank filler cell for the second column. The section uses `md:px-9` (36px) to match the Figma 1368px grid.
 
 ```tsx
 <div className="grid grid-cols-1 md:grid-cols-2 border-l-2 border-t-2 border-rf-ocher">
@@ -1595,23 +1593,28 @@ Render `schedule.days` as a seamless two-column grid matching Figma node `3048:4
           {day.dateLabel}
         </h3>
       </div>
-      {day.items.map((item) => (
-        <div key={item._key} className="flex flex-col md:flex-row md:justify-between gap-2 border-b-2 border-rf-ocher px-6 py-2.5">
-          {item.time && (
-            <span className="font-milling font-semibold text-[32px] text-rf-ocher shrink-0 whitespace-nowrap">
-              {item.time}
-            </span>
-          )}
-          <div className="font-brook text-2xl text-rf-metal whitespace-pre-line">
-            {item.description}
-            {item.links?.map((link) => (
-              <a key={link._key} href={link.url} className="ml-2 underline" target="_blank" rel="noopener noreferrer">
-                {link.shortLabel ?? link.label} →
-              </a>
-            ))}
+      <div className="flex flex-col">
+        {day.items.map((item) => (
+          <div
+            key={item._key}
+            className="flex flex-col md:flex-row md:justify-between gap-2 border-b-2 border-rf-ocher px-6 py-2.5 last:border-b-0"
+          >
+            {item.time && (
+              <span className="font-milling font-semibold text-[32px] text-rf-ocher shrink-0 whitespace-nowrap">
+                {item.time}
+              </span>
+            )}
+            <div className="font-brook text-2xl text-rf-metal whitespace-pre-line">
+              {item.description}
+              {item.links?.map((link) => (
+                <a key={link._key} href={link.url} className="ml-2 underline" target="_blank" rel="noopener noreferrer">
+                  {link.shortLabel ?? link.label} →
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
       <div className="flex-1 bg-rf-cream" aria-hidden />
     </div>
   ))}
@@ -1627,14 +1630,13 @@ If `schedule.days` is empty, return `null`.
 
 Ocher background; centered heading “Featured Artworks” in `font-brook italic text-[40px] text-rf-metal`.
 
-Use a uniform three-column grid. Every artwork card carries `data-equal-height-group="artwork"`; `EqualHeightManager` gives all cards the tallest card height across all locations at `md` and above.
+Use a three-column CSS grid. Cards stretch to the tallest card in their own row; rows size independently. No page-wide height manager is needed.
 
 ```tsx
-<div className="mt-9 grid grid-cols-1 md:grid-cols-3 gap-6 md:auto-rows-fr">
+<div className="mt-9 grid grid-cols-1 md:grid-cols-3 gap-6">
   {artworks.map((artwork) => (
     <article
       key={artwork._key}
-      data-equal-height-group="artwork"
       className="flex h-full flex-col break-inside-avoid"
     >
       {artwork.image && (
@@ -1670,7 +1672,6 @@ import { FestivalAbout } from "@/components/Festival/FestivalAbout";
 import { FestivalLocationSection } from "@/components/Festival/FestivalLocationSection";
 import { FestivalSchedule } from "@/components/Festival/FestivalSchedule";
 import { FestivalFeaturedArtworks } from "@/components/Festival/FestivalFeaturedArtworks";
-import EqualHeightManager from "@/components/Festival/EqualHeightManager";
 import { FestivalPartners } from "@/components/Festival/FestivalPartners";
 
 export default async function FestivalPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -1698,7 +1699,6 @@ export default async function FestivalPage({ params }: { params: Promise<{ slug:
         </Fragment>
       ))}
       <FestivalPartners groups={festival.partnerGroups} />
-      <EqualHeightManager />
     </main>
   );
 }
@@ -1995,11 +1995,11 @@ Check the visual checklist in the “Testing & QA Strategy” section:
 
 - Type sizes/roles, palette values, 1px borders, image proportions, archive split, hero heights, sticky offsets, and hover/selected states.
 - No empty sections, broken images, missing alt text, or overflow.
-- All Featured Artworks cards across both locations share the tallest card height at 1440px.
+- Featured Artworks cards match the tallest card in their own row at 1440px; rows have independent heights.
 - The schedule is a continuous two-column grid with 2px ocher cell borders, no gaps, and blank filler cells for uneven columns.
 - Mobile: no preview panel; rows use small images; all sections single-column; artwork equal-height minimums are cleared and the schedule is one column.
 
-Record intentional deviations in the final report. Featured artwork cards intentionally use uniform heights derived from the tallest card rather than Figma’s variable masonry heights. The schedule intentionally follows Figma’s seamless two-column grid rather than spaced cards.
+Record intentional deviations in the final report. Featured artwork cards stretch only within their own row rather than Figma’s variable masonry heights. The schedule intentionally follows Figma’s seamless two-column grid rather than spaced cards.
 
 - [ ] **Step 9: Accessibility and keyboard QA**
 

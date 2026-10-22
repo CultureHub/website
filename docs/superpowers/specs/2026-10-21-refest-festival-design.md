@@ -326,26 +326,25 @@ interface DetailSummaryProps {
 | `Festival/FestivalAbout.tsx` | Metal theme block: logo, theme, location summaries, long copy. |
 | `Festival/FestivalLocationSection.tsx` | Location info + participating artists, colored by variant. |
 | `Festival/FestivalSchedule.tsx` | Day blocks and schedule rows. |
-| `Festival/FestivalFeaturedArtworks.tsx` | Uniform-height artwork grid. |
-| `Festival/EqualHeightManager.tsx` | Measures the tallest artwork card and tallest schedule day block across the page and applies that height to every card/block at `md` and above; clears on mobile. |
+| `Festival/FestivalFeaturedArtworks.tsx` | Artwork grid where cards stretch to the tallest card in each row. |
 | `Festival/FestivalVideos.tsx` | Stub cards; no player. |
 | `Festival/FestivalPartners.tsx` | Grouped partner names. |
 
 ### 7.5 Featured artwork heights and the schedule grid
 
-**Featured Artworks** uses a uniform three-column grid at `md` and above.
-Every artwork card across all Featured Artworks sections shares the height
-of the tallest artwork card on the page. `EqualHeightManager` measures after
-mount, after font loading, after each image load, and on resize. Below `md`,
-it clears the minimum heights so mobile content flows naturally.
+**Featured Artworks** uses a three-column CSS grid at `md` and above. Cards
+stretch to the tallest card **in their own row**, not to a page-wide or
+section-wide height. Rows size independently, and mobile is a single column.
 
 **Schedule** is a seamless two-column grid, not a set of spaced cards. Each
 day cell contains a full-width Highlighter date header followed by bordered
 content rows. The grid has no gaps; cells share 2px RF Ocher borders, and a
 blank cream filler cell appears when one column is shorter than the other.
 Day cells stretch to their row height, and the blank filler preserves the
-continuous grid. On mobile the schedule becomes a single column and the
-filler is hidden.
+continuous grid. The last content row inside a day cell has no bottom
+border of its own; the cell's single bottom border closes it, avoiding a
+double border when the content touches the cell bottom. On mobile the
+schedule becomes a single column and the filler is hidden.
 
 ### 7.6 Not reused, and why
 
@@ -530,9 +529,9 @@ pnpm -C sanity build
 - `/re-fest/2023`: three locations including virtual, video stub, partners.
 - Anchor jumps clear the fixed menu and sticky jump bar.
 - Long artist lists and long artwork descriptions wrap without horizontal overflow.
-- At 1440px, all Featured Artworks cards across both locations have the same measured height.
-- The schedule is a continuous two-column grid with 2px ocher cell borders, no gaps, and blank filler cells for uneven columns.
-- At 375px, artwork equal-height minimums are cleared, the schedule is one column, and content flows naturally.
+- At 1440px, Featured Artworks cards match the tallest card in their own row; different rows have different heights.
+- The schedule is a continuous two-column grid with 2px ocher cell borders, no gaps, and blank filler cells for uneven columns; the last content row inside a cell has no extra bottom border.
+- At 375px, Featured Artworks is one column, the schedule is one column, and content flows naturally.
 
 ---
 

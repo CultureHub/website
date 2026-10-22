@@ -8,7 +8,6 @@ import { FestivalLocationSection } from "@/components/Festival/FestivalLocationS
 import { FestivalPartners } from "@/components/Festival/FestivalPartners";
 import { FestivalSchedule } from "@/components/Festival/FestivalSchedule";
 import { FestivalVideos } from "@/components/Festival/FestivalVideos";
-import EqualHeightManager from "@/components/Festival/EqualHeightManager";
 import { getFestivalBySlug } from "@/sanity/queries";
 
 interface FestivalPageProps {
@@ -63,7 +62,6 @@ export default async function FestivalPage({ params }: FestivalPageProps) {
 
       <FestivalVideos videos={festival.videos} />
       <FestivalPartners groups={festival.partnerGroups} />
-      <EqualHeightManager />
     </main>
   );
 }
