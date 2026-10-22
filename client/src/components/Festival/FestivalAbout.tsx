@@ -22,30 +22,31 @@ export function FestivalAbout({
       <div className="flex flex-col md:flex-row md:justify-between gap-[72px]">
         <div className="flex flex-col gap-[72px] md:w-[482px]">
           <div className="flex flex-col gap-5">
-            {festival.logo && (
+            {festival.logo ? (
               <SanityImage
                 image={festival.logo}
                 className="w-[299px] h-auto object-contain"
               />
+            ) : (
+              <span className="font-new-edge font-semibold text-[60px] uppercase leading-none text-rf-ocher">
+                {festival.title}
+              </span>
             )}
-            <span className="font-milling font-semibold text-[60px] uppercase leading-none text-rf-ocher">
-              {festival.title}
-            </span>
           </div>
 
           <div className="flex flex-col gap-7">
             {(festival.locations ?? []).map((location) => (
               <div key={location._key} className="flex flex-col gap-1">
-                <span className="font-brook text-2xl text-rf-ocher">
+                <span className="font-schoolbook-condensed text-2xl text-rf-ocher">
                   {location.name}
                 </span>
                 {location.dateLabel && (
-                  <span className="font-brook text-2xl text-rf-cream">
+                  <span className="font-schoolbook-condensed text-2xl text-rf-cream">
                     {location.dateLabel}
                   </span>
                 )}
                 {(location.venueName || location.address) && (
-                  <span className="font-brook text-2xl text-rf-cream whitespace-pre-line">
+                  <span className="font-schoolbook-condensed text-2xl text-rf-cream whitespace-pre-line">
                     {[location.venueName, location.address]
                       .filter(Boolean)
                       .join(", ")}
@@ -57,7 +58,7 @@ export function FestivalAbout({
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-brook text-xl underline"
+                    className="font-schoolbook-condensed text-xl underline"
                   >
                     {link.label}
                   </a>
@@ -68,7 +69,7 @@ export function FestivalAbout({
         </div>
 
         {festival.about && (
-          <div className="font-brook text-[27px] text-rf-cream md:w-[777px] [&_p]:mb-5 [&_p:last-child]:mb-0">
+          <div className="font-schoolbook text-[27px] text-rf-cream md:w-[777px] [&_p]:mb-5 [&_p:last-child]:mb-0">
             <PortableText value={festival.about} />
           </div>
         )}

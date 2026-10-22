@@ -13,7 +13,9 @@ export function FestivalVideos({
   return (
     <section className="bg-rf-metal px-6 py-6 md:px-0">
       <div className="px-6 md:px-16">
-        <h2 className="font-brook italic text-[40px] text-rf-ocher">Videos</h2>
+        <h2 className="font-schoolbook italic text-[40px] text-rf-ocher">
+          Videos
+        </h2>
       </div>
       <div className="mt-6 flex justify-center gap-9 overflow-x-auto scrollbar-none">
         {videos.map((video) => (
@@ -27,11 +29,11 @@ export function FestivalVideos({
                 className="w-full h-[423px] object-cover"
               />
             )}
-            <h3 className="font-milling font-semibold text-[32px] leading-tight text-rf-ocher">
+            <h3 className="font-new-edge font-semibold text-[32px] leading-tight text-rf-ocher">
               {video.title}
             </h3>
             {video.artist && (
-              <p className="font-brook italic text-2xl text-rf-ocher">
+              <p className="font-schoolbook italic text-2xl text-rf-ocher">
                 {video.artist}
               </p>
             )}

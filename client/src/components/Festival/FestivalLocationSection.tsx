@@ -26,10 +26,10 @@ export function FestivalLocationSection({
     >
       <div className="flex flex-col md:flex-row md:justify-between gap-16">
         <div className="flex flex-col gap-6">
-          <h2 className="font-brook italic text-[40px] leading-tight">
+          <h2 className="font-schoolbook italic text-[40px] leading-tight">
             {location.name}
           </h2>
-          <div className="flex flex-col gap-2 font-brook text-2xl whitespace-pre-line">
+          <div className="flex flex-col gap-2 font-schoolbook-condensed text-2xl whitespace-pre-line">
             {location.dateLabel && <span>{location.dateLabel}</span>}
             {location.venueName && <span>{location.venueName}</span>}
             {location.address && <span>{location.address}</span>}
@@ -43,7 +43,7 @@ export function FestivalLocationSection({
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-brook text-xl underline"
+                  className="font-schoolbook-condensed text-xl underline"
                 >
                   {link.label}
                 </a>
@@ -54,14 +54,14 @@ export function FestivalLocationSection({
 
         {artists.length > 0 && (
           <div className="flex flex-col gap-6 md:max-w-[736px]">
-            <h3 className="font-brook italic text-[40px] leading-tight">
+            <h3 className="font-schoolbook italic text-[40px] leading-tight">
               Participating Artists
             </h3>
             <div
               className={
                 location.kind === "virtual"
-                  ? "columns-1 md:columns-2 xl:columns-3 gap-8 font-milling font-semibold text-2xl leading-tight"
-                  : "flex flex-col gap-1 font-milling font-semibold text-2xl leading-tight"
+                  ? "columns-1 md:columns-2 xl:columns-3 gap-8 font-new-edge font-semibold text-2xl leading-tight"
+                  : "flex flex-col gap-1 font-new-edge font-semibold text-2xl leading-tight"
               }
             >
               {artists.map((artist, index) => (

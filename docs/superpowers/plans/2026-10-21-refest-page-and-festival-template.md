@@ -16,7 +16,7 @@
 - Festival route is `/re-fest/[slug]`; slug is the festival year (`2025`).
 - The current festival is `program.currentFestival`; the archive is every other festival for that program ordered by `year desc`.
 - All template sections are conditional; never render an empty heading or a section with no data.
-- Use `font-milling` for NewEdge666 roles and `font-brook` for SchoolBook roles. No new font files.
+- Use the actual design fonts on festival pages: `font-new-edge` (local `NewEdge666-SemiboldRounded.otf`) for NewEdge666 roles, and `font-schoolbook` / `font-schoolbook-condensed` (Adobe Fonts kit `qwz8mrs`) for SchoolBook roles. Milling/Brook remain the site-wide fonts for non-festival pages.
 - Use the Re-Fest palette tokens in spec §5.4. Do not hard-code colors in components.
 - `imageField` requires alt text. Every imported image must have a non-empty `alt`.
 - Participant and partner names are strings, not artist references.
@@ -68,7 +68,7 @@ Run the app against the imported Sanity data and verify real navigation and data
 
 Compare the running site to the Figma frames at two viewports: desktop **1440px** and mobile **375px** (the design is 440px wide; 375px is the narrowest supported target). For each page, take a screenshot and check:
 
-- Typography roles: Milling for NewEdge headings, Brook for SchoolBook body copy.
+- Typography roles: NewEdge666 (`font-new-edge`) for display/headings, SchoolBook (`font-schoolbook`) and SchoolBook Condensed (`font-schoolbook-condensed`) for body/copy on festival pages.
 - Re-Fest palette values: Metal `#15252B`, Cream `#FCF8E0`, Highlighter `#EDFD8B`, Ocher `#FFDE3E`, Pool `#7AB8B1`, Midnight `#5858BC`, Blue Smoke `#ACCEDB`.
 - 1px CH Midnite borders on list rows, headings, and the archive seam.
 - Current feature image/details proportions (637×606 desktop; stacked mobile).
@@ -2087,3 +2087,92 @@ pnpm -C client build
 ```
 
 Commit the typography/spacing/border fixes.
+
+---
+
+### Task 13: Use the actual SchoolBook and NewEdge666 fonts
+
+**Files:**
+- Modify: `client/src/atoms/text.ts`
+- Modify: `client/src/app/layout.tsx`
+- Modify: `client/src/app/globals.css`
+- Modify: `client/src/components/Button.tsx`
+- Modify: `client/src/components/shared/SectionHeading.tsx`
+- Modify: `client/src/components/ProgramPage/ProgramHeader.tsx`
+- Modify: all `client/src/components/Festival/*` and `client/src/components/Refest/*` components
+- Modify: `sanity/scripts/import-refest/manifests/2023.ts`
+
+**Interfaces:**
+- Produces: `font-new-edge`, `font-schoolbook`, `font-schoolbook-condensed` utilities.
+- Produces: `Button` `textClassName` / `textWeightClassName`; `SectionHeading` `fontClassName` / `fontWeightClassName`; `ProgramHeader` `titleClassName` / `titleWeightClassName`.
+
+- [ ] **Step 1: Load NewEdge666 locally**
+
+Add `NewEdgeFont` in `client/src/atoms/text.ts`:
+
+```ts
+export const NewEdgeFont = localFont({
+  src: [
+    {
+      path: "/../../public/fonts/NewEdge666/NewEdge666-SemiboldRounded.otf",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-new-edge",
+  preload: false,
+});
+```
+
+Add `NewEdgeFont.variable` to the body className in `layout.tsx`.
+
+- [ ] **Step 2: Expose the font utilities**
+
+In `globals.css` `@theme`:
+
+```css
+--font-new-edge: var(--font-new-edge);
+--font-schoolbook: "schoolbook", serif;
+--font-schoolbook-condensed: "schoolbook-condensed", serif;
+```
+
+The Adobe Fonts kit is already imported at the top of `globals.css`. Verify `document.fonts.check("24px schoolbook")` is true in the browser.
+
+- [ ] **Step 3: Add font overrides to shared components**
+
+- `Button`: `textClassName` replaces the default family; `textWeightClassName` replaces the ticket weight. Festival ticket buttons use `font-new-edge` + `font-semibold`.
+- `SectionHeading`: `fontClassName` and `fontWeightClassName` default to `font-milling` / `font-bold`; Re-Fest passes `font-new-edge` / `font-semibold`.
+- `ProgramHeader`: `titleClassName` / `titleWeightClassName` default to `font-milling` / `font-bold`; Re-Fest passes `font-new-edge` / `font-semibold`.
+
+- [ ] **Step 4: Replace festival/Re-Fest font classes**
+
+- NewEdge roles → `font-new-edge` (600).
+- SchoolBook body/description → `font-schoolbook`.
+- SchoolBook Condensed dates/details/schedule copy/archive labels → `font-schoolbook-condensed`.
+- SchoolBook italic headings/credits → `font-schoolbook italic`.
+
+- [ ] **Step 5: Fix the 2023 logo duplication**
+
+Export the mark-only Figma node `3024:3543` as `refest-2023-mark.png` instead of the group `3027:3556` that includes the “RE–NEW” wordmark. In `FestivalAbout`, render the theme title only when there is no logo.
+
+- [ ] **Step 6: Verify fonts and layout**
+
+In the browser:
+- About body computed family is `schoolbook, serif`.
+- Participating artist, schedule time/date, artwork title, video title, partner names, and theme titles compute to `NewEdgeFont` at weight 600.
+- Archive row location/program is `schoolbook-condensed, serif`; year is `schoolbook, serif`; theme is `NewEdgeFont`.
+- `document.fonts.check("24px schoolbook")` is true.
+- The Re-Fest header height is ~238px, archive rows 125px, list/preview 875px.
+- No duplicate “RE–NEW” in the 2023 About section.
+
+- [ ] **Step 7: Run checks and commit**
+
+```bash
+pnpm -C client test
+pnpm -C client typecheck
+pnpm -C client lint
+pnpm -C client build
+```
+
+Commit the font loading, component font classes, and the 2023 logo import fix.

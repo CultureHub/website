@@ -10,11 +10,13 @@ export function FestivalYearTitle({
   const textSize = "text-[48px]";
   return (
     <div className="flex flex-col md:flex-row md:items-end gap-1 md:gap-8">
-      <span className={`font-brook ${textSize} leading-none whitespace-nowrap`}>
+      <span
+        className={`font-schoolbook ${textSize} leading-none whitespace-nowrap`}
+      >
         {festival.year}
       </span>
       <span
-        className={`font-milling font-semibold ${textSize} tracking-[-0.04em] leading-none`}
+        className={`font-new-edge font-semibold ${textSize} tracking-[-0.04em] leading-none`}
       >
         {festival.title}
       </span>
@@ -33,7 +35,10 @@ export function FestivalDateLines({
   return (
     <div className="flex flex-col gap-0.5">
       {lines.map((line) => (
-        <p key={line} className="font-brook text-xl leading-[1.2]">
+        <p
+          key={line}
+          className="font-schoolbook-condensed text-xl leading-[1.2]"
+        >
           {line}
         </p>
       ))}
@@ -49,11 +54,23 @@ export function FestivalActions({
   return (
     <div className="flex flex-row flex-wrap items-center gap-4">
       {festival.links?.map((link) => (
-        <Button key={link._key} variant="ticket" href={link.url} openNewTab>
+        <Button
+          key={link._key}
+          variant="ticket"
+          href={link.url}
+          openNewTab
+          textClassName="font-new-edge"
+          textWeightClassName="font-semibold"
+        >
           {link.shortLabel ?? link.label}
         </Button>
       ))}
-      <Button variant="ticket" href={festivalHref(festival.slug)}>
+      <Button
+        variant="ticket"
+        href={festivalHref(festival.slug)}
+        textClassName="font-new-edge"
+        textWeightClassName="font-semibold"
+      >
         Visit Festival
       </Button>
     </div>

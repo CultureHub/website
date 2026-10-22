@@ -19,13 +19,19 @@ interface ProgramHeaderProps {
   };
   hasArtists?: boolean;
   descriptionClassName?: string;
+  titleClassName?: string;
+  titleWeightClassName?: string;
 }
 
 export default function ProgramHeader({
   program,
   hasArtists = false,
   descriptionClassName,
+  titleClassName,
+  titleWeightClassName,
 }: ProgramHeaderProps) {
+  const titleFont = titleClassName ?? "font-milling";
+  const titleWeight = titleWeightClassName ?? "font-bold";
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const accentColor = program.accentColor || "#B5FD8B";
@@ -74,11 +80,15 @@ export default function ProgramHeader({
     ) : null;
 
   const titleBlock = program.displayTitle ? (
-    <div className="font-milling font-bold text-[40px] leading-tight tracking-[-0.02em]">
+    <div
+      className={`${titleFont} ${titleWeight} text-[40px] leading-tight tracking-[-0.02em]`}
+    >
       <PortableText value={program.displayTitle} />
     </div>
   ) : (
-    <h1 className="font-milling font-bold text-[40px] leading-tight tracking-[-0.02em]">
+    <h1
+      className={`${titleFont} ${titleWeight} text-[40px] leading-tight tracking-[-0.02em]`}
+    >
       {program.title}
     </h1>
   );

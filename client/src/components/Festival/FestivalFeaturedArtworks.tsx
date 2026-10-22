@@ -11,7 +11,7 @@ export function FestivalFeaturedArtworks({
   return (
     <section className="bg-rf-ocher px-6 py-16 md:px-9">
       <div className="flex justify-center px-7">
-        <h2 className="font-brook italic text-[40px] text-rf-metal">
+        <h2 className="font-schoolbook italic text-[40px] text-rf-metal">
           Featured Artworks
         </h2>
       </div>
@@ -27,14 +27,14 @@ export function FestivalFeaturedArtworks({
                 className="w-full h-auto object-cover"
               />
             )}
-            <h3 className="mt-6 font-milling font-semibold text-[32px] leading-tight text-rf-metal">
+            <h3 className="mt-6 font-new-edge font-semibold text-[32px] leading-tight text-rf-metal">
               {artwork.title}
             </h3>
-            <p className="mt-3 font-brook italic text-2xl text-rf-metal">
+            <p className="mt-3 font-schoolbook italic text-2xl text-rf-metal">
               {artwork.artist}
             </p>
             {artwork.description && (
-              <p className="mt-3 font-brook text-2xl text-rf-metal whitespace-pre-line">
+              <p className="mt-3 font-schoolbook text-2xl text-rf-metal whitespace-pre-line">
                 {artwork.description}
               </p>
             )}

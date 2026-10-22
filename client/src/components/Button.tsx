@@ -12,6 +12,8 @@ type ButtonVariant =
 export type ButtonProps = PropsWithChildren<{
   variant: ButtonVariant;
   className?: string;
+  textClassName?: string;
+  textWeightClassName?: string;
   href?: string;
   openNewTab?: boolean;
   onClick?: () => void;
@@ -21,13 +23,16 @@ export default function Button({
   variant,
   children,
   className = "",
+  textClassName,
+  textWeightClassName,
   href,
   openNewTab,
   onClick,
 }: ButtonProps) {
   let containerClasses = "outline outline-1 outline-offset-[-1px] ";
-  let textClasses =
-    "text-ch-midnite text-base font-normal font-milling leading-4";
+  let textClasses = `text-ch-midnite text-base font-normal ${
+    textClassName ?? "font-milling"
+  } leading-4`;
   let stateContainerClasses =
     "group hover:bg-ch-bb active:bg-ch-midnite active:outline-ch-bb";
   let stateTextClasses = "group-active:text-ch-bb";
@@ -38,8 +43,9 @@ export default function Button({
       break;
     case "square-inverted":
       containerClasses += "bg-ch-midnite outline-ch-lite";
-      textClasses =
-        "text-ch-lite text-base font-normal font-brook uppercase leading-4";
+      textClasses = `text-ch-lite text-base font-normal ${
+        textClassName ?? "font-brook"
+      } uppercase leading-4`;
       stateContainerClasses =
         "group hover:bg-ch-bb hover:outline-ch-midnite active:bg-ch-lite active:outline-ch-midnite";
       stateTextClasses =
@@ -60,7 +66,9 @@ export default function Button({
       break;
     case "ticket":
       containerClasses += "bg-ch-lite outline-ch-midnite px-[10px] py-[10px]";
-      textClasses = "text-ch-midnite font-milling font-bold text-2xl leading-6";
+      textClasses = `text-ch-midnite ${
+        textWeightClassName ?? "font-bold"
+      } text-2xl leading-6 ${textClassName ?? "font-milling"}`;
       break;
   }
 

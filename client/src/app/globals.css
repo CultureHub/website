@@ -9,6 +9,9 @@
 @theme {
   --font-brook: var(--font-brook);
   --font-milling: var(--font-milling);
+  --font-new-edge: var(--font-new-edge);
+  --font-schoolbook: "schoolbook", serif;
+  --font-schoolbook-condensed: "schoolbook-condensed", serif;
   /* FIG Script is loaded from Adobe Fonts (kit qwz8mrs).
      26A1 Marund still needs local font files. */
   --font-fig:

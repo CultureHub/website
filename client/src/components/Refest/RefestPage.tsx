@@ -11,17 +11,28 @@ export default function RefestPage({ data }: { data: RefestPageData }) {
       <ProgramHeader
         program={data}
         hasArtists={false}
-        descriptionClassName="font-brook font-normal leading-[1.2]"
+        descriptionClassName="font-schoolbook font-normal leading-[1.2]"
+        titleClassName="font-new-edge"
+        titleWeightClassName="font-semibold"
       />
       {data.currentFestival && (
         <section className="px-6 md:px-16 pb-6 md:pb-9">
-          <SectionHeading title="Current" className="mb-9" />
+          <SectionHeading
+            title="Current"
+            className="mb-9"
+            fontClassName="font-new-edge"
+            fontWeightClassName="font-semibold"
+          />
           <FestivalFeature festival={data.currentFestival} />
         </section>
       )}
       {(data.archive?.length ?? 0) > 0 && (
         <section className="px-6 md:px-16 pb-6 md:pb-9">
-          <SectionHeading title="Festival Archive" />
+          <SectionHeading
+            title="Festival Archive"
+            fontClassName="font-new-edge"
+            fontWeightClassName="font-semibold"
+          />
           <FestivalArchive festivals={data.archive ?? []} />
         </section>
       )}

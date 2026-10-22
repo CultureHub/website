@@ -17,7 +17,7 @@ export function FestivalSchedule({
             className="flex h-full flex-col border-r-2 border-b-2 border-rf-ocher bg-rf-cream"
           >
             <div className="border-b-2 border-rf-ocher bg-rf-highlighter px-6 py-8 text-center">
-              <h3 className="font-milling font-semibold text-4xl uppercase text-rf-ocher">
+              <h3 className="font-new-edge font-semibold text-4xl uppercase text-rf-ocher">
                 {day.dateLabel}
               </h3>
             </div>
@@ -28,11 +28,11 @@ export function FestivalSchedule({
                   className="flex flex-col md:flex-row md:justify-between gap-2 border-b-2 border-rf-ocher px-6 py-2.5 last:border-b-0"
                 >
                   {item.time && (
-                    <span className="font-milling font-semibold text-[32px] text-rf-ocher shrink-0 whitespace-nowrap">
+                    <span className="font-new-edge font-semibold text-[32px] text-rf-ocher shrink-0 whitespace-nowrap">
                       {item.time}
                     </span>
                   )}
-                  <div className="font-brook text-2xl text-rf-metal whitespace-pre-line">
+                  <div className="font-schoolbook-condensed text-2xl text-rf-metal whitespace-pre-line">
                     {item.description}
                     {item.links?.map((link) => (
                       <a

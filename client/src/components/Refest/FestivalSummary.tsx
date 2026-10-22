@@ -20,7 +20,7 @@ export default function FestivalSummary({
       meta={<FestivalDateLines festival={festival} />}
       description={
         festival.summary ? (
-          <p className="font-brook text-2xl leading-[1.2] text-ch-midnite">
+          <p className="font-schoolbook text-2xl leading-[1.2] text-ch-midnite">
             {festival.summary}
           </p>
         ) : null

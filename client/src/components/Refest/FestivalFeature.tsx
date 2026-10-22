@@ -23,7 +23,7 @@ export default function FestivalFeature({
         <FestivalYearTitle festival={festival} />
         <FestivalDateLines festival={festival} />
         {festival.summary && (
-          <p className="font-brook text-2xl leading-[1.2] text-ch-midnite">
+          <p className="font-schoolbook text-2xl leading-[1.2] text-ch-midnite">
             {festival.summary}
           </p>
         )}

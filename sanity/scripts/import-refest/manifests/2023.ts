@@ -17,9 +17,9 @@ export const refest2023: FestivalSeed = {
     "filename": "refest-2023-hero.png"
   },
   "logo": {
-    "figmaNode": "3027:3556",
+    "figmaNode": "3024:3543",
     "alt": "Re–New festival mark",
-    "filename": "refest-2023-logo.png"
+    "filename": "refest-2023-mark.png"
   },
   "locations": [
     {

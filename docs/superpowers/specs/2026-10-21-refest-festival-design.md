@@ -80,20 +80,20 @@ The festival template uses the Re-Fest palette from Figma: Metal, Cream, Highlig
 
 ### 4.6 Fonts map to the existing local fonts
 
-The design uses NewEdge666 and SchoolBook. The site already maps those roles to local Milling and Brook fonts:
+The festival pages use the actual design fonts, not the site-wide Milling/Brook substitutes:
 
-- NewEdge666 headings → `font-milling`
-- SchoolBook body/copy → `font-brook`
-
-No new font files are required.
+- **NewEdge666** is loaded locally from `client/public/fonts/NewEdge666/NewEdge666-SemiboldRounded.otf` via `next/font/local`, exposed as `font-new-edge` (weight 600).
+- **SchoolBook** and **SchoolBook Condensed** are loaded by the existing Adobe Fonts kit (`https://use.typekit.net/qwz8mrs.css`, already imported at the top of `globals.css`), exposed as `font-schoolbook` and `font-schoolbook-condensed`.
+- Milling and Brook remain the site-wide fonts for non-festival pages.
 
 Usage audit for the festival template:
 
-- **Milling (NewEdge666):** section headings, jump-menu theme and buttons, schedule date headers and times, participating artist names, artwork titles, video titles, partner names, and the About theme title.
-- **Brook (SchoolBook):** header and About body copy, location names (italic), dates, venue/address details, schedule descriptions, artwork credits and descriptions, video credits, partner group labels, and links.
-- **Brook regular, not italic:** the archive row’s “Re–Fest” program label.
+- **NewEdge666 (`font-new-edge`):** section headings, jump-menu theme and buttons, schedule date headers and times, participating artist names, artwork titles, video titles, partner names, About theme title, and ticket buttons.
+- **SchoolBook (`font-schoolbook`):** header and About body copy, artwork descriptions.
+- **SchoolBook Condensed (`font-schoolbook-condensed`):** location summaries, dates, venue/address details, schedule descriptions, links, partner group labels, and archive row location/program labels.
+- **SchoolBook italic (`font-schoolbook italic`):** location names and section headings such as “Featured Artworks”, “Videos”, “Partners”, “Participating Artists”, and artwork credits.
 
-The archive preview year is Brook and its theme is Milling, both at 48px.
+The archive preview year is `font-schoolbook` and its theme is `font-new-edge`, both at 48px. The archive row’s “Re–Fest” program label is SchoolBook Condensed regular, not italic.
 
 ### 4.7 Artist and partner lists are strings
 
@@ -356,7 +356,7 @@ schedule becomes a single column and the filler is hidden.
 
 ### 7.6 Re-Fest list page typography and borders
 
-- The Re-Fest header description uses a 1.2 line-height; section headings use 28px Milling at 1.2 line-height.
+- The Re-Fest header description uses SchoolBook with a 1.2 line-height; section headings use 28px NewEdge666 at 1.2 line-height.
 - The “Festival Archive” heading sits directly on top of the archive rows; it has no bottom margin. Its bottom border is the list’s top border.
 - Archive rows have a minimum height of 125px.
 - The archive preview title row is 48px: Brook year + Milling theme.
@@ -550,7 +550,7 @@ pnpm -C sanity build
 - The schedule is a continuous two-column grid with 2px ocher cell borders, no gaps, and blank filler cells for uneven columns; the last content row inside a cell has no extra bottom border.
 - The archive rows are 125px tall, the preview title is 48px, and the list and preview bottoms align at 875px.
 - The archive preview has right/bottom borders and no left border; the list/preview seam is a single 1px line.
-- The archive row program label is Brook regular, not italic.
+- The archive row program label is SchoolBook Condensed regular, not italic.
 - At 375px, Featured Artworks is one column, the schedule is one column, and content flows naturally.
 
 ---

@@ -27,14 +27,16 @@ export default function FestivalArchiveRow({
           selected ? "bg-rf-highlighter" : "bg-ch-lite"
         }`}
       >
-        <span className="font-brook text-xs text-ch-midnite">
+        <span className="font-schoolbook-condensed text-xs text-ch-midnite">
           {locationSummary}
         </span>
-        <span className="font-brook text-xs text-ch-midnite">Re–Fest</span>
-        <span className="font-brook text-[32px] uppercase leading-none text-ch-midnite">
+        <span className="font-schoolbook-condensed text-xs text-ch-midnite">
+          Re–Fest
+        </span>
+        <span className="font-schoolbook text-[32px] uppercase leading-none text-ch-midnite">
           {festival.year}
         </span>
-        <span className="font-milling font-semibold text-[28px] tracking-[-0.04em] leading-tight text-ch-midnite">
+        <span className="font-new-edge font-semibold text-[28px] tracking-[-0.04em] leading-tight text-ch-midnite">
           {festival.title}
         </span>
       </Link>
@@ -46,13 +48,13 @@ export default function FestivalArchiveRow({
         className="flex md:hidden flex-row items-center min-h-[125px] border-b border-r border-ch-midnite"
       >
         <div className="flex flex-1 min-w-0 flex-col justify-between self-stretch gap-2 p-[18px]">
-          <span className="font-brook text-xs text-ch-midnite">
+          <span className="font-schoolbook-condensed text-xs text-ch-midnite">
             {locationSummary}
           </span>
-          <span className="font-brook text-2xl uppercase text-ch-midnite">
+          <span className="font-schoolbook text-2xl uppercase text-ch-midnite">
             {festival.year}
           </span>
-          <span className="font-milling font-semibold text-[28px] tracking-[-0.04em] leading-tight text-ch-midnite">
+          <span className="font-new-edge font-semibold text-[28px] tracking-[-0.04em] leading-tight text-ch-midnite">
             {festival.title}
           </span>
         </div>
