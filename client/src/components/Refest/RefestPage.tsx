@@ -20,6 +20,7 @@ export default function RefestPage({ data }: { data: RefestPageData }) {
           <SectionHeading
             title="Current"
             className="mb-9"
+            borderTop={false}
             fontClassName="font-new-edge"
             fontWeightClassName="font-semibold"
           />

@@ -6,6 +6,10 @@ export const refest2026: FestivalSeed = {
   year: 2026,
   slug: '2026',
   locationSummary: 'New York',
+  dateLines: [
+    'March 6-9, 2025 in New York',
+    'March 14-15, 2025 in Los Angeles',
+  ],
   summary:
     'Our 2026 festival introduces the theme Re–Mapping, which gestures toward experiences of re-telling, re-seeing, and re-learning.',
   about: [

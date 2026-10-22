@@ -33,11 +33,7 @@ describe("festival helpers", () => {
         { name: "Los Angeles", kind: "in-person", dateLabel: "March 14-15th" },
         { name: "Virtual", kind: "virtual", dateLabel: "March 6-15th" },
       ]),
-    ).toEqual([
-      "March 6-9th in New York",
-      "March 14-15th in Los Angeles",
-      "March 6-15th",
-    ]);
+    ).toEqual(["March 6-9th in New York", "March 14-15th in Los Angeles"]);
   });
 
   it("builds nav items with About first", () => {

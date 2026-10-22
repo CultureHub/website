@@ -470,6 +470,7 @@ export async function getRefestPage(programSlug: string) {
       ...,
       "currentFestival": currentFestival->{
         _id, title, year, "slug": slug.current, summary, locationSummary,
+        dateLines,
         heroImage { asset, hotspot, crop, alt, credits },
         links[] { _key, label, shortLabel, url },
         locations[] { name, kind, dateLabel }
@@ -479,6 +480,7 @@ export async function getRefestPage(programSlug: string) {
         && _id != ^.currentFestival._ref
       ] | order(year desc) {
         _id, title, year, "slug": slug.current, summary, locationSummary,
+        dateLines,
         heroImage { asset, hotspot, crop, alt, credits },
         links[] { _key, label, shortLabel, url },
         locations[] { name, kind, dateLabel }

@@ -33,12 +33,10 @@ export function festivalDateLines(
   locations: FestivalDateLineInput[],
 ): string[] {
   return locations
-    .filter((location) => location.dateLabel?.trim())
-    .map((location) =>
-      location.kind === "virtual"
-        ? location.dateLabel!.trim()
-        : `${location.dateLabel!.trim()} in ${location.name}`,
-    );
+    .filter(
+      (location) => location.kind !== "virtual" && location.dateLabel?.trim(),
+    )
+    .map((location) => `${location.dateLabel!.trim()} in ${location.name}`);
 }
 
 export function festivalNavItems(

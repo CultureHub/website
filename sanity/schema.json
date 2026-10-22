@@ -6164,6 +6164,16 @@
         },
         "optional": true
       },
+      "dateLines": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "string"
+          }
+        },
+        "optional": true
+      },
       "links": {
         "type": "objectAttribute",
         "value": {

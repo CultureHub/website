@@ -14,6 +14,7 @@ export type ButtonProps = PropsWithChildren<{
   className?: string;
   textClassName?: string;
   textWeightClassName?: string;
+  hoverClassName?: string;
   href?: string;
   openNewTab?: boolean;
   onClick?: () => void;
@@ -25,6 +26,7 @@ export default function Button({
   className = "",
   textClassName,
   textWeightClassName,
+  hoverClassName,
   href,
   openNewTab,
   onClick,
@@ -33,8 +35,9 @@ export default function Button({
   let textClasses = `text-ch-midnite text-base font-normal ${
     textClassName ?? "font-milling"
   } leading-4`;
-  let stateContainerClasses =
-    "group hover:bg-ch-bb active:bg-ch-midnite active:outline-ch-bb";
+  let stateContainerClasses = `group ${
+    hoverClassName ?? "hover:bg-ch-bb"
+  } active:bg-ch-midnite active:outline-ch-bb`;
   let stateTextClasses = "group-active:text-ch-bb";
 
   switch (variant) {
@@ -46,8 +49,9 @@ export default function Button({
       textClasses = `text-ch-lite text-base font-normal ${
         textClassName ?? "font-brook"
       } uppercase leading-4`;
-      stateContainerClasses =
-        "group hover:bg-ch-bb hover:outline-ch-midnite active:bg-ch-lite active:outline-ch-midnite";
+      stateContainerClasses = `group ${
+        hoverClassName ?? "hover:bg-ch-bb"
+      } hover:outline-ch-midnite active:bg-ch-lite active:outline-ch-midnite`;
       stateTextClasses =
         "group-hover:text-ch-midnite group-active:text-ch-midnite";
       break;

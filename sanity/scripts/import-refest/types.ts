@@ -61,6 +61,7 @@ export interface FestivalSeed {
   heroImage: ImageSource
   logo?: ImageSource
   locationSummary?: string
+  dateLines?: string[]
   links?: LinkSeed[]
   locations?: LocationSeed[]
   partnerGroups?: Array<{title: string; names: string[]}>

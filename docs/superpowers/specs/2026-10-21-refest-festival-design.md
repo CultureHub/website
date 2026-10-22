@@ -95,6 +95,10 @@ Usage audit for the festival template:
 
 The archive preview year is `font-schoolbook` and its theme is `font-new-edge`, both at 48px. The archive row’s “Re–Fest” program label is SchoolBook Condensed regular, not italic.
 
+Archive/Current date lines come from `festival.dateLines` when present; otherwise they are derived from non-virtual locations. The 2025 and 2026 displays use “March 6-9, 2025 in New York” / “March 14-15, 2025 in Los Angeles”; the 2023 display uses “April 20-29, 2023 in New York” / “April 28-29, 2023 in Los Angeles”.
+
+Jump-menu buttons use RF Blue Smoke with an RF Metal border by default, and RF Midnight with an RF Blue Smoke border/text when active. The active button is determined by click and updated on scroll. The archive preview’s “Visit Festival” button hovers to RF Highlighter, the Re-Fest program accent.
+
 ### 4.7 Artist and partner lists are strings
 
 `participatingArtists` and partner names are arrays of strings, not references. This matches the live content (line-separated names) and keeps imports and editing simple.
@@ -134,6 +138,7 @@ The existing `pageDescription` field carries the Re-Fest header copy. The import
 | `heroImage` | image | yes | Full-bleed template hero and archive image. Alt required. |
 | `logo` | image | no | Optional festival mark (e.g. the 2023 Re–NEW logo). Alt required when present. |
 | `locationSummary` | string | no | Archive label override, e.g. “New York & Los Angeles”, “Worldwide”, “Online”. Derived from `locations` when empty. |
+| `dateLines` | array of string | no | Display override for Current/archive date lines, e.g. “March 6-9, 2025 in New York”. Derived from non-virtual locations when empty. |
 | `links` | array of link | no | Overall festival links (catalogue, tickets, RSVP). |
 | `locations` | array of location object | no | Physical and virtual locations. Drives the jump menu and page sections. |
 | `partnerGroups` | array of partner group | no | Grouped partner names. |
@@ -357,6 +362,7 @@ schedule becomes a single column and the filler is hidden.
 ### 7.6 Re-Fest list page typography and borders
 
 - The Re-Fest header description uses SchoolBook with a 1.2 line-height; section headings use 28px NewEdge666 at 1.2 line-height.
+- The “Current” heading has no top border; the Re-Fest header’s bottom border is the only line above it.
 - The “Festival Archive” heading sits directly on top of the archive rows; it has no bottom margin. Its bottom border is the list’s top border.
 - Archive rows have a minimum height of 125px.
 - The archive preview title row is 48px: Brook year + Milling theme.
@@ -388,6 +394,7 @@ Returns the program fields used by `ProgramHeader`, the full current festival, a
   ...,
   "currentFestival": currentFestival->{
     _id, title, year, "slug": slug.current, summary, locationSummary,
+    dateLines,
     heroImage { asset, hotspot, crop, alt, credits },
     links[] { _key, label, shortLabel, url },
     locations[] { name, kind, dateLabel }
@@ -397,6 +404,7 @@ Returns the program fields used by `ProgramHeader`, the full current festival, a
     && _id != ^.currentFestival._ref
   ] | order(year desc) {
     _id, title, year, "slug": slug.current, summary, locationSummary,
+    dateLines,
     heroImage { asset, hotspot, crop, alt, credits },
     links[] { _key, label, shortLabel, url },
     locations[] { name, kind, dateLabel }
@@ -551,6 +559,9 @@ pnpm -C sanity build
 - The archive rows are 125px tall, the preview title is 48px, and the list and preview bottoms align at 875px.
 - The archive preview has right/bottom borders and no left border; the list/preview seam is a single 1px line.
 - The archive row program label is SchoolBook Condensed regular, not italic.
+- Current/archive date lines match their `dateLines` overrides and exclude virtual locations.
+- Clicking a jump button sets its active Midnight/Blue Smoke state; scrolling updates the active section.
+- The archive preview Visit Festival button hovers to RF Highlighter.
 - At 375px, Featured Artworks is one column, the schedule is one column, and content flows naturally.
 
 ---

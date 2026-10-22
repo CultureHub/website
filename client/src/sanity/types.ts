@@ -835,6 +835,7 @@ export type Festival = {
     _type: "image";
   };
   locationSummary?: string;
+  dateLines?: Array<string>;
   links?: Array<{
     label: string;
     shortLabel?: string;
@@ -2708,7 +2709,7 @@ export type GetPastEventsQueryResult = Array<{
 
 // Source: ../client/src/sanity/queries.ts
 // Variable: getRefestPageQuery
-// Query: *[_type == "program" && slug.current == $programSlug][0]{      ...,      "currentFestival": currentFestival->{        _id, title, year, "slug": slug.current, summary, locationSummary,        heroImage { asset, hotspot, crop, alt, credits },        links[] { _key, label, shortLabel, url },        locations[] { name, kind, dateLabel }      },      "archive": *[_type == "festival"        && program._ref == ^._id        && _id != ^.currentFestival._ref      ] | order(year desc) {        _id, title, year, "slug": slug.current, summary, locationSummary,        heroImage { asset, hotspot, crop, alt, credits },        links[] { _key, label, shortLabel, url },        locations[] { name, kind, dateLabel }      }    }
+// Query: *[_type == "program" && slug.current == $programSlug][0]{      ...,      "currentFestival": currentFestival->{        _id, title, year, "slug": slug.current, summary, locationSummary,        dateLines,        heroImage { asset, hotspot, crop, alt, credits },        links[] { _key, label, shortLabel, url },        locations[] { name, kind, dateLabel }      },      "archive": *[_type == "festival"        && program._ref == ^._id        && _id != ^.currentFestival._ref      ] | order(year desc) {        _id, title, year, "slug": slug.current, summary, locationSummary,        dateLines,        heroImage { asset, hotspot, crop, alt, credits },        links[] { _key, label, shortLabel, url },        locations[] { name, kind, dateLabel }      }    }
 export type GetRefestPageQueryResult = {
   _id: string;
   _type: "program";
@@ -2819,6 +2820,7 @@ export type GetRefestPageQueryResult = {
     slug: string;
     summary: string | null;
     locationSummary: string | null;
+    dateLines: Array<string> | null;
     heroImage: {
       asset: SanityImageAssetReference | null;
       hotspot: SanityImageHotspot | null;
@@ -2845,6 +2847,7 @@ export type GetRefestPageQueryResult = {
     slug: string;
     summary: string | null;
     locationSummary: string | null;
+    dateLines: Array<string> | null;
     heroImage: {
       asset: SanityImageAssetReference | null;
       hotspot: SanityImageHotspot | null;
@@ -3018,7 +3021,7 @@ declare module "@sanity/client" {
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc) [0...$limit] {\n      _id,\n      title,\n      "slug": slug.current,\n      dateTimes,\n      location,\n      locationShort,\n      timezoneLabel,\n      "program": program->{\n        _id, title, slug, shortLabel, displayTitle\n      },\n      heroImage {\n        asset,\n        hotspot,\n        crop,\n        alt\n      }\n    }': GetUpcomingEventsQueryResult;
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end >= $now\n    ] | order(dateTimes[0].start asc)\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  description,\n  links,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle, accentColor\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetAllUpcomingEventsQueryResult;
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end < $now\n    ] | order(dateTimes[0].start desc)\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  description,\n  links,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle, accentColor\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetPastEventsQueryResult;
-    '*[_type == "program" && slug.current == $programSlug][0]{\n      ...,\n      "currentFestival": currentFestival->{\n        _id, title, year, "slug": slug.current, summary, locationSummary,\n        heroImage { asset, hotspot, crop, alt, credits },\n        links[] { _key, label, shortLabel, url },\n        locations[] { name, kind, dateLabel }\n      },\n      "archive": *[_type == "festival"\n        && program._ref == ^._id\n        && _id != ^.currentFestival._ref\n      ] | order(year desc) {\n        _id, title, year, "slug": slug.current, summary, locationSummary,\n        heroImage { asset, hotspot, crop, alt, credits },\n        links[] { _key, label, shortLabel, url },\n        locations[] { name, kind, dateLabel }\n      }\n    }': GetRefestPageQueryResult;
+    '*[_type == "program" && slug.current == $programSlug][0]{\n      ...,\n      "currentFestival": currentFestival->{\n        _id, title, year, "slug": slug.current, summary, locationSummary,\n        dateLines,\n        heroImage { asset, hotspot, crop, alt, credits },\n        links[] { _key, label, shortLabel, url },\n        locations[] { name, kind, dateLabel }\n      },\n      "archive": *[_type == "festival"\n        && program._ref == ^._id\n        && _id != ^.currentFestival._ref\n      ] | order(year desc) {\n        _id, title, year, "slug": slug.current, summary, locationSummary,\n        dateLines,\n        heroImage { asset, hotspot, crop, alt, credits },\n        links[] { _key, label, shortLabel, url },\n        locations[] { name, kind, dateLabel }\n      }\n    }': GetRefestPageQueryResult;
     '*[\n      _type == "festival"\n      && slug.current == $slug\n      && program->slug.current == $programSlug\n    ][0]{\n      _id, title, year, "slug": slug.current, summary, about,\n      startDate, endDate, locationSummary,\n      heroImage { asset, hotspot, crop, alt, credits },\n      logo { asset, hotspot, crop, alt, credits },\n      links[] { _key, label, shortLabel, url },\n      locations[] {\n        _key, name, kind, colorVariant, dateLabel, venueName, address, details,\n        links[] { _key, label, shortLabel, url },\n        participatingArtists,\n        schedule {\n          days[] {\n            _key, dateLabel,\n            items[] { _key, time, description, links[] { _key, label, shortLabel, url } }\n          }\n        },\n        featuredArtworks[] {\n          _key, title, artist, description, link,\n          image { asset, hotspot, crop, alt, credits }\n        }\n      },\n      videos[] { _key, title, artist, url, thumbnail { asset, hotspot, crop, alt, credits } },\n      partnerGroups[] { _key, title, names },\n      "program": program->{ _id, title, "slug": slug.current, shortLabel, accentColor }\n    }': GetFestivalBySlugQueryResult;
   }
 }

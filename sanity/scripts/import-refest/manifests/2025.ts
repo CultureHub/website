@@ -6,6 +6,10 @@ export const refest2025: FestivalSeed = {
   "year": 2025,
   "slug": "2025",
   "locationSummary": "New York & Los Angeles",
+  "dateLines": [
+    "March 6-9, 2025 in New York",
+    "March 14-15, 2025 in Los Angeles"
+  ],
   "summary": "The theme, Re–Collect, centers recollection equally with collecting as a practice. What mark do our collections make on the world? What gaps are left by those that are missing? Where can collections be restored, created, or dismantled to create a more just future?",
   "about": [
     "The theme, Re–Collect, centers recollection equally with collecting as a practice. What mark do our collections make on the world? What gaps are left by those that are missing? Where can collections be restored, created, or dismantled to create a more just future?",

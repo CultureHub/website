@@ -40,7 +40,10 @@ export default function FestivalArchive({
               aria-hidden={!active}
               className={`col-start-1 row-start-1 ${active ? "" : "invisible"}`}
             >
-              <FestivalSummary festival={festival} />
+              <FestivalSummary
+                festival={festival}
+                hoverClassName="hover:bg-rf-highlighter"
+              />
             </div>
           );
         })}

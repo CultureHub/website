@@ -8,8 +8,10 @@ import type { FestivalArchiveItem } from "@/sanity/queries";
 
 export default function FestivalSummary({
   festival,
+  hoverClassName,
 }: {
   festival: FestivalArchiveItem;
+  hoverClassName?: string;
 }) {
   return (
     <DetailSummary
@@ -25,7 +27,9 @@ export default function FestivalSummary({
           </p>
         ) : null
       }
-      actions={<FestivalActions festival={festival} />}
+      actions={
+        <FestivalActions festival={festival} hoverClassName={hoverClassName} />
+      }
     />
   );
 }

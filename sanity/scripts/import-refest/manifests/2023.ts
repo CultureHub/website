@@ -6,6 +6,10 @@ export const refest2023: FestivalSeed = {
   "year": 2023,
   "slug": "2023",
   "locationSummary": "New York & Los Angeles",
+  "dateLines": [
+    "April 20-29, 2023 in New York",
+    "April 28-29, 2023 in Los Angeles"
+  ],
   "summary": "The theme for Re–Fest 2023 is Re-New, which critically examines our culture’s obsession with newness.",
   "about": [
     "The theme for Re–Fest 2023 is Re-New, which critically examines our culture’s obsession with newness. How can we prioritize ancestral knowledge, healing practices, and forgotten technologies in order to renew our relationship with creation and progress?",

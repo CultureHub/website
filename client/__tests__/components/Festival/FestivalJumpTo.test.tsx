@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { FestivalJumpTo } from "@/components/Festival/FestivalJumpTo";
 import type { FestivalTemplateData } from "@/sanity/queries";
 
@@ -55,5 +56,23 @@ it("handles a virtual-only location", () => {
   expect(screen.getByRole("link", { name: "Virtual" })).toHaveAttribute(
     "href",
     "#virtual-gallery",
+  );
+});
+
+it("marks the clicked jump button as current", async () => {
+  render(
+    <FestivalJumpTo
+      festival={makeFestival([{ name: "New York" }, { name: "Los Angeles" }])}
+    />,
+  );
+
+  await userEvent.click(screen.getByRole("link", { name: "New York" }));
+
+  expect(screen.getByRole("link", { name: "New York" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+  expect(screen.getByRole("link", { name: "Los Angeles" })).not.toHaveAttribute(
+    "aria-current",
   );
 });

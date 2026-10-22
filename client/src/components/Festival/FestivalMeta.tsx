@@ -29,7 +29,11 @@ export function FestivalDateLines({
 }: {
   festival: FestivalArchiveItem;
 }) {
-  const lines = festivalDateLines(festival.locations ?? []);
+  const override = festival.dateLines?.filter(Boolean) ?? [];
+  const lines =
+    override.length > 0
+      ? override
+      : festivalDateLines(festival.locations ?? []);
   if (lines.length === 0) return null;
 
   return (
@@ -48,8 +52,10 @@ export function FestivalDateLines({
 
 export function FestivalActions({
   festival,
+  hoverClassName,
 }: {
   festival: FestivalArchiveItem;
+  hoverClassName?: string;
 }) {
   return (
     <div className="flex flex-row flex-wrap items-center gap-4">
@@ -61,6 +67,7 @@ export function FestivalActions({
           openNewTab
           textClassName="font-new-edge"
           textWeightClassName="font-semibold"
+          hoverClassName={hoverClassName}
         >
           {link.shortLabel ?? link.label}
         </Button>
@@ -70,6 +77,7 @@ export function FestivalActions({
         href={festivalHref(festival.slug)}
         textClassName="font-new-edge"
         textWeightClassName="font-semibold"
+        hoverClassName={hoverClassName}
       >
         Visit Festival
       </Button>

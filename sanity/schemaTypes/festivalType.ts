@@ -87,6 +87,14 @@ export const festivalType = defineType({
       description:
         'Archive label override, e.g. "New York & Los Angeles", "Worldwide", "Online". Derived from locations when empty.',
     }),
+    defineField({
+      title: 'Date Lines',
+      name: 'dateLines',
+      type: 'array',
+      of: [{type: 'string'}],
+      description:
+        'Optional display override for the Current and archive date lines. If empty, lines are derived from locations (virtual locations excluded).',
+    }),
     defineField(linksField({
       title: 'Festival Links',
       name: 'links',

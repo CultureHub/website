@@ -51,6 +51,13 @@ it("renders archive rows and previews the first festival by default", () => {
   );
 });
 
+it("uses the re-fest highlighter for the archive Visit Festival hover", () => {
+  render(<FestivalArchive festivals={festivals} />);
+
+  const link = screen.getAllByRole("link", { name: "Visit Festival" })[0];
+  expect(link.firstElementChild).toHaveClass("hover:bg-rf-highlighter");
+});
+
 it("switches the preview on hover", async () => {
   render(<FestivalArchive festivals={festivals} />);
 

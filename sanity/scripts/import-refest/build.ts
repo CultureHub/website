@@ -91,6 +91,7 @@ export function buildFestivalDocument(
     heroImage: toImage(seed.heroImage, images),
     ...(seed.logo ? {logo: toImage(seed.logo, images)} : {}),
     ...(seed.locationSummary ? {locationSummary: seed.locationSummary} : {}),
+    ...(seed.dateLines ? {dateLines: seed.dateLines} : {}),
     links: toLinks(seed.links, key(seed.slug, 'festival')),
     locations: (seed.locations ?? []).map((location, locationIndex) => {
       const locationKey = key(seed.slug, 'loc', locationIndex)

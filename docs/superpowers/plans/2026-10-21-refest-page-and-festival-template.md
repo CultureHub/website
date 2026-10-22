@@ -2176,3 +2176,51 @@ pnpm -C client build
 ```
 
 Commit the font loading, component font classes, and the 2023 logo import fix.
+
+---
+
+### Task 14: Date-line overrides, jump-button active state, and archive hover accent
+
+**Files:**
+- Modify: `sanity/schemaTypes/festivalType.ts`
+- Modify: `client/src/sanity/queries.ts`
+- Modify: `client/src/util/festival.ts`
+- Modify: `client/src/components/Festival/FestivalMeta.tsx`
+- Modify: `client/src/components/Festival/FestivalJumpTo.tsx`
+- Modify: `client/src/components/Refest/RefestPage.tsx`
+- Modify: `client/src/components/Refest/FestivalArchive.tsx`
+- Modify: `client/src/components/Refest/FestivalSummary.tsx`
+- Modify: `client/src/components/Button.tsx`
+- Modify: `sanity/scripts/import-refest/types.ts`, `build.ts`, `manifests/2023.ts`, `2025.ts`, `2026.ts`
+
+- [ ] **Step 1: Add `festival.dateLines`**
+
+Add an optional `dateLines` array of strings to the festival schema and project it in the `getRefestPage` current/archive queries. `FestivalDateLines` uses the override when present; otherwise it derives lines from non-virtual locations. Virtual locations are excluded.
+
+- [ ] **Step 2: Set the display overrides**
+
+- 2026 and 2025: `["March 6-9, 2025 in New York", "March 14-15, 2025 in Los Angeles"]`.
+- 2023: `["April 20-29, 2023 in New York", "April 28-29, 2023 in Los Angeles"]`.
+
+Re-run `pnpm -C sanity import:refest -- --write`.
+
+- [ ] **Step 3: Remove the Current top border**
+
+Render the Re-Fest `Current` section heading with `borderTop={false}`. The header’s bottom border remains the only line above it.
+
+- [ ] **Step 4: Implement jump-button active state**
+
+Make `FestivalJumpTo` a client component. Track the active anchor with `useState`; set it on click and update it on scroll by finding the last section whose top is at or above 166px. Apply `aria-current="page"` and the Figma active style: RF Midnight background, RF Blue Smoke border/text. Default remains RF Blue Smoke background, RF Metal border/text.
+
+- [ ] **Step 5: Use the Re-Fest highlighter for archive button hover**
+
+Add `hoverClassName` to `Button` (replacing the default `hover:bg-ch-bb`). Pass `hover:bg-rf-highlighter` from `FestivalArchive` through `FestivalSummary`/`FestivalActions`.
+
+- [ ] **Step 6: Verify**
+
+- `/re-fest` current and 2025 preview show the 2025 date lines with full years and hyphens.
+- 2023 preview shows only New York and Los Angeles lines.
+- Current heading has no top border.
+- Clicking a jump button turns it Midnight/Blue Smoke; scrolling updates the active item.
+- Archive “Visit Festival” hover is `#EDFD8B`.
+- Tests, typecheck, lint, and build pass.
