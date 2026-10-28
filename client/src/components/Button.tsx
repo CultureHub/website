@@ -18,6 +18,7 @@ export type ButtonProps = PropsWithChildren<{
   href?: string;
   openNewTab?: boolean;
   onClick?: () => void;
+  hoverColor?: "ch-bb" | "ch-read-lilac";
 }>;
 
 export default function Button({
@@ -30,14 +31,17 @@ export default function Button({
   href,
   openNewTab,
   onClick,
+  hoverColor = "ch-bb",
 }: ButtonProps) {
   let containerClasses = "outline outline-1 outline-offset-[-1px] ";
   let textClasses = `text-ch-midnite text-base font-normal ${
     textClassName ?? "font-milling"
   } leading-4`;
-  let stateContainerClasses = `group ${
-    hoverClassName ?? "hover:bg-ch-bb"
-  } active:bg-ch-midnite active:outline-ch-bb`;
+  const hoverBg =
+    hoverColor === "ch-read-lilac"
+      ? "hover:bg-ch-read-lilac"
+      : "hover:bg-ch-bb";
+  let stateContainerClasses = `group ${hoverClassName ?? hoverBg} active:bg-ch-midnite active:outline-ch-bb`;
   let stateTextClasses = "group-active:text-ch-bb";
 
   switch (variant) {

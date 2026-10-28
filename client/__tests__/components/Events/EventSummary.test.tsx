@@ -8,7 +8,7 @@ jest.mock("@/components/SanityImage", () => {
   };
 });
 
-jest.mock("next-sanity", () => ({
+jest.mock("@portabletext/react", () => ({
   PortableText: ({ value }: { value: unknown }) => (
     <span data-testid="portable-text">{JSON.stringify(value)}</span>
   ),

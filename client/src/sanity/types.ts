@@ -102,11 +102,280 @@ export type Credits = {
   }>;
 };
 
+export type Qa = {
+  _type: "qa";
+  question: string;
+  answer: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
+export type ImageText = {
+  _type: "imageText";
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  imagePosition?: "left" | "right";
+  text?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "normal"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | ({
+        _key: string;
+      } & Qa)
+  >;
+};
+
+export type ImagePair = {
+  _type: "imagePair";
+  image1: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  image2: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+};
+
+export type ArticleImage = {
+  _type: "articleImage";
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  layout?: "full" | "alignLeft" | "alignRight";
+};
+
+export type PullQuote = {
+  _type: "pullQuote";
+  text: string;
+  size?: "standard" | "large";
+};
+
+export type ArticleText = {
+  _type: "articleText";
+  align?: "left" | "right" | "center";
+  style?: "body" | "lead" | "small";
+  text?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "normal"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | ({
+        _key: string;
+      } & Qa)
+  >;
+};
+
+export type ArticleReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "article";
+};
+
+export type Article = {
+  _id: string;
+  _type: "article";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  publishDate: string;
+  deck?: string;
+  byline?: string;
+  heroImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credits?: string;
+    _type: "image";
+  };
+  content?: Array<
+    | ({
+        _key: string;
+      } & ArticleText)
+    | ({
+        _key: string;
+      } & PullQuote)
+    | ({
+        _key: string;
+      } & ArticleImage)
+    | ({
+        _key: string;
+      } & ImagePair)
+    | ({
+        _key: string;
+      } & ImageText)
+  >;
+  author?: {
+    name?: string;
+    photo?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string;
+      credits?: string;
+      _type: "image";
+    };
+    website?: string;
+    bio?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    note?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+  };
+  readMore?: Array<
+    {
+      _key: string;
+    } & ArticleReference
+  >;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
 };
 
 export type ProgramReference = {
@@ -310,28 +579,6 @@ export type Event = {
     }>;
   };
   credits?: Credits;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
 };
 
 export type OpportunityReference = {
@@ -1072,13 +1319,21 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes =
   | Credits
+  | Qa
   | SanityImageAssetReference
-  | ProgramReference
-  | ArtistReference
-  | Event
+  | ImageText
+  | ImagePair
+  | ArticleImage
+  | PullQuote
+  | ArticleText
+  | ArticleReference
+  | Article
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | ProgramReference
+  | ArtistReference
+  | Event
   | OpportunityReference
   | CommunityPage
   | ArtAndTechnologyPage
@@ -3000,6 +3255,202 @@ export type GetFestivalBySlugQueryResult = {
   };
 } | null;
 
+// Source: ../client/src/sanity/queries.ts
+// Variable: getArticleBySlugQuery
+// Query: *[_type == "article" && slug.current == $slug][0]{      _id,      title,      "slug": slug.current,      publishDate,      deck,      byline,      heroImage { asset, hotspot, crop, alt, credits },      content[]{        _key,        _type,        _type == "articleText" => { align, style, text },        _type == "pullQuote" => { text, size },        _type == "articleImage" => {          layout,          image { asset, hotspot, crop, alt, credits }        },        _type == "imagePair" => {          image1 { asset, hotspot, crop, alt, credits },          image2 { asset, hotspot, crop, alt, credits }        },        _type == "imageText" => {          imagePosition,          image { asset, hotspot, crop, alt, credits },          text        }      },      author {        name,        website,        photo { asset, hotspot, crop, alt },        bio,        note      },      readMore[defined(@->slug.current)]->{        _id,        title,        "slug": slug.current,        publishDate,        "authorName": author.name,        heroImage { asset, hotspot, crop, alt }      }    }
+export type GetArticleBySlugQueryResult = {
+  _id: string;
+  title: string;
+  slug: string;
+  publishDate: string;
+  deck: string | null;
+  byline: string | null;
+  heroImage: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+    alt: string;
+    credits: string | null;
+  } | null;
+  content: Array<
+    | {
+        _key: string;
+        _type: "articleImage";
+        layout: "alignLeft" | "alignRight" | "full" | null;
+        image: {
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string;
+          credits: string | null;
+        };
+      }
+    | {
+        _key: string;
+        _type: "articleText";
+        align: "center" | "left" | "right" | null;
+        style: "body" | "lead" | "small" | null;
+        text: Array<
+          | ({
+              _key: string;
+            } & Qa)
+          | {
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?:
+                | "blockquote"
+                | "h1"
+                | "h2"
+                | "h3"
+                | "h4"
+                | "h5"
+                | "h6"
+                | "normal";
+              listItem?: "bullet" | "number";
+              markDefs?: Array<{
+                href?: string;
+                _type: "link";
+                _key: string;
+              }>;
+              level?: number;
+              _type: "block";
+              _key: string;
+            }
+        > | null;
+      }
+    | {
+        _key: string;
+        _type: "imagePair";
+        image1: {
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string;
+          credits: string | null;
+        };
+        image2: {
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string;
+          credits: string | null;
+        };
+      }
+    | {
+        _key: string;
+        _type: "imageText";
+        imagePosition: "left" | "right" | null;
+        image: {
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string;
+          credits: string | null;
+        };
+        text: Array<
+          | ({
+              _key: string;
+            } & Qa)
+          | {
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?:
+                | "blockquote"
+                | "h1"
+                | "h2"
+                | "h3"
+                | "h4"
+                | "h5"
+                | "h6"
+                | "normal";
+              listItem?: "bullet" | "number";
+              markDefs?: Array<{
+                href?: string;
+                _type: "link";
+                _key: string;
+              }>;
+              level?: number;
+              _type: "block";
+              _key: string;
+            }
+        > | null;
+      }
+    | {
+        _key: string;
+        _type: "pullQuote";
+        text: string;
+        size: "large" | "standard" | null;
+      }
+  > | null;
+  author: {
+    name: string | null;
+    website: string | null;
+    photo: {
+      asset: SanityImageAssetReference | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      alt: string;
+    } | null;
+    bio: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+    note: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+  } | null;
+  readMore: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    publishDate: string;
+    authorName: string | null;
+    heroImage: {
+      asset: SanityImageAssetReference | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      alt: string;
+    } | null;
+  }> | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -3023,5 +3474,6 @@ declare module "@sanity/client" {
     '*[\n      _type == "event"\n      && defined(slug.current)\n      && count(dateTimes) > 0\n      && dateTimes[-1].end < $now\n    ] | order(dateTimes[0].start desc)\n      {\n  _id,\n  title,\n  "slug": slug.current,\n  dateTimes,\n  location,\n  locationShort,\n  timezoneLabel,\n  description,\n  links,\n  "program": program->{\n    _id, title, slug, shortLabel, displayTitle, accentColor\n  },\n  heroImage {\n    asset,\n    hotspot,\n    crop,\n    alt\n  }\n}': GetPastEventsQueryResult;
     '*[_type == "program" && slug.current == $programSlug][0]{\n      ...,\n      "currentFestival": currentFestival->{\n        _id, title, year, "slug": slug.current, summary, locationSummary,\n        dateLines,\n        heroImage { asset, hotspot, crop, alt, credits },\n        links[] { _key, label, shortLabel, url },\n        locations[] { name, kind, dateLabel }\n      },\n      "archive": *[_type == "festival"\n        && program._ref == ^._id\n        && _id != ^.currentFestival._ref\n      ] | order(year desc) {\n        _id, title, year, "slug": slug.current, summary, locationSummary,\n        dateLines,\n        heroImage { asset, hotspot, crop, alt, credits },\n        links[] { _key, label, shortLabel, url },\n        locations[] { name, kind, dateLabel }\n      }\n    }': GetRefestPageQueryResult;
     '*[\n      _type == "festival"\n      && slug.current == $slug\n      && program->slug.current == $programSlug\n    ][0]{\n      _id, title, year, "slug": slug.current, summary, about,\n      startDate, endDate, locationSummary,\n      heroImage { asset, hotspot, crop, alt, credits },\n      logo { asset, hotspot, crop, alt, credits },\n      links[] { _key, label, shortLabel, url },\n      locations[] {\n        _key, name, kind, colorVariant, dateLabel, venueName, address, details,\n        links[] { _key, label, shortLabel, url },\n        participatingArtists,\n        schedule {\n          days[] {\n            _key, dateLabel,\n            items[] { _key, time, description, links[] { _key, label, shortLabel, url } }\n          }\n        },\n        featuredArtworks[] {\n          _key, title, artist, description, link,\n          image { asset, hotspot, crop, alt, credits }\n        }\n      },\n      videos[] { _key, title, artist, url, thumbnail { asset, hotspot, crop, alt, credits } },\n      partnerGroups[] { _key, title, names },\n      "program": program->{ _id, title, "slug": slug.current, shortLabel, accentColor }\n    }': GetFestivalBySlugQueryResult;
+    '*[_type == "article" && slug.current == $slug][0]{\n      _id,\n      title,\n      "slug": slug.current,\n      publishDate,\n      deck,\n      byline,\n      heroImage { asset, hotspot, crop, alt, credits },\n      content[]{\n        _key,\n        _type,\n        _type == "articleText" => { align, style, text },\n        _type == "pullQuote" => { text, size },\n        _type == "articleImage" => {\n          layout,\n          image { asset, hotspot, crop, alt, credits }\n        },\n        _type == "imagePair" => {\n          image1 { asset, hotspot, crop, alt, credits },\n          image2 { asset, hotspot, crop, alt, credits }\n        },\n        _type == "imageText" => {\n          imagePosition,\n          image { asset, hotspot, crop, alt, credits },\n          text\n        }\n      },\n      author {\n        name,\n        website,\n        photo { asset, hotspot, crop, alt },\n        bio,\n        note\n      },\n      readMore[defined(@->slug.current)]->{\n        _id,\n        title,\n        "slug": slug.current,\n        publishDate,\n        "authorName": author.name,\n        heroImage { asset, hotspot, crop, alt }\n      }\n    }': GetArticleBySlugQueryResult;
   }
 }

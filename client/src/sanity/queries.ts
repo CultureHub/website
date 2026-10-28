@@ -544,3 +544,53 @@ export type FestivalArtwork = NonNullable<
   FestivalLocation["featuredArtworks"]
 >[number];
 export type FestivalVideo = NonNullable<FestivalTemplateData["videos"]>[number];
+
+export async function getArticleBySlug(slug: string) {
+  const getArticleBySlugQuery = defineQuery(
+    `*[_type == "article" && slug.current == $slug][0]{
+      _id,
+      title,
+      "slug": slug.current,
+      publishDate,
+      deck,
+      byline,
+      heroImage { asset, hotspot, crop, alt, credits },
+      content[]{
+        _key,
+        _type,
+        _type == "articleText" => { align, style, text },
+        _type == "pullQuote" => { text, size },
+        _type == "articleImage" => {
+          layout,
+          image { asset, hotspot, crop, alt, credits }
+        },
+        _type == "imagePair" => {
+          image1 { asset, hotspot, crop, alt, credits },
+          image2 { asset, hotspot, crop, alt, credits }
+        },
+        _type == "imageText" => {
+          imagePosition,
+          image { asset, hotspot, crop, alt, credits },
+          text
+        }
+      },
+      author {
+        name,
+        website,
+        photo { asset, hotspot, crop, alt },
+        bio,
+        note
+      },
+      readMore[defined(@->slug.current)]->{
+        _id,
+        title,
+        "slug": slug.current,
+        publishDate,
+        "authorName": author.name,
+        heroImage { asset, hotspot, crop, alt }
+      }
+    }`,
+  );
+
+  return client.fetch(getArticleBySlugQuery, { slug }, options);
+}
