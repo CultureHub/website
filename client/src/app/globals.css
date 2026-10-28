@@ -9,6 +9,9 @@
 @theme {
   --font-brook: var(--font-brook);
   --font-milling: var(--font-milling);
+  /* "Miller Text" (the article serif) falls back to a generic serif until a
+     Miller Text webfont is provided. */
+  --font-miller: "Miller Text", Georgia, serif;
   /* FIG Script is loaded from Adobe Fonts (kit qwz8mrs).
      26A1 Marund still needs local font files. */
   --font-fig:
@@ -24,6 +27,7 @@
   --color-ch-bb: #ccf1ff;
   --color-ch-blue: #6dcffd;
   --color-ch-teal: #94deeb;
+  --color-ch-read-lilac: #d5c1ff;
   --color-eds-green: #b5fd8b;
   --color-re-fest-highlighter: #edfd8b;
   --font-sans: var(--font-milling);
@@ -50,7 +54,7 @@ body {
 }
 
 .portable-text-link:hover {
-  color: var(--color-ch-teal);
+  color: var(--color-ch-read-lilac);
 }
 
 .portable-text-link:active {

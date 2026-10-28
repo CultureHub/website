@@ -3,6 +3,11 @@ import localFont from "next/font/local";
 export const MillingFont = localFont({
   src: [
     {
+      path: "/../../public/fonts/milling/205TF-Milling-Triplex2,5mm.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
       path: "/../../public/fonts/milling/205TF-Milling-Triplex1,5mm.woff2",
       weight: "700",
       style: "normal",

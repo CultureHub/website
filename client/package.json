@@ -11,9 +11,11 @@
     "format": "prettier --write src/ './*.{ts, mjs, json}'",
     "prepare": "cd .. && husky client/.husky",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "seed:articles": "tsx scripts/seed-articles.ts"
   },
   "dependencies": {
+    "@portabletext/react": "^8.0.1",
     "@sanity/asset-utils": "^2.3.0",
     "@sanity/client": "^7.20.0",
     "@sanity/image-url": "^2.0.2",
@@ -42,6 +44,7 @@
     "lint-staged": "^16.4.0",
     "prettier": "^3.7.4",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   },
   "lint-staged": {
