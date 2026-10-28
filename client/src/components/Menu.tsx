@@ -88,7 +88,7 @@ export default function Menu() {
               <MenuButton variant="pill" onClick={close} href="/residency">
                 Residency
               </MenuButton>
-              <MenuButton variant="pill" onClick={close}>
+              <MenuButton variant="pill" onClick={close} href="/re-fest">
                 Re-Fest
               </MenuButton>
             </div>

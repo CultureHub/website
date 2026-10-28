@@ -12,6 +12,9 @@ type ButtonVariant =
 export type ButtonProps = PropsWithChildren<{
   variant: ButtonVariant;
   className?: string;
+  textClassName?: string;
+  textWeightClassName?: string;
+  hoverClassName?: string;
   href?: string;
   openNewTab?: boolean;
   onClick?: () => void;
@@ -22,19 +25,23 @@ export default function Button({
   variant,
   children,
   className = "",
+  textClassName,
+  textWeightClassName,
+  hoverClassName,
   href,
   openNewTab,
   onClick,
   hoverColor = "ch-bb",
 }: ButtonProps) {
   let containerClasses = "outline outline-1 outline-offset-[-1px] ";
-  let textClasses =
-    "text-ch-midnite text-base font-normal font-milling leading-4";
+  let textClasses = `text-ch-midnite text-base font-normal ${
+    textClassName ?? "font-milling"
+  } leading-4`;
   const hoverBg =
     hoverColor === "ch-read-lilac"
       ? "hover:bg-ch-read-lilac"
       : "hover:bg-ch-bb";
-  let stateContainerClasses = `group ${hoverBg} active:bg-ch-midnite active:outline-ch-bb`;
+  let stateContainerClasses = `group ${hoverClassName ?? hoverBg} active:bg-ch-midnite active:outline-ch-bb`;
   let stateTextClasses = "group-active:text-ch-bb";
 
   switch (variant) {
@@ -43,10 +50,12 @@ export default function Button({
       break;
     case "square-inverted":
       containerClasses += "bg-ch-midnite outline-ch-lite";
-      textClasses =
-        "text-ch-lite text-base font-normal font-brook uppercase leading-4";
-      stateContainerClasses =
-        "group hover:bg-ch-bb hover:outline-ch-midnite active:bg-ch-lite active:outline-ch-midnite";
+      textClasses = `text-ch-lite text-base font-normal ${
+        textClassName ?? "font-brook"
+      } uppercase leading-4`;
+      stateContainerClasses = `group ${
+        hoverClassName ?? "hover:bg-ch-bb"
+      } hover:outline-ch-midnite active:bg-ch-lite active:outline-ch-midnite`;
       stateTextClasses =
         "group-hover:text-ch-midnite group-active:text-ch-midnite";
       break;
@@ -65,7 +74,9 @@ export default function Button({
       break;
     case "ticket":
       containerClasses += "bg-ch-lite outline-ch-midnite px-[10px] py-[10px]";
-      textClasses = "text-ch-midnite font-milling font-bold text-2xl leading-6";
+      textClasses = `text-ch-midnite ${
+        textWeightClassName ?? "font-bold"
+      } text-2xl leading-6 ${textClassName ?? "font-milling"}`;
       break;
   }
 

@@ -1,0 +1,78 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { FestivalJumpTo } from "@/components/Festival/FestivalJumpTo";
+import type { FestivalTemplateData } from "@/sanity/queries";
+
+function makeFestival(locations: { name: string; kind?: string }[]) {
+  return {
+    _id: "festival-2025",
+    title: "Re–Collect",
+    year: 2025,
+    slug: "2025",
+    locations,
+  } as unknown as FestivalTemplateData;
+}
+
+it("renders the year, theme, and location anchors", () => {
+  render(
+    <FestivalJumpTo
+      festival={makeFestival([{ name: "New York" }, { name: "Los Angeles" }])}
+    />,
+  );
+
+  expect(screen.getByText("2025")).toBeInTheDocument();
+  expect(screen.getByText("Re–Collect")).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "About" })).toHaveAttribute(
+    "href",
+    "#about",
+  );
+  expect(screen.getByRole("link", { name: "New York" })).toHaveAttribute(
+    "href",
+    "#new-york",
+  );
+  expect(screen.getByRole("link", { name: "Los Angeles" })).toHaveAttribute(
+    "href",
+    "#los-angeles",
+  );
+});
+
+it("handles a single location", () => {
+  render(<FestivalJumpTo festival={makeFestival([{ name: "New York" }])} />);
+
+  expect(screen.getByRole("link", { name: "About" })).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "New York" })).toBeInTheDocument();
+  expect(
+    screen.queryByRole("link", { name: "Los Angeles" }),
+  ).not.toBeInTheDocument();
+});
+
+it("handles a virtual-only location", () => {
+  render(
+    <FestivalJumpTo
+      festival={makeFestival([{ name: "Virtual Gallery", kind: "virtual" }])}
+    />,
+  );
+
+  expect(screen.getByRole("link", { name: "Virtual" })).toHaveAttribute(
+    "href",
+    "#virtual-gallery",
+  );
+});
+
+it("marks the clicked jump button as current", async () => {
+  render(
+    <FestivalJumpTo
+      festival={makeFestival([{ name: "New York" }, { name: "Los Angeles" }])}
+    />,
+  );
+
+  await userEvent.click(screen.getByRole("link", { name: "New York" }));
+
+  expect(screen.getByRole("link", { name: "New York" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+  expect(screen.getByRole("link", { name: "Los Angeles" })).not.toHaveAttribute(
+    "aria-current",
+  );
+});

@@ -1,6 +1,6 @@
 import { PortableText } from "@/components/PortableText";
-import SanityImage from "@/components/SanityImage";
 import Button from "@/components/Button";
+import DetailSummary from "@/components/shared/DetailSummary";
 import { formatEventDates } from "@/util/event-date";
 import type { EventListItem } from "@/sanity/queries";
 
@@ -17,17 +17,14 @@ export default function EventSummary({
   );
 
   return (
-    <div className="flex flex-col items-center gap-[18px]">
-      {event.heroImage && (
-        <SanityImage
-          image={event.heroImage}
-          className="w-full h-[381px] object-cover"
-        />
-      )}
-      <div className="flex flex-col gap-8 px-6 pb-6 w-full max-w-[604px]">
+    <DetailSummary
+      image={event.heroImage}
+      title={
         <h2 className="font-milling font-bold text-5xl text-left text-ch-midnite">
           {event.title}
         </h2>
+      }
+      meta={
         <div className="flex flex-col gap-2.5 w-[478px] max-w-full">
           <span className="font-brook text-base uppercase text-ch-midnite">
             {event.locationShort}
@@ -43,11 +40,15 @@ export default function EventSummary({
             </>
           )}
         </div>
-        {event.description && (
+      }
+      description={
+        event.description ? (
           <div className="font-milling font-light text-2xl text-ch-midnite">
             <PortableText value={event.description} />
           </div>
-        )}
+        ) : null
+      }
+      actions={
         <div className="flex flex-row flex-wrap items-center gap-4">
           {event.links?.map((link) => (
             <Button key={link._key} variant="ticket" href={link.url} openNewTab>
@@ -58,7 +59,7 @@ export default function EventSummary({
             Learn More
           </Button>
         </div>
-      </div>
-    </div>
+      }
+    />
   );
 }

@@ -5,17 +5,33 @@ import type { CSSProperties } from "react";
 import { PortableText } from "@/components/PortableText";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
-type Program = NonNullable<GetProgramBySlugQueryResult>;
+type ProgramResult = NonNullable<GetProgramBySlugQueryResult>;
 
 interface ProgramHeaderProps {
-  program: Program;
+  program: {
+    title: string;
+    displayTitle?: ProgramResult["displayTitle"];
+    pageDescription?: ProgramResult["pageDescription"];
+    accentColor?: ProgramResult["accentColor"];
+    featuredProjects?: unknown[] | null;
+    featuredArtists?: unknown[] | null;
+    openCall?: unknown;
+  };
   hasArtists?: boolean;
+  descriptionClassName?: string;
+  titleClassName?: string;
+  titleWeightClassName?: string;
 }
 
 export default function ProgramHeader({
   program,
   hasArtists = false,
+  descriptionClassName,
+  titleClassName,
+  titleWeightClassName,
 }: ProgramHeaderProps) {
+  const titleFont = titleClassName ?? "font-milling";
+  const titleWeight = titleWeightClassName ?? "font-bold";
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const accentColor = program.accentColor || "#B5FD8B";
@@ -64,11 +80,15 @@ export default function ProgramHeader({
     ) : null;
 
   const titleBlock = program.displayTitle ? (
-    <div className="font-milling font-bold text-[40px] leading-tight tracking-[-0.02em]">
+    <div
+      className={`${titleFont} ${titleWeight} text-[40px] leading-tight tracking-[-0.02em]`}
+    >
       <PortableText value={program.displayTitle} />
     </div>
   ) : (
-    <h1 className="font-milling font-bold text-[40px] leading-tight tracking-[-0.02em]">
+    <h1
+      className={`${titleFont} ${titleWeight} text-[40px] leading-tight tracking-[-0.02em]`}
+    >
       {program.title}
     </h1>
   );
@@ -83,7 +103,11 @@ export default function ProgramHeader({
           </div>
 
           {program.pageDescription && (
-            <div className="max-w-[614px] font-milling text-2xl font-light">
+            <div
+              className={`max-w-[614px] text-2xl font-light ${
+                descriptionClassName ?? "font-milling"
+              }`}
+            >
               <PortableText value={program.pageDescription} />
             </div>
           )}

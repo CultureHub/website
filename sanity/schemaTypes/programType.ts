@@ -141,6 +141,14 @@ export const programType = defineType({
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'project' }] }],
     }),
+    defineField({
+      title: 'Current Festival',
+      name: 'currentFestival',
+      type: 'reference',
+      to: [{ type: 'festival' }],
+      description:
+        'Shown in the Current block on the Re-Fest page and excluded from the Festival Archive.',
+    }),
   ],
   preview: {
     select: {

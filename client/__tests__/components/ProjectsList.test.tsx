@@ -14,7 +14,7 @@ jest.mock("@/sanity/queries", () => ({
   getProjectFacets: jest.fn(),
 }));
 
-jest.mock("next-sanity", () => ({
+jest.mock("@portabletext/react", () => ({
   PortableText: () => null,
 }));
 
