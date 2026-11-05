@@ -1,7 +1,7 @@
 # Editorial Read / Watch — Research and proposed content model
 
 Date: 2026-11-05
-Status: Research complete enough for modeling; proposals await approval. Not an execution plan.
+Status: Supporting research for the approved design and [implementation plan](../plans/2026-11-05-editorial-read-watch.md). Earlier proposals below are historical; the linked design/plan govern execution.
 
 Written design: [Editorial Read / Watch](2026-11-05-editorial-read-watch-design.md). That document supersedes the open proposals below where it supplies a decision or explicit default.
 
@@ -14,8 +14,8 @@ Written design: [Editorial Read / Watch](2026-11-05-editorial-read-watch-design.
 - [x] Run the current frontend test baseline.
 - [x] Propose an additive content model.
 - [x] Confirm Watch selection with the user; propose drag ordering within that selection.
-- [ ] Resolve remaining interaction choices and approve a written design.
-- [ ] Write a file-by-file, test-first implementation plan, schema/data first.
+- [x] Resolve remaining interaction choices and approve a written design; user corrected thumbstrip direction to match Figma.
+- [x] Write a file-by-file, test-first implementation plan, schema/data first.
 
 ## Confirmed requirements
 
@@ -23,7 +23,7 @@ Written design: [Editorial Read / Watch](2026-11-05-editorial-read-watch-design.
 - Featured articles reveal either the article hero image or configurable opening text on hover.
 - Article-list image previews use a stable article-ID-derived angle and follow the cursor horizontally.
 - Read / Watch navigation animates according to the Figma component examples.
-- The Watch thumbstrip moves right and changes the displayed video at thumbnail boundaries.
+- The Watch thumbstrip follows Figma's leftward movement under the fixed playhead and changes the displayed video at thumbnail boundaries (user correction after initial research).
 - Play opens the selected YouTube video in a modal and requests autoplay.
 - Prefer YouTube thumbnails; support an editorial image override in Sanity.
 - Watch uses a selected list of videos, not every video document.
@@ -75,7 +75,7 @@ Desktop Read uses one full-width featured card followed by two half-width cards.
 
 The extracted design data shows component states but does not expose verified prototype durations/easing. Inspect the interactive prototype during the design/implementation planning pass; document any unavailable timing as a proposed default, not a designer-specified value.
 
-Further geometry inspection found the thumbstrip translates from `x: 0` to `x: -248` under a fixed playhead, while the user requested rightward movement. The written design explicitly proposes honoring the user's rightward instruction and identifies the difference for approval. The current navigation switch translates its inner track by 116px between states.
+Further geometry inspection found the thumbstrip translates from `x: 0` to `x: -248` under a fixed playhead, while the initial request specified rightward movement. The user subsequently corrected this to follow Figma: leftward motion. The current navigation switch translates its inner track by 116px between states.
 
 ## YouTube research and compatibility gate
 
@@ -135,7 +135,7 @@ Sources checked:
 
 1. Watch selection is confirmed; drag ordering is a proposed implementation default.
 2. Confirm per-feature image/text settings and opening-text length controls rather than one page-wide setting.
-3. Verify prototype motion direction/timing: distinguish a moving playhead from a moving strip, and define the exact boundary and looping behavior. The user's explicit rightward motion requirement takes precedence over an unverified interpretation.
+3. Direction is resolved: use Figma's leftward strip motion beneath the fixed playhead. Exact prototype timing remains to be inspected, with the written design's fallback cadence if unavailable.
 4. Proposed defaults to review: newest available nonfeatured year selected initially; date-descending list order with ID tiebreaker; no article pagination in the initial slice unless archive size demands it; pause automatic Watch motion during focus/hover, hidden-tab state, reduced motion, and modal playback.
 5. Explicitly exclude livestream scheduling/channel import mentioned in exploratory Figma notes unless requested. This scope is curated videos and modal playback.
 

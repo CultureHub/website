@@ -1,7 +1,7 @@
 # Editorial Read / Watch — Design
 
 Date: 2026-11-05
-Status: Draft — awaiting user approval before implementation planning or product changes.
+Status: Approved for implementation planning on 2026-11-05. The user corrected thumbstrip direction to follow Figma: leftward beneath the fixed playhead. Product execution awaits implementation-plan review.
 Research: [Repository, Figma, plugin, and baseline findings](2026-11-05-editorial-research.md)
 
 ## Design checklist
@@ -10,8 +10,8 @@ Research: [Repository, Figma, plugin, and baseline findings](2026-11-05-editoria
 - [x] Confirm Read feature count and curated Watch selection with the user.
 - [x] Write the proposed content model and interaction/compatibility contracts.
 - [x] Run a fresh builder review and incorporate its setup/empty-state questions.
-- [ ] User approval of the full design and proposed defaults.
-- [ ] Detailed implementation plan after approval.
+- [x] User approval of the full design, with thumbstrip direction corrected to Figma.
+- [x] Detailed implementation plan after approval: [plan](../plans/2026-11-05-editorial-read-watch.md).
 
 ## Intent
 
@@ -27,7 +27,7 @@ This work uses the existing Next.js 16 / React 19 frontend and Sanity 5 Studio. 
 - Index-row hover reveals an article image with an article-ID-derived tilt, following the cursor horizontally.
 - Animate the Read / Watch switch using the design's sliding-strip states.
 - Watch contains a **selectable list of video documents**, not every video automatically.
-- Move the Watch thumbstrip to the right and synchronize video selection with thumbnail boundaries.
+- Follow Figma: move the Watch thumbstrip left beneath the fixed playhead and synchronize video selection with thumbnail boundaries.
 - Play opens the selected YouTube video in a modal and requests autoplay.
 - Prefer YouTube thumbnails; allow a Sanity thumbnail override.
 - Reuse existing index UI where appropriate, but inspect and regression-protect existing consumers before changing it.
@@ -165,11 +165,11 @@ Use real links with `aria-current`, visible keyboard focus, working modifier-cli
 
 Use the selected videos in Sanity array order for logical advancement. Show thumbnails/playhead, current title, duration when known, description, and a large thumbnail preview on the dark surface. Both the strip and large preview use the same thumbnail resolver.
 
-### Rightward movement and synchronization
+### Figma movement and synchronization
 
-The Figma strip states actually translate from `x: 0` to `x: -248` under a fixed playhead at `x: 102`. This is leftward motion, whereas the user's explicit instruction says rightward. **Follow the user's rightward instruction** rather than silently reversing it to match extracted geometry; keep the same playhead/glow styling. This direction difference is a deliberate proposal for approval.
+The Figma strip states translate from `x: 0` to `x: -248` under a fixed playhead at `x: 102`. The user explicitly corrected the earlier rightward request to follow these Figma designs. **Move left under a stationary playhead**, retaining the designed glow/selected states.
 
-Arrange the repeated visual track so the next logical selected video approaches the fixed playhead from the left. Move the track right continuously; switch active ID/title/description/large thumbnail exactly when the next thumbnail's leading edge reaches the playhead. Logical order remains the Studio order even though spatial neighbors are mirrored for rightward travel. Visually repeated copies are decorative; expose one keyboard-selectable control per real video.
+Arrange the visual track in the Studio's selected order so the next selected video approaches the playhead from the right. Move the track left continuously; switch active ID/title/description/large thumbnail exactly when the next thumbnail's leading edge reaches the playhead. Initialize progress so the first thumbnail's leading edge is at the playhead (102px at the reference desktop size), giving every selected video one full pitch interval. Do not reverse the selected order. Visually repeated copies are decorative; expose one keyboard-selectable control per real video.
 
 Use one progress source for track position and active index, including direct selection. Proposed cadence is one thumbnail pitch per 6 seconds with linear motion, independent of actual video duration; derive pitch from measured responsive thumbnail dimensions, not a hardcoded desktop width. Loop seamlessly from last back to first using repeated items with no extra React state timer that can drift. Discard hidden-tab elapsed time on resume. Recalculate on resize while preserving selected ID and fractional progress.
 
@@ -221,21 +221,21 @@ Use Jest/Testing Library for deterministic behavior and a real browser for point
 
 Run frontend tests, lint, typecheck, and build; Studio lint/build and schema extraction/TypeGen; manual plugin editing tests with a restricted key. Record existing failures separately. Fresh verification evidence is required before completion claims. Do not deploy Studio, publish production content, or run production migrations as part of planning.
 
-## Proposed defaults for approval
+## Accepted planning defaults
 
-These are implementation recommendations, not decisions already supplied by the user:
+These implementation recommendations were accepted for planning when the user said “Proceed,” with the direction correction recorded above; they were not requirements in the initial request:
 
 - Drag ordering for selected Watch videos and selected featured articles.
 - Per-feature image/text mode with 80-word default and a 10–150-word control.
 - Optional Review / Reflection / Interview article-type field; no legacy migration.
 - Initially select the latest nonfeatured year; no All-years button or pagination initially.
-- Rightward Watch movement, despite the extracted Figma states moving left; 6-second thumbnail cadence if timing is unavailable.
+- Figma's leftward Watch movement under a fixed playhead; 6-second thumbnail cadence only if prototype timing is unavailable.
 - Manual optional duration, not a new metadata-enrichment backend.
 - Route-aware light-blue Watch footer with unchanged defaults everywhere else.
 - Stop for approval if the requested plugin needs a compatible fork/local replacement; do not force-install or downgrade.
 
-After approval, the next deliverable is the detailed, file-by-file implementation plan. No implementation is authorized by this draft alone.
+The detailed, file-by-file [implementation plan](../plans/2026-11-05-editorial-read-watch.md) is ready for review before product execution.
 
 ## Builder-review disposition
 
-A fresh reviewer raised launch-content availability, API-key availability, the configured production dataset, and partial/empty Read states. No extra content creation was authorized or added to scope. This draft now specifies fixture-based acceptance, explicit credential/nonproduction-authoring prerequisites, and deterministic empty/partial layouts. The reviewer supplied no remaining user-only decision beyond approval of the listed proposed defaults; do not infer launch readiness from unit fixtures or assume credentials exist.
+A fresh reviewer raised launch-content availability, API-key availability, the configured production dataset, and partial/empty Read states. No extra content creation was authorized or added to scope. The design now specifies fixture-based acceptance, explicit credential/nonproduction-authoring prerequisites, and deterministic empty/partial layouts. A follow-up review found nothing important left. The user subsequently approved planning, correcting strip direction to match Figma. Do not infer launch readiness from unit fixtures or assume credentials exist.
