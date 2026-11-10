@@ -148,10 +148,11 @@ export default function Menu() {
                 variant="square-inverted"
                 className="mt-5"
                 onClick={close}
+                href="/read"
               >
                 Editorial
               </MenuButton>
-              <MenuButton variant="square" onClick={close}>
+              <MenuButton variant="square" onClick={close} href="/read">
                 Read
               </MenuButton>
               <MenuButton variant="square" onClick={close}>

@@ -21,7 +21,7 @@ export default function ArticleHeader({ article }: { article: Article }) {
         <Breadcrumbs
           buttons={[
             { label: "Editorial", hoverColor: "ch-read-lilac" },
-            { label: "Read", hoverColor: "ch-read-lilac" },
+            { label: "Read", href: "/read", hoverColor: "ch-read-lilac" },
           ]}
         />
       </div>
