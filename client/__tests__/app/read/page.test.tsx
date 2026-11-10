@@ -47,70 +47,7 @@ it("renders an empty index without inventing featured content", async () => {
   ).not.toBeInTheDocument();
 });
 
-it("shows the three Figma features and an image-bearing index in an explicit development preview", async () => {
-  jest.replaceProperty(process.env, "NODE_ENV", "development");
-  load.mockResolvedValue({
-    heading: "Editorial",
-    articleIndexTitle: "Article Index",
-    featured: [],
-    articles: [],
-  });
-  render(
-    await ReadPage({ searchParams: Promise.resolve({ preview: "design" }) }),
-  );
-  expect(
-    screen.getByRole("complementary", { name: "Design preview" }),
-  ).toBeInTheDocument();
-  const features = screen.getByRole("region", { name: "Featured articles" });
-  expect(features.querySelectorAll("a")).toHaveLength(3);
-  expect(
-    screen.getByRole("link", { name: "Quadrophonic Landscapes" }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole("link", { name: "An Interview with Spencer Chang" }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole("link", {
-      name: "Circles of Circuitry in the Lower East Side",
-    }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole("link", { name: "Interview with Yu Lee" }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole("link", { name: "View published content" }),
-  ).toHaveAttribute("href", "/read");
-  expect(load).not.toHaveBeenCalled();
-});
-
-it.each(["production", "test"] as const)(
-  "ignores the placeholder request in %s",
-  async (environment) => {
-    jest.replaceProperty(process.env, "NODE_ENV", environment);
-    load.mockResolvedValue({
-      heading: "Editorial",
-      articleIndexTitle: "Article Index",
-      featured: [makeFeature()],
-      articles: [],
-    });
-    render(
-      await ReadPage({ searchParams: Promise.resolve({ preview: "design" }) }),
-    );
-    expect(
-      screen.getByRole("link", { name: "An article" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("complementary", { name: "Design preview" }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", {
-        name: "Circles of Circuitry in the Lower East Side",
-      }),
-    ).not.toBeInTheDocument();
-  },
-);
-
-it("keeps ordinary development visits on published content without the preview flag", async () => {
+it("uses published content even when a development request carries the old preview query", async () => {
   jest.replaceProperty(process.env, "NODE_ENV", "development");
   load.mockResolvedValue({
     heading: "Editorial",
@@ -118,14 +55,18 @@ it("keeps ordinary development visits on published content without the preview f
     featured: [],
     articles: makeArchiveAcrossYears(),
   });
-  render(await ReadPage());
+  // Next supplies request props at runtime; the route must not use them to
+  // replace published content, even if a visitor still has an old preview URL.
+  render(
+    await Reflect.apply(ReadPage, undefined, [
+      { searchParams: Promise.resolve({ preview: "design" }) },
+    ]),
+  );
   expect(
     screen.getByRole("link", { name: "2026 article" }),
   ).toBeInTheDocument();
   expect(
     screen.queryByRole("region", { name: "Featured articles" }),
   ).not.toBeInTheDocument();
-  expect(
-    screen.queryByRole("complementary", { name: "Design preview" }),
-  ).not.toBeInTheDocument();
+  expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
 });

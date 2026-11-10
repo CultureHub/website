@@ -81,13 +81,12 @@ Re-read component sets `4259:7310` and `4062:2134`. Navigation is a 232×35px cl
 
 The geometry/timing above concerns deferred Watch work; no cross-route animation is claimed for Read-only delivery. See adjacent baseline/plugin records for the unsupported plugin peer graph and unapproved compatibility proposal.
 
-## Follow-up: right-offset hover and design placeholders
+## Follow-up: right-offset hover and borderless index rows
 
-User requested a smaller, right-of-cursor index image and placeholder hero content from the designs.
+User requested a smaller, right-of-cursor index image, then removal of the index-row dividers and all local design-placeholder functionality.
 
 - Maximum image width is now **400px** (was 520px), with the rotated left edge **24px right of the cursor** when space permits. Viewport clamping, row-anchored y, stationary keyboard/reduced-motion handling and cleanup remain. The existing canonical Sanity `_id` hash is retained, with a new remount/reorder stability regression.
-- **Development-only `/read?preview=design`** loads three featured cards and ten index rows based on Figma frame `3662:6583`. A visible banner labels the placeholders. Existing public assets are stand-in imagery; links open sample published articles. No Sanity documents or local credentials were changed.
-- Ordinary `/read` still consumes published Sanity content. Production ignores the preview flag; tests cover production/test rejection and ordinary development requests. The production build still prerenders `/read` with 30-second revalidation, and its generated HTML contains no placeholder titles/banner.
-- Browser1440px: 400px image width, rotated left edge324px at cursor300, unchanged rotation after re-entry, stable top while moving horizontally, right edge clamped at1424px. Loaded preview/hero imagery verified. Design cards at1440/768/440/375px have no horizontal overflow; mobile cards remain323px tall.
-- Evidence: `read-design-filled-desktop.png`, `read-design-filled-768.png`, `read-design-filled-440.png`, `read-design-filled-375.png`, `read-design-hover-smaller-right.png`, `read-design-image-feature.png` in `/tmp/opencode/editorial-acceptance/`.
-- Follow-up checks: 21 frontend suites / **121 tests**; lint, typecheck, production build and diff check passed. No new live authoring acceptance or Watch implementation is claimed.
+- The temporary design fixture module, query handling, banner, and preview-only test cases/instructions have been removed. `/read` now unconditionally consumes published Sanity content, including when old preview URLs are opened. No Sanity documents or credentials were changed.
+- Article-index rows no longer have bottom-border dividers; filter/header borders and featured-card styling remain unchanged.
+- Browser1440px previously verified the 400px hover image, rotated left edge324px at cursor300, stable top/rotation and1424px right-edge clamp. Removal checks now verify border width0px and no placeholder features/banner on the old URL. The regression test failed before removal and passes afterward.
+- Latest frontend suite: 21 suites / **118 tests** (the obsolete preview tests were removed; published-content regression retained). No new live authoring acceptance or Watch implementation is claimed.
