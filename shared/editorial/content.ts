@@ -8,7 +8,7 @@ export type PreviewText = {
 
 export type PreviewBlock = {
   _type?: string
-  text?: string | readonly PreviewText[]
+  text?: string | readonly PreviewText[] | null
 }
 
 export type PreviewSource = {

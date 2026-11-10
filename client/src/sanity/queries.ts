@@ -3,6 +3,43 @@ import { defineQuery } from "next-sanity";
 
 const options = { next: { revalidate: 30 } };
 
+export function getReadPage() {
+  const getReadPageQuery =
+    defineQuery(`*[_type == "readPage" && _id == "readPage"][0]{
+    heading, articleIndexTitle,
+    featuredArticles[]{
+      _key, previewMode, previewWordCount,
+      article->{
+        _id, title, "slug": slug.current, publishDate, articleType, byline,
+        "authorName": author.name,
+        heroImage { asset, hotspot, crop, alt, credits },
+        content[_type in ["articleText", "imageText"]]{_type, text}
+      }
+    }
+  }`);
+  return client.fetch(
+    getReadPageQuery,
+    {},
+    { ...options, perspective: "published" },
+  );
+}
+
+export function getArticleIndex(excludedIds: string[]) {
+  const getArticleIndexQuery = defineQuery(`*[
+    _type == "article" && defined(slug.current) && slug.current != "" &&
+    defined(title) && defined(publishDate) && !(_id in $excludedIds)
+  ] | order(publishDate desc, _id asc){
+    _id, title, "slug": slug.current, publishDate, articleType, byline,
+    "authorName": author.name,
+    heroImage { asset, hotspot, crop, alt, credits }
+  }`);
+  return client.fetch(
+    getArticleIndexQuery,
+    { excludedIds },
+    { ...options, perspective: "published" },
+  );
+}
+
 export function getArtistsBySlug(slug: string) {
   const getArtistsBySlugQuery =
     defineQuery(`*[_type == "artist" && slug.current == $slug]{

@@ -1228,6 +1228,125 @@ export type AllSanitySchemaTypes =
   | Geopoint;
 
 // Source: ../client/src/sanity/queries.ts
+// Variable: getReadPageQuery
+// Query: *[_type == "readPage" && _id == "readPage"][0]{    heading, articleIndexTitle,    featuredArticles[]{      _key, previewMode, previewWordCount,      article->{        _id, title, "slug": slug.current, publishDate, articleType, byline,        "authorName": author.name,        heroImage { asset, hotspot, crop, alt, credits },        content[_type in ["articleText", "imageText"]]{_type, text}      }    }  }
+export type GetReadPageQueryResult = {
+  heading: string | null;
+  articleIndexTitle: string | null;
+  featuredArticles: Array<{
+    _key: string;
+    previewMode: "image" | "text";
+    previewWordCount: number | null;
+    article: {
+      _id: string;
+      title: string;
+      slug: string;
+      publishDate: string;
+      articleType: "interview" | "reflection" | "review" | null;
+      byline: string | null;
+      authorName: string | null;
+      heroImage: {
+        asset: SanityImageAssetReference | null;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
+        alt: string;
+        credits: string | null;
+      } | null;
+      content: Array<
+        | {
+            _type: "articleText";
+            text: Array<
+              | ({
+                  _key: string;
+                } & Qa)
+              | {
+                  children?: Array<{
+                    marks?: Array<string>;
+                    text?: string;
+                    _type: "span";
+                    _key: string;
+                  }>;
+                  style?:
+                    | "blockquote"
+                    | "h1"
+                    | "h2"
+                    | "h3"
+                    | "h4"
+                    | "h5"
+                    | "h6"
+                    | "normal";
+                  listItem?: "bullet" | "number";
+                  markDefs?: Array<{
+                    href?: string;
+                    _type: "link";
+                    _key: string;
+                  }>;
+                  level?: number;
+                  _type: "block";
+                  _key: string;
+                }
+            > | null;
+          }
+        | {
+            _type: "imageText";
+            text: Array<
+              | ({
+                  _key: string;
+                } & Qa)
+              | {
+                  children?: Array<{
+                    marks?: Array<string>;
+                    text?: string;
+                    _type: "span";
+                    _key: string;
+                  }>;
+                  style?:
+                    | "blockquote"
+                    | "h1"
+                    | "h2"
+                    | "h3"
+                    | "h4"
+                    | "h5"
+                    | "h6"
+                    | "normal";
+                  listItem?: "bullet" | "number";
+                  markDefs?: Array<{
+                    href?: string;
+                    _type: "link";
+                    _key: string;
+                  }>;
+                  level?: number;
+                  _type: "block";
+                  _key: string;
+                }
+            > | null;
+          }
+      > | null;
+    };
+  }>;
+} | null;
+
+// Source: ../client/src/sanity/queries.ts
+// Variable: getArticleIndexQuery
+// Query: *[    _type == "article" && defined(slug.current) && slug.current != "" &&    defined(title) && defined(publishDate) && !(_id in $excludedIds)  ] | order(publishDate desc, _id asc){    _id, title, "slug": slug.current, publishDate, articleType, byline,    "authorName": author.name,    heroImage { asset, hotspot, crop, alt, credits }  }
+export type GetArticleIndexQueryResult = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  publishDate: string;
+  articleType: "interview" | "reflection" | "review" | null;
+  byline: string | null;
+  authorName: string | null;
+  heroImage: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+    alt: string;
+    credits: string | null;
+  } | null;
+}>;
+
+// Source: ../client/src/sanity/queries.ts
 // Variable: getArtistsBySlugQuery
 // Query: *[_type == "artist" && slug.current == $slug]{    ...,    "program": program->{ _id, title, slug, shortLabel },    projects[]->{      ...    }  }[0]
 export type GetArtistsBySlugQueryResult = {
@@ -3034,6 +3153,8 @@ export type GetArticleBySlugQueryResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    '*[_type == "readPage" && _id == "readPage"][0]{\n    heading, articleIndexTitle,\n    featuredArticles[]{\n      _key, previewMode, previewWordCount,\n      article->{\n        _id, title, "slug": slug.current, publishDate, articleType, byline,\n        "authorName": author.name,\n        heroImage { asset, hotspot, crop, alt, credits },\n        content[_type in ["articleText", "imageText"]]{_type, text}\n      }\n    }\n  }': GetReadPageQueryResult;
+    '*[\n    _type == "article" && defined(slug.current) && slug.current != "" &&\n    defined(title) && defined(publishDate) && !(_id in $excludedIds)\n  ] | order(publishDate desc, _id asc){\n    _id, title, "slug": slug.current, publishDate, articleType, byline,\n    "authorName": author.name,\n    heroImage { asset, hotspot, crop, alt, credits }\n  }': GetArticleIndexQueryResult;
     '*[_type == "artist" && slug.current == $slug]{\n    ...,\n    "program": program->{ _id, title, slug, shortLabel },\n    projects[]->{\n      ...\n    }\n  }[0]': GetArtistsBySlugQueryResult;
     '*[_type == "project" && slug.current == $slug][0]{\n      ...,\n      "program": program->{ _id, title, slug, shortLabel, displayTitle },\n      related[]->{\n        _id,\n        _type,\n        "slug": slug.current,\n        "image": select(\n          _type == "project" => heroImage,\n          _type == "artist" => image,\n        ),\n        "title": select(\n          _type == "project" => title,\n          _type == "artist" => name,\n        ),\n      },\n    }': GetProjectBySlugQueryResult;
     '*[_type == "artAndTechnologyPage"][0]{\n      heading,\n      introText,\n      featuredPrograms[]->{\n        ...\n      }\n    }': GetArtAndTechnologyPageQueryResult;
