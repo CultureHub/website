@@ -62,13 +62,15 @@ export const featuredArticleType = defineType({
         const source = await context
           .getClient({apiVersion: '2024-01-01'})
           .fetch<PreviewSource | null>(
-            `coalesce(*[_id == $draftId][0], *[_id == $id][0]){
+            `*[_id == $id][0]{
           heroImage{asset}, content[_type in ["articleText", "imageText"]]{_type, text}
         }`,
-            {id, draftId: `drafts.${id}`},
-            {perspective: 'raw'},
+            {id},
+            {perspective: 'published'},
           )
-        return validatePreviewSource(value.previewMode, source)
+        if (!source) return 'Publish this article before featuring it.'
+        const valid = validatePreviewSource(value.previewMode, source)
+        return valid === true ? true : `${valid} Publish the article changes before featuring it.`
       } catch {
         return 'Could not verify the article preview. Retry when connected.'
       }

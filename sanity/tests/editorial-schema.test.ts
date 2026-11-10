@@ -110,3 +110,57 @@ test('article type remains optional for existing articles', () => {
   assert.ok(field)
   assert.equal(field.validation, undefined)
 })
+
+// Only replace the remote Sanity request. A raw/drafts request returns the draft;
+// the published perspective returns the same source used by the public route.
+function divergentVersions(published: unknown, draft: unknown): ValidationContext {
+  return {
+    getClient: () => ({
+      fetch: async (_query: string, params: {id: string}, options: {perspective?: string}) => {
+        assert.equal(params.id, 'a')
+        return options.perspective === 'published' ? published : draft
+      },
+    }),
+  } as unknown as ValidationContext
+}
+
+test('an unpublished hero cannot make an incomplete published feature valid', async () => {
+  const validate = customValidator(featuredArticleType.validation)
+  const result = await validate(
+    {article: {_ref: 'drafts.a'}, previewMode: 'image'},
+    divergentVersions({}, {heroImage: {asset: {_ref: 'image-new'}}}),
+  )
+  assert.notEqual(result, true)
+  assert.match(String(result), /publish/i)
+})
+
+test('an incomplete draft cannot invalidate a usable published text preview', async () => {
+  const validate = customValidator(featuredArticleType.validation)
+  assert.equal(
+    await validate(
+      {article: {_ref: 'a'}, previewMode: 'text'},
+      divergentVersions(
+        {
+          content: [
+            {
+              _type: 'articleText',
+              text: [{_type: 'block', children: [{_type: 'span', text: 'Published opening.'}]}],
+            },
+          ],
+        },
+        {},
+      ),
+    ),
+    true,
+  )
+})
+
+test('draft-only articles must be published before they can be featured', async () => {
+  const validate = customValidator(featuredArticleType.validation)
+  const result = await validate(
+    {article: {_ref: 'a'}, previewMode: 'image'},
+    divergentVersions(null, {heroImage: {asset: {_ref: 'image-draft'}}}),
+  )
+  assert.notEqual(result, true)
+  assert.match(String(result), /publish/i)
+})

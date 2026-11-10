@@ -34,7 +34,9 @@ Open **Read Page** in the Content list to select exactly three featured articles
 Drag entries into order: the first is the full-width lead, followed by two secondary cards.
 Each entry chooses a hero-image or opening-text hover/focus preview; text previews allow
 10–150 words (default 80). Image mode requires a hero asset, and text mode requires actual
-article text, including Q&A or image/text blocks. Validation blocks incomplete publishing.
+article text, including Q&A or image/text blocks. Validation checks the published article,
+not its draft: publish article changes before publishing the Read selection. Validation
+blocks incomplete publishing while still allowing normal draft authoring.
 
 All remaining published articles with valid titles, slugs, and dates populate `/read`.
 The year filter affects only that remaining list. The optional Article Type field labels
