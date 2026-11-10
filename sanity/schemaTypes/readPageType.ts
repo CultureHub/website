@@ -41,7 +41,7 @@ export const featuredArticleType = defineType({
       title: 'Preview Word Count',
       type: 'number',
       initialValue: 80,
-      description: 'Show the first 10–150 words of the article on hover or keyboard focus.',
+      description: 'Prepare the first 10–150 words for hover/focus. Cards ellipsize to fit; the full excerpt remains available to assistive technology.',
       hidden: ({parent}) => parent?.previewMode !== 'text',
       validation: (rule) =>
         rule.custom((value, {parent}) => {

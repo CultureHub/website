@@ -1,7 +1,7 @@
 # Editorial implementation acceptance
 
 Started: 2026-11-10.
-Status: **Read implementation verified; independent review pending. Watch deferred by user decision.**
+Status: **Read implementation verified; independent review's two Important findings fixed with RED→GREEN checks. Watch deferred by user decision.**
 
 - [x] Native execution authorized; user chose an isolated worktree.
 - [x] Baseline dependencies installed without changing application manifests/lockfiles; Read later added Studio test tooling only.
@@ -20,7 +20,7 @@ Status: **Read implementation verified; independent review pending. Watch deferr
 - [ ] Deferred: plugin adoption, Watch/video schemas/queries, animated cross-route switch/provider, Watch chrome, Tasks 9–11 and Watch route.
 - [ ] Blocked: live editor save/reorder/publish/revalidation checks need an authorized nonproduction dataset. Fixtures do not prove launch content readiness.
 - [ ] Deferred Watch validation additionally requires a restricted API key and compatible input decision.
-- [ ] Final independent review and any test-first important fixes.
+- [x] Final independent Read-only review; both Important findings fixed with RED→GREEN checks and fresh full suites.
 
 No content writes, deployment, or production configuration changes were performed. `/read/[slug]` remains in its original location; its existing content query and detail layout were not replaced.
 
@@ -30,18 +30,29 @@ All commands below completed with exit 0 on 2026-11-10:
 
 | Command | Evidence |
 | --- | --- |
-| `pnpm -C sanity test` | 12 tests passed. |
+| `pnpm -C sanity test` | 15 tests passed after review fixes. |
 | `pnpm -C sanity typegen` | 20 queries / 34 schema types; no new generated diffs. |
 | `pnpm -C sanity lint` | No errors. |
 | `pnpm -C sanity exec tsc --noEmit` | No errors. |
 | `pnpm -C sanity build` | Studio built successfully. |
-| `pnpm -C client test --runInBand` | 21 suites / 114 tests passed, including original regression suites. |
+| `pnpm -C client test --runInBand` | 21 suites / 115 tests passed after review fixes, including original regression suites. |
 | `pnpm -C client lint` | No errors. |
 | `pnpm -C client typecheck` | TypeGen and TypeScript passed. |
 | `pnpm -C client build` | `/read` prerendered with 30-second revalidation; detail route retained; no fixture/Watch route shipped. |
 | `git diff --check` | No whitespace errors. |
 
 Logs: `.superpowers/sdd/2026-11-05-editorial-read-watch/final-*.log` (local execution workspace). Existing nonblocking baseline-browser-mapping age warning remains unchanged.
+
+## Independent review and fixes
+
+Fresh reviewer inspected `b34a57a..28ce9b6` in read-only session `ses_e39b185d6ffeJcMwK1LLz67DcR`. No Critical findings; two Important findings fixed in one test-first pass:
+
+1. **Published preview validation:** the old validator preferred article drafts while the public route reads published content. Three divergence tests failed first, then passed with the published-perspective request and clear publish-first feedback. Draft-only content no longer validates for a public selection; an incomplete draft does not invalidate its usable published version. This is unit/boundary evidence, not a live editor publishing claim.
+2. **Long excerpts:** a 150-word fixture showed the lead card hard-clipping at 535px before a 576px line clamp could display its ellipsis. The browser regression now passes at 1440/768/440/375px: ten whole lines fit at the existing font sizes, visible ellipsis signals omitted visual text, and the complete configured excerpt is the link's accessible description. Original 584/323px card sizes remain. `2026-11-05-feature-excerpt-check.js` is the reusable browser assertion; `read-long-excerpt-mobile.png` / `read-long-excerpt-desktop.png` show the result. An auto-height trial was rejected because long tablet cards grew thousands of pixels. Editor help discloses the visual limit. The temporary fixture route was removed before the final build.
+
+Both full suites, linters, typechecks and builds passed again after the fixes; generated artifacts have no new diff. The reviewer did not rerun the suites and no independent re-review is claimed. Executor verification covers the fixes.
+
+**Deferred minor:** the always-open Year control still renders as an expanded button with a no-op toggle. It should become a noninteractive label or gain collapse behavior in a follow-up; year selection itself works with pointer and keyboard.
 
 ## Browser and regression evidence
 

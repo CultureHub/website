@@ -12,6 +12,16 @@ jest.mock("@/components/SanityImage", () => ({
 }));
 
 describe("featured articles", () => {
+  it("keeps the entire configured excerpt available as the article's accessible description", () => {
+    const previewText = Array.from({ length: 150 }, (_, i) =>
+      i === 149 ? "ending." : "collaboration",
+    ).join(" ");
+    render(<FeaturedArticles items={[makeFeature({ previewText })]} />);
+    const link = screen.getByRole("link", { name: "An article" });
+    fireEvent.focus(link);
+    expect(link).toHaveAccessibleDescription(previewText);
+    expect(link).toHaveAccessibleName("An article");
+  });
   it("keeps each article link named while revealing opening text on hover and focus", () => {
     render(<FeaturedArticles items={[makeFeature()]} />);
     const link = screen.getByRole("link", { name: "An article" });

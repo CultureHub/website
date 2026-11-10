@@ -95,9 +95,10 @@
 .featureExcerpt {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 12;
+  /* Ten complete lines fit even the 40px desktop lead inside its card.
+     Line-clamp supplies a visible ellipsis; max-height would cut it off first. */
+  -webkit-line-clamp: 10;
   overflow: hidden;
-  max-height: calc(100% - 48px);
   margin: 24px;
   max-width: 831px;
   font-family: var(--font-miller);

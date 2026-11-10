@@ -27,6 +27,11 @@ function FeaturedCard({
     <Link
       href={`/read/${article.slug}`}
       aria-label={article.title}
+      aria-description={
+        article.previewMode === "text"
+          ? article.previewText || undefined
+          : undefined
+      }
       className={`${styles.feature} ${wide ? styles.featureWide : ""}`}
       data-lead={lead}
       data-preview-active={active}
