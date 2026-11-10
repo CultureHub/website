@@ -73,6 +73,16 @@
   display: none;
 }
 
+.hoverPreview {
+  position: fixed;
+  z-index: 40;
+  pointer-events: none;
+  background: var(--color-ch-lite);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgb(10 0 24 / 20%);
+  transform-origin: center;
+}
+
 .articleRow {
   display: grid;
   grid-template-columns: 90px minmax(0, 1fr);
@@ -141,10 +151,9 @@
   }
   .indexHeader,
   .articleRow {
-    grid-template-columns: minmax(90px, 0.9fr) minmax(0, 2fr) minmax(
-        0,
-        1.4fr
-      ) minmax(0, 1fr);
+    grid-template-columns:
+      minmax(90px, 0.9fr) minmax(0, 2fr) minmax(0, 1.4fr)
+      minmax(0, 1fr);
   }
   .indexHeader {
     display: grid;
