@@ -1,6 +1,6 @@
-import type { StructureResolver } from 'sanity/structure'
+import type {StructureResolver} from 'sanity/structure'
 
-const SINGLETONS = ['artAndTechnologyPage', 'communityPage']
+const SINGLETONS = ['artAndTechnologyPage', 'communityPage', 'readPage']
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -8,18 +8,13 @@ export const structure: StructureResolver = (S) =>
     .items([
       S.listItem()
         .title('Art & Technology Page')
-        .child(
-          S.document()
-            .schemaType('artAndTechnologyPage')
-            .documentId('artAndTechnologyPage'),
-        ),
+        .child(S.document().schemaType('artAndTechnologyPage').documentId('artAndTechnologyPage')),
       S.listItem()
         .title('Community Page')
-        .child(
-          S.document()
-            .schemaType('communityPage')
-            .documentId('communityPage'),
-        ),
+        .child(S.document().schemaType('communityPage').documentId('communityPage')),
+      S.listItem()
+        .title('Read Page')
+        .child(S.document().schemaType('readPage').documentId('readPage')),
       S.divider(),
       ...S.documentTypeListItems().filter(
         (listItem) => !SINGLETONS.includes(listItem.getId() as string),

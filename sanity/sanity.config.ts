@@ -13,7 +13,15 @@ export default defineConfig({
 
   plugins: [structureTool({structure}), visionTool()],
 
+  document: {
+    actions: (previous, context) =>
+      context.schemaType === 'readPage'
+        ? previous.filter((action) => action.action !== 'duplicate')
+        : previous,
+  },
+
   schema: {
     types: schemaTypes,
+    templates: (previous) => previous.filter((template) => template.schemaType !== 'readPage'),
   },
 })

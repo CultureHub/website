@@ -29,6 +29,7 @@
     "@sanity/eslint-config-studio": "^5.0.2",
     "@types/node": "^22.20.5",
     "@types/react": "^19.1",
+    "@types/react-dom": "^19.2.3",
     "eslint": "^9.28",
     "prettier": "^3.5",
     "tsx": "^4.23.15",

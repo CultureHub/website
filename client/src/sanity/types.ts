@@ -263,6 +263,28 @@ export type ArticleReference = {
   [internalGroqTypeReferenceTo]?: "article";
 };
 
+export type FeaturedArticle = {
+  _type: "featuredArticle";
+  article: ArticleReference;
+  previewMode: "text" | "image";
+  previewWordCount?: number;
+};
+
+export type ReadPage = {
+  _id: string;
+  _type: "readPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  heading?: string;
+  articleIndexTitle?: string;
+  featuredArticles: Array<
+    {
+      _key: string;
+    } & FeaturedArticle
+  >;
+};
+
 export type Article = {
   _id: string;
   _type: "article";
@@ -273,6 +295,7 @@ export type Article = {
   slug: Slug;
   publishDate: string;
   deck?: string;
+  articleType?: "review" | "reflection" | "interview";
   byline?: string;
   heroImage?: {
     asset?: SanityImageAssetReference;
@@ -1178,6 +1201,8 @@ export type AllSanitySchemaTypes =
   | PullQuote
   | ArticleText
   | ArticleReference
+  | FeaturedArticle
+  | ReadPage
   | Article
   | SanityImageCrop
   | SanityImageHotspot
