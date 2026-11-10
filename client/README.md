@@ -30,6 +30,17 @@ the article detail route. Editors select three ordered features and per-feature
 image/text hover previews in Studio. Remaining article summaries are filtered by year.
 If no Read Page is configured, the archive still works without invented features.
 
+For local design validation, run `pnpm dev` and open
+[`/read?preview=design`](http://localhost:3000/read?preview=design). This explicitly
+labeled preview uses the Figma feature titles/dates/authors, placeholder excerpts,
+and existing public images as stand-ins, plus ten design index rows. Sample links
+open existing articles. It makes no Sanity writes, does not change ordinary `/read`,
+and is ignored in production. Click **View published content** to exit.
+
+Fine-pointer index images have a 400px maximum width, sit 24px to the cursor's
+right when space allows, and clamp their rotated bounds at viewport edges.
+Rotation is stable from the canonical Sanity article ID, never render-time randomness.
+
 Run `pnpm test --runInBand` for the component/data regression suite. Use localhost
 port **3000** for browser filtering checks: other origins may be rejected by the
 project's existing Sanity CORS settings. Shared content-only helpers live in

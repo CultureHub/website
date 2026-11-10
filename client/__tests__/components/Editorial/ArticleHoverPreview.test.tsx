@@ -90,6 +90,65 @@ it("moves one decorative portal horizontally, retains its row anchor, and bounds
   expect(frames.size).toBe(0);
 });
 
+it("shows a smaller image with its rotated left edge 24px to the right of the cursor", () => {
+  render(
+    <ArticleHoverPreview
+      article={makeArticle({ _id: "sanity-article-42", heroImage: hero })}
+      anchor={{ top: 300, height: 89 }}
+      cursorXRef={{ current: 200 }}
+    />,
+  );
+  const preview = document.querySelector(
+    "[data-article-preview]",
+  ) as HTMLElement;
+  expect(parseFloat(preview.style.width)).toBe(400);
+  const angle = parseFloat(preview.style.transform.slice("rotate(".length));
+  const radians = (Math.abs(angle) * Math.PI) / 180;
+  const rotatedWidth =
+    400 * Math.cos(radians) + ((400 * 2) / 3) * Math.sin(radians);
+  const rotatedLeft = parseFloat(preview.style.left) - (rotatedWidth - 400) / 2;
+  expect(rotatedLeft).toBeCloseTo(224, 5);
+});
+
+it("keeps each Sanity ID's rotation stable across reordering and remounting", () => {
+  const props = {
+    anchor: { top: 300, height: 89 },
+    cursorXRef: { current: 200 },
+  };
+  const first = render(
+    <ArticleHoverPreview
+      {...props}
+      article={makeArticle({ _id: "sanity-article-42", heroImage: hero })}
+    />,
+  );
+  const angle = document.querySelector<HTMLElement>("[data-article-preview]")!
+    .style.transform;
+  first.rerender(
+    <ArticleHoverPreview
+      {...props}
+      article={makeArticle({ _id: "sanity-article-99", heroImage: hero })}
+    />,
+  );
+  expect(
+    document.querySelector<HTMLElement>("[data-article-preview]")!.style
+      .transform,
+  ).not.toBe(angle);
+  first.unmount();
+  render(
+    <ArticleHoverPreview
+      {...props}
+      article={makeArticle({
+        _id: "drafts.sanity-article-42",
+        heroImage: hero,
+      })}
+    />,
+  );
+  expect(
+    document.querySelector<HTMLElement>("[data-article-preview]")!.style
+      .transform,
+  ).toBe(angle);
+});
+
 it("uses a stationary preview for focus and reduced motion", () => {
   const cursor = { current: null as number | null };
   render(

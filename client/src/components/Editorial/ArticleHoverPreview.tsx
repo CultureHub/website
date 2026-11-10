@@ -35,7 +35,7 @@ export default function ArticleHoverPreview({
         "(prefers-reduced-motion: reduce)",
       ).matches;
       const angle = reduced ? 0 : getArticleTilt(article._id);
-      const width = Math.max(0, Math.min(520, (window.innerWidth - 32) / 1.1));
+      const width = Math.max(0, Math.min(400, (window.innerWidth - 32) / 1.1));
       const height = (width * 2) / 3;
       // Clamp the rotated bounding box, not just the unrotated image.
       const radians = (Math.abs(angle) * Math.PI) / 180;
@@ -43,15 +43,11 @@ export default function ArticleHoverPreview({
         width * Math.cos(radians) + height * Math.sin(radians);
       const boundsHeight =
         height * Math.cos(radians) + width * Math.sin(radians);
-      const center =
+      const desiredLeft =
         cursorXRef.current === null || reduced
-          ? window.innerWidth / 2
-          : cursorXRef.current;
-      const left = clampPreviewX(
-        center - boundsWidth / 2,
-        boundsWidth,
-        window.innerWidth,
-      );
+          ? (window.innerWidth - boundsWidth) / 2
+          : cursorXRef.current + 24;
+      const left = clampPreviewX(desiredLeft, boundsWidth, window.innerWidth);
       const top = Math.max(
         16,
         Math.min(
