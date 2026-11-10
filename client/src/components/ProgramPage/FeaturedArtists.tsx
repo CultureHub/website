@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import SanityImage from "@/components/SanityImage";
+import SectionHeading from "@/components/shared/SectionHeading";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
 type FeaturedArtist = NonNullable<
@@ -24,9 +25,7 @@ export default function FeaturedArtists({
 }: FeaturedArtistsProps) {
   return (
     <section id={id} className="px-6 md:px-16 py-6 md:py-9">
-      <div className="border-t border-b border-ch-midnite py-6 mb-9">
-        <h2 className="font-milling font-bold text-[28px]">{title}</h2>
-      </div>
+      <SectionHeading title={title} className="mb-9" />
 
       <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
         {artists.map((artist) => (

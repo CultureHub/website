@@ -10,7 +10,7 @@ jest.mock("@/components/UpcomingEvents", () => ({
   UpcomingEvents: () => null,
 }));
 
-jest.mock("next-sanity", () => ({
+jest.mock("@portabletext/react", () => ({
   PortableText: ({ value }: { value: unknown }) => (
     <div data-testid="portable-text">{JSON.stringify(value)}</div>
   ),

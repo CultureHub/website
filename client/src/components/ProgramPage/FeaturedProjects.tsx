@@ -2,6 +2,7 @@ import { Carousel } from "@/components/Carousel";
 import MobileProjectsCarousel from "@/components/ProgramPage/MobileProjectsCarousel";
 import Link from "next/link";
 import SanityImage from "@/components/SanityImage";
+import SectionHeading from "@/components/shared/SectionHeading";
 import { getProjectPeopleOrNull } from "@/util/project-people";
 import type { GetProgramBySlugQueryResult } from "@/sanity/types";
 
@@ -20,9 +21,7 @@ export default function FeaturedProjects({
 }: FeaturedProjectsProps) {
   return (
     <section id="projects" className="px-6 md:px-16 pb-6 md:pb-9">
-      <div className="border-b border-ch-midnite py-6 mb-9">
-        <h2 className="font-milling font-bold text-[28px]">{title}</h2>
-      </div>
+      <SectionHeading title={title} className="mb-9" borderTop={false} />
 
       <div className="hidden md:block">
         <Carousel>

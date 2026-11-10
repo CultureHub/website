@@ -38,6 +38,19 @@ export const MillingFont = localFont({
   preload: false,
 });
 
+export const NewEdgeFont = localFont({
+  src: [
+    {
+      path: "/../../public/fonts/NewEdge666/NewEdge666-SemiboldRounded.otf",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-new-edge",
+  preload: false,
+});
+
 export const BrookFont = localFont({
   src: [
     {

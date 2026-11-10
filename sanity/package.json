@@ -11,7 +11,8 @@
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
     "lint": "eslint .",
-    "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate"
+    "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
+    "import:refest": "tsx scripts/import-refest/import.ts"
   },
   "keywords": [
     "sanity"
@@ -25,10 +26,12 @@
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
+    "@sanity/client": "^8.10.1",
     "@sanity/eslint-config-studio": "^5.0.2",
     "@types/react": "^19.1",
     "eslint": "^9.28",
     "prettier": "^3.5",
+    "tsx": "^4.23.15",
     "typescript": "^5.8",
     "vite-tsconfig-paths": "^6.1.1"
   },

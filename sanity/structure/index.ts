@@ -20,6 +20,9 @@ export const structure: StructureResolver = (S) =>
             .schemaType('communityPage')
             .documentId('communityPage'),
         ),
+      S.listItem()
+        .title('Festivals')
+        .child(S.documentTypeList('festival').title('Festivals')),
       S.divider(),
       ...S.documentTypeListItems().filter(
         (listItem) => !SINGLETONS.includes(listItem.getId() as string),
