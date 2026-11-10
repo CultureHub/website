@@ -20,7 +20,7 @@ export default function ArticleHeader({ article }: { article: Article }) {
       <div className="mb-[85px] px-16 pt-8">
         <Breadcrumbs
           buttons={[
-            { label: "Editorial", hoverColor: "ch-read-lilac" },
+            { label: "Editorial", href: "/read", hoverColor: "ch-read-lilac" },
             { label: "Read", href: "/read", hoverColor: "ch-read-lilac" },
           ]}
         />

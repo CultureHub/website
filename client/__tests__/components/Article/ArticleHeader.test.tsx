@@ -21,6 +21,13 @@ function makeArticle(overrides: Partial<Article> = {}): Article {
 }
 
 describe("ArticleHeader", () => {
+  it("links the Editorial breadcrumb back to the editorial index", () => {
+    render(<ArticleHeader article={makeArticle()} />);
+    expect(screen.getByRole("link", { name: "Editorial" })).toHaveAttribute(
+      "href",
+      "/read",
+    );
+  });
   it("links the Read breadcrumb back to the index", () => {
     render(<ArticleHeader article={makeArticle()} />);
     expect(screen.getByRole("link", { name: "Read" })).toHaveAttribute(
