@@ -15,6 +15,9 @@ export const structure: StructureResolver = (S) =>
       S.listItem()
         .title('Read Page')
         .child(S.document().schemaType('readPage').documentId('readPage')),
+      S.listItem()
+        .title('Festivals')
+        .child(S.documentTypeList('festival').title('Festivals')),
       S.divider(),
       ...S.documentTypeListItems().filter(
         (listItem) => !SINGLETONS.includes(listItem.getId() as string),
