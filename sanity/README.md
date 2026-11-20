@@ -28,6 +28,29 @@ Sanity studio should be available at [http://localhost:3333](http://localhost:33
 
 From here you can make changes to the schema adn edit data
 
+### Read editorial index
+
+Open **Read Page** in the Content list to select exactly three featured articles.
+Drag entries into order: the first is the full-width lead, followed by two secondary cards.
+Each entry chooses a hero-image or opening-text hover/focus preview; text previews allow
+10–150 words (default 80). Long visible excerpts ellipsize to fit the card; the full
+configured excerpt remains available as the link's accessible description.
+Image mode requires a hero asset, and text mode requires actual
+article text, including Q&A or image/text blocks. Validation checks the published article,
+not its draft: publish article changes before publishing the Read selection. Validation
+blocks incomplete publishing while still allowing normal draft authoring.
+
+All remaining published articles with valid titles, slugs, and dates populate `/read`.
+The year filter affects only that remaining list. The optional Article Type field labels
+the desktop index and does not change existing detail pages. No article migration is needed.
+
+`pnpm test` runs content/schema tests; `pnpm typegen` regenerates frontend types.
+The configured dataset is **production**: local development does not authorize creating or
+publishing content. Use an explicitly approved test dataset for live editor validation.
+Do not run the frontend `seed:articles` script—it deletes existing article documents.
+
+Watch and its YouTube input integration are deferred pending a compatible plugin decision.
+
 ### Deploying
 
 To deploy Sanity Studio you can run

@@ -14,6 +14,7 @@ type TabState = {
 };
 
 type FilterMenuProps<Key extends string = string> = {
+  layout?: "index" | "editorial";
   title: string;
   categories: FilterCategory<Key>[];
   activeCategory: Key | null;
@@ -69,6 +70,7 @@ function defaultMobileTabClassName(
 }
 
 export default function FilterMenu<Key extends string = string>({
+  layout = "index",
   title,
   categories,
   activeCategory,
@@ -110,6 +112,39 @@ export default function FilterMenu<Key extends string = string>({
       window.removeEventListener("scroll", handleScroll);
     };
   }, [activeCategory, onClose]);
+
+  if (layout === "editorial") {
+    return (
+      <div ref={filterBarRef} data-layout="editorial" className="px-6 md:px-16">
+        <h2 className="mb-8 font-milling text-2xl font-thin">{title}</h2>
+        <div className="border border-ch-midnite">
+          <div className="flex border-b border-ch-midnite">
+            {categories.map((category) => (
+              <button
+                key={category.key}
+                type="button"
+                aria-expanded={activeCategory === category.key}
+                onClick={() => onToggleCategory(category.key)}
+                className="px-2.5 py-2 text-left font-milling text-xl font-thin focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+          {/* Editorial callers supply one responsive slot, avoiding duplicate controls. */}
+          {activeCategory &&
+            (renderDesktopItems ?? renderMobileItems)?.(
+              activeCategory,
+              hideBottomBorder,
+            )}
+        </div>
+        {renderTags?.("desktop")}
+        <p className="sr-only" aria-live="polite">
+          {showingLabel}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div ref={filterBarRef}>

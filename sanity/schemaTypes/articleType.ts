@@ -33,6 +33,19 @@ export const articleType = defineType({
       description: 'Subtitle shown under the title.',
     }),
     defineField({
+      title: 'Article Type',
+      name: 'articleType',
+      type: 'string',
+      description: 'Optional label in the article index. Existing articles do not need a value.',
+      options: {
+        list: [
+          {title: 'Review', value: 'review'},
+          {title: 'Reflection', value: 'reflection'},
+          {title: 'Interview', value: 'interview'},
+        ],
+      },
+    }),
+    defineField({
       title: 'Byline',
       name: 'byline',
       type: 'string',

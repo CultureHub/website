@@ -8,6 +8,7 @@ import {eventType} from './eventType'
 import {festivalType} from './festivalType'
 import {articleType} from './articleType'
 import {qaType, articleBlockTypes} from './articleBlocks'
+import {readPageType, featuredArticleType} from './readPageType'
 
 export const schemaTypes = [
   projectType,
@@ -19,6 +20,8 @@ export const schemaTypes = [
   eventType,
   festivalType,
   articleType,
+  readPageType,
+  featuredArticleType,
   ...articleBlockTypes,
   qaType,
 ]
